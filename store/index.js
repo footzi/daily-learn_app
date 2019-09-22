@@ -1,0 +1,112 @@
+import axios from 'axios';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
+import { applyMiddleware, createStore } from 'redux';
+
+// const { domain } = require('../server.config');
+
+// начальное состояние
+const initState = {
+  user: '',
+  notification: ''
+};
+
+// алиасы для экшенов
+export const actionTypes = {
+  SET_USER: 'SET_USER',
+  SET_NOTIFICATION: 'SET_NOTIFICATION'
+};
+
+// редьюсеры
+export const reducer = (state = initState, action) => {
+  switch (action.type) {
+    case actionTypes.SET_NOTIFICATION:
+      return {
+        ...state,
+        notification: action.data
+      };
+    case actionTypes.SET_USER:
+      return {
+        ...state,
+        user: action.user
+      };
+    default:
+      return state;
+  }
+};
+
+// Экшены, возврашают тип, и какой-либо пэйлоад
+export const setNotification = data => dispatch => {
+  dispatch({ type: 'SET_NOTIFICATION', data });
+};
+
+export const setUser = user => dispatch => {
+  dispatch({ type: 'SET_USER', user });
+};
+
+export const toRefreshTokens = ({ settings }) => async dispatch => {
+  try {
+    const response = await axios.post(`${domain}/api/refresh`, settings);
+    console.log(response);
+    
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const toSignIn = ({ body, setToken, redirect }) => dispatch => {
+  // const formData = new FormData();
+
+  // for (const prop of Object.keys(body)) {
+  //   formData.append(prop, body[prop]);
+  // }
+
+  // axios
+  //   .post(`${domain}/api/signin`, formData)
+  //   .then(response => {
+  //     const { user } = response.data;
+  //     const { access_token, refresh_token, id } = user;
+
+  //     setToken(access_token, refresh_token);
+  //     redirect(id);
+  //     dispatch(setUser(user));
+  //     dispatch(setNotification({ success: 'Вход произошел успешно' }));
+  //   })
+  //   .catch(error => {
+  //     console.log(error.response);
+  //     dispatch(setNotification(error.response.data));
+  //   });
+};
+
+export const toSignUp = ({ body, setToken, redirect }) => dispatch => {
+  // const formData = new FormData();
+
+  // for (const prop of Object.keys(body)) {
+  //   formData.append(prop, body[prop]);
+  // }
+
+  // axios
+  //   .post(`${domain}/api/signup`, formData)
+  //   .then(response => {
+  //     const { user } = response.data;
+  //     const { access_token, refresh_token, id } = user;
+
+  //     setToken(access_token, refresh_token);
+  //     redirect(id);
+  //     dispatch(setNotification({ success: 'Регистрация прошла успешно' }));
+  //     dispatch(setUser(user));
+  //   })
+  //   .catch(error => {
+  //     console.log(error.response);
+  //     dispatch(setNotification(error.response.data));
+  //   });
+};
+
+export const toSignOut = ({ removeToken, redirect }) => dispatch => {
+  // removeToken();
+  // redirect();
+  // dispatch(setUser(null));
+};
+
+export default (initialState = initState) =>
+  createStore(reducer, initialState, composeWithDevTools(applyMiddleware(thunk)));
