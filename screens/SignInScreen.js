@@ -1,36 +1,91 @@
-import React from 'react';
-import {Form, Item, Input, H2, Button, Text } from 'native-base';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import { Form, Item, Input, H2, Button, Text } from "native-base";
+import styled from "styled-components";
+import { toSignIn } from '../store';
+import { connect } from 'react-redux';
+import Notification from "../components/notification";
 
-const SignInScreen = () => {
+const mapDispatchToProps = (dispatch) => ({
+  toSignIn: fields => dispatch(toSignIn(fields))
+});
+
+const SignInScreen = ({ toSignIn }) => {
+  const [fields, setFields] = useState({
+    login: {
+      value: "",
+      error: ""
+    },
+    password: {
+      value: "",
+      error: ""
+    }
+  });
+
+  const [isValid, setIsValid] = useState(false);
+
+  const onChangeText = (name, text) => {
+    setFields({
+      ...fields,
+      [name]: {
+        value: text
+      }
+    });
+  };
+
+  const onSubmit = () => {
+    const body = {
+      name: fields.login.value,
+      surname: 'test',
+      password: fields.login.password
+    };
+
+    toSignIn({body});
+  }
+
+  useEffect(() => {
+    if (fields.login.value && fields.password.value) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [fields])
+
   return (
     <Container>
+      <Notification />
       <Header>
         <H2>Вход</H2>
       </Header>
       <Form>
         <Item>
-          <Input placeholder="Логин" />
+          <Input
+            placeholder="Логин"
+            onChangeText={text => onChangeText('login', text)}
+            value={fields.login.value}
+          />
         </Item>
         <Item last>
-          <Input placeholder="Пароль" />
+          <Input
+            placeholder="Пароль"
+            onChangeText={text => onChangeText('password', text)}
+            value={fields.password.value}
+          />
         </Item>
       </Form>
       <Submit>
-        <Button primary>
-          <Text>Войти</Text>
+        <Button primary disabled={!isValid} onPress={onSubmit}>
+          <Text style={{ paddingRight: 20, paddingLeft: 20 }}>Войти</Text>
         </Button>
       </Submit>
-      
     </Container>
-  )
-}
+  );
+};
 
 const Container = styled.View`
   flex: 1;
   flex-direction: column;
   justify-content: center;
-	align-items: stretch;
+  align-items: stretch;
 `;
 
 const Header = styled.Text`
@@ -44,7 +99,13 @@ const Submit = styled.View`
 `;
 
 SignInScreen.navigationOptions = {
-  title: 'Вход',
+  title: "Вход"
 };
 
-export default SignInScreen;
+// npm i prettier eslint-config-prettier eslint-plugin-prettier --save-dev
+// npm install --save-dev eslint-plugin-react
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SignInScreen);

@@ -31,7 +31,11 @@ export const App = props => {
       />
     );
   } else {
-    return <AppNavigator />;
+    return (
+      <Provider store={store()}>
+         <AppNavigator />
+      </Provider>
+    );
   }
 };
 

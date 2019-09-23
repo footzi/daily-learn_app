@@ -2,13 +2,18 @@ import axios from 'axios';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { applyMiddleware, createStore } from 'redux';
-
+import { createFormData } from './utils';
 // const { domain } = require('../server.config');
 
+const ERROR = 'ERROR';
+const SUCCESS = 'SUCCESS';
 // начальное состояние
 const initState = {
   user: '',
-  notification: ''
+  notification: {
+    type: '',
+    text: ''
+  }
 };
 
 // алиасы для экшенов
@@ -23,7 +28,10 @@ export const reducer = (state = initState, action) => {
     case actionTypes.SET_NOTIFICATION:
       return {
         ...state,
-        notification: action.data
+        notification: {
+          type: action.type,
+          text: action.text
+        }
       };
     case actionTypes.SET_USER:
       return {
@@ -55,7 +63,19 @@ export const toRefreshTokens = ({ settings }) => async dispatch => {
 };
 
 export const toSignIn = ({ body, setToken, redirect }) => dispatch => {
+  const formData = createFormData(body)
   // const formData = new FormData();
+
+  dispatch(setNotification({type: SUCCESS, text: 'Вход произошел успешно'}));
+
+  // axios
+  //   .post('https://daily-learn-backend.herokuapp.com/api/signup', formData  )
+  //   .then(response => {
+  //     console.log(response.data)
+  //   })
+  //   .catch(error => {
+  //     console.log(error);
+  //   });
 
   // for (const prop of Object.keys(body)) {
   //   formData.append(prop, body[prop]);
