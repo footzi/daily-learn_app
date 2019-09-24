@@ -3,7 +3,6 @@ import { Form, Item, Input, H2, Button, Text } from "native-base";
 import styled from "styled-components";
 import { toSignIn } from '../store';
 import { connect } from 'react-redux';
-import Notification from "../components/notification";
 
 const mapDispatchToProps = (dispatch) => ({
   toSignIn: fields => dispatch(toSignIn(fields))
@@ -34,9 +33,8 @@ const SignInScreen = ({ toSignIn }) => {
 
   const onSubmit = () => {
     const body = {
-      name: fields.login.value,
-      surname: 'test',
-      password: fields.login.password
+      login: fields.login.value,
+      password: fields.password.value
     };
 
     toSignIn({body});
@@ -52,7 +50,6 @@ const SignInScreen = ({ toSignIn }) => {
 
   return (
     <Container>
-      <Notification />
       <Header>
         <H2>Вход</H2>
       </Header>

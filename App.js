@@ -2,6 +2,7 @@ import { AppLoading } from "expo";
 import { Asset } from "expo-asset";
 import * as Font from "expo-font";
 import React, { useState } from "react";
+import { Root } from "native-base";
 import { Platform, StatusBar, StyleSheet, View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Provider } from "react-redux";
@@ -10,6 +11,7 @@ import roboto from 'native-base/Fonts/Roboto.ttf';
 import roboto_medium from 'native-base/Fonts/Roboto_medium.ttf';
 
 import AppNavigator from "./navigation/AppNavigator";
+import Notification from "./components/notification";
 
 const _loadAssets = async () => {
   await Font.loadAsync({
@@ -33,7 +35,10 @@ export const App = props => {
   } else {
     return (
       <Provider store={store()}>
-         <AppNavigator />
+        <Root>
+          <AppNavigator />
+          <Notification />
+        </Root>
       </Provider>
     );
   }

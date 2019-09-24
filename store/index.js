@@ -1,8 +1,7 @@
-import axios from 'axios';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { applyMiddleware, createStore } from 'redux';
-import { createFormData } from './utils';
+import { request, createFormData } from './utils';
 // const { domain } = require('../server.config');
 
 const ERROR = 'ERROR';
@@ -29,8 +28,8 @@ export const reducer = (state = initState, action) => {
       return {
         ...state,
         notification: {
-          type: action.type,
-          text: action.text
+          type: action.payload.type,
+          text: action.payload.text
         }
       };
     case actionTypes.SET_USER:
@@ -44,8 +43,8 @@ export const reducer = (state = initState, action) => {
 };
 
 // Экшены, возврашают тип, и какой-либо пэйлоад
-export const setNotification = data => dispatch => {
-  dispatch({ type: 'SET_NOTIFICATION', data });
+export const setNotification = payload => dispatch => {
+  dispatch({ type: 'SET_NOTIFICATION', payload });
 };
 
 export const setUser = user => dispatch => {
@@ -62,11 +61,22 @@ export const toRefreshTokens = ({ settings }) => async dispatch => {
   }
 };
 
-export const toSignIn = ({ body, setToken, redirect }) => dispatch => {
-  const formData = createFormData(body)
-  // const formData = new FormData();
+export const toSignIn = ({ body, setToken, redirect }) => async dispatch => {
+  const formData = createFormData(body);
 
-  dispatch(setNotification({type: SUCCESS, text: 'Вход произошел успешно'}));
+  try {
+    const response = await request('post', '/api/signup', formData)
+    const { data } = response.data;
+
+    if (data.user.id) {
+      dispatch(setNotification({type: SUCCESS, text: 'Вы успешно зарегистрировались'}));
+    }
+  } catch (error) {
+    console.log(error)
+    dispatch(setNotification({type: ERROR, text: error.message}));
+  }
+
+  // dispatch(setNotification({type: SUCCESS, text: 'Вход произошел успешно'}));
 
   // axios
   //   .post('https://daily-learn-backend.herokuapp.com/api/signup', formData  )
