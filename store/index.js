@@ -61,7 +61,7 @@ export const toRefreshTokens = ({ settings }) => async dispatch => {
   }
 };
 
-export const toSignIn = ({ body, setToken, redirect }) => async dispatch => {
+export const toSignUp = ({ body, setToken, redirect }) => async dispatch => {
   const formData = createFormData(body);
 
   try {
@@ -71,9 +71,9 @@ export const toSignIn = ({ body, setToken, redirect }) => async dispatch => {
     if (data.user.id) {
       dispatch(setNotification({type: SUCCESS, text: 'Вы успешно зарегистрировались'}));
     }
-  } catch (error) {
-    console.log(error)
-    dispatch(setNotification({type: ERROR, text: error.message}));
+  } catch (err) {
+    const { error } = err.response.data;
+    dispatch(setNotification({type: ERROR, text: error.message }));
   }
 
   // dispatch(setNotification({type: SUCCESS, text: 'Вход произошел успешно'}));
@@ -108,29 +108,29 @@ export const toSignIn = ({ body, setToken, redirect }) => async dispatch => {
   //   });
 };
 
-export const toSignUp = ({ body, setToken, redirect }) => dispatch => {
-  // const formData = new FormData();
+// export const toSignUp = ({ body, setToken, redirect }) => dispatch => {
+//   // const formData = new FormData();
 
-  // for (const prop of Object.keys(body)) {
-  //   formData.append(prop, body[prop]);
-  // }
+//   // for (const prop of Object.keys(body)) {
+//   //   formData.append(prop, body[prop]);
+//   // }
 
-  // axios
-  //   .post(`${domain}/api/signup`, formData)
-  //   .then(response => {
-  //     const { user } = response.data;
-  //     const { access_token, refresh_token, id } = user;
+//   // axios
+//   //   .post(`${domain}/api/signup`, formData)
+//   //   .then(response => {
+//   //     const { user } = response.data;
+//   //     const { access_token, refresh_token, id } = user;
 
-  //     setToken(access_token, refresh_token);
-  //     redirect(id);
-  //     dispatch(setNotification({ success: 'Регистрация прошла успешно' }));
-  //     dispatch(setUser(user));
-  //   })
-  //   .catch(error => {
-  //     console.log(error.response);
-  //     dispatch(setNotification(error.response.data));
-  //   });
-};
+//   //     setToken(access_token, refresh_token);
+//   //     redirect(id);
+//   //     dispatch(setNotification({ success: 'Регистрация прошла успешно' }));
+//   //     dispatch(setUser(user));
+//   //   })
+//   //   .catch(error => {
+//   //     console.log(error.response);
+//   //     dispatch(setNotification(error.response.data));
+//   //   });
+// };
 
 export const toSignOut = ({ removeToken, redirect }) => dispatch => {
   // removeToken();

@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { Form, Item, Input, H2, Button, Text } from "native-base";
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import { Form, Item, Input, H2, Button, Text, Icon } from 'native-base';
+import styled from 'styled-components';
 import { toSignIn } from '../store';
 import { connect } from 'react-redux';
 
-const mapDispatchToProps = (dispatch) => ({
-  toSignIn: fields => dispatch(toSignIn(fields))
+const mapDispatchToProps = dispatch => ({
+  signIn: fields => dispatch(toSignIn(fields))
 });
 
-const SignInScreen = ({ toSignIn }) => {
+const SignInScreen = ({ signIn }) => {
   const [fields, setFields] = useState({
     login: {
-      value: "",
-      error: ""
+      value: ''
     },
     password: {
-      value: "",
-      error: ""
+      value: ''
     }
   });
 
@@ -26,6 +24,7 @@ const SignInScreen = ({ toSignIn }) => {
     setFields({
       ...fields,
       [name]: {
+        ...fields[name],
         value: text
       }
     });
@@ -37,8 +36,8 @@ const SignInScreen = ({ toSignIn }) => {
       password: fields.password.value
     };
 
-    toSignIn({body});
-  }
+    signIn({ body });
+  };
 
   useEffect(() => {
     if (fields.login.value && fields.password.value) {
@@ -46,7 +45,7 @@ const SignInScreen = ({ toSignIn }) => {
     } else {
       setIsValid(false);
     }
-  }, [fields])
+  }, [fields]);
 
   return (
     <Container>
@@ -54,14 +53,10 @@ const SignInScreen = ({ toSignIn }) => {
         <H2>Вход</H2>
       </Header>
       <Form>
-        <Item>
-          <Input
-            placeholder="Логин"
-            onChangeText={text => onChangeText('login', text)}
-            value={fields.login.value}
-          />
+        <Item error={fields.login.error}>
+          <Input placeholder="Логин" onChangeText={text => onChangeText('login', text)} value={fields.login.value} />
         </Item>
-        <Item last>
+        <Item error={fields.login.error}>
           <Input
             placeholder="Пароль"
             onChangeText={text => onChangeText('password', text)}
@@ -71,7 +66,8 @@ const SignInScreen = ({ toSignIn }) => {
       </Form>
       <Submit>
         <Button primary disabled={!isValid} onPress={onSubmit}>
-          <Text style={{ paddingRight: 20, paddingLeft: 20 }}>Войти</Text>
+          <Text>Войти</Text>
+          <Spinner color='red' />
         </Button>
       </Submit>
     </Container>
@@ -96,11 +92,8 @@ const Submit = styled.View`
 `;
 
 SignInScreen.navigationOptions = {
-  title: "Вход"
+  title: 'Вход'
 };
-
-// npm i prettier eslint-config-prettier eslint-plugin-prettier --save-dev
-// npm install --save-dev eslint-plugin-react
 
 export default connect(
   null,
