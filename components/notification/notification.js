@@ -2,6 +2,12 @@ import React, { useEffect } from 'react';
 import { Toast, View } from 'native-base';
 import { connect } from 'react-redux';
 import { setNotification } from '../../store';
+import { ERROR, SUCCESS } from '../../store/constans';
+
+const types = {
+  [ERROR]: 'danger',
+  [SUCCESS]: 'success'
+};
 
 const mapStateToProps = state => ({
   notification: state.notification
@@ -22,7 +28,7 @@ const Notification = ({ notification, setNotification }) => {
     if (text && type) {
       Toast.show({
         text,
-        type: type === 'SUCCESS' ? 'success' : 'danger',
+        type: types[type],
         buttonText: 'Okay',
         position: 'top',
         duration: 10000,

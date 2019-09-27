@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Item, Input, H2, Button, Text, Spinner } from 'native-base';
+import { Item, Input, H2 } from 'native-base';
 import styled from 'styled-components';
 import { toSignUp } from '../store';
+import ButtonLoader from '../components/buttons';
 import { connect } from 'react-redux';
 
 const initFields = {
@@ -38,8 +39,9 @@ const SignUpScreen = ({ signUp }) => {
 
   useEffect(() => {
     const isPasswordsMatch = fields.password === fields.password2;
+    const isPasswordNotEmpty = fields.password && fields.password2;
 
-    if (fields.login && isPasswordsMatch) {
+    if (fields.login && isPasswordsMatch && isPasswordNotEmpty) {
       setIsValid(true);
     } else {
       setIsValid(false);
@@ -75,10 +77,7 @@ const SignUpScreen = ({ signUp }) => {
         />
       </Item>
       <Submit>
-        <Button primary disabled={!isValid} onPress={onSubmit} style={{width: 200}}>
-          <Spinner color='white' style={{flex: 1}}/>
-          {/* <Text>Создать аккаунт</Text> */}
-        </Button>
+        <ButtonLoader theme="primary" disabled={!isValid} onPress={onSubmit} width={200} name="Создать аккаунт" />
       </Submit>
     </Container>
   );
@@ -99,6 +98,7 @@ const Header = styled.Text`
 `;
 
 const Submit = styled.View`
+  justify-content: center;
   align-items: center;
   margin-top: 20;
 `;

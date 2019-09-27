@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Item, Input, H2, Button, Text, Icon } from 'native-base';
+import { Form, Item, Input, H2, Button, Text } from 'native-base';
 import styled from 'styled-components';
 import { toSignIn } from '../store';
+import { ButtonLoader } from '../components/buttons';
 import { connect } from 'react-redux';
 
 const mapDispatchToProps = dispatch => ({
@@ -10,12 +11,8 @@ const mapDispatchToProps = dispatch => ({
 
 const SignInScreen = ({ signIn }) => {
   const [fields, setFields] = useState({
-    login: {
-      value: ''
-    },
-    password: {
-      value: ''
-    }
+    login: '',
+    password: ''
   });
 
   const [isValid, setIsValid] = useState(false);
@@ -23,24 +20,23 @@ const SignInScreen = ({ signIn }) => {
   const onChangeText = (name, text) => {
     setFields({
       ...fields,
-      [name]: {
-        ...fields[name],
-        value: text
-      }
+      [name]: text
     });
   };
 
   const onSubmit = () => {
     const body = {
-      login: fields.login.value,
-      password: fields.password.value
+      login: fields.login,
+      password: fields.password
     };
 
     signIn({ body });
   };
 
+  const onSignUp = () => {};
+
   useEffect(() => {
-    if (fields.login.value && fields.password.value) {
+    if (fields.login && fields.password) {
       setIsValid(true);
     } else {
       setIsValid(false);
@@ -53,10 +49,10 @@ const SignInScreen = ({ signIn }) => {
         <H2>Вход</H2>
       </Header>
       <Form>
-        <Item error={fields.login.error}>
+        <Item>
           <Input placeholder="Логин" onChangeText={text => onChangeText('login', text)} value={fields.login.value} />
         </Item>
-        <Item error={fields.login.error}>
+        <Item>
           <Input
             placeholder="Пароль"
             onChangeText={text => onChangeText('password', text)}
@@ -64,12 +60,14 @@ const SignInScreen = ({ signIn }) => {
           />
         </Item>
       </Form>
-      <Submit>
-        <Button primary disabled={!isValid} onPress={onSubmit}>
-          <Text>Войти</Text>
-          <Spinner color='red' />
-        </Button>
-      </Submit>
+      <GroupButtons>
+        <ButtonLoader theme="primary" disabled={!isValid} onPress={onSubmit} width={150} name="Войти" />
+        <SignUp>
+          <Button primary onPress={onSignUp}>
+            <Text>Создать аккаунт</Text>
+          </Button>
+        </SignUp>
+      </GroupButtons>
     </Container>
   );
 };
@@ -86,9 +84,15 @@ const Header = styled.Text`
   text-align: center;
 `;
 
-const Submit = styled.View`
+const GroupButtons = styled.View`
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
   margin-top: 20;
+`;
+
+const SignUp = styled.View`
+  margin-left: 10px;
 `;
 
 SignInScreen.navigationOptions = {
