@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Item, Input, H2, Button, Text } from 'native-base';
+import { Item, Input, H2, Button, Text, View } from 'native-base';
 import styled from 'styled-components';
 import { toSignIn } from '../store';
-import { ButtonLoader } from '../components/buttons';
+import ButtonLoader from '../components/buttons';
 import { connect } from 'react-redux';
 
 const mapDispatchToProps = dispatch => ({
   signIn: fields => dispatch(toSignIn(fields))
 });
 
-const SignInScreen = ({ signIn }) => {
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+const SignInScreen = ({ signIn, navigation, auth }) => {
   const [fields, setFields] = useState({
     login: '',
     password: ''
@@ -33,7 +37,9 @@ const SignInScreen = ({ signIn }) => {
     signIn({ body });
   };
 
-  const onSignUp = () => {};
+  const onSignUp = () => {
+    navigation.navigate('SignUp');
+  };
 
   useEffect(() => {
     if (fields.login && fields.password) {
@@ -43,23 +49,31 @@ const SignInScreen = ({ signIn }) => {
     }
   }, [fields]);
 
+  useEffect(() => {
+    if (auth) {
+      navigation.navigate('Main');
+    }
+  }, [auth]);
+
+  if (auth) {
+    return <View />;
+  }
+
   return (
     <Container>
       <Header>
         <H2>Вход</H2>
       </Header>
-      <Form>
-        <Item>
-          <Input placeholder="Логин" onChangeText={text => onChangeText('login', text)} value={fields.login.value} />
-        </Item>
-        <Item>
-          <Input
-            placeholder="Пароль"
-            onChangeText={text => onChangeText('password', text)}
-            value={fields.password.value}
-          />
-        </Item>
-      </Form>
+      <Item>
+        <Input placeholder="Логин" onChangeText={text => onChangeText('login', text)} value={fields.login.value} />
+      </Item>
+      <Item>
+        <Input
+          placeholder="Пароль"
+          onChangeText={text => onChangeText('password', text)}
+          value={fields.password.value}
+        />
+      </Item>
       <GroupButtons>
         <ButtonLoader theme="primary" disabled={!isValid} onPress={onSubmit} width={150} name="Войти" />
         <SignUp>
@@ -77,6 +91,8 @@ const Container = styled.View`
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
+  padding-left: 15px;
+  padding-right: 15px;
 `;
 
 const Header = styled.Text`
@@ -100,6 +116,6 @@ SignInScreen.navigationOptions = {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SignInScreen);
