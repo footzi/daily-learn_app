@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Text } from 'native-base';
 import { connect } from 'react-redux';
 import Loader from '../components/loader';
 import { getMainData } from '../store';
@@ -8,16 +9,21 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  home: state.home
 });
 
-const HomeScreen = ({ getData, navigation }) => {
+const HomeScreen = ({ getData, home, navigation }) => {
   const { routeName } = navigation.state;
   useEffect(() => {
     getData();
   }, [routeName]);
 
-  return <Loader />;
+  if (!home) {
+    return <Loader />;
+  }
+
+  return <Text>{home.dictionary}</Text>;
 };
 
 HomeScreen.navigationOptions = {

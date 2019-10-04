@@ -7,6 +7,7 @@ import {
   SET_PROCESSING,
   SET_USER,
   SET_AUTH,
+  SET_HOME,
   ERROR,
   SUCCESS,
   ACCESS_TOKEN,
@@ -19,6 +20,7 @@ import {
 const initState = {
   processing: false,
   user: '',
+  home: '',
   auth: false,
   notification: {
     type: '',
@@ -47,6 +49,11 @@ export const reducer = (state = initState, action) => {
         ...state,
         user: action.user
       };
+    case SET_HOME:
+      return {
+        ...state,
+        home: action.payload
+      };
     case SET_AUTH:
       return {
         ...state,
@@ -74,19 +81,35 @@ export const setAuth = payload => dispatch => {
   dispatch({ type: SET_AUTH, payload });
 };
 
-export const toRefreshTokens = () => async dispatch => {
-  const settings = await setAuthData('refresh');
+export const setHome = payload => dispatch => {
+  dispatch({ type: SET_HOME, payload });
+};
 
-  console.log(settings);
+export const checkInitAuth = () => async dispatch => {
+  const token = await setAuthData('refresh');
+
+  dispatch(setAuth(token ? true : false));
+};
+
+export const toRefreshTokens = () => async dispatch => {
+  const token = await setAuthData('refresh');
 
   try {
-    // const response = await request('post', '/api/resfresh', settings);
-  } catch (err) {
+    const response = await request('post', '/api/refresh', '', token);
 
+    const { data } = response.data;
+    const { user } = data;
+
+    setAsyncStorage(ACCESS_TOKEN, user.access_token);
+    setAsyncStorage(REFRESH_TOKEN, user.refresh_token);
+    setAsyncStorage(EXPIRE_TOKEN, user.expire);
+  } catch (err) {
+    const { error } = err.response.data;
+    dispatch(setNotification({ type: ERROR, text: error.message }));
   }
 };
 
-export const toSignUp = ({ body, setToken, redirect }) => async dispatch => {
+export const toSignUp = ({ body }) => async dispatch => {
   dispatch(setProcessing(true));
 
   const formData = createFormData(body);
@@ -126,8 +149,6 @@ export const toSignIn = ({ body }) => async dispatch => {
 
     dispatch(setProcessing(false));
 
-    console.log(user);
-
     if (user.id) {
       await setAsyncStorage(ACCESS_TOKEN, user.access_token);
       await setAsyncStorage(REFRESH_TOKEN, user.refresh_token);
@@ -147,10 +168,20 @@ export const getMainData = () => async dispatch => {
   const isValidAccessToken = await checkAccessToken();
 
   if (!isValidAccessToken) {
-    dispatch(toRefreshTokens());
+    await dispatch(toRefreshTokens());
   }
-  // const settings = await setAuthData();
-  // console.log(settings);
+
+  try {
+    const token = await setAuthData('refresh');
+    const response = await request('get', '/screens/home', '', token);
+    const { data } = response.data;
+    const { home } = data;
+
+    dispatch(setHome(home));
+  } catch (err) {
+    const { error } = err.response.data;
+    dispatch(setNotification({ type: ERROR, text: error.message }));
+  }
 };
 
 export const getSettingsData = () => async dispatch => {

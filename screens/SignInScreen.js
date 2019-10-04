@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Item, Input, H2, Button, Text, View } from 'native-base';
 import styled from 'styled-components';
-import { toSignIn } from '../store';
+import { toSignIn, checkInitAuth } from '../store';
 import ButtonLoader from '../components/buttons';
 import { connect } from 'react-redux';
 
 const mapDispatchToProps = dispatch => ({
-  signIn: fields => dispatch(toSignIn(fields))
+  signIn: fields => dispatch(toSignIn(fields)),
+  checkInitAuth: () => dispatch(checkInitAuth())
 });
 
 const mapStateToProps = state => ({
   auth: state.auth
 });
 
-const SignInScreen = ({ signIn, navigation, auth }) => {
+const SignInScreen = ({ signIn, navigation, checkInitAuth, auth }) => {
+  console.log(auth);
+
   const [fields, setFields] = useState({
     login: '',
     password: ''
@@ -48,6 +51,10 @@ const SignInScreen = ({ signIn, navigation, auth }) => {
       setIsValid(false);
     }
   }, [fields]);
+
+  useEffect(() => {
+    checkInitAuth();
+  }, []);
 
   useEffect(() => {
     if (auth) {

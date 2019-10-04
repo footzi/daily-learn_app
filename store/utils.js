@@ -4,12 +4,15 @@ import { ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from './constans';
 // const host = 'https://daily-learn-backend.herokuapp.com';
 const host = 'http://192.168.0.100:8080';
 
-export const request = async (method = 'get', url, data, settings = {}) => {
+export const request = async (method = 'get', url, data = '', token = '') => {
+  const headers = { Authorization: token };
+
   return await axios({
     method,
     url: `${host}${url}`,
     data,
-    settings
+    headers,
+    withCredentials: true
   });
 };
 
@@ -30,13 +33,12 @@ export const setAuthData = async (refresh = false) => {
   const key = refresh ? REFRESH_TOKEN : ACCESS_TOKEN;
   const token = await getAsyncStorage(key);
 
-  return { Authorization: `Bearer ${token}` };
+  return `Bearer ${token}`;
 };
 
 export const checkAccessToken = async () => {
-  const expire_token = await getAsyncStorage(EXPIRE_TOKEN);
-  //const ACCESS_TOKEN = await getAsyncStorage(ACCESS_TOKEN);
+  const expire = await getAsyncStorage(EXPIRE_TOKEN);
+  const isExpire = Number(expire) < Math.floor(Date.now() / 1000);
 
-  return false;
-  //console.log(Math.floor(Date.now() / 1000))
+  return !isExpire;
 };
