@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Item, Input, H2, Button, Text } from 'native-base';
 import styled from 'styled-components';
-import { toSignUp } from '../store';
-import ButtonLoader from '../components/buttons';
+import ButtonLoader from '../../components/buttons';
 import { connect } from 'react-redux';
+import * as effects from './effects';
 
 const initFields = {
   login: '',
@@ -12,11 +12,11 @@ const initFields = {
   password2: ''
 };
 
-const mapDispatchToProps = dispatch => ({
-  signUp: fields => dispatch(toSignUp(fields))
-});
+const mapDispatchToProps = {
+  toSignUp: effects.toSignUp
+};
 
-const SignUpScreen = ({ signUp, navigation }) => {
+const SignUpScreen = ({ toSignUp, navigation }) => {
   const [fields, setFields] = useState(initFields);
   const [isValid, setIsValid] = useState(false);
 
@@ -34,7 +34,7 @@ const SignUpScreen = ({ signUp, navigation }) => {
       password: fields.password
     };
 
-    signUp({ body });
+    toSignUp({ body });
   };
 
   const onSignIn = () => {

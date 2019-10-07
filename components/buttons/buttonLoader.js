@@ -6,9 +6,9 @@ const mapStateToProps = state => ({
   processing: state.processing
 });
 
-const ButtonLoader = ({ theme, onPress, width, disabled, name, processing }) => {
+const ButtonLoader = ({ theme, onPress, width, disabled, name, processing, ...rest }) => {
   return (
-    <Button theme={theme} disabled={disabled} onPress={onPress} style={{ width }}>
+    <Button theme={theme} disabled={disabled} onPress={onPress} style={{ width }} {...rest}>
       {processing ? (
         <Spinner color="white" style={{ flex: 1 }} />
       ) : (

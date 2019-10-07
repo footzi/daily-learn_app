@@ -1,11 +1,13 @@
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import SignUpScreen from '../screens/SignUpScreen';
-import SignInScreen from '../screens/SignInScreen';
+import StartScreen from '../screens/start';
+import SignUpScreen from '../screens/signup';
+import SignInScreen from '../screens/signin';
 import tabNavigator from './MainTabNavigator';
 // const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 
 export default createAppContainer(
   createSwitchNavigator({
+    Start: StartScreen,
     SignIn: SignInScreen,
     SignUp: SignUpScreen,
     Main: tabNavigator
@@ -14,6 +16,6 @@ export default createAppContainer(
     // Read more at https://reactnavigation.org/docs/en/auth-flow.html
   }),
   {
-    initialRouteName: 'SignIn'
+    initialRouteName: 'Start'
   }
 );

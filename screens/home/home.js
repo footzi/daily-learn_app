@@ -1,22 +1,22 @@
 import React, { useEffect } from 'react';
 import { Text } from 'native-base';
 import { connect } from 'react-redux';
-import Loader from '../components/loader';
-import { getMainData } from '../store';
+import Loader from '../../components/loader';
+import * as effects from './effects';
 
-const mapDispatchToProps = dispatch => ({
-  getData: () => dispatch(getMainData())
-});
+const mapDispatchToProps = {
+  getMainData: effects.getMainData
+};
 
 const mapStateToProps = state => ({
   auth: state.auth,
   home: state.home
 });
 
-const HomeScreen = ({ getData, home, navigation }) => {
+const HomeScreen = ({ getMainData, home, navigation }) => {
   const { routeName } = navigation.state;
   useEffect(() => {
-    getData();
+    getMainData();
   }, [routeName]);
 
   if (!home) {

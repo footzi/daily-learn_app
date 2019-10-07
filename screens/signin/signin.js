@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Item, Input, H2, Button, Text, View } from 'native-base';
-import styled from 'styled-components';
-import { toSignIn, checkInitAuth } from '../store';
-import ButtonLoader from '../components/buttons';
 import { connect } from 'react-redux';
+import { Item, Input, H2, Button, Text } from 'native-base';
+import styled from 'styled-components';
+import ButtonLoader from '../../components/buttons';
+import * as effects from './effects';
 
-const mapDispatchToProps = dispatch => ({
-  signIn: fields => dispatch(toSignIn(fields)),
-  checkInitAuth: () => dispatch(checkInitAuth())
-});
+const mapDispatchToProps = {
+  toSignIn: effects.toSignIn
+};
 
 const mapStateToProps = state => ({
   auth: state.auth
 });
 
-const SignInScreen = ({ signIn, navigation, checkInitAuth, auth }) => {
-  console.log(auth);
-
+const SignInScreen = ({ toSignIn, navigation, auth }) => {
   const [fields, setFields] = useState({
     login: '',
     password: ''
@@ -37,7 +34,7 @@ const SignInScreen = ({ signIn, navigation, checkInitAuth, auth }) => {
       password: fields.password
     };
 
-    signIn({ body });
+    toSignIn({ body });
   };
 
   const onSignUp = () => {
@@ -53,18 +50,10 @@ const SignInScreen = ({ signIn, navigation, checkInitAuth, auth }) => {
   }, [fields]);
 
   useEffect(() => {
-    checkInitAuth();
-  }, []);
-
-  useEffect(() => {
     if (auth) {
       navigation.navigate('Main');
     }
   }, [auth]);
-
-  if (auth) {
-    return <View />;
-  }
 
   return (
     <Container>
@@ -77,6 +66,7 @@ const SignInScreen = ({ signIn, navigation, checkInitAuth, auth }) => {
       <Item>
         <Input
           placeholder="Пароль"
+          secureTextEntry
           onChangeText={text => onChangeText('password', text)}
           value={fields.password.value}
         />

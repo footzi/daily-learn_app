@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Toast, View } from 'native-base';
 import { connect } from 'react-redux';
-import { setNotification } from '../../store';
 import { ERROR, SUCCESS } from '../../store/constans';
+import * as effects from './effects';
 
 const types = {
   [ERROR]: 'danger',
@@ -13,13 +13,13 @@ const mapStateToProps = state => ({
   notification: state.notification
 });
 
-const mapDispatchToProps = dispatch => ({
-  setNotification: () => dispatch(setNotification({ type: null, text: '' }))
-});
+const mapDispatchToProps = {
+  clearNotification: effects.clearNotification
+};
 
-const Notification = ({ notification, setNotification }) => {
+const Notification = ({ notification, clearNotification }) => {
   const onClose = () => {
-    setNotification();
+    clearNotification();
   };
 
   useEffect(() => {

@@ -4,9 +4,11 @@ import * as Font from 'expo-font';
 import { Root } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
-import store from './store';
+import createStore from './store';
 import AppNavigator from './navigation/AppNavigator';
 import Notification from './components/notification';
+
+// const store = configureStore();
 
 const _loadAssets = async () => {
   await Font.loadAsync({
@@ -19,6 +21,8 @@ const _loadAssets = async () => {
 const App = () => {
   const [isReady, setReady] = useState(false);
 
+  // import('./ReactotronConfig').then(() => console.log('Reactotron Configured'));
+
   if (!isReady) {
     return (
       <AppLoading
@@ -29,7 +33,7 @@ const App = () => {
     );
   } else {
     return (
-      <Provider store={store()}>
+      <Provider store={createStore()}>
         <Root>
           <AppNavigator />
           <Notification />
