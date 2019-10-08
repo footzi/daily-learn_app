@@ -5,11 +5,13 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/home';
-import LinksScreen from '../screens/LinksScreen';
+import DictionaryScreen from '../screens/dictionary';
 import SettingsScreen from '../screens/settings';
 
 const config = Platform.select({
-  default: {},
+  default: {
+    headerMode: 'float'
+  }
 });
 
 const HomeStack = createStackNavigator(
@@ -20,31 +22,33 @@ const HomeStack = createStackNavigator(
 );
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
-  header: null,
+  tabBarLabel: 'Главная',
+  tabBarOptions: {
+    showLabel: false
+  },
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? `ios-information-circle${focused ? '' : '-outline'}` : 'md-information-circle'}
-    />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-school' : 'md-school'} />
   )
 };
 
 HomeStack.path = '';
 
-const LinksStack = createStackNavigator(
+const DictionaryStack = createStackNavigator(
   {
-    Links: LinksScreen
+    Dictionary: DictionaryScreen
   },
   config
 );
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
-  tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+DictionaryStack.navigationOptions = {
+  tabBarLabel: 'Словари',
+  tabBarOptions: {
+    showLabel: false
+  },
+  tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-book' : 'md-book'} />
 };
 
-LinksStack.path = '';
+DictionaryScreen.path = '';
 
 const SettingsStack = createStackNavigator(
   {
@@ -54,7 +58,10 @@ const SettingsStack = createStackNavigator(
 );
 
 SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+  tabBarLabel: 'Настройки',
+  tabBarOptions: {
+    showLabel: false
+  },
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
   )
@@ -64,7 +71,7 @@ SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
-  LinksStack,
+  DictionaryStack,
   SettingsStack
 });
 

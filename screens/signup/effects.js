@@ -12,16 +12,15 @@ export const toSignUp = ({ body }) => async dispatch => {
     const { data } = response.data;
     const { user } = data;
 
-    dispatch(actions.setProcessing(false));
-
     if (user.id) {
+      await setAsyncStorage(ACCESS_TOKEN, user.access_token);
+      await setAsyncStorage(REFRESH_TOKEN, user.refresh_token);
+      await setAsyncStorage(EXPIRE_TOKEN, String(user.expire));
+
       dispatch(actions.setNotification({ type: SUCCESS, text: 'Вы успешно зарегистрировались' }));
       dispatch(actions.setUser(user));
       dispatch(actions.setAuth(true));
-
-      setAsyncStorage(ACCESS_TOKEN, user.access_token);
-      setAsyncStorage(REFRESH_TOKEN, user.refresh_token);
-      setAsyncStorage(EXPIRE_TOKEN, user.expire);
+      dispatch(actions.setProcessing(false));
     }
   } catch (err) {
     const { error } = err.response.data;

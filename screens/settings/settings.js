@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { H2, Text, Button } from 'native-base';
+import { Content } from 'native-base';
 import { connect } from 'react-redux';
 import ButtonLoader from '../../components/buttons';
 import * as effects from './effects';
@@ -26,34 +26,20 @@ const SettingsScreen = ({ getData, auth, toSignOut, navigation }) => {
   }, [auth]);
 
   return (
-    <Container>
-      <Title>
-        <H2>Настройки</H2>
-      </Title>
-      <Content>
+    <Content>
+      <Container>
         <ButtonLoader warning onPress={toSignOut} name="Выйти" width={100} />
-      </Content>
-    </Container>
+      </Container>
+    </Content>
   );
 };
 
 SettingsScreen.navigationOptions = {
-  title: 'Settings'
+  title: 'Настройки'
 };
 
-const Container = styled.ScrollView`
+const Container = styled.View`
   padding: 10px;
-`;
-
-const Title = styled.View`
-  flex: 1;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const Content = styled.View`
-  flex: 1;
-  align-items: flex-start;
 `;
 
 export default connect(

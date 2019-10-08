@@ -12,8 +12,6 @@ export const toSignIn = ({ body }) => async dispatch => {
     const { data } = response.data;
     const { user } = data;
 
-    dispatch(actions.setProcessing(false));
-
     if (user.id) {
       await setAsyncStorage(ACCESS_TOKEN, user.access_token);
       await setAsyncStorage(REFRESH_TOKEN, user.refresh_token);
@@ -21,6 +19,7 @@ export const toSignIn = ({ body }) => async dispatch => {
 
       dispatch(actions.setUser(user.id));
       dispatch(actions.setAuth(true));
+      dispatch(actions.setProcessing(false));
     }
   } catch (err) {
     const { error } = err.response.data;

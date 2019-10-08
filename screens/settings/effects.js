@@ -7,15 +7,12 @@ export const getSettingsData = () => async dispatch => {
 };
 
 export const toSignOut = () => async dispatch => {
-  console.log('signOut');
   dispatch(actions.setProcessing(true));
 
   try {
     const token = await setAuthData('refresh');
     const response = await request('post', '/api/signout', '', token);
     const { data } = response.data;
-    console.log(data);
-    dispatch(actions.setProcessing(false));
 
     if (data.success) {
       setAsyncStorage(ACCESS_TOKEN, '');
@@ -24,11 +21,11 @@ export const toSignOut = () => async dispatch => {
 
       dispatch(actions.setUser(0));
       dispatch(actions.setAuth(false));
+      dispatch(actions.setProcessing(false));
     }
   } catch (err) {
     const { error } = err.response.data;
     dispatch(actions.setProcessing(false));
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
-    console.log(error);
   }
 };

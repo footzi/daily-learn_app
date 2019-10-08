@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Item, Input, H2, Button, Text } from 'native-base';
+import { Item, Input, H2, Button, Text, Content } from 'native-base';
 import styled from 'styled-components';
 import ButtonLoader from '../../components/buttons';
 import * as effects from './effects';
@@ -56,38 +56,36 @@ const SignInScreen = ({ toSignIn, navigation, auth }) => {
   }, [auth]);
 
   return (
-    <Container>
-      <Header>
-        <H2>Вход</H2>
-      </Header>
-      <Item>
-        <Input placeholder="Логин" onChangeText={text => onChangeText('login', text)} value={fields.login.value} />
-      </Item>
-      <Item>
-        <Input
-          placeholder="Пароль"
-          secureTextEntry
-          onChangeText={text => onChangeText('password', text)}
-          value={fields.password.value}
-        />
-      </Item>
-      <GroupButtons>
-        <ButtonLoader theme="primary" disabled={!isValid} onPress={onSubmit} width={150} name="Войти" />
-        <SignUp>
-          <Button primary onPress={onSignUp}>
-            <Text>Создать аккаунт</Text>
-          </Button>
-        </SignUp>
-      </GroupButtons>
-    </Container>
+    <Content contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
+      <Container>
+        <Header>
+          <H2>Вход</H2>
+        </Header>
+        <Item>
+          <Input placeholder="Логин" onChangeText={text => onChangeText('login', text)} value={fields.login.value} />
+        </Item>
+        <Item>
+          <Input
+            placeholder="Пароль"
+            secureTextEntry
+            onChangeText={text => onChangeText('password', text)}
+            value={fields.password.value}
+          />
+        </Item>
+        <GroupButtons>
+          <ButtonLoader theme="primary" disabled={!isValid} onPress={onSubmit} width={150} name="Войти" />
+          <SignUp>
+            <Button primary onPress={onSignUp}>
+              <Text>Создать аккаунт</Text>
+            </Button>
+          </SignUp>
+        </GroupButtons>
+      </Container>
+    </Content>
   );
 };
 
 const Container = styled.View`
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-  align-items: stretch;
   padding-left: 15px;
   padding-right: 15px;
 `;

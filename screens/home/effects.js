@@ -3,11 +3,11 @@ import { ERROR } from '../../store/constans';
 import { actions } from '../../store';
 import * as commonEffects from '../../store/common-effects';
 
-export const getMainData = () => async dispatch => {
+export const getMainData = navigation => async dispatch => {
   const isValidAccessToken = await checkAccessToken();
 
   if (!isValidAccessToken) {
-    await dispatch(commonEffects.toRefreshTokens());
+    await dispatch(commonEffects.toRefreshTokens(navigation));
   }
 
   try {

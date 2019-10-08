@@ -16,7 +16,7 @@ const mapStateToProps = state => ({
 const HomeScreen = ({ getMainData, home, navigation }) => {
   const { routeName } = navigation.state;
   useEffect(() => {
-    getMainData();
+    getMainData(navigation);
   }, [routeName]);
 
   if (!home) {
@@ -27,7 +27,7 @@ const HomeScreen = ({ getMainData, home, navigation }) => {
 };
 
 HomeScreen.navigationOptions = {
-  title: 'HomeScreen'
+  title: 'Тренировки'
 };
 
 export default connect(

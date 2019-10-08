@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Item, Input, H2, Button, Text } from 'native-base';
+import { Item, Input, H2, Button, Text, Content } from 'native-base';
 import styled from 'styled-components';
 import ButtonLoader from '../../components/buttons';
 import { connect } from 'react-redux';
@@ -16,7 +16,11 @@ const mapDispatchToProps = {
   toSignUp: effects.toSignUp
 };
 
-const SignUpScreen = ({ toSignUp, navigation }) => {
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+const SignUpScreen = ({ toSignUp, navigation, auth }) => {
   const [fields, setFields] = useState(initFields);
   const [isValid, setIsValid] = useState(false);
 
@@ -52,51 +56,55 @@ const SignUpScreen = ({ toSignUp, navigation }) => {
     }
   }, [fields]);
 
+  useEffect(() => {
+    if (auth) {
+      navigation.navigate('Main');
+    }
+  }, [auth]);
+
   return (
-    <Container>
-      <Header>
-        <H2>Регистрация</H2>
-      </Header>
-      <Item>
-        <Input placeholder="Логин" onChangeText={text => onChangeText('login', text)} value={fields.login} />
-      </Item>
-      <Item>
-        <Input placeholder="Е-mail" onChangeText={text => onChangeText('email', text)} value={fields.email} />
-      </Item>
-      <Item>
-        <Input
-          placeholder="Пароль"
-          secureTextEntry
-          onChangeText={text => onChangeText('password', text)}
-          value={fields.password}
-        />
-      </Item>
-      <Item>
-        <Input
-          type="password"
-          secureTextEntry
-          placeholder="Подтвердите пароль"
-          onChangeText={text => onChangeText('password2', text)}
-          value={fields.password2}
-        />
-      </Item>
-      <GroupButtons>
-        <ButtonLoader theme="primary" disabled={!isValid} onPress={onSubmit} width={200} name="Создать аккаунт" />
-        <SignIn>
-          <Button primary onPress={onSignIn}>
-            <Text>Войти</Text>
-          </Button>
-        </SignIn>
-      </GroupButtons>
-    </Container>
+    <Content contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
+      <Container>
+        <Header>
+          <H2>Регистрация</H2>
+        </Header>
+        <Item>
+          <Input placeholder="Логин *" onChangeText={text => onChangeText('login', text)} value={fields.login} />
+        </Item>
+        <Item>
+          <Input placeholder="Е-mail" onChangeText={text => onChangeText('email', text)} value={fields.email} />
+        </Item>
+        <Item>
+          <Input
+            placeholder="Пароль *"
+            secureTextEntry
+            onChangeText={text => onChangeText('password', text)}
+            value={fields.password}
+          />
+        </Item>
+        <Item>
+          <Input
+            type="password"
+            secureTextEntry
+            placeholder="Подтвердите пароль *"
+            onChangeText={text => onChangeText('password2', text)}
+            value={fields.password2}
+          />
+        </Item>
+        <GroupButtons>
+          <ButtonLoader theme="primary" disabled={!isValid} onPress={onSubmit} width={200} name="Создать аккаунт" />
+          <SignIn>
+            <Button primary onPress={onSignIn}>
+              <Text>Войти</Text>
+            </Button>
+          </SignIn>
+        </GroupButtons>
+      </Container>
+    </Content>
   );
 };
 
 const Container = styled.View`
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-  align-items: stretch;
   padding-left: 15px;
   padding-right: 15px;
 `;
@@ -122,6 +130,6 @@ SignUpScreen.navigationOptions = {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SignUpScreen);
