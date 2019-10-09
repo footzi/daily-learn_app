@@ -6,6 +6,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/home';
 import DictionaryScreen from '../screens/dictionary';
+import CreateDictionaryScreen from '../screens/dictionary/create';
 import SettingsScreen from '../screens/settings';
 
 const config = Platform.select({
@@ -35,7 +36,8 @@ HomeStack.path = '';
 
 const DictionaryStack = createStackNavigator(
   {
-    Dictionary: DictionaryScreen
+    Dictionary: DictionaryScreen,
+    CreateDictionary: CreateDictionaryScreen
   },
   config
 );
