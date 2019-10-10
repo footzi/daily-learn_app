@@ -7,6 +7,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/home';
 import DictionaryScreen from '../screens/dictionary';
 import CreateDictionaryScreen from '../screens/dictionary/create';
+import PreviewDictionaryScreen from '../screens/dictionary/preview';
 import SettingsScreen from '../screens/settings';
 
 const config = Platform.select({
@@ -37,7 +38,8 @@ HomeStack.path = '';
 const DictionaryStack = createStackNavigator(
   {
     Dictionary: DictionaryScreen,
-    CreateDictionary: CreateDictionaryScreen
+    CreateDictionary: CreateDictionaryScreen,
+    PreviewDictionary: PreviewDictionaryScreen
   },
   config
 );

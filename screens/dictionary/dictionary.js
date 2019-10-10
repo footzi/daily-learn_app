@@ -1,20 +1,62 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Text, Content, Button, Input, Item } from 'native-base';
+import { Text, Content, Button, List, ListItem, Icon, H3 } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import ButtonLoader from '../../components/buttons';
 
-const DictionaryScreen = ({ navigation }) => {
-  const create = () => {
-    navigation.navigate('CreateDictionary');
+const lists = [
+  {
+    id: 1,
+    name: 'Словарь 1'
+  },
+  {
+    id: 2,
+    name: 'Словарь 2'
+  },
+  {
+    id: 3,
+    name: 'Словарь 3'
+  },
+  {
+    id: 4,
+    name: 'Словарь 4'
   }
+];
+
+const DictionaryScreen = ({ navigation }) => {
+  const onCreate = () => {
+    navigation.navigate('CreateDictionary');
+  };
+
+  const onReview = () => {
+    console.log('review');
+  };
+
+  const onSettings = () => {
+    console.log('settings');
+  };
 
   return (
     <Content>
       <Container>
+        {!lists.length ? (
+          <H3 style={{ textAlign: 'center' }}>У вас еще нет словаря(</H3>
+        ) : (
+          <List>
+            {lists.map(item => (
+              <ListItem key={item.id} onPress={onReview} noIndent>
+                <Text>{item.name}</Text>
+                <Button warning transparent style={{ position: 'absolute', top: 0, right: 0 }} onPress={onSettings}>
+                  <Icon name="settings" />
+                </Button>
+              </ListItem>
+            ))}
+          </List>
+        )}
+
         <Create>
-          <Button info onPress={create}>
-            <Text>Создать словарь</Text>
+          <Button info onPress={onCreate}>
+            <Text>Создать</Text>
           </Button>
         </Create>
       </Container>
@@ -27,18 +69,9 @@ const Container = styled.View`
 `;
 
 const Create = styled.View`
+  margin-top: 20px;
   flex: 1;
-  align-items: flex-start;
-`;
-
-const NewDict = styled.View``;
-
-const Top = styled.View`
-  /* flex: 1;
-  flex-direction: row;
   align-items: center;
-  justify-content: center; */
-  margin-top: 10px;
 `;
 
 DictionaryScreen.navigationOptions = {
