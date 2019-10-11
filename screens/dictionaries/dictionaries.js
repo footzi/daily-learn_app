@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Text, Content, Button, List, ListItem, Icon, H3 } from 'native-base';
-import { Col, Row, Grid } from 'react-native-easy-grid';
-import ButtonLoader from '../../components/buttons';
 
 const lists = [
   {
@@ -23,17 +21,22 @@ const lists = [
   }
 ];
 
-const DictionaryScreen = ({ navigation }) => {
+const DictionariesScreen = ({ navigation }) => {
   const onCreate = () => {
     navigation.navigate('CreateDictionary');
   };
 
-  const onReview = () => {
-    console.log('review');
+  const onPreview = (id, name) => {
+    navigation.navigate('PreviewDictionary', {
+      id,
+      name
+    });
   };
 
-  const onSettings = () => {
-    console.log('settings');
+  const onSettings = id => {
+    navigation.navigate('SettingsDictionary', {
+      id
+    });
   };
 
   return (
@@ -44,9 +47,13 @@ const DictionaryScreen = ({ navigation }) => {
         ) : (
           <List>
             {lists.map(item => (
-              <ListItem key={item.id} onPress={onReview} noIndent>
+              <ListItem key={item.id} onPress={() => onPreview(item.id, item.name)} noIndent>
                 <Text>{item.name}</Text>
-                <Button warning transparent style={{ position: 'absolute', top: 0, right: 0 }} onPress={onSettings}>
+                <Button
+                  warning
+                  transparent
+                  style={{ position: 'absolute', top: 0, right: 0 }}
+                  onPress={() => onSettings(item.id)}>
                   <Icon name="settings" />
                 </Button>
               </ListItem>
@@ -74,8 +81,8 @@ const Create = styled.View`
   align-items: center;
 `;
 
-DictionaryScreen.navigationOptions = {
+DictionariesScreen.navigationOptions = {
   title: 'Словари'
 };
 
-export default DictionaryScreen;
+export default DictionariesScreen;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Item, Input, H2, Button, Text, Content } from 'native-base';
+import { Item, Input, H2, Button, Text } from 'native-base';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styled from 'styled-components';
 import ButtonLoader from '../../components/buttons';
 import { connect } from 'react-redux';
@@ -63,7 +64,7 @@ const SignUpScreen = ({ toSignUp, navigation, auth }) => {
   }, [auth]);
 
   return (
-    <Content contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
+    <KeyboardAwareScrollView enableOnAndroid contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
       <Container>
         <Header>
           <H2>Регистрация</H2>
@@ -100,7 +101,7 @@ const SignUpScreen = ({ toSignUp, navigation, auth }) => {
           </SignIn>
         </GroupButtons>
       </Container>
-    </Content>
+    </KeyboardAwareScrollView>
   );
 };
 

@@ -4,10 +4,14 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 
 import TabBarIcon from '../components/TabBarIcon';
+
 import HomeScreen from '../screens/home';
-import DictionaryScreen from '../screens/dictionary';
-import CreateDictionaryScreen from '../screens/dictionary/create';
-import PreviewDictionaryScreen from '../screens/dictionary/preview';
+import DictionaryTrainingScreen from '../screens/training/dicitionary';
+
+import DictionariesScreen from '../screens/dictionaries';
+import CreateDictionaryScreen from '../screens/dictionaries/create';
+import PreviewDictionaryScreen from '../screens/dictionaries/preview';
+import SettingsDictionaryScreen from '../screens/dictionaries/settings';
 import SettingsScreen from '../screens/settings';
 
 const config = Platform.select({
@@ -18,7 +22,8 @@ const config = Platform.select({
 
 const HomeStack = createStackNavigator(
   {
-    Home: HomeScreen
+    Home: HomeScreen,
+    DictionaryTraining: DictionaryTrainingScreen
   },
   config
 );
@@ -37,9 +42,10 @@ HomeStack.path = '';
 
 const DictionaryStack = createStackNavigator(
   {
-    Dictionary: DictionaryScreen,
+    Dictionary: DictionariesScreen,
     CreateDictionary: CreateDictionaryScreen,
-    PreviewDictionary: PreviewDictionaryScreen
+    PreviewDictionary: PreviewDictionaryScreen,
+    SettingsDictionary: SettingsDictionaryScreen
   },
   config
 );
@@ -52,7 +58,7 @@ DictionaryStack.navigationOptions = {
   tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-book' : 'md-book'} />
 };
 
-DictionaryScreen.path = '';
+DictionariesScreen.path = '';
 
 const SettingsStack = createStackNavigator(
   {
