@@ -1,4 +1,4 @@
-import { request, setAsyncStorage, setAuthData } from './utils';
+import { request, setAsyncStorage, setAuthData, checkAccessToken } from './utils';
 import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from './constans';
 import { actions } from './index';
 
@@ -26,4 +26,29 @@ export const toRefreshTokens = navigation => async dispatch => {
     dispatch(actions.setAuth(false));
     navigation.navigate('SignIn');
   }
+};
+
+export const getMainData = navigation => async dispatch => {
+  const isValidAccessToken = await checkAccessToken();
+
+  if (!isValidAccessToken) {
+    await dispatch(toRefreshTokens(navigation));
+  }
+
+  try {
+    const token = await setAuthData('refresh');
+    const response = await request('get', '/screens/home', '', token);
+    const { data } = response.data;
+
+    console.log(data)
+
+    dispatch(actions.setData(data));
+  } catch (err) {
+    const { error } = err.response.data;
+    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+  }
+};
+
+export const clearMainData = () => dispatch => {
+  dispatch(actions.setData(''));
 };

@@ -1,12 +1,12 @@
 import thunk from 'redux-thunk';
 import { applyMiddleware, createStore } from 'redux';
-import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_AUTH, SET_HOME } from './constans';
+import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_AUTH, SET_DATA } from './constans';
 
 // начальное состояние
 const initState = {
   processing: false,
   user: '',
-  home: '',
+  data: '',
   auth: '',
   notification: {
     type: '',
@@ -30,20 +30,20 @@ export const reducer = (state = initState, action) => {
         ...state,
         processing: action.payload
       };
+    case SET_AUTH:
+      return {
+        ...state,
+        auth: action.payload
+      };
     case SET_USER:
       return {
         ...state,
         user: action.user
       };
-    case SET_HOME:
+    case SET_DATA:
       return {
         ...state,
-        home: action.payload
-      };
-    case SET_AUTH:
-      return {
-        ...state,
-        auth: action.payload
+        data: action.payload
       };
     default:
       return state;
@@ -63,8 +63,8 @@ export const actions = {
   setAuth: payload => dispatch => {
     dispatch({ type: SET_AUTH, payload });
   },
-  setHome: payload => dispatch => {
-    dispatch({ type: SET_HOME, payload });
+  setData: payload => dispatch => {
+    dispatch({ type: SET_DATA, payload });
   }
 };
 

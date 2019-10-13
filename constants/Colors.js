@@ -11,6 +11,9 @@ export default {
   warningText: '#666804',
   noticeBackground: tintColor,
   noticeText: '#fff',
+  warning: '#f0ad4e',
+  danger: '#d9534f',
   success: '#5cb85c',
-  white: '#ffffff'
+  white: '#ffffff',
+  gray: '#ccc'
 };

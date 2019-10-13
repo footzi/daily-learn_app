@@ -5,7 +5,7 @@ import { Spinner } from 'native-base';
 const Loader = () => {
   return (
     <Container>
-      <Spinner color="blue" />
+      <Spinner color="blue" size={50}/>
     </Container>
   );
 };

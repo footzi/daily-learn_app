@@ -1,78 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Text, Button, Input, Item, H3, Icon } from 'native-base';
+import { Text, Button, Input, Item, Icon, H3 } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import ButtonLoader from '../../components/buttons';
+import * as effects from './effects';
 
-const words = [
-  {
-    ru: 'Привет',
-    en: 'Hello'
-  },
-  {
-    ru: 'Пока',
-    en: 'Goodbye'
-  },
-  {
-    ru: 'Собака',
-    en: 'Dog'
-  },
-  {
-    ru: 'Кошка',
-    en: 'Cat'
-  },
-  {
-    ru: 'Обычно',
-    en: 'Usually'
-  },
-  {
-    ru: 'Всегда',
-    en: 'Аlways'
-  },
-  {
-    ru: 'Дом',
-    en: 'House'
-  },
-  {
-    ru: '1',
-    en: 'Usually'
-  },
-  {
-    ru: '2',
-    en: 'Аlways'
-  },
-  {
-    ru: '3',
-    en: 'House'
-  },
-  {
-    ru: '4',
-    en: 'Usually'
-  },
-  {
-    ru: '5',
-    en: 'Аlways'
-  },
-  {
-    ru: '6',
-    en: 'House'
-  },
-  {
-    ru: '7',
-    en: 'Usually'
-  },
-  {
-    ru: '8',
-    en: 'Аlways'
-  },
-  {
-    ru: '9',
-    en: 'House'
-  }
-];
+const mapDispatchToProps = {
+  saveWord: effects.saveWord
+};
 
-const PreviewDictionaryScreen = () => {
+const PreviewDictionaryScreen = ({ navigation, saveWord }) => {
+  const dictionary = navigation.getParam('dictionary');
+  const { words = [] } = dictionary;
+
   const [isAdd, setIsAdd] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [fields, setFields] = useState({
@@ -91,7 +33,16 @@ const PreviewDictionaryScreen = () => {
     setIsAdd(true);
   };
 
-  const onSave = () => {
+  const onSaveWord = () => {
+    const body = {
+      ru: fields.ru,
+      en: fields.en,
+      dictionary_id: dictionary.id
+    };
+
+    console.log('onSaveWord');
+
+    saveWord({ navigation, body });
     setIsAdd(false);
     setFields({ ru: '', en: '' });
   };
@@ -104,15 +55,17 @@ const PreviewDictionaryScreen = () => {
   return (
     <KeyboardAwareScrollView enableOnAndroid extraScrollHeight={100}>
       <Container>
+        {!words.length && <H3 style={{ textAlign: 'center' }}>У вас еще нет слов(</H3>}
+
         <List>
           <Grid>
             {words.map(item => (
-              <Row style={{ height: 40 }} key={item.ru}>
+              <Row style={{ height: 40 }} key={item.id}>
                 <Col>
-                  <Text style={{ textAlign: 'center' }}>{item.ru}</Text>
+                  <Text style={{ textAlign: 'center' }}>{item.ru.name}</Text>
                 </Col>
                 <Col>
-                  <Text style={{ textAlign: 'center' }}>{item.en}</Text>
+                  <Text style={{ textAlign: 'center' }}>{item.en.name}</Text>
                 </Col>
               </Row>
             ))}
@@ -129,7 +82,7 @@ const PreviewDictionaryScreen = () => {
             </Item>
 
             <Save>
-              <ButtonLoader success name="Cохранить" width={130} onPress={onSave} disabled={!isValid} />
+              <ButtonLoader success={!!isValid} name="Cохранить" width={130} onPress={onSaveWord} disabled={!isValid} />
             </Save>
           </InputGroup>
         )}
@@ -147,7 +100,7 @@ const PreviewDictionaryScreen = () => {
 };
 
 PreviewDictionaryScreen.navigationOptions = ({ navigation }) => ({
-  title: navigation.getParam('name')
+  title: navigation.getParam('dictionary').name
 });
 
 const Container = styled.View`
@@ -172,4 +125,7 @@ const Save = styled.View`
   align-items: center;
 `;
 
-export default PreviewDictionaryScreen;
+export default connect(
+  null,
+  mapDispatchToProps
+)(PreviewDictionaryScreen);

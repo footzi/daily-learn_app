@@ -2,9 +2,7 @@ import { request, setAsyncStorage, setAuthData } from '../../store/utils';
 import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '../../store/constans';
 import { actions } from '../../store';
 
-export const getSettingsData = () => async dispatch => {
-  console.log('getSettingsData');
-};
+export const getSettingsData = () => async dispatch => {};
 
 export const toSignOut = () => async dispatch => {
   dispatch(actions.setProcessing(true));
@@ -19,6 +17,7 @@ export const toSignOut = () => async dispatch => {
       setAsyncStorage(REFRESH_TOKEN, '');
       setAsyncStorage(EXPIRE_TOKEN, '');
 
+      dispatch(actions.setData(''));
       dispatch(actions.setUser(0));
       dispatch(actions.setAuth(false));
       dispatch(actions.setProcessing(false));

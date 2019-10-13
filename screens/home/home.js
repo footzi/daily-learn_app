@@ -1,75 +1,55 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Content, ListItem, Left, Text, Right, Radio, Button } from 'native-base';
+import { Content, ListItem, Left, Text, Right, Radio, Button, H3 } from 'native-base';
 import { connect } from 'react-redux';
-import Loader from '../../components/loader';
-import * as effects from './effects';
-
-const lists = [
-  {
-    id: 1,
-    name: 'Словарь 1'
-  },
-  {
-    id: 2,
-    name: 'Словарь 2'
-  },
-  {
-    id: 3,
-    name: 'Словарь 3'
-  },
-  {
-    id: 4,
-    name: 'Словарь 4'
-  }
-];
-
-const mapDispatchToProps = {
-  getMainData: effects.getMainData
-};
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  home: state.home
+  data: state.data
 });
 
-const HomeScreen = ({ getMainData, home, navigation }) => {
-  const { routeName } = navigation.state;
+const HomeScreen = ({ data, navigation }) => {
+  const { dictionaries } = data;
+  const defaultSelectDictionary = dictionaries.length ? dictionaries[0] : {};
+
+  const [selectDictionary, setSelectDictionary] = useState(defaultSelectDictionary);
 
   const onStart = () => {
-    console.log('start')
-    navigation.navigate('DictionaryTraining');
+    navigation.navigate('DictionaryTraining', { selectDictionary });
   };
 
-  useEffect(() => {
-    getMainData(navigation);
-  }, [routeName]);
-
-  if (!home) {
-    return <Loader />;
-  }
+  const onSelect = dictionary => {
+    setSelectDictionary(dictionary);
+  };
 
   return (
     <Content>
       <Container>
-        <Text style={{ textAlign: 'center' }}>Выберите словарь для старта</Text>
+        {dictionaries.length > 0 ? (
+          <Text style={{ textAlign: 'center' }}>Выберите словарь для старта</Text>
+        ) : (
+          <H3 style={{ textAlign: 'center' }}>Для начала создайте словарь</H3>
+        )}
+
         <Dictionaries>
-          {lists.map(item => (
+          {dictionaries.map(item => (
             <ListItem key={item.id}>
               <Left>
                 <Text>{item.name}</Text>
               </Left>
               <Right>
-                <Radio selected={false} />
+                <Radio selected={item.id === selectDictionary.id} onPress={() => onSelect(item)} />
               </Right>
             </ListItem>
           ))}
         </Dictionaries>
-        <Start>
-          <Button info onPress={onStart}>
-            <Text>Начать</Text>
-          </Button>
-        </Start>
+
+        {dictionaries.length > 0 && (
+          <Start>
+            <Button info onPress={onStart}>
+              <Text>Начать</Text>
+            </Button>
+          </Start>
+        )}
       </Container>
     </Content>
   );
@@ -93,7 +73,4 @@ const Start = styled.View`
   align-items: center;
 `;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HomeScreen);
+export default connect(mapStateToProps)(HomeScreen);
