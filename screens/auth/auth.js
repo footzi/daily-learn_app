@@ -1,26 +1,30 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Loader from '../../components/loader';
-import * as commonEffects from '../../store/common-effects';
+import * as effects from './effects';
 
 const mapStateToProps = state => ({
-  data: state.data
+  auth: state.auth
 });
 
 const mapDispatchToProps = {
-  getMainData: commonEffects.getMainData
+  checkInitAuth: effects.checkInitAuth
 };
 
-const StartScreen = ({ data, navigation, getMainData }) => {
+const AuthScreen = ({ auth, navigation, checkInitAuth }) => {
   useEffect(() => {
-    getMainData({ navigation });
+    checkInitAuth();
   }, []);
 
   useEffect(() => {
-    if (data) {
-      navigation.navigate('Main');
+    if (auth) {
+      navigation.navigate('Start');
     }
-  }, [data]);
+
+    if (!auth && auth !== '') {
+      navigation.navigate('SignIn');
+    }
+  }, [auth]);
 
   return <Loader />;
 };
@@ -28,4 +32,4 @@ const StartScreen = ({ data, navigation, getMainData }) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(StartScreen);
+)(AuthScreen);

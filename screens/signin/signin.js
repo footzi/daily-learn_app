@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Item, Input, H2, Button, Text } from 'native-base';
+import { Item, Input, H2, Button, Text, Content } from 'native-base';
 import styled from 'styled-components';
 import ButtonLoader from '../../components/buttons';
 import * as effects from './effects';
@@ -11,10 +11,10 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  // auth: state.auth
 });
 
-const SignInScreen = ({ toSignIn, navigation, auth }) => {
+const SignInScreen = ({ toSignIn, navigation }) => {
   const [fields, setFields] = useState({
     login: '',
     password: ''
@@ -35,7 +35,7 @@ const SignInScreen = ({ toSignIn, navigation, auth }) => {
       password: fields.password
     };
 
-    toSignIn({ body });
+    toSignIn({ navigation, body });
   };
 
   const onSignUp = () => {
@@ -50,14 +50,8 @@ const SignInScreen = ({ toSignIn, navigation, auth }) => {
     }
   }, [fields]);
 
-  useEffect(() => {
-    if (auth) {
-      navigation.navigate('Main');
-    }
-  }, [auth]);
-
   return (
-    <KeyboardAwareScrollView enableOnAndroid contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
+    <Content contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
       <Container>
         <Header>
           <H2>Вход</H2>
@@ -82,7 +76,7 @@ const SignInScreen = ({ toSignIn, navigation, auth }) => {
           </SignUp>
         </GroupButtons>
       </Container>
-    </KeyboardAwareScrollView>
+    </Content>
   );
 };
 

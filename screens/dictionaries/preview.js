@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Text, Button, Input, Item, Icon, H3 } from 'native-base';
+import { Text, Button, Input, Item, Icon, H3, Content } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import ButtonLoader from '../../components/buttons';
 import * as effects from './effects';
@@ -11,8 +11,14 @@ const mapDispatchToProps = {
   saveWord: effects.saveWord
 };
 
-const PreviewDictionaryScreen = ({ navigation, saveWord }) => {
-  const dictionary = navigation.getParam('dictionary');
+const mapStateToProps = state => ({
+  data: state.data
+});
+
+const PreviewDictionaryScreen = ({ navigation, data, saveWord }) => {
+  const { dictionaries } = data;
+  const id = navigation.getParam('dictionary').id;
+  const dictionary = dictionaries.find(item => item.id === id);
   const { words = [] } = dictionary;
 
   const [isAdd, setIsAdd] = useState(false);
@@ -33,16 +39,14 @@ const PreviewDictionaryScreen = ({ navigation, saveWord }) => {
     setIsAdd(true);
   };
 
-  const onSaveWord = () => {
+  const onSaveWord = async () => {
     const body = {
       ru: fields.ru,
       en: fields.en,
       dictionary_id: dictionary.id
     };
 
-    console.log('onSaveWord');
-
-    saveWord({ navigation, body });
+    await saveWord({ navigation, body });
     setIsAdd(false);
     setFields({ ru: '', en: '' });
   };
@@ -53,7 +57,7 @@ const PreviewDictionaryScreen = ({ navigation, saveWord }) => {
   }, [fields]);
 
   return (
-    <KeyboardAwareScrollView enableOnAndroid extraScrollHeight={100}>
+    <Content>
       <Container>
         {!words.length && <H3 style={{ textAlign: 'center' }}>У вас еще нет слов(</H3>}
 
@@ -95,7 +99,7 @@ const PreviewDictionaryScreen = ({ navigation, saveWord }) => {
           </Add>
         )}
       </Container>
-    </KeyboardAwareScrollView>
+    </Content>
   );
 };
 
@@ -126,6 +130,6 @@ const Save = styled.View`
 `;
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(PreviewDictionaryScreen);

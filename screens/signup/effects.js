@@ -1,8 +1,8 @@
 import { request, createFormData, setAsyncStorage } from '../../store/utils';
-import { ERROR, SUCCESS, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '../../store/constans';
+import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '../../store/constans';
 import { actions } from '../../store';
 
-export const toSignUp = ({ body }) => async dispatch => {
+export const toSignUp = ({ navigation, body }) => async dispatch => {
   dispatch(actions.setProcessing(true));
 
   const formData = createFormData(body);
@@ -17,7 +17,8 @@ export const toSignUp = ({ body }) => async dispatch => {
       await setAsyncStorage(REFRESH_TOKEN, user.refresh_token);
       await setAsyncStorage(EXPIRE_TOKEN, String(user.expire));
 
-      dispatch(actions.setNotification({ type: SUCCESS, text: 'Вы успешно зарегистрировались' }));
+      navigation.navigate('Start');
+
       dispatch(actions.setUser(user));
       dispatch(actions.setAuth(true));
       dispatch(actions.setProcessing(false));

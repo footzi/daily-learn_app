@@ -1,5 +1,5 @@
 import { request, setAuthData, checkAccessToken, createFormData } from '../../store/utils';
-import { ERROR, SUCCESS } from '../../store/constans';
+import { ERROR } from '../../store/constans';
 import { actions } from '../../store';
 import * as commonEffects from '../../store/common-effects';
 
@@ -18,7 +18,6 @@ export const createDictionary = ({ navigation, body }) => async dispatch => {
 
     if (data.success) {
       dispatch(actions.setProcessing(false));
-      dispatch(actions.setNotification({ type: SUCCESS, text: 'Словарь успешно создан' }));
       dispatch(commonEffects.getMainData());
 
       navigation.navigate('Dictionary');

@@ -2,9 +2,7 @@ import { request, setAsyncStorage, setAuthData } from '../../store/utils';
 import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '../../store/constans';
 import { actions } from '../../store';
 
-export const getSettingsData = () => async dispatch => {};
-
-export const toSignOut = () => async dispatch => {
+export const toSignOut = ({ navigation }) => async dispatch => {
   dispatch(actions.setProcessing(true));
 
   try {
@@ -16,6 +14,8 @@ export const toSignOut = () => async dispatch => {
       setAsyncStorage(ACCESS_TOKEN, '');
       setAsyncStorage(REFRESH_TOKEN, '');
       setAsyncStorage(EXPIRE_TOKEN, '');
+
+      navigation.navigate('SignIn');
 
       dispatch(actions.setData(''));
       dispatch(actions.setUser(0));

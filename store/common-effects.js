@@ -40,8 +40,6 @@ export const getMainData = navigation => async dispatch => {
     const response = await request('get', '/screens/home', '', token);
     const { data } = response.data;
 
-    console.log(data)
-
     dispatch(actions.setData(data));
   } catch (err) {
     const { error } = err.response.data;
@@ -49,6 +47,6 @@ export const getMainData = navigation => async dispatch => {
   }
 };
 
-export const clearMainData = () => dispatch => {
-  dispatch(actions.setData(''));
-};
+// export const clearMainData = () => dispatch => {
+//   dispatch(actions.setData(''));
+// };

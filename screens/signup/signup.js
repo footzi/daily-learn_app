@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Item, Input, H2, Button, Text } from 'native-base';
+import { Item, Input, H2, Button, Text, Content } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styled from 'styled-components';
 import ButtonLoader from '../../components/buttons';
@@ -18,10 +18,10 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  // auth: state.auth
 });
 
-const SignUpScreen = ({ toSignUp, navigation, auth }) => {
+const SignUpScreen = ({ toSignUp, navigation }) => {
   const [fields, setFields] = useState(initFields);
   const [isValid, setIsValid] = useState(false);
 
@@ -39,7 +39,7 @@ const SignUpScreen = ({ toSignUp, navigation, auth }) => {
       password: fields.password
     };
 
-    toSignUp({ body });
+    toSignUp({ navigation, body });
   };
 
   const onSignIn = () => {
@@ -57,14 +57,14 @@ const SignUpScreen = ({ toSignUp, navigation, auth }) => {
     }
   }, [fields]);
 
-  useEffect(() => {
-    if (auth) {
-      navigation.navigate('Main');
-    }
-  }, [auth]);
+  // useEffect(() => {
+  //   if (auth) {
+  //     navigation.navigate('Main');
+  //   }
+  // }, [auth]);
 
   return (
-    <KeyboardAwareScrollView enableOnAndroid contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
+    <Content contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
       <Container>
         <Header>
           <H2>Регистрация</H2>
@@ -101,7 +101,7 @@ const SignUpScreen = ({ toSignUp, navigation, auth }) => {
           </SignIn>
         </GroupButtons>
       </Container>
-    </KeyboardAwareScrollView>
+    </Content>
   );
 };
 

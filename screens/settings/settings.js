@@ -6,29 +6,22 @@ import ButtonLoader from '../../components/buttons';
 import * as effects from './effects';
 
 const mapDispatchToProps = {
-  getData: effects.getSettingsData,
   toSignOut: effects.toSignOut
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  // auth: state.auth
 });
 
-const SettingsScreen = ({ getData, auth, toSignOut, navigation }) => {
-  useEffect(() => {
-    getData();
-  }, []);
-
-  useEffect(() => {
-    if (!auth) {
-      navigation.navigate('SignIn');
-    }
-  }, [auth]);
+const SettingsScreen = ({ toSignOut, navigation }) => {
+  const onSignOut = () => {
+    toSignOut({ navigation });
+  };
 
   return (
     <Content>
       <Container>
-        <ButtonLoader warning onPress={toSignOut} name="Выйти" width={100} />
+        <ButtonLoader warning onPress={onSignOut} name="Выйти" width={100} />
       </Container>
     </Content>
   );
