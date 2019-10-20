@@ -1,15 +1,7 @@
 // https://codepen.io/footzi/pen/bGGEjMw?editors=1010
 // https://codepen.io/footzi/pen/OJJMBBq?editors=1010
 import Settings from '../../../constants/Settings';
-
-const shuffleArray = array => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-
-  return array;
-};
+import shuffleArray from '../../utils/shuffle-array';
 
 export const createWords = words => {
   const result = [];
@@ -36,7 +28,7 @@ export const createWords = words => {
     });
   });
 
-  return result;
+  return shuffleArray(result);
 };
 
 export const getNext = (words, current) => {

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Card, Icon, Item, H3, Input, Button, Text } from 'native-base';
 import ProgressBar from '../../../../components/progress-bar';
@@ -94,7 +93,4 @@ const Finsihed = styled.View`
   margin-top: 40px;
 `;
 
-export default connect(
-  null,
-  null
-)(CartWord);
+export default CartWord;

@@ -7,6 +7,7 @@ import TabBarIcon from '../components/TabBarIcon';
 
 import HomeScreen from '../screens/home';
 import DictionaryTrainingScreen from '../screens/training/dictrionaries';
+import IrregularTrainingScreen from '../screens/training/irregular-verbs';
 
 import DictionariesScreen from '../screens/dictionaries';
 import CreateDictionaryScreen from '../screens/dictionaries/create';
@@ -23,7 +24,8 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-    DictionaryTraining: DictionaryTrainingScreen
+    DictionaryTraining: DictionaryTrainingScreen,
+    IrregularTraining: IrregularTrainingScreen
   },
   config
 );

@@ -21,6 +21,10 @@ const HomeScreen = ({ data, navigation }) => {
     setSelectDictionary(dictionary);
   };
 
+  const onIrregularVerbs = () => {
+    navigation.navigate('IrregularTraining');
+  };
+
   return (
     <Content>
       <Container>
@@ -50,6 +54,12 @@ const HomeScreen = ({ data, navigation }) => {
             </Button>
           </Start>
         )}
+
+        <Irregular>
+          <Button info onPress={onIrregularVerbs}>
+            <Text>Неправильные глаголы</Text>
+          </Button>
+        </Irregular>
       </Container>
     </Content>
   );
@@ -70,6 +80,11 @@ const Dictionaries = styled.View`
 
 const Start = styled.View`
   margin-top: 20px;
+  align-items: center;
+`;
+
+const Irregular = styled.View`
+  margin-top: 30px;
   align-items: center;
 `;
 

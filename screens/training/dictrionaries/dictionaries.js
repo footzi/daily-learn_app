@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import CartWord from './molecules/cart-word';
-import Statistics from './molecules/statistics';
+import CartWord from './organism/cart-word';
+import Statistics from './organism/statistics';
 import * as effects from '../effects';
-import { createWords, getNext, getPrev } from './utils';
+import { createWords, getNext, getPrev } from './helpers';
 
 const mapStateToProps = state => ({
   dictionaries: state.data.dictionaries

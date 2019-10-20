@@ -39,6 +39,8 @@ export const getMainData = navigation => async dispatch => {
     const token = await setAuthData('refresh');
     const response = await request('get', '/screens/home', '', token);
     const { data } = response.data;
+    
+    console.log(data.irregularVerbs);
 
     dispatch(actions.setData(data));
   } catch (err) {
