@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import { ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from './constans';
-const host = 'https://daily-learn-backend.herokuapp.com';
-// const host = 'http://192.168.0.100:8080';
+// const host = 'https://daily-learn-backend.herokuapp.com';
+const host = 'http://192.168.0.100:8080';
 
-export const request = async (method = 'get', url, data = '', token = '') => {
+export const request = (method = 'get', url, data = '', token = '') => {
   const headers = { Authorization: token };
 
-  return await axios({
+  return axios({
     method,
     url: `${host}${url}`,
     data,
@@ -26,8 +26,20 @@ export const createFormData = params => {
   return formData;
 };
 
-export const setAsyncStorage = (key, value) => AsyncStorage.setItem(key, value);
-export const getAsyncStorage = key => AsyncStorage.getItem(key);
+export const setAsyncStorage = (key, value) => {
+  try {
+    return AsyncStorage.setItem(key, value)
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const getAsyncStorage = key => {
+  try {
+    return AsyncStorage.getItem(key)
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 export const setAuthData = async (refresh = false) => {
   const key = refresh ? REFRESH_TOKEN : ACCESS_TOKEN;

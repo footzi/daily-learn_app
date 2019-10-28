@@ -1,30 +1,34 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Content, ListItem, Left, Text, Right, Radio, Button, H3 } from 'native-base';
-import { connect } from 'react-redux';
+import { Content, ListItem, Text, Button, H3, CheckBox } from 'native-base';
+import { useSelector } from 'react-redux';
+import { normalizeDictionaries } from './normalize';
 
-const mapStateToProps = state => ({
-  data: state.data
-});
-
-const HomeScreen = ({ data, navigation }) => {
-  const { dictionaries } = data;
-  const defaultSelectDictionary = dictionaries.length ? dictionaries[0] : {};
-
-  const [selectDictionary, setSelectDictionary] = useState(defaultSelectDictionary);
+const HomeScreen = ({ navigation }) => {
+  const data = useSelector(state => state.data);
+  const [dictionaries, selectDictionary] = useState(normalizeDictionaries(data.dictionaries));
 
   const onStart = () => {
-    navigation.navigate('DictionaryTraining', { selectDictionary });
+    const selectDictionaries = dictionaries.filter((item) => item.checked);
+    
+    navigation.navigate('DictionaryTraining', { selectDictionaries });
   };
 
-  const onSelect = dictionary => {
-    setSelectDictionary(dictionary);
-  };
+  const onSelect = dict => {
+    const checkedDictionaries = dictionaries.map(item => {
+      if (dict.id === item.id) {
+        item.checked = !item.checked;
+      }
 
-  const onIrregularVerbs = () => {
-    navigation.navigate('IrregularTraining');
+      return item;
+    });
+  
+    selectDictionary(checkedDictionaries);
   };
-
+  
+  
+  const haveSelected = dictionaries.some((item) => item.checked);
+  
   return (
     <Content>
       <Container>
@@ -37,29 +41,21 @@ const HomeScreen = ({ data, navigation }) => {
         <Dictionaries>
           {dictionaries.map(item => (
             <ListItem key={item.id}>
-              <Left>
-                <Text>{item.name}</Text>
-              </Left>
-              <Right>
-                <Radio selected={item.id === selectDictionary.id} onPress={() => onSelect(item)} />
-              </Right>
+              <CheckBox onPress={() => onSelect(item)} checked={item.checked} />
+              <Item onPress={() => onSelect(item)}>
+                <Name>{item.name}</Name>
+              </Item>
             </ListItem>
           ))}
         </Dictionaries>
 
         {dictionaries.length > 0 && (
           <Start>
-            <Button info onPress={onStart}>
+            <Button info={haveSelected} disabled={!haveSelected} onPress={onStart}>
               <Text>Начать</Text>
             </Button>
           </Start>
         )}
-
-        <Irregular>
-          <Button info onPress={onIrregularVerbs}>
-            <Text>Неправильные глаголы</Text>
-          </Button>
-        </Irregular>
       </Container>
     </Content>
   );
@@ -83,9 +79,13 @@ const Start = styled.View`
   align-items: center;
 `;
 
-const Irregular = styled.View`
-  margin-top: 30px;
-  align-items: center;
+const Item = styled.TouchableOpacity`
+  padding-left: 15px;
+  flex: 1;
 `;
 
-export default connect(mapStateToProps)(HomeScreen);
+const Name = styled.Text`
+  align-self: flex-start;
+`;
+
+export default HomeScreen;
