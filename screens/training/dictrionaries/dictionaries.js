@@ -7,17 +7,18 @@ import * as effects from '../effects';
 import { createWords, getNext, getPrev } from './helpers';
 
 const mapStateToProps = state => ({
-  dictionaries: state.data.dictionaries
+  allDictionaries: state.data.dictionaries
 });
 
 const mapDispatchToProps = {
   changeCountWord: effects.changeCountWord
 };
 
-const DictionaryTrainingScreen = ({ navigation, dictionaries, changeCountWord }) => {
-  const id = navigation.getParam('selectDictionary').id;
-  const dictionary = dictionaries.find(item => item.id === id);
-  const words = createWords(dictionary.words);
+const DictionaryTrainingScreen = ({ navigation, allDictionaries, changeCountWord }) => {
+  const selectedDictionaries = navigation.getParam('selectedDictionaries');
+  const dictionaries = allDictionaries.filter(item => selectedDictionaries.includes(item.id));
+  
+  const words = createWords(dictionaries);
   const startIndex = words.findIndex(item => item.isShow);
 
   const [counter, setCounter] = useState(startIndex);
@@ -33,15 +34,15 @@ const DictionaryTrainingScreen = ({ navigation, dictionaries, changeCountWord })
     }
   };
 
-  const onPrev = () => {
-    const target = getPrev(words, counter);
-
-    if (typeof target !== 'undefined') {
-      setCounter(target);
-    } else {
-      setIsStatistics(true);
-    }
-  };
+  // const onPrev = () => {
+  //   const target = getPrev(words, counter);
+  //
+  //   if (typeof target !== 'undefined') {
+  //     setCounter(target);
+  //   } else {
+  //     setIsStatistics(true);
+  //   }
+  // };
 
   const onSave = word => {
     const body = {
@@ -59,7 +60,7 @@ const DictionaryTrainingScreen = ({ navigation, dictionaries, changeCountWord })
   return (
     <Container>
       {!isStatistics && startIndex === -1 && <NotWord>Вы выучили все слова</NotWord>}
-
+      
       {!isStatistics &&
         words.map(
           (item, index) =>
@@ -67,9 +68,7 @@ const DictionaryTrainingScreen = ({ navigation, dictionaries, changeCountWord })
               <CartWord
                 word={item}
                 key={item.id_unique}
-                onPrev={onPrev}
                 onNext={onNext}
-                onSave={onSave}
                 onFinished={onFinished}
               />
             )
@@ -80,7 +79,7 @@ const DictionaryTrainingScreen = ({ navigation, dictionaries, changeCountWord })
 };
 
 DictionaryTrainingScreen.navigationOptions = ({ navigation }) => ({
-  title: navigation.getParam('selectDictionary').name
+  title: 'Тренировка'
 });
 
 const Container = styled.View`

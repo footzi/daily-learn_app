@@ -3,31 +3,33 @@
 import Settings from '../../../constants/Settings';
 import shuffleArray from '../../utils/shuffle-array';
 
-export const createWords = words => {
+export const createWords = dictionaries => {
   const result = [];
-
-  words.forEach(item => {
-    result.push({
-      id: item.id,
-      id_unique: item.id + '_en',
-      lang: 'en',
-      question: item.en.name,
-      answer: item.ru.name,
-      count: item.en.count,
-      isShow: item.en.count < Settings.attempt
-    });
-
-    result.push({
-      id: item.id,
-      id_unique: item.id + '_ru',
-      lang: 'ru',
-      question: item.ru.name,
-      answer: item.en.name,
-      count: item.ru.count,
-      isShow: item.ru.count < Settings.attempt
+  
+  dictionaries.forEach((item) => {
+    item.words.forEach(item => {
+      result.push({
+        id: item.id,
+        id_unique: item.id + '_en',
+        lang: 'en',
+        question: item.en.name,
+        answer: item.ru.name,
+        count: item.en.count,
+        isShow: item.en.count < Settings.attempt
+      });
+    
+      result.push({
+        id: item.id,
+        id_unique: item.id + '_ru',
+        lang: 'ru',
+        question: item.ru.name,
+        answer: item.en.name,
+        count: item.ru.count,
+        isShow: item.ru.count < Settings.attempt
+      });
     });
   });
-
+  
   return shuffleArray(result);
 };
 

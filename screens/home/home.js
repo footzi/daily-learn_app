@@ -9,9 +9,11 @@ const HomeScreen = ({ navigation }) => {
   const [dictionaries, selectDictionary] = useState(normalizeDictionaries(data.dictionaries));
 
   const onStart = () => {
-    const selectDictionaries = dictionaries.filter((item) => item.checked);
+    const selectedDictionaries = dictionaries
+      .filter((item) => item.checked)
+      .map((dict) => dict.id);
     
-    navigation.navigate('DictionaryTraining', { selectDictionaries });
+    navigation.navigate('DictionaryTraining', { selectedDictionaries });
   };
 
   const onSelect = dict => {
@@ -25,7 +27,6 @@ const HomeScreen = ({ navigation }) => {
   
     selectDictionary(checkedDictionaries);
   };
-  
   
   const haveSelected = dictionaries.some((item) => item.checked);
   
@@ -71,7 +72,7 @@ const Container = styled.View`
 `;
 
 const Dictionaries = styled.View`
-  margin-top: 10px;
+  margin-top: 20px;
 `;
 
 const Start = styled.View`
