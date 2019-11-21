@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import { ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from './constans';
-// const host = 'https://daily-learn-backend.herokuapp.com';
-const host = 'http://192.168.0.100:8080';
+const host = 'https://daily-learn-backend.herokuapp.com';
+// const host = 'http://192.168.0.100:8080';
 
 export const request = (method = 'get', url, data = '', token = '') => {
   const headers = { Authorization: token };

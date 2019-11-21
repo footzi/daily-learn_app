@@ -17,15 +17,19 @@ const mapDispatchToProps = {
 const DictionaryTrainingScreen = ({ navigation, allDictionaries, changeCountWord }) => {
   const selectedDictionaries = navigation.getParam('selectedDictionaries');
   const dictionaries = allDictionaries.filter(item => selectedDictionaries.includes(item.id));
-  
+
   const words = createWords(dictionaries);
   const startIndex = words.findIndex(item => item.isShow);
 
   const [counter, setCounter] = useState(startIndex);
   const [isStatistics, setIsStatistics] = useState(false);
-
+  
+  console.log(words);
   const onNext = () => {
     const target = getNext(words, counter);
+    
+    console.log(onNext);
+    console.log(target);
 
     if (typeof target !== 'undefined') {
       setCounter(target);
@@ -60,18 +64,11 @@ const DictionaryTrainingScreen = ({ navigation, allDictionaries, changeCountWord
   return (
     <Container>
       {!isStatistics && startIndex === -1 && <NotWord>Вы выучили все слова</NotWord>}
-      
+
       {!isStatistics &&
         words.map(
           (item, index) =>
-            counter === index && (
-              <CartWord
-                word={item}
-                key={item.id_unique}
-                onNext={onNext}
-                onFinished={onFinished}
-              />
-            )
+            counter === index && <CartWord word={item} key={item.id_unique} onNext={onNext} onFinished={onFinished} />
         )}
       {isStatistics && <Statistics words={words} />}
     </Container>

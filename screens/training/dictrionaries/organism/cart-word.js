@@ -5,47 +5,25 @@ import ProgressBar from '../../../../components/progress-bar';
 import Settings from '../../../../constants/Settings';
 
 const CartWord = ({ word, onNext, onFinished }) => {
-  const [isRight, setIsRight] = useState('');
-  
-  
+  const [field, setField] = useState('');
   const [isNotRemember, setIsNotRemember] = useState(false);
   const [isWrong, setIsWrong] = useState(false);
-  const [field, setField] = useState('');
+
   const isCheck = word.answer.toLowerCase() === field.toLowerCase();
 
-  const onChange = text => {
-    setField(text);
+  const onChange = text => setField(text);
+  const onNotRemember = () => {
+    setIsNotRemember(true);
   };
-
-  // const onPaw = () => {
-  //   if (isCheck) {
-  //     // onNext();
-  //     // onSave(word);
-  //   } else {
-  //     setIsRight(isCheck);
-  //   }
-  // };
-  
-  const onAnswer = () => {
-    if (isCheck) {
-      onNext();
-      //     // onSave(word);
-    }
-    console.log(isCheck);
-  };
-
-  useEffect(() => {
-    if (isRight !== '') {
-      setIsRight(isCheck);
-    }
-  }, [field]);
+  const onAnswer = () => (isCheck ? onNext() : setIsWrong(true));
+  const onRemember = () => onNext();
 
   return (
     <Card>
       <CardWrapper>
         <H3 style={{ textAlign: 'center' }}>{word.question}</H3>
         <AskContainer>
-          {isNotRemember && (
+          {!isNotRemember && !isWrong && (
             <Ask>
               <Answer>
                 <Item>
@@ -61,25 +39,42 @@ const CartWord = ({ word, onNext, onFinished }) => {
                 <ProgressBar progress={(word.count / Settings.attempt) * 100} />
               </ProgressWrapper>
               <NotRemember>
-                <Button danger transparent>
+                <Button danger transparent onPress={onNotRemember}>
                   <Text>Не помню :(</Text>
                 </Button>
               </NotRemember>
             </Ask>
           )}
-          <RightAnswer>
-            {word.answer}
-          </RightAnswer>
-          
-          
+          {(isNotRemember || isWrong) && <RightAnswer isWrong={isWrong}>{word.answer}</RightAnswer>}
         </AskContainer>
         <Actions>
-          <Button warning onPress={onFinished} style={{width: 120}}>
-            <Text style={{flex: 1, textAlign: 'center'}}>Завершить</Text>
-          </Button>
-          <Button success onPress={onAnswer} style={{width: 120}}>
-            <Text style={{flex: 1, textAlign: 'center'}}>Ответить</Text>
-          </Button>
+          {!isNotRemember && !isWrong && (
+            <>
+              <Button warning onPress={onFinished} style={{ width: 120 }}>
+                <Text style={{ flex: 1, textAlign: 'center' }}>Завершить</Text>
+              </Button>
+              <Button success={!!field} disabled={!field} onPress={onAnswer} style={{ width: 120 }}>
+                <Text style={{ flex: 1, textAlign: 'center' }}>Ответить</Text>
+              </Button>
+            </>
+          )}
+
+          {isNotRemember && !isWrong && (
+            <Button success onPress={onRemember} style={{ flex: 1 }}>
+              <Text style={{ flex: 1, textAlign: 'center' }}>Запомнил</Text>
+            </Button>
+          )}
+
+          {isWrong && (
+            <>
+              <Button warning onPress={onFinished} style={{ width: 120 }}>
+                <Text style={{ flex: 1, textAlign: 'center' }}>Завершить</Text>
+              </Button>
+              <Button success onPress={onNext} style={{ width: 120 }}>
+                <Text style={{ flex: 1, textAlign: 'center' }}>Далее</Text>
+              </Button>
+            </>
+          )}
         </Actions>
       </CardWrapper>
     </Card>
@@ -95,7 +90,7 @@ const Answer = styled.View`
 `;
 
 const AskContainer = styled.View`
-  height: 100px;
+  height: 130px;
 `;
 
 const Ask = styled.View``;
@@ -122,7 +117,8 @@ const RightAnswer = styled.Text`
   text-transform: uppercase;
   flex: 1;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 50px;
+  color: ${(p) => p.isWrong ? 'red' : 'black'}
 `;
 
 export default CartWord;
