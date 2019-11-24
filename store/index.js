@@ -1,6 +1,6 @@
 import thunk from 'redux-thunk';
 import { applyMiddleware, createStore } from 'redux';
-import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_AUTH, SET_DATA } from './constans';
+import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_AUTH, SET_DATA } from '../constants';
 
 // начальное состояние
 const initState = {

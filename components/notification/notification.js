@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Toast, View } from 'native-base';
 import { connect } from 'react-redux';
-import { ERROR, SUCCESS } from '../../store/constans';
+import { ERROR, SUCCESS } from '../../constants';
 import * as effects from './effects';
 
 const types = {

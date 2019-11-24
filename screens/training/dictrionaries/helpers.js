@@ -1,6 +1,6 @@
 // https://codepen.io/footzi/pen/bGGEjMw?editors=1010
 // https://codepen.io/footzi/pen/OJJMBBq?editors=1010
-import Settings from '../../../constants/Settings';
+import { SETTINGS } from '@constants/settings';
 import shuffleArray from '../../utils/shuffle-array';
 
 export const createWords = dictionaries => {
@@ -15,7 +15,7 @@ export const createWords = dictionaries => {
         question: item.en.name,
         answer: item.ru.name,
         count: item.en.count,
-        isShow: item.en.count < Settings.attempt
+        isShow: item.en.count < SETTINGS.attempt
       });
     
       result.push({
@@ -25,7 +25,7 @@ export const createWords = dictionaries => {
         question: item.ru.name,
         answer: item.en.name,
         count: item.ru.count,
-        isShow: item.ru.count < Settings.attempt
+        isShow: item.ru.count < SETTINGS.attempt
       });
     });
   });

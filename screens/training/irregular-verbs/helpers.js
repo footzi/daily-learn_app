@@ -1,4 +1,4 @@
-import Settings from "../../../constants/Settings";
+import { SETTINGS } from "@constants/settings";
 import shuffleArray from '../../utils/shuffle-array';
 
 const normalizeVerb = (verb, mode) => {
@@ -15,7 +15,7 @@ const normalizeVerb = (verb, mode) => {
     question: verb[mode],
     translate: verb.translate,
     count,
-    isShow: count < Settings.attempt
+    isShow: count < SETTINGS.attempt
   }
 };
 

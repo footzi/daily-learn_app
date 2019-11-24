@@ -1,6 +1,6 @@
 import { request, createFormData, setAsyncStorage } from '../../store/utils';
 import { actions } from '../../store';
-import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '../../store/constans';
+import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '../../constants';
 
 export const toSignIn = ({ navigation, body }) => async dispatch => {
   dispatch(actions.setProcessing(true));

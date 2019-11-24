@@ -1,5 +1,5 @@
 import { request, createFormData, setAsyncStorage } from '../../store/utils';
-import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '../../store/constans';
+import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '@constants';
 import { actions } from '../../store';
 
 export const toSignUp = ({ navigation, body }) => async dispatch => {

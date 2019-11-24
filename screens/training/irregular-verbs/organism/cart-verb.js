@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Card, Icon, Item, H3, Input, Button, Text } from 'native-base';
 import ProgressBar from '../../../../components/progress-bar';
-import Settings from "../../../../constants/Settings";
+import { SETTINGS } from "@constants/settings";
 
 const UNKNOWN = 'UNKNOWN';
 const ERROR = 'ERROR';
@@ -54,7 +54,7 @@ const CartVerb = ({ verb, onSave }) => {
           </List>
          
          <ProgressWrapper>
-           <ProgressBar progress={(verb.count / Settings.attempt) * 100} />
+           <ProgressBar progress={(verb.count / SETTINGS.attempt) * 100} />
          </ProgressWrapper>
          
          {!isSee &&

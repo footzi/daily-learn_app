@@ -25,6 +25,7 @@
     "react/prop-types": "off",
     "comma-dangle": "off",
     "react/display-name": "off",
+    "no-console": ["error", { "allow": ["warn", "error"] }]
   },
   "globals": {
     "fetch": false

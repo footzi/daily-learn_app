@@ -1,5 +1,5 @@
 import { request, setAuthData, checkAccessToken, createFormData } from '../../store/utils';
-import { ERROR } from '../../store/constans';
+import { ERROR } from '../../constants';
 import { actions } from '../../store';
 import * as commonEffects from '../../store/common-effects';
 
@@ -15,7 +15,7 @@ export const changeCountWord = ({ navigation, body }) => async dispatch => {
     const { data } = response.data;
 
     if (data.success) {
-      dispatch(commonEffects.getMainData());
+      dispatch(commonEffects.setMainData());
     }
   } catch (err) {
     const { error } = err.response.data;
@@ -36,7 +36,7 @@ export const changeCountVerb = ({ navigation, body }) => async dispatch => {
     const { data } = response.data;
     
     if (data.success) {
-      dispatch(commonEffects.getMainData());
+      dispatch(commonEffects.setMainData());
     }
   } catch (err) {
     const { error } = err.response.data;

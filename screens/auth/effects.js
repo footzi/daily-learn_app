@@ -1,5 +1,5 @@
 import { getAsyncStorage } from '../../store/utils';
-import { REFRESH_TOKEN, ERROR } from '../../store/constans';
+import { REFRESH_TOKEN, ERROR } from '../../constants';
 import { actions } from '../../store';
 
 export const checkInitAuth = () => async dispatch => {

@@ -1,21 +1,16 @@
-import { request, setAsyncStorage, setAuthData, checkAccessToken } from './utils';
-import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from './constans';
+import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '@constants';
+import { refreshTokens, getMainData, checkAccessToken } from '@api';
+import { setAsyncStorage } from '@libs';
 import { actions } from './index';
 
-export const toRefreshTokens = navigation => async dispatch => {
-  const token = await setAuthData('refresh');
-
+const toRefreshTokens = navigation => async dispatch => {
   try {
-    const response = await request('post', '/api/refresh', '', token);
+    const { access_token, refresh_token, expire } = await refreshTokens();
 
-    const { data } = response.data;
-    const { user } = data;
-
-    setAsyncStorage(ACCESS_TOKEN, user.access_token);
-    setAsyncStorage(REFRESH_TOKEN, user.refresh_token);
-    setAsyncStorage(EXPIRE_TOKEN, String(user.expire));
-  } catch (err) {
-    const { error } = err.response.data;
+    setAsyncStorage(ACCESS_TOKEN, access_token);
+    setAsyncStorage(REFRESH_TOKEN, refresh_token);
+    setAsyncStorage(EXPIRE_TOKEN, expire);
+  } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
 
     setAsyncStorage(ACCESS_TOKEN, '');
@@ -28,7 +23,7 @@ export const toRefreshTokens = navigation => async dispatch => {
   }
 };
 
-export const getMainData = navigation => async dispatch => {
+export const setMainData = navigation => async dispatch => {
   const isValidAccessToken = await checkAccessToken();
 
   if (!isValidAccessToken) {
@@ -36,13 +31,10 @@ export const getMainData = navigation => async dispatch => {
   }
 
   try {
-    const token = await setAuthData('refresh');
-    const response = await request('get', '/screens/home', '', token);
-    const { data } = response.data;
+    const data = await getMainData();
 
     dispatch(actions.setData(data));
-  } catch (err) {
-    const { error } = err.response.data;
+  } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
   }
 };

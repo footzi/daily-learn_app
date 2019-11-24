@@ -1,5 +1,5 @@
 import { request, setAsyncStorage, setAuthData } from '../../store/utils';
-import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '../../store/constans';
+import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '../../constants';
 import { actions } from '../../store';
 
 export const toSignOut = ({ navigation }) => async dispatch => {

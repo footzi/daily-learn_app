@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Card, Icon, Item, H3, Input, Button, Text } from 'native-base';
 import ProgressBar from '../../../../components/progress-bar';
-import Settings from '../../../../constants/Settings';
+import Settings from '../../../../constants/settings';
 
 const CartWord = ({ word, onNext, onFinished }) => {
   const [field, setField] = useState('');
