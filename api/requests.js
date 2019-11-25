@@ -1,16 +1,71 @@
-import { request, setAuthData } from '../store/utils';
+import axios from 'axios';
+import { createFormData, getToken, checkAccessToken } from './helpers';
+import { setAsyncStorage } from '@libs';
+import { actions, store } from '@store';
+import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '@constants';
+import { SETTINGS } from '@constants/settings';
 
-export const getMainData = async () => {
-  const token = await setAuthData('refresh');
+export const request = (method = 'get', url, body) => {
+  const data = createFormData(body);
+  
+  return axios({
+    method,
+    url: `${SETTINGS.host}${url}`,
+    data,
+    withCredentials: true
+  });
+};
+
+export const requestWithToken = async (method = 'get', url, body) => {
+  const isValidAccessToken = await checkAccessToken();
+
+  if (!isValidAccessToken) {
+    await refreshTokens();
+  }
+
+  const token = await getToken('access');
+  const headers = { Authorization: token };
+  const data = body ? createFormData(body) : '';
 
   try {
-    const response = await request('get', '/screens/home', '', token);
-    const { data } = response.data;
+    return await axios({
+      method,
+      url: `${SETTINGS.host}${url}`,
+      headers,
+      data
+    });
+  } catch (err) {
+    const { error } = err.response.data;
+    throw error;
+  }
+};
 
-    return data;
+const refreshTokens = async () => {
+  const token = await getToken('refresh');
+  const headers = { Authorization: token };
+
+  try {
+    const response = await axios({
+      method: 'post',
+      url: `${SETTINGS.host}/api/refresh`,
+      headers
+    });
+
+    const { data } = response.data;
+    const { access_token, refresh_token, expire } = data.user;
+
+    setAsyncStorage(ACCESS_TOKEN, access_token);
+    setAsyncStorage(REFRESH_TOKEN, refresh_token);
+    setAsyncStorage(EXPIRE_TOKEN, expire);
   } catch (err) {
     const { error } = err.response.data;
 
-    throw error;
+    setAsyncStorage(ACCESS_TOKEN, '');
+    setAsyncStorage(REFRESH_TOKEN, '');
+    setAsyncStorage(EXPIRE_TOKEN, '');
+
+    store.dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+    store.dispatch(actions.setUser(0));
+    store.dispatch(actions.setAuth(false));
   }
 };

@@ -1,7 +1,8 @@
-import { request, setAsyncStorage, setAuthData } from '../../store/utils';
+import { request, setAsyncStorage, setAuthData } from '@store/utils';
 import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '../../constants';
 import { actions } from '../../store';
 
+// Исправить!
 export const toSignOut = ({ navigation }) => async dispatch => {
   dispatch(actions.setProcessing(true));
 

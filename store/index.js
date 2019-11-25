@@ -68,25 +68,5 @@ export const actions = {
   }
 };
 
-// Экшены, возврашают тип, и какой-либо пэйлоад
-// export const setNotification = payload => dispatch => {
-//   dispatch({ type: SET_NOTIFICATION, payload });
-// };
-
-// export const setProcessing = payload => dispatch => {
-//   dispatch({ type: SET_PROCESSING, payload });
-// };
-
-// export const setUser = user => dispatch => {
-//   dispatch({ type: SET_USER, user });
-// };
-
-// export const setAuth = payload => dispatch => {
-//   dispatch({ type: SET_AUTH, payload });
-// };
-
-// export const setHome = payload => dispatch => {
-//   dispatch({ type: SET_HOME, payload });
-// };
-
-export default (initialState = initState) => createStore(reducer, initialState, applyMiddleware(thunk));
+const configureStore = (initialState = initState) => createStore(reducer, initialState, applyMiddleware(thunk));
+export const store = configureStore();

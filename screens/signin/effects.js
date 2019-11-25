@@ -1,14 +1,13 @@
-import { request, createFormData, setAsyncStorage } from '../../store/utils';
-import { actions } from '../../store';
-import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '../../constants';
+import { request } from '@api';
+import { setAsyncStorage } from '@libs';
+import { actions } from '@store';
+import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '@constants';
 
 export const toSignIn = ({ navigation, body }) => async dispatch => {
   dispatch(actions.setProcessing(true));
 
-  const formData = createFormData(body);
-
   try {
-    const response = await request('post', '/api/signin', formData);
+    const response = await request('post', '/api/signin', body);
     const { data } = response.data;
     const { user } = data;
 

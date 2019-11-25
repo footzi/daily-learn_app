@@ -1,19 +1,13 @@
-import { request, setAuthData, checkAccessToken, createFormData } from '../../store/utils';
-import { ERROR } from '../../constants';
-import { actions } from '../../store';
-import * as commonEffects from '../../store/common-effects';
+import { requestWithToken } from "@api";
+import { ERROR } from '@constants';
+import { actions } from '@store';
+import * as commonEffects from '@store/common-effects';
 
 export const createDictionary = ({ navigation, body }) => async dispatch => {
   dispatch(actions.setProcessing(true));
 
-  if (!(await checkAccessToken())) {
-    await dispatch(commonEffects.toRefreshTokens(navigation));
-  }
-
   try {
-    const formData = createFormData(body);
-    const token = await setAuthData('refresh');
-    const response = await request('post', '/api/dictionary/create', formData, token);
+    const response = await requestWithToken('post', '/api/dictionary/create', body);
     const { data } = response.data;
 
     if (data.success) {
@@ -29,24 +23,19 @@ export const createDictionary = ({ navigation, body }) => async dispatch => {
   }
 };
 
-export const saveWord = ({ navigation, body }) => async dispatch => {
+export const saveWord = ({ body }) => async dispatch => {
   dispatch(actions.setProcessing(true));
 
-  if (!(await checkAccessToken())) {
-    await dispatch(commonEffects.toRefreshTokens(navigation));
-  }
-
   try {
-    const formData = createFormData(body);
-    const token = await setAuthData('refresh');
-    const response = await request('post', '/api/words/create', formData, token);
+    const response = await requestWithToken('post', '/api/words/create', body);
     const { data } = response.data;
 
     if (data.success) {
       dispatch(actions.setProcessing(false));
-      dispatch(commonEffects.getMainData());
+      dispatch(commonEffects.setMainData());
     }
   } catch (err) {
+    console.log(err);
     const { error } = err.response.data;
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
     dispatch(actions.setProcessing(false));

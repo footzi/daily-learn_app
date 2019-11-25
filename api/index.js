@@ -1,3 +1,3 @@
 export { refreshTokens } from './refresh-tokens';
-export { getMainData } from './requests';
-export { checkAccessToken } from './helpers';
+export { request, requestWithToken } from './requests';
+export { checkAccessToken, createFormData } from './helpers';

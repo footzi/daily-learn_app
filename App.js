@@ -4,7 +4,7 @@ import * as Font from 'expo-font';
 import { Root } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
-import createStore from './store';
+import { store } from './store';
 import AppNavigator from './navigation/AppNavigator';
 import Notification from './components/notification';
 
@@ -33,7 +33,7 @@ const App = () => {
     );
   } else {
     return (
-      <Provider store={createStore()}>
+      <Provider store={store}>
         <Root>
           <AppNavigator />
           <Notification />

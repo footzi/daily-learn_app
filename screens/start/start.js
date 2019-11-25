@@ -19,6 +19,8 @@ const StartScreen = ({ data, navigation, setMainData }) => {
   useEffect(() => {
     if (data) {
       navigation.navigate('Main');
+    } else {
+      // navigation.navigate('SignIn');
     }
   }, [data]);
 
