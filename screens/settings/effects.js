@@ -1,14 +1,13 @@
-import { request, setAsyncStorage, setAuthData } from '@store/utils';
-import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '../../constants';
-import { actions } from '../../store';
+import { requestWithToken } from '@api';
+import { setAsyncStorage } from '@libs';
+import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '@constants';
+import { actions } from '@store';
 
-// Исправить!
 export const toSignOut = ({ navigation }) => async dispatch => {
   dispatch(actions.setProcessing(true));
 
   try {
-    const token = await setAuthData('refresh');
-    const response = await request('post', '/api/signout', '', token);
+    const response = await requestWithToken('post', '/api/signout');
     const { data } = response.data;
 
     if (data.success) {
@@ -23,8 +22,7 @@ export const toSignOut = ({ navigation }) => async dispatch => {
       dispatch(actions.setAuth(false));
       dispatch(actions.setProcessing(false));
     }
-  } catch (err) {
-    const { error } = err.response.data;
+  } catch (error) {
     dispatch(actions.setProcessing(false));
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
   }

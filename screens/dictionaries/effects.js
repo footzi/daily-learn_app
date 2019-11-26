@@ -16,8 +16,7 @@ export const createDictionary = ({ navigation, body }) => async dispatch => {
 
       navigation.navigate('Dictionary');
     }
-  } catch (err) {
-    const { error } = err.response.data;
+  } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
     dispatch(actions.setProcessing(false));
   }
@@ -34,9 +33,7 @@ export const saveWord = ({ body }) => async dispatch => {
       dispatch(actions.setProcessing(false));
       dispatch(commonEffects.setMainData());
     }
-  } catch (err) {
-    console.log(err);
-    const { error } = err.response.data;
+  } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
     dispatch(actions.setProcessing(false));
   }

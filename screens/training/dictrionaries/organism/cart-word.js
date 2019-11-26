@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Card, Icon, Item, H3, Input, Button, Text } from 'native-base';
-import ProgressBar from '../../../../components/progress-bar';
-import Settings from '../../../../constants/settings';
+import ProgressBar from '@components/progress-bar';
+import { SETTINGS } from '@constants/settings';
 
-const CartWord = ({ word, onNext, onFinished }) => {
+const CartWord = ({ word, onNext, onFinished, count }) => {
   const [field, setField] = useState('');
   const [isNotRemember, setIsNotRemember] = useState(false);
   const [isWrong, setIsWrong] = useState(false);
@@ -15,8 +15,13 @@ const CartWord = ({ word, onNext, onFinished }) => {
   const onNotRemember = () => {
     setIsNotRemember(true);
   };
-  const onAnswer = () => (isCheck ? onNext() : setIsWrong(true));
-  const onRemember = () => onNext();
+  const onAnswer = () => (isCheck ? onNext(word) : setIsWrong(true));
+  const onRemember = () => onNext(word);
+  
+  useEffect(() => {
+    console.log('change word');
+  }, [word]);
+  
 
   return (
     <Card>
@@ -36,7 +41,7 @@ const CartWord = ({ word, onNext, onFinished }) => {
                 </Item>
               </Answer>
               <ProgressWrapper>
-                <ProgressBar progress={(word.count / Settings.attempt) * 100} />
+                <ProgressBar progress={(count / SETTINGS.attempt) * 100} />
               </ProgressWrapper>
               <NotRemember>
                 <Button danger transparent onPress={onNotRemember}>
