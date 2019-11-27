@@ -91,7 +91,7 @@ const DictionaryTrainingScreen = ({ navigation }) => {
         //   (item, index) =>
         //     counter === index && <CartWord word={item} key={item.id_unique} onNext={onNext} onFinished={onFinished} />
         // )}
-      <CartWord word={word} key={word.id_unique} onNext={onNext} count={count} onFinished={onFinished} />
+      <CartWord word={word} key={word.id_unique} onNext={onNext} count={word.count} onFinished={onFinished} />
       }
       
       {isStatistics && <Statistics words={words} />}

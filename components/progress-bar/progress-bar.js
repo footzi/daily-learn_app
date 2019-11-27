@@ -1,14 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Animated } from 'react-native';
 import styled from 'styled-components';
-import Colors from '../../constants/Colors';
+import Colors from '@constants/Colors';
 
-const ProgressBar = ({ progress }) => (
-  <View>
-    <Rail>
-      <Bar progress={progress} />
-    </Rail>
-  </View>
-);
+export const ProgressBar = ({ progress }) => {
+  const [value] = useState(new Animated.Value(progress));
+
+  useEffect(() => {
+    Animated.timing(value, {
+      toValue: progress,
+      duration: 300
+    }).start();
+  }, [progress]);
+
+  const width = value.interpolate({
+    inputRange: [0, 100],
+    outputRange: ['0%', '100%']
+  });
+
+  return (
+    <View>
+      <Rail>
+        <Animated.View
+          style={{
+            width: width,
+            height: 10,
+            backgroundColor: `${(progress < 50 && Colors.warning) || (progress >= 50 && Colors.success)}`
+          }}
+        />
+      </Rail>
+    </View>
+  );
+};
 
 const View = styled.View`
   flex: 1;
@@ -20,11 +43,3 @@ const Rail = styled.View`
   overflow: hidden;
   background-color: ${Colors.gray};
 `;
-
-const Bar = styled.View`
-  height: 10px;
-  background-color: ${p => (p.progress < 50 && Colors.warning) || (p.progress >= 50 && Colors.success)};
-  width: ${p => `${p.progress}%`};
-`;
-
-export default ProgressBar;
