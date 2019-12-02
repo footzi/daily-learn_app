@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import { connect, useDispatch, useSelector  } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { SETTINGS } from '@constants/settings';
 import CartWord from './organism/cart-word';
 import Statistics from './organism/statistics';
 import * as effects from '../effects';
@@ -9,91 +10,62 @@ import { createWords, getNext, getPrev } from './helpers';
 const DictionaryTrainingScreen = ({ navigation }) => {
   const allDictionaries = useSelector(state => state.data.dictionaries);
   const dispatch = useDispatch();
-  
+
   const selectedDictionaries = navigation.getParam('selectedDictionaries');
   const dictionaries = allDictionaries.filter(item => selectedDictionaries.includes(item.id));
-  
-  
-  // const startIndex = words.findIndex(item => item.isShow);
-  
-  const words = createWords(dictionaries);
-  const start = words.find((item) => item.isShow);
-  
-  console.log(start);
-  
-  const [word, setWord] = useState(start);
-  const [count, setCount] = useState(word.count);
-  // const startIndex = words.findIndex(item => item.isShow);
-  // const [counter, setCounter] = useState(startIndex);
+
+  const [words, updateWords] = useState(createWords(dictionaries));
+
+  const startWord= words.find(item => item.isShow) || null;
+  const [word, setWord] = useState(startWord);
   const [isStatistics, setIsStatistics] = useState(false);
 
-  
-  const onNext = () => {
-    // const target = getNext(words, counter);
-  
-    const body = {
-      words_id: word.id,
-      lang: word.lang
-    };
-    
-    word.count = word.count + 1;
-  
-    setCount(word.count + 1);
-    
-    // const t = words.filter((item) => item.id_unique === word.)
-    // word.count = word.count + 1;
-    
-    // console.log(updates);
-  
-    // setWords(updates);
-  
-    // dispatch(effects.changeCountWord({ body }));
- 
-    // console.log(words);
-    
-    // if (typeof target !== 'undefined') {
-    //   setCounter(target);
-    // } else {
-    //   setIsStatistics(true);
-    // }
+  const onRight = () => {
+    const body = { words_id: word.id, lang: word.lang };
+    const count = word.count + 1;
+
+    const updatedWords = words.map(item => {
+      if (item.id_unique === word.id_unique) {
+        item.count = count;
+        item.isShow = count < SETTINGS.attempt;
+      }
+      return item;
+    });
+
+    updateWords(updatedWords);
+    setNext();
+
+    dispatch(effects.saveCountWord(body));
   };
 
-  // const onPrev = () => {
-  //   const target = getPrev(words, counter);
-  //
-  //   if (typeof target !== 'undefined') {
-  //     setCounter(target);
-  //   } else {
-  //     setIsStatistics(true);
-  //   }
-  // };
+  const onWrong = () => setNext();
 
-  // const onSave = word => {
-  //   const body = {
-  //     words_id: word.id,
-  //     lang: word.lang
-  //   };
-  //
-  //   changeCountWord({ body });
-  // };
-  
+  const setNext = () => {
+    const target = getNext(words, word);
 
-  const onFinished = () => {
-    setIsStatistics(true);
+    if (target) {
+      setWord(target);
+    } else {
+      setIsStatistics(true);
+    }
   };
+
+  const onFinished = () => setIsStatistics(true);
 
   return (
     <Container>
-      {/*{!isStatistics && startIndex === -1 && <NotWord>Вы выучили все слова</NotWord>}*/}
-  
-      {!isStatistics &&
-        // words.map(
-        //   (item, index) =>
-        //     counter === index && <CartWord word={item} key={item.id_unique} onNext={onNext} onFinished={onFinished} />
-        // )}
-      <CartWord word={word} key={word.id_unique} onNext={onNext} count={word.count} onFinished={onFinished} />
-      }
-      
+      {!isStatistics && !word && <NotWord>Вы выучили все слова</NotWord>}
+
+      {!isStatistics && word && (
+        <CartWord
+          word={word}
+          key={word.id_unique}
+          onRight={onRight}
+          onWrong={onWrong}
+          onFinished={onFinished}
+        />
+      )}
+
       {isStatistics && <Statistics words={words} />}
     </Container>
   );

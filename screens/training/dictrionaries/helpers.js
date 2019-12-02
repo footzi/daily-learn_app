@@ -33,19 +33,22 @@ export const createWords = dictionaries => {
   return shuffleArray(result);
 };
 
-export const getNext = (words, current) => {
+export const getNext = (words, current_word) => {
+  const index_word = words.findIndex((item) => item.id_unique === current_word.id_unique);
   // проверяем от текущего до конца массива
-  const next_from = words.findIndex((item, index) => index >= current + 1 && item.isShow);
+  const next_from = words.findIndex((item, index) => index >= index_word + 1 && item.count);
   // проверяем от начала массива
   const next_to = words.findIndex(item => item.isShow);
 
   if (next_from + 1) {
-    return next_from;
+    return words[next_from];
   }
 
   if (next_to + 1) {
-    return next_to;
+    return words[next_to];
   }
+  
+  return null
 };
 
 export const getPrev = (words, current) => {

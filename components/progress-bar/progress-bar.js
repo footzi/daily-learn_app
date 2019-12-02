@@ -9,7 +9,7 @@ export const ProgressBar = ({ progress }) => {
   useEffect(() => {
     Animated.timing(value, {
       toValue: progress,
-      duration: 300
+      duration: 200
     }).start();
   }, [progress]);
 

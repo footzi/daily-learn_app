@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Card, Icon, Item, H3, Input, Button, Text } from 'native-base';
 import { ProgressBar } from '@components/progress-bar';
 import { SETTINGS } from '@constants/settings';
 
-const CartWord = ({ word, onNext, onFinished, count }) => {
+const CartWord = ({ word, onRight, onWrong, onFinished }) => {
   const [field, setField] = useState('');
   const [isNotRemember, setIsNotRemember] = useState(false);
   const [isWrong, setIsWrong] = useState(false);
@@ -12,17 +12,10 @@ const CartWord = ({ word, onNext, onFinished, count }) => {
   const isCheck = word.answer.toLowerCase() === field.toLowerCase();
 
   const onChange = text => setField(text);
-  const onNotRemember = () => {
-    setIsNotRemember(true);
-  };
-  const onAnswer = () => (isCheck ? onNext(word) : setIsWrong(true));
-  const onRemember = () => onNext(word);
+  const onNotRemember = () => setIsNotRemember(true);;
+  const onAnswer = () => (isCheck ? onRight() : setIsWrong(true));
+  const onRemember = () => onWrong();
   
-  useEffect(() => {
-    console.log('change word');
-  }, [word]);
-  
-
   return (
     <Card>
       <CardWrapper>
@@ -41,7 +34,7 @@ const CartWord = ({ word, onNext, onFinished, count }) => {
                 </Item>
               </Answer>
               <ProgressWrapper>
-                <ProgressBar progress={(count / SETTINGS.attempt) * 100} />
+                <ProgressBar progress={(word.count / SETTINGS.attempt) * 100} />
               </ProgressWrapper>
               <NotRemember>
                 <Button danger transparent onPress={onNotRemember}>
@@ -75,7 +68,7 @@ const CartWord = ({ word, onNext, onFinished, count }) => {
               <Button warning onPress={onFinished} style={{ width: 120 }}>
                 <Text style={{ flex: 1, textAlign: 'center' }}>Завершить</Text>
               </Button>
-              <Button success onPress={onNext} style={{ width: 120 }}>
+              <Button success onPress={onWrong} style={{ width: 120 }}>
                 <Text style={{ flex: 1, textAlign: 'center' }}>Далее</Text>
               </Button>
             </>
