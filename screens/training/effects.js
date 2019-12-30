@@ -8,7 +8,7 @@ export const saveCountWord = (body) => async (dispatch) => {
     
   } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
-    dispatch(actions.setProcessing(false));
+    dispatch(actions.removeProcessing());
   }
 };
 
@@ -19,7 +19,7 @@ export const changeCountVerb = ({ body }) => async dispatch => {
   //   const { data } = response.data;
   //
   //   if (data.success) {
-  //     dispatch(commonEffects.setMainData());
+  //     dispatch(commonEffects.getMainData());
   //   }
   // } catch (error) {
   //   dispatch(actions.setNotification({ type: ERROR, text: error.message }));

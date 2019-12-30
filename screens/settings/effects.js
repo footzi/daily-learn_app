@@ -4,7 +4,7 @@ import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '@constants';
 import { actions } from '@store';
 
 export const toSignOut = ({ navigation }) => async dispatch => {
-  dispatch(actions.setProcessing(true));
+  dispatch(actions.setProcessing());
 
   try {
     const response = await requestWithToken('post', '/api/signout');
@@ -17,13 +17,13 @@ export const toSignOut = ({ navigation }) => async dispatch => {
 
       navigation.navigate('SignIn');
 
-      dispatch(actions.setData(''));
-      dispatch(actions.setUser(0));
-      dispatch(actions.setAuth(false));
-      dispatch(actions.setProcessing(false));
+      dispatch(actions.clearData());
+      dispatch(actions.removeUser());
+      dispatch(actions.removeAuth());
+      dispatch(actions.removeProcessing());
     }
   } catch (error) {
-    dispatch(actions.setProcessing(false));
+    dispatch(actions.removeProcessing());
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
   }
 };

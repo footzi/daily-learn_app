@@ -4,7 +4,7 @@ import { actions } from '@store';
 import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '@constants';
 
 export const toSignIn = ({ navigation, body }) => async dispatch => {
-  dispatch(actions.setProcessing(true));
+  dispatch(actions.setProcessing());
 
   try {
     const response = await request('post', '/api/signin', body);
@@ -18,13 +18,15 @@ export const toSignIn = ({ navigation, body }) => async dispatch => {
 
       navigation.navigate('Start');
 
-      dispatch(actions.setUser(user.id));
-      dispatch(actions.setAuth(true));
-      dispatch(actions.setProcessing(false));
+      dispatch(actions.setUser({
+        id: user.id
+      }));
+      dispatch(actions.setAuth());
+      dispatch(actions.removeProcessing());
     }
   } catch (err) {
     const { error } = err.response.data;
-    dispatch(actions.setProcessing(false));
+    dispatch(actions.removeProcessing());
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
   }
 };

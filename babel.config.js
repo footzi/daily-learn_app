@@ -5,18 +5,21 @@ module.exports = function(api) {
     env: {
       development: {
         plugins: [
-          ['module-resolver', {
-            root: ['/'],
-            alias: {
-              '@components': './components',
-              '@constants': './constants',
-              '@store': './store',
-              '@api': './api',
-              '@libs': './libs',
-            },
-          }],
-        ],
-      },
+          [
+            'module-resolver',
+            {
+              root: ['/'],
+              alias: {
+                '@components': './components',
+                '@constants': './constants',
+                '@store': './store',
+                '@api': './api',
+                '@libs': './libs'
+              }
+            }
+          ]
+        ]
+      }
     }
-  }
+  };
 };

@@ -2,12 +2,11 @@ import axios from 'axios';
 import { createFormData, getToken, checkAccessToken } from './helpers';
 import { setAsyncStorage } from '@libs';
 import { actions, store } from '@store';
-import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '@constants';
-import { SETTINGS } from '@constants/settings';
+import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN, SETTINGS } from '@constants';
 
 export const request = (method = 'get', url, body) => {
   const data = createFormData(body);
-  
+
   return axios({
     method,
     url: `${SETTINGS.host}${url}`,
@@ -35,6 +34,7 @@ export const requestWithToken = async (method = 'get', url, body) => {
       data
     });
   } catch (err) {
+    console.log(err);
     const { error } = err.response.data;
     throw error;
   }
@@ -51,7 +51,10 @@ const refreshTokens = async () => {
       headers
     });
 
+
+
     const { data } = response.data;
+
     const { access_token, refresh_token, expire } = data.user;
 
     setAsyncStorage(ACCESS_TOKEN, access_token);
@@ -65,7 +68,7 @@ const refreshTokens = async () => {
     setAsyncStorage(EXPIRE_TOKEN, '');
 
     store.dispatch(actions.setNotification({ type: ERROR, text: error.message }));
-    store.dispatch(actions.setUser(0));
-    store.dispatch(actions.setAuth(false));
+    store.dispatch(actions.removeUser());
+    store.dispatch(actions.removeAuth());
   }
 };

@@ -8,12 +8,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  setMainData: commonEffects.setMainData
+  getMainData: commonEffects.getMainData
 };
 
-const StartScreen = ({ data, navigation, setMainData }) => {
+const StartScreen = ({ data, navigation, getMainData }) => {
   useEffect(() => {
-    setMainData({ navigation });
+    getMainData({ navigation });
   }, []);
 
   useEffect(() => {
