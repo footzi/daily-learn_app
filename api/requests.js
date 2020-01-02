@@ -34,7 +34,6 @@ export const requestWithToken = async (method = 'get', url, body) => {
       data
     });
   } catch (err) {
-    console.log(err);
     const { error } = err.response.data;
     throw error;
   }
@@ -50,8 +49,6 @@ const refreshTokens = async () => {
       url: `${SETTINGS.host}/api/refresh`,
       headers
     });
-
-
 
     const { data } = response.data;
 

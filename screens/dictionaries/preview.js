@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Text, Button, Input, Item, Icon, H3, Content } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-import ButtonLoader from '../../components/buttons';
+import { ButtonLoader } from '@components';
 import * as effects from './effects';
 
 const mapDispatchToProps = {

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Content } from 'native-base';
 import { connect } from 'react-redux';
-import ButtonLoader from '../../components/buttons';
+import { ButtonLoader } from '@components';
 import * as effects from './effects';
 
 const mapDispatchToProps = {

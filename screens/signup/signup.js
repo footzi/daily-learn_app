@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Item, Input, H2, Button, Text, Content } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styled from 'styled-components';
-import ButtonLoader from '../../components/buttons';
+import { ButtonLoader } from '@components';
 import { connect } from 'react-redux';
 import * as effects from './effects';
 

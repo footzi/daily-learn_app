@@ -1,5 +1,5 @@
 import { ERROR } from '@constants';
-import { request, requestWithToken } from '@api';
+import { requestWithToken } from '@api';
 import { actions } from './index';
 
 export const getMainData = () => async dispatch => {
@@ -9,8 +9,6 @@ export const getMainData = () => async dispatch => {
 
     dispatch(actions.setData(data));
   } catch (error) {
-
-    console.log(error);
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
   }
 };

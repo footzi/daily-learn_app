@@ -14,7 +14,8 @@ module.exports = function(api) {
                 '@constants': './constants',
                 '@store': './store',
                 '@api': './api',
-                '@libs': './libs'
+                '@libs': './libs',
+                '@mocks': './mocks'
               }
             }
           ]

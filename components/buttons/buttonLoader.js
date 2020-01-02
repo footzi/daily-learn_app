@@ -1,12 +1,10 @@
 import React from 'react';
 import { Button, Text, Spinner } from 'native-base';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-const mapStateToProps = state => ({
-  processing: state.processing
-});
+export const ButtonLoader = ({ onPress, width, disabled, name, ...rest }) => {
+  const processing = useSelector(state => state.processing);
 
-const ButtonLoader = ({ onPress, width, disabled, name, processing, ...rest }) => {
   return (
     <Button disabled={disabled} onPress={onPress} style={{ width }} {...rest}>
       {processing ? (
@@ -17,5 +15,3 @@ const ButtonLoader = ({ onPress, width, disabled, name, processing, ...rest }) =
     </Button>
   );
 };
-
-export default connect(mapStateToProps)(ButtonLoader);

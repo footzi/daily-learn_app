@@ -2,7 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
-import { SET_DATA, SETTINGS } from '@constants';
+import { SET_DATA, SET_NOTIFICATION, SETTINGS, ERROR } from '@constants';
 import { mockFormData, mockRefreshToken } from '@mocks';
 import * as effects from './common-effects';
 
@@ -11,7 +11,7 @@ const mockStore = configureMockStore(middlewares);
 
 describe('Common effects', () => {
   it('getMainData success setData', async () => {
-    const store = mockStore({});
+    const store = mockStore();
     const request = new MockAdapter(axios);
 
     const data = {
@@ -58,6 +58,32 @@ describe('Common effects', () => {
 
     await store.dispatch(effects.getMainData());
 
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+
+  it('getMainData error setNotification', async () => {
+    const store = mockStore();
+    const request = new MockAdapter(axios);
+    const error = {
+      message: 'error'
+    };
+
+    const expectedActions = [
+      {
+        type: SET_NOTIFICATION,
+        payload: {
+          type: ERROR,
+          text: error.message
+        }
+      }
+    ];
+
+    mockFormData();
+    mockRefreshToken(request);
+
+    request.onGet(`${SETTINGS.host}/screens/home`).reply(500, { error });
+
+    await store.dispatch(effects.getMainData());
     expect(store.getActions()).toEqual(expectedActions);
   });
 });

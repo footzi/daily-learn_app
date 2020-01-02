@@ -18,9 +18,7 @@ export const toSignIn = ({ navigation, body }) => async dispatch => {
 
       navigation.navigate('Start');
 
-      dispatch(actions.setUser({
-        id: user.id
-      }));
+      dispatch(actions.setUser({ id: user.id }));
       dispatch(actions.setAuth());
       dispatch(actions.removeProcessing());
     }

@@ -1,33 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useDispatch } from 'react-redux';
 import { Item, Input, H2, Button, Text, Content } from 'native-base';
-import styled from 'styled-components';
-import ButtonLoader from '../../components/buttons';
-import * as effects from './effects';
+import styled from 'styled-components/native';
+import { ButtonLoader } from '@components';
+import { toSignIn } from './effects';
 
-const mapDispatchToProps = {
-  toSignIn: effects.toSignIn
-};
-
-const mapStateToProps = state => ({
-  // auth: state.auth
-});
-
-const SignInScreen = ({ toSignIn, navigation }) => {
+export const SignInScreen = ({ navigation }) => {
   const [fields, setFields] = useState({
     login: '',
     password: ''
   });
 
   const [isValid, setIsValid] = useState(false);
-
-  const onChangeText = (name, text) => {
-    setFields({
-      ...fields,
-      [name]: text
-    });
-  };
+  const dispatch = useDispatch();
 
   const onSubmit = () => {
     const body = {
@@ -35,11 +20,18 @@ const SignInScreen = ({ toSignIn, navigation }) => {
       password: fields.password
     };
 
-    toSignIn({ navigation, body });
+    dispatch(toSignIn({ navigation, body }));
   };
 
   const onSignUp = () => {
     navigation.navigate('SignUp');
+  };
+
+  const onChange = (text, name) => {
+    setFields({
+      ...fields,
+      [name]: text
+    });
   };
 
   useEffect(() => {
@@ -57,18 +49,31 @@ const SignInScreen = ({ toSignIn, navigation }) => {
           <H2>Вход</H2>
         </Header>
         <Item>
-          <Input placeholder="Логин" onChangeText={text => onChangeText('login', text)} value={fields.login.value} />
+          <Input
+            placeholder="Логин"
+            onChangeText={text => onChange(text, 'login')}
+            value={fields.login}
+            testID="login"
+          />
         </Item>
         <Item>
           <Input
             placeholder="Пароль"
             secureTextEntry
-            onChangeText={text => onChangeText('password', text)}
-            value={fields.password.value}
+            onChangeText={text => onChange(text, 'password')}
+            value={fields.password}
+            testID="password"
           />
         </Item>
         <GroupButtons>
-          <ButtonLoader theme="primary" disabled={!isValid} onPress={onSubmit} width={150} name="Войти" />
+          <ButtonLoader
+            theme="primary"
+            disabled={!isValid}
+            onPress={onSubmit}
+            width={150}
+            name="Войти"
+            testID="submit"
+          />
           <SignUp>
             <Button primary onPress={onSignUp}>
               <Text>Создать аккаунт</Text>
@@ -86,7 +91,7 @@ const Container = styled.View`
 `;
 
 const Header = styled.Text`
-  margin-bottom: 30;
+  margin-bottom: 30px;
   text-align: center;
 `;
 
@@ -94,7 +99,7 @@ const GroupButtons = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 20;
+  margin-top: 20px;
 `;
 
 const SignUp = styled.View`
@@ -104,8 +109,3 @@ const SignUp = styled.View`
 SignInScreen.navigationOptions = {
   title: 'Вход'
 };
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignInScreen);

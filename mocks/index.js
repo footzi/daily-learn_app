@@ -1,4 +1,8 @@
 import { SETTINGS } from '../constants';
+import { render } from '@testing-library/react-native';
+import { Provider } from 'react-redux';
+import { store } from '../store';
+import React from 'react';
 
 export const mockFormData = () => {
   const entries = jest.fn();
@@ -16,4 +20,11 @@ export const mockRefreshToken = request => {
       }
     }
   });
+};
+
+export const renderWithRedux = ui => {
+  return {
+    ...render(<Provider store={store}>{ui}</Provider>),
+    store
+  };
 };

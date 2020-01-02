@@ -1,11 +1,9 @@
 import React from 'react';
-import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
 import { render, fireEvent, wait } from '@testing-library/react-native';
 import { Field } from './index';
 import { Field2 } from './field2';
-import { reducer, initState, store } from '../../store';
+import { store } from '../../store';
 
 test('amm', async () => {
   const { queryByTestId } = render(<Field />);
@@ -20,12 +18,7 @@ test('amm', async () => {
   });
 });
 
-function renderWithRedux(ui) {
-  return {
-    ...render(<Provider store={store}>{ui}</Provider>),
-    store
-  };
-}
+
 
 test('can render with redux with defaults', async () => {
   const { queryByTestId } = renderWithRedux(<Field2 />);
