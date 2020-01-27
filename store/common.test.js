@@ -11,9 +11,6 @@ const mockStore = configureMockStore(middlewares);
 
 describe('Common effects', () => {
   it('getMainData success setData', async () => {
-    const store = mockStore();
-    const request = new MockAdapter(axios);
-
     const data = {
       dictionaries: [
         { id: 11, name: "'Hellooo'", words: [] },
@@ -41,23 +38,22 @@ describe('Common effects', () => {
         { id: 141, name: 'Новый словарь 34', words: [] }
       ]
     };
-
     const expectedActions = [
       {
         type: SET_DATA,
         payload: data
       }
     ];
+    const store = mockStore();
+    const request = new MockAdapter(axios);
 
     mockFormData();
     mockRefreshToken(request);
-
     request.onGet(`${SETTINGS.host}/screens/home`).reply(200, {
       data
     });
 
     await store.dispatch(effects.getMainData());
-
     expect(store.getActions()).toEqual(expectedActions);
   });
 

@@ -20,7 +20,7 @@ export const SignInScreen = ({ navigation }) => {
       password: fields.password
     };
 
-    dispatch(toSignIn({ navigation, body }));
+    dispatch(toSignIn(navigation, body));
   };
 
   const onSignUp = () => {
@@ -53,7 +53,6 @@ export const SignInScreen = ({ navigation }) => {
             placeholder="Логин"
             onChangeText={text => onChange(text, 'login')}
             value={fields.login}
-            testID="login"
           />
         </Item>
         <Item>
@@ -62,7 +61,6 @@ export const SignInScreen = ({ navigation }) => {
             secureTextEntry
             onChangeText={text => onChange(text, 'password')}
             value={fields.password}
-            testID="password"
           />
         </Item>
         <GroupButtons>

@@ -1,31 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Item, Input, H2, Button, Text, Content } from 'native-base';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
+import { useDispatch } from 'react-redux';
 import { ButtonLoader } from '@components';
-import { connect } from 'react-redux';
-import * as effects from './effects';
+import { toSignUp } from './effects';
 
-const initFields = {
-  login: '',
-  email: '',
-  password: '',
-  password2: ''
-};
-
-const mapDispatchToProps = {
-  toSignUp: effects.toSignUp
-};
-
-const mapStateToProps = state => ({
-  // auth: state.auth
-});
-
-const SignUpScreen = ({ toSignUp, navigation }) => {
-  const [fields, setFields] = useState(initFields);
+export const SignUpScreen = ({ navigation }) => {
+  const [fields, setFields] = useState({
+    login: '',
+    email: '',
+    password: '',
+    password2: ''
+  });
   const [isValid, setIsValid] = useState(false);
+  const dispatch = useDispatch();
 
-  const onChangeText = (name, text) => {
+  const onChange = (text, name) => {
     setFields({
       ...fields,
       [name]: text
@@ -39,7 +29,7 @@ const SignUpScreen = ({ toSignUp, navigation }) => {
       password: fields.password
     };
 
-    toSignUp({ navigation, body });
+    dispatch(toSignUp({ navigation, body }));
   };
 
   const onSignIn = () => {
@@ -57,12 +47,6 @@ const SignUpScreen = ({ toSignUp, navigation }) => {
     }
   }, [fields]);
 
-  // useEffect(() => {
-  //   if (auth) {
-  //     navigation.navigate('Main');
-  //   }
-  // }, [auth]);
-
   return (
     <Content contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
       <Container>
@@ -70,16 +54,16 @@ const SignUpScreen = ({ toSignUp, navigation }) => {
           <H2>Регистрация</H2>
         </Header>
         <Item>
-          <Input placeholder="Логин *" onChangeText={text => onChangeText('login', text)} value={fields.login} />
+          <Input placeholder="Логин *" onChangeText={text => onChange(text, 'login')} value={fields.login} />
         </Item>
         <Item>
-          <Input placeholder="Е-mail" onChangeText={text => onChangeText('email', text)} value={fields.email} />
+          <Input placeholder="Е-mail" onChangeText={text => onChange(text, 'email')} value={fields.email} />
         </Item>
         <Item>
           <Input
             placeholder="Пароль *"
             secureTextEntry
-            onChangeText={text => onChangeText('password', text)}
+            onChangeText={text => onChange(text, 'password')}
             value={fields.password}
           />
         </Item>
@@ -88,12 +72,19 @@ const SignUpScreen = ({ toSignUp, navigation }) => {
             type="password"
             secureTextEntry
             placeholder="Подтвердите пароль *"
-            onChangeText={text => onChangeText('password2', text)}
+            onChangeText={text => onChange(text, 'password2')}
             value={fields.password2}
           />
         </Item>
         <GroupButtons>
-          <ButtonLoader theme="primary" disabled={!isValid} onPress={onSubmit} width={200} name="Создать аккаунт" />
+          <ButtonLoader
+            theme="primary"
+            disabled={!isValid}
+            onPress={onSubmit}
+            width={200}
+            name="Создать аккаунт"
+            testID="submit"
+          />
           <SignIn>
             <Button primary onPress={onSignIn}>
               <Text>Войти</Text>
@@ -111,7 +102,7 @@ const Container = styled.View`
 `;
 
 const Header = styled.Text`
-  margin-bottom: 30;
+  margin-bottom: 30px;
   text-align: center;
 `;
 
@@ -119,7 +110,7 @@ const GroupButtons = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 20;
+  margin-top: 20px;
 `;
 
 const SignIn = styled.View`
@@ -129,8 +120,3 @@ const SignIn = styled.View`
 SignUpScreen.navigationOptions = {
   title: 'Регистрация'
 };
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignUpScreen);
