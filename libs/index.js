@@ -1,1 +1,2 @@
-export { getAsyncStorage, setAsyncStorage } from './async-storage';
+export { LocalStorage } from './local-storage';
+export { getErrorMessage } from './get-error-message';

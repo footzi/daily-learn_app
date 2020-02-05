@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { Content, ListItem, Left, Text, Right, Radio, Button, H3 } from 'native-base';
 import { createVerbs } from './helpers';
 import CartVerb from './organism/cart-verb';
@@ -16,16 +16,16 @@ const mapDispatchToProps = {
 
 const IrregularTrainingScreen = ({ navigation, irregularVerbs, changeCountVerb }) => {
   const verbs = createVerbs(irregularVerbs);
-  
+
   const onSave = verb => {
     const body = {
       verb_id: verb.id,
       form: verb.form
     };
-  
+
     changeCountVerb({ navigation, body });
   };
-  
+
   return (
     <Content>
       <Container>
@@ -36,7 +36,7 @@ const IrregularTrainingScreen = ({ navigation, irregularVerbs, changeCountVerb }
         ))}
       </Container>
     </Content>
-    
+
   )
 };
 

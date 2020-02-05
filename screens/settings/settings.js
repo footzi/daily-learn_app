@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { Content } from 'native-base';
 import { connect } from 'react-redux';
 import { ButtonLoader } from '@components';

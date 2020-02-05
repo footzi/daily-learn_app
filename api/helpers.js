@@ -1,5 +1,5 @@
-import { ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '@constants';
-import { getAsyncStorage } from '@libs';
+import { TOKENS_LS } from '@constants';
+import { LocalStorage } from '@libs';
 
 export const createFormData = params => {
   const formData = new FormData();
@@ -16,15 +16,27 @@ export const createFormData = params => {
 };
 
 export const getToken = async (refresh = false) => {
-  const key = refresh ? REFRESH_TOKEN : ACCESS_TOKEN;
-  const token = await getAsyncStorage(key);
+  const tokens = await LocalStorage.get(TOKENS_LS);
 
-  return `Bearer ${token}`;
+  if (tokens) {
+    const { access_token, refresh_token } = await LocalStorage.get(TOKENS_LS);
+    const token = refresh ? refresh_token : access_token;
+
+    return `Bearer ${token}`;
+  } else {
+    return null;
+  }
 };
 
 export const checkAccessToken = async () => {
-  const expire = await getAsyncStorage(EXPIRE_TOKEN);
-  const isExpire = Number(expire) < Math.floor(Date.now() / 1000);
+  const tokens = await LocalStorage.get(TOKENS_LS);
 
-  return !isExpire;
+  if (tokens) {
+    const { expire } = await LocalStorage.get(TOKENS_LS);
+    const isExpire = Number(expire) < Math.floor(Date.now() / 1000);
+
+    return !isExpire;
+  } else {
+    return false;
+  }
 };

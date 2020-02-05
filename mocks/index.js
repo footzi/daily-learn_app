@@ -1,8 +1,8 @@
+import React from 'react';
 import { SETTINGS } from '../constants';
 import { render } from '@testing-library/react-native';
 import { Provider } from 'react-redux';
-import { store } from '../store';
-import React from 'react';
+import { createTestStore, store } from '../store';
 
 export const mockFormData = () => {
   const entries = jest.fn();
@@ -13,18 +13,18 @@ export const mockFormData = () => {
 export const mockRefreshToken = request => {
   request.onPost(`${SETTINGS.host}/api/refresh`).reply(200, {
     data: {
-      user: {
-        access_token: '',
-        refresh_token: '',
-        expire: ''
-      }
+      access_token: '',
+      refresh_token: '',
+      expire: ''
     }
   });
 };
 
-export const renderWithRedux = ui => {
+export const renderWithRedux = (children, initialState = {}) => {
+  const store = createTestStore(initialState);
+
   return {
-    ...render(<Provider store={store}>{ui}</Provider>),
+    ...render(<Provider store={store}>{children}</Provider>),
     store
   };
 };

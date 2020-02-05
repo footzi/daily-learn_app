@@ -7,10 +7,10 @@ import TabBarIcon from '../components/TabBarIcon';
 
 import HomeScreen from '../screens/home';
 import DictionaryTrainingScreen from '../screens/training/dictrionaries';
-import DictionariesScreen from '../screens/dictionaries';
-import CreateDictionaryScreen from '../screens/dictionaries/create';
-import PreviewDictionaryScreen from '../screens/dictionaries/preview';
-import SettingsDictionaryScreen from '../screens/dictionaries/settings';
+import { DictionariesScreen } from '../screens/dictionaries';
+import CreateDictionaryScreen from '../screens/dictionaries/sub/create';
+import PreviewDictionaryScreen from '../screens/dictionaries/sub/preview';
+import SettingsDictionaryScreen from '../screens/dictionaries/sub/settings';
 import SettingsScreen from '../screens/settings';
 
 const config = Platform.select({

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { createFormData, getToken, checkAccessToken } from './helpers';
-import { setAsyncStorage } from '@libs';
+import { LocalStorage } from '@libs';
 import { actions, store } from '@store';
-import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN, SETTINGS } from '@constants';
+import { ERROR, TOKENS_LS, SETTINGS } from '@constants';
 
 export const request = (method = 'get', url, body) => {
   const data = createFormData(body);
@@ -51,18 +51,13 @@ const refreshTokens = async () => {
     });
 
     const { data } = response.data;
+    const { tokens } = data;
 
-    const { access_token, refresh_token, expire } = data.user;
-
-    setAsyncStorage(ACCESS_TOKEN, access_token);
-    setAsyncStorage(REFRESH_TOKEN, refresh_token);
-    setAsyncStorage(EXPIRE_TOKEN, expire);
+    LocalStorage.set(TOKENS_LS, tokens);
   } catch (err) {
     const { error } = err.response.data;
 
-    setAsyncStorage(ACCESS_TOKEN, '');
-    setAsyncStorage(REFRESH_TOKEN, '');
-    setAsyncStorage(EXPIRE_TOKEN, '');
+    LocalStorage.remove(TOKENS_LS);
 
     store.dispatch(actions.setNotification({ type: ERROR, text: error.message }));
     store.dispatch(actions.removeUser());

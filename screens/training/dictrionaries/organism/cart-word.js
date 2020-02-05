@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { Card, Icon, Item, H3, Input, Button, Text } from 'native-base';
 import { ProgressBar } from '@components/progress-bar';
 import { SETTINGS } from '@constants/settings';
@@ -15,7 +15,7 @@ const CartWord = ({ word, onRight, onWrong, onFinished }) => {
   const onNotRemember = () => setIsNotRemember(true);;
   const onAnswer = () => (isCheck ? onRight() : setIsWrong(true));
   const onRemember = () => onWrong();
-  
+
   return (
     <Card>
       <CardWrapper>

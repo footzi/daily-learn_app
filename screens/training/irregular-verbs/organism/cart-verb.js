@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { Card, Icon, Item, H3, Input, Button, Text } from 'native-base';
 import ProgressBar from '../../../../components/progress-bar';
 import { SETTINGS } from "@constants/settings";
@@ -13,14 +13,14 @@ const CartVerb = ({ verb, onSave }) => {
     form: '',
     translate: '',
   });
-  
+
   const [isSee, setIsSee] = useState(false);
   const [result, setIsResult] = useState(UNKNOWN);
-  
+
   const onCheck = () => {
     const isForm = fields.form.toLowerCase() === verb.question.toLowerCase();
     const isTranslate = fields.translate.toLowerCase() === verb.translate.toLowerCase();
-    
+
     if (isForm && isTranslate) {
       setIsResult(SUCCESS);
       onSave(verb);
@@ -28,16 +28,16 @@ const CartVerb = ({ verb, onSave }) => {
       setIsResult(ERROR)
     }
   };
-  
+
   const onChangeAnswer = (name, text) => {
     setIsFields({
       ...fields,
       [name]: text
     })
   };
-  
+
   const onSee = () => setIsSee(true);
-  
+
   return (
     <Card style={{marginBottom: 20}}>
        <CardWrapper>
@@ -52,11 +52,11 @@ const CartVerb = ({ verb, onSave }) => {
               <Text>{verb.form !== 'third' || isSee ? verb.third : '??'}</Text>
             </ListItem>
           </List>
-         
+
          <ProgressWrapper>
            <ProgressBar progress={(verb.count / SETTINGS.attempt) * 100} />
          </ProgressWrapper>
-         
+
          {!isSee &&
          <Answer>
            <Item>
@@ -75,9 +75,9 @@ const CartVerb = ({ verb, onSave }) => {
            </Item>
          </Answer>
          }
-         
+
          {isSee && <Translate>{verb.translate}</Translate>}
-         
+
          {!isSee && (
            <Actions>
              <Button

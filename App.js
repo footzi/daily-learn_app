@@ -33,12 +33,12 @@ const App = () => {
     );
   } else {
     return (
-      <Provider store={store}>
-        <Root>
+      <Root>
+        <Provider store={store}>
           <AppNavigator />
           <Notification />
-        </Root>
-      </Provider>
+        </Provider>
+      </Root>
     );
   }
 };

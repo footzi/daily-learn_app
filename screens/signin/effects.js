@@ -1,7 +1,7 @@
 import { request } from '@api';
-import { setAsyncStorage } from '@libs';
 import { actions } from '@store';
-import { ERROR, ACCESS_TOKEN, REFRESH_TOKEN, EXPIRE_TOKEN } from '@constants';
+import { LocalStorage, getErrorMessage } from '@libs';
+import { TOKENS_LS, USER_LS, ERROR } from '@constants';
 
 export const toSignIn = (navigation = {}, body = {}) => async dispatch => {
   dispatch(actions.setProcessing());
@@ -12,18 +12,16 @@ export const toSignIn = (navigation = {}, body = {}) => async dispatch => {
     const { user, tokens } = data;
 
     if (user.id && tokens) {
-      await setAsyncStorage(ACCESS_TOKEN, tokens.access_token);
-      await setAsyncStorage(REFRESH_TOKEN, tokens.refresh_token);
-      await setAsyncStorage(EXPIRE_TOKEN, String(tokens.expire));
-
       navigation.navigate('Start');
 
-      dispatch(actions.setUser({ id: user.id }));
+      dispatch(actions.setUser(user));
       dispatch(actions.setAuth());
+
+      LocalStorage.set(TOKENS_LS, tokens);
+      LocalStorage.set(USER_LS, user);
     }
   } catch (err) {
-    const { error } = err.response.data;
-    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+    dispatch(actions.setNotification({ type: ERROR, text: getErrorMessage(err) }));
   } finally {
     dispatch(actions.removeProcessing());
   }

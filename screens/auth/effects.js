@@ -1,13 +1,16 @@
-import { getAsyncStorage } from '@libs';
-import { REFRESH_TOKEN } from '@constants';
+import { LocalStorage } from '@libs';
+import { USER_LS, TOKENS_LS } from '@constants';
 import { actions } from '@store';
 
 export const checkInitAuth = () => async dispatch => {
-  const token = await getAsyncStorage(REFRESH_TOKEN);
+  const isAuth = await LocalStorage.has(TOKENS_LS);
+  const user = await LocalStorage.get(USER_LS);
 
-  if (token) {
-    actions.setAuth();
+  if (isAuth && user) {
+    dispatch(actions.setAuth());
+    dispatch(actions.setUser(user));
   } else {
-    actions.removeUser();
+    dispatch(actions.removeAuth());
+    dispatch(actions.removeUser());
   }
 };

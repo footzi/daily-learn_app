@@ -1,19 +1,17 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Loader from '../../components/loader';
 import * as effects from './effects';
 
-const mapStateToProps = state => ({
-  auth: state.auth
-});
+export const AuthScreen = ({ navigation }) => {
+  const state = useSelector(state => state);
+  const { auth } = state;
+  const dispatch = useDispatch();
 
-const mapDispatchToProps = {
-  checkInitAuth: effects.checkInitAuth
-};
+  const onCheckAuth = () => dispatch(effects.checkInitAuth());
 
-const AuthScreen = ({ auth, navigation, checkInitAuth }) => {
   useEffect(() => {
-    checkInitAuth();
+    onCheckAuth();
   }, []);
 
   useEffect(() => {
@@ -28,8 +26,3 @@ const AuthScreen = ({ auth, navigation, checkInitAuth }) => {
 
   return <Loader />;
 };
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AuthScreen);

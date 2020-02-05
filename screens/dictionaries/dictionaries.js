@@ -1,50 +1,53 @@
 import React from 'react';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
+import styled from 'styled-components/native';
+import { useSelector } from 'react-redux';
 import { Text, Content, Button, List, ListItem, Icon, H3 } from 'native-base';
+import { SCREENS } from '@constants';
 
-const mapStateToProps = state => ({
-  data: state.data
-});
-
-const DictionariesScreen = ({ data, navigation }) => {
-  const { dictionaries } = data;
+export const DictionariesScreen = ({ navigation }) => {
+  const { dictionaries } = useSelector(state => state.data);
 
   const onCreate = () => {
-    navigation.navigate('CreateDictionary');
+    navigation.navigate(SCREENS.CREATE_DICTIONARY);
   };
 
   const onPreview = dictionary => {
-    navigation.navigate('PreviewDictionary', { dictionary });
+    navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { dictionary });
   };
 
   const onSettings = dictionary => {
-    navigation.navigate('SettingsDictionary', { dictionary });
+    navigation.navigate(SCREENS.SETTINGS_DICTIONARY, { dictionary });
   };
 
   return (
     <Content>
       <Container>
-        {!dictionaries.length && <H3 style={{ textAlign: 'center' }}>У вас еще нет словаря(</H3>}
+        {!dictionaries.length && (
+          <H3 style={{ textAlign: 'center' }} testID="empty-title">
+            У вас еще нет словаря(
+          </H3>
+        )}
 
-        <List>
-          {dictionaries.map(item => (
-            <ListItem key={item.id} onPress={() => onPreview(item)} noIndent>
-              <Text>{item.name}</Text>
-              <Button
-                warning
-                transparent
-                style={{ position: 'absolute', top: 0, right: 0 }}
-                onPress={() => onSettings(item)}>
-                <Icon name="settings" />
-              </Button>
-            </ListItem>
-          ))}
-        </List>
+        {dictionaries.length && (
+          <List testID="list">
+            {dictionaries.map(item => (
+              <ListItem key={item.id} onPress={() => onPreview(item)} noIndent>
+                <Text>{item.name}</Text>
+                <Button
+                  warning
+                  transparent
+                  style={{ position: 'absolute', top: 0, right: 0 }}
+                  onPress={() => onSettings(item)}>
+                  <Icon name="settings" />
+                </Button>
+              </ListItem>
+            ))}
+          </List>
+        )}
 
         <Create>
           <Button info onPress={onCreate}>
-            <Text>{dictionaries.length ? 'Создать новый' : 'Создать'}</Text>
+            <Text testID="create-button">{dictionaries.length ? 'Добавить' : 'Создать'}</Text>
           </Button>
         </Create>
       </Container>
@@ -65,5 +68,3 @@ const Create = styled.View`
 DictionariesScreen.navigationOptions = {
   title: 'Словари'
 };
-
-export default connect(mapStateToProps)(DictionariesScreen);

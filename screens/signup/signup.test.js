@@ -212,7 +212,7 @@ describe('SignUp Screen - Effects', () => {
     const store = mockStore();
     const request = new MockAdapter(axios);
     const error = {
-      message: 'error'
+      message: 'Request failed with status code 500'
     };
 
     const expectedActions = [
@@ -234,7 +234,7 @@ describe('SignUp Screen - Effects', () => {
     ];
 
     mockFormData();
-    request.onPost(`${SETTINGS.host}/api/signup`).reply(500, { error });
+    request.onPost(`${SETTINGS.host}/api/signup`).reply(500);
 
     await store.dispatch(toSignUp());
     expect(store.getActions()).toEqual(expectedActions);

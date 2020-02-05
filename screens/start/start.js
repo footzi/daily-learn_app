@@ -1,33 +1,22 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Loader from '../../components/loader';
 import * as commonEffects from '../../store/common-effects';
 
-const mapStateToProps = state => ({
-  data: state.data
-});
+export const StartScreen = ({ navigation }) => {
+  const state = useSelector(state => state);
+  const { data } = state;
+  const dispatch = useDispatch();
 
-const mapDispatchToProps = {
-  getMainData: commonEffects.getMainData
-};
-
-const StartScreen = ({ data, navigation, getMainData }) => {
   useEffect(() => {
-    getMainData({ navigation });
+    dispatch(commonEffects.getMainData({ navigation }));
   }, []);
 
   useEffect(() => {
     if (data) {
       navigation.navigate('Main');
-    } else {
-      // navigation.navigate('SignIn');
     }
   }, [data]);
 
   return <Loader />;
 };
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StartScreen);

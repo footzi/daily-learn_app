@@ -29,7 +29,7 @@ export const SignUpScreen = ({ navigation }) => {
       password: fields.password
     };
 
-    dispatch(toSignUp({ navigation, body }));
+    dispatch(toSignUp(navigation, body));
   };
 
   const onSignIn = () => {

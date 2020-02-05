@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { Content, ListItem, Text, Button, H3, CheckBox } from 'native-base';
 import { useSelector } from 'react-redux';
 import { normalizeDictionaries } from './normalize';
@@ -9,10 +9,8 @@ const HomeScreen = ({ navigation }) => {
   const [dictionaries, selectDictionary] = useState(normalizeDictionaries(data.dictionaries));
 
   const onStart = () => {
-    const selectedDictionaries = dictionaries
-      .filter((item) => item.checked)
-      .map((dict) => dict.id);
-    
+    const selectedDictionaries = dictionaries.filter(item => item.checked).map(dict => dict.id);
+
     navigation.navigate('DictionaryTraining', { selectedDictionaries });
   };
 
@@ -24,12 +22,12 @@ const HomeScreen = ({ navigation }) => {
 
       return item;
     });
-  
+
     selectDictionary(checkedDictionaries);
   };
-  
-  const haveSelected = dictionaries.some((item) => item.checked);
-  
+
+  const haveSelected = dictionaries.some(item => item.checked);
+
   return (
     <Content>
       <Container>

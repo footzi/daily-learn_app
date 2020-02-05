@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { Input, Item } from 'native-base';
 import { ButtonLoader } from '@components';
-import * as effects from './effects';
+import * as effects from '../effects';
 
 const mapDispatchToProps = {
   createDictionary: effects.createDictionary

@@ -1,4 +1,4 @@
-import { requestWithToken } from "@api";
+import { requestWithToken } from '@api';
 import { ERROR } from '@constants';
 import { actions } from '@store';
 import * as commonEffects from '@store/common-effects';
