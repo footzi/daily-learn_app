@@ -5,8 +5,8 @@ import shuffleArray from '../../utils/shuffle-array';
 
 export const createWords = dictionaries => {
   const result = [];
-  
-  dictionaries.forEach((item) => {
+
+  dictionaries.forEach(item => {
     item.words.forEach(item => {
       result.push({
         id: item.id,
@@ -17,7 +17,7 @@ export const createWords = dictionaries => {
         count: item.en.count,
         isShow: item.en.count < SETTINGS.attempt
       });
-    
+
       result.push({
         id: item.id,
         id_unique: item.id + '_ru',
@@ -29,12 +29,12 @@ export const createWords = dictionaries => {
       });
     });
   });
-  
+
   return shuffleArray(result);
 };
 
 export const getNext = (words, current_word) => {
-  const index_word = words.findIndex((item) => item.id_unique === current_word.id_unique);
+  const index_word = words.findIndex(item => item.id_unique === current_word.id_unique);
   // проверяем от текущего до конца массива
   const next_from = words.findIndex((item, index) => index >= index_word + 1 && item.count);
   // проверяем от начала массива
@@ -47,8 +47,8 @@ export const getNext = (words, current_word) => {
   if (next_to + 1) {
     return words[next_to];
   }
-  
-  return null
+
+  return null;
 };
 
 export const getPrev = (words, current) => {

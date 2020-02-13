@@ -1,6 +1,6 @@
-import { actions } from './index';
-import { SET_AUTH, SET_USER, SET_DATA, SET_NOTIFICATION, SET_PROCESSING } from '../constants/action-types';
-import { ERROR } from '../constants';
+import { actions } from '../index';
+import { SET_AUTH, SET_USER, SET_DATA, SET_NOTIFICATION, SET_PROCESSING } from '../../constants/action-types';
+import { ERROR } from '../../constants';
 
 describe('Main actions', () => {
   it('setAuth', () => {

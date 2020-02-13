@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import { Card, Icon, Item, H3, Input, Button, Text } from 'native-base';
-import { ProgressBar } from '@components/progress-bar';
-import { SETTINGS } from '@constants/settings';
+import { ProgressBar } from '@components';
+import { SETTINGS } from '@constants';
 
-const CartWord = ({ word, onRight, onWrong, onFinished }) => {
+export const CartWord = ({ word, onRight, onWrong, onFinished }) => {
   const [field, setField] = useState('');
   const [isNotRemember, setIsNotRemember] = useState(false);
   const [isWrong, setIsWrong] = useState(false);
@@ -12,12 +12,12 @@ const CartWord = ({ word, onRight, onWrong, onFinished }) => {
   const isCheck = word.answer.toLowerCase() === field.toLowerCase();
 
   const onChange = text => setField(text);
-  const onNotRemember = () => setIsNotRemember(true);;
+  const onNotRemember = () => setIsNotRemember(true);
   const onAnswer = () => (isCheck ? onRight() : setIsWrong(true));
   const onRemember = () => onWrong();
 
   return (
-    <Card>
+    <Card testID="cart-word">
       <CardWrapper>
         <H3 style={{ textAlign: 'center' }}>{word.question}</H3>
         <AskContainer>
@@ -116,7 +116,5 @@ const RightAnswer = styled.Text`
   flex: 1;
   text-align: center;
   margin-top: 50px;
-  color: ${(p) => p.isWrong ? 'red' : 'black'}
+  color: ${p => (p.isWrong ? 'red' : 'black')};
 `;
-
-export default CartWord;

@@ -1,1 +1,1 @@
-export { default } from './dictionaries';
+export { DictionaryTrainingScreen } from './dictionaries';

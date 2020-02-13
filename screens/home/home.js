@@ -11,6 +11,8 @@ const HomeScreen = ({ navigation }) => {
   const onStart = () => {
     const selectedDictionaries = dictionaries.filter(item => item.checked).map(dict => dict.id);
 
+    console.log(selectedDictionaries);
+
     navigation.navigate('DictionaryTraining', { selectedDictionaries });
   };
 

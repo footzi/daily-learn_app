@@ -1,6 +1,6 @@
-import { reducer } from './index';
-import { SET_AUTH, SET_USER, SET_DATA, SET_NOTIFICATION, SET_PROCESSING } from '../constants/action-types';
-import { ERROR } from '../constants';
+import { reducer } from '../index';
+import { SET_AUTH, SET_USER, SET_DATA, SET_NOTIFICATION, SET_PROCESSING } from '../../constants/action-types';
+import { ERROR } from '../../constants';
 
 describe('Main reducer', () => {
   it('Set auth true', () => {

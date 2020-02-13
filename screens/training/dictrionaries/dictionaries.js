@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { SETTINGS } from '@constants/settings';
-import CartWord from './organism/cart-word';
+import { SETTINGS } from '@constants';
+import { CartWord } from './organism/cart-word';
 import Statistics from './organism/statistics';
 import * as effects from '../effects';
 import { createWords, getNext, getPrev } from './helpers';
 
-const DictionaryTrainingScreen = ({ navigation }) => {
+export const DictionaryTrainingScreen = ({ navigation = {} }) => {
   const allDictionaries = useSelector(state => state.data.dictionaries);
   const dispatch = useDispatch();
 
-  const selectedDictionaries = navigation.getParam('selectedDictionaries');
+  const selectedDictionaries = navigation.getParam('selectedDictionaries') || [];
   const dictionaries = allDictionaries.filter(item => selectedDictionaries.includes(item.id));
 
   const [words, updateWords] = useState(createWords(dictionaries));
@@ -54,7 +54,7 @@ const DictionaryTrainingScreen = ({ navigation }) => {
 
   return (
     <Container>
-      {!isStatistics && !word && <NotWord>Вы выучили все слова</NotWord>}
+      {!isStatistics && !word && <NotWord testID="not-word">Вы выучили все слова</NotWord>}
 
       {!isStatistics && word && (
         <CartWord word={word} key={word.id_unique} onRight={onRight} onWrong={onWrong} onFinished={onFinished} />
@@ -74,5 +74,3 @@ const Container = styled.View`
 `;
 
 const NotWord = styled.Text``;
-
-export default connect(null, null)(DictionaryTrainingScreen);

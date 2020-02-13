@@ -6,7 +6,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import TabBarIcon from '../components/TabBarIcon';
 
 import HomeScreen from '../screens/home';
-import DictionaryTrainingScreen from '../screens/training/dictrionaries';
+import { DictionaryTrainingScreen } from '../screens/training';
 import { DictionariesScreen } from '../screens/dictionaries';
 import CreateDictionaryScreen from '../screens/dictionaries/sub/create';
 import PreviewDictionaryScreen from '../screens/dictionaries/sub/preview';
