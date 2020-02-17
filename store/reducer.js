@@ -2,7 +2,7 @@ import { initState } from './state';
 import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_AUTH, SET_DATA } from '@constants';
 
 // редьюсеры
-export const reducers = (state = initState, action) => {
+export const reducer = (state = initState, action) => {
   switch (action.type) {
     case SET_AUTH:
       return {

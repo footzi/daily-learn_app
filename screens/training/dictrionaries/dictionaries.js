@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { SETTINGS } from '@constants';
 import { CartWord } from './organism/cart-word';
 import Statistics from './organism/statistics';
 import * as effects from '../effects';
-import { createWords, getNext, getPrev } from './helpers';
+import { createWords, getNext } from './helpers';
 
 export const DictionaryTrainingScreen = ({ navigation = {} }) => {
   const allDictionaries = useSelector(state => state.data.dictionaries);

@@ -1,9 +1,7 @@
 import React from 'react';
 import { toHaveTextContent } from '@testing-library/jest-native';
 import { renderWithRedux } from '@mocks';
-import renderer from 'react-test-renderer';
 import { DictionaryTrainingScreen } from '../dictionaries';
-import App from '../../../../App';
 import { SETTINGS } from '../../../../constants';
 
 expect.extend({ toHaveTextContent });
@@ -31,12 +29,12 @@ describe('Training Dictionaries', () => {
         dictionaries: [
           {
             id: 11,
-            name: "'Hellooo'",
+            name: 'Hellooo',
             words: []
           },
           {
             id: 31,
-            name: "'Ghehhll'",
+            name: 'Ghehhll',
             words: [
               {
                 id: 51,
