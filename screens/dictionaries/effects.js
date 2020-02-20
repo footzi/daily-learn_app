@@ -11,13 +11,13 @@ export const createDictionary = ({ navigation, body }) => async dispatch => {
     const { data } = response.data;
 
     if (data.success) {
-      dispatch(actions.removeProcessing());
       dispatch(commonEffects.getMainData());
 
       navigation.navigate('Dictionary');
     }
   } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+  } finally {
     dispatch(actions.removeProcessing());
   }
 };

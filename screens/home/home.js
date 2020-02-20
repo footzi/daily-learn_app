@@ -2,15 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import { Content, ListItem, Text, Button, H3, CheckBox } from 'native-base';
 import { useSelector } from 'react-redux';
-import { Modal, useModal } from '@components';
 import { normalizeDictionaries } from './normalize';
 
 const HomeScreen = ({ navigation }) => {
   const data = useSelector(state => state.data);
   const [dictionaries, selectDictionary] = useState(normalizeDictionaries(data.dictionaries));
-
-  const [isOpenModal, openModal, closeModal] = useModal();
-
 
   const onStart = () => {
     const selectedDictionaries = dictionaries.filter(item => item.checked).map(dict => dict.id);
@@ -34,22 +30,12 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <Content>
-      <Modal isOpenModal={isOpenModal} closeModal={closeModal}>
-        <Text>Hello</Text>
-        <Button onPress={openModal}>
-          <Text>Закрыть</Text>
-        </Button>
-      </Modal>
       <Container>
         {dictionaries.length > 0 ? (
           <Text style={{ textAlign: 'center' }}>Выберите словарь для старта</Text>
         ) : (
           <H3 style={{ textAlign: 'center' }}>Для начала создайте словарь</H3>
         )}
-
-        <Button onPress={openModal}>
-          <Text>Начать</Text>
-        </Button>
 
         <Dictionaries>
           {dictionaries.map(item => (

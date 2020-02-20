@@ -1,2 +1,2 @@
-export { View as Modal } from './modal';
+export { BottomModal } from './species/bottom';
 export { useModal } from './useModal';
