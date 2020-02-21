@@ -9,7 +9,7 @@ import HomeScreen from '../screens/home';
 import { DictionaryTrainingScreen } from '../screens/training';
 import { DictionariesScreen } from '../screens/dictionaries';
 import CreateDictionaryScreen from '../screens/dictionaries/sub/create';
-import PreviewDictionaryScreen from '../screens/dictionaries/sub/preview';
+import { PreviewDictionaryScreen } from '../screens/dictionaries/sub/preview';
 import SettingsDictionaryScreen from '../screens/dictionaries/sub/settings';
 import SettingsScreen from '../screens/settings';
 

@@ -1,1 +1,1 @@
-export { Create } from './create';
+export { CreateDict } from './create';

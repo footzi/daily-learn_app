@@ -3,12 +3,10 @@ import styled from 'styled-components/native';
 import { Input, Item } from 'native-base';
 import { ButtonLoader } from '@components';
 
-export const Create = ({ onCreate }) => {
+export const CreateDict = ({ onCreate }) => {
   const [name, setName] = useState('');
 
-  const onChangeName = text => {
-    setName(text);
-  };
+  const onChangeName = text => setName(text);
 
   return (
     <Container>

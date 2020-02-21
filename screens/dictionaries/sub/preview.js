@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Text, Button, Input, Item, Icon, H3, Content } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
+import { NAVIGATION_PARAMS } from '@constants';
 import { ButtonLoader } from '@components';
 import * as effects from '../effects';
 
-const mapDispatchToProps = {
-  saveWord: effects.saveWord
-};
+export const PreviewDictionaryScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const dictionary = navigation.getParam(NAVIGATION_PARAMS.preview_dictionary);
+  //const { words = [] } = dictionary;
+  const [words, setWords] = useState(dictionary.words || []);
 
-const mapStateToProps = state => ({
-  data: state.data
-});
-
-const PreviewDictionaryScreen = ({ navigation, data, saveWord }) => {
-  const { dictionaries } = data;
-  const id = navigation.getParam('dictionary').id;
-  const dictionary = dictionaries.find(item => item.id === id);
-  const { words = [] } = dictionary;
+  console.log(words);
 
   const [isAdd, setIsAdd] = useState(false);
   const [isValid, setIsValid] = useState(false);
@@ -45,10 +40,12 @@ const PreviewDictionaryScreen = ({ navigation, data, saveWord }) => {
       en: fields.en,
       dictionary_id: dictionary.id
     };
+    const word = { id: words.length + 1, ru: { name: fields.ru }, en: { name: fields.en } };
 
-    await saveWord({ navigation, body });
+    setWords([...words, word]);
     setIsAdd(false);
     setFields({ ru: '', en: '' });
+    dispatch(effects.saveWord({ navigation, body }));
   };
 
   // todo Проверить правильность валидации. сделать проверку на языки
@@ -104,7 +101,7 @@ const PreviewDictionaryScreen = ({ navigation, data, saveWord }) => {
 };
 
 PreviewDictionaryScreen.navigationOptions = ({ navigation }) => ({
-  title: navigation.getParam('dictionary').name
+  title: navigation.getParam(NAVIGATION_PARAMS.preview_dictionary).name
 });
 
 const Container = styled.View`
@@ -128,8 +125,3 @@ const Save = styled.View`
   margin-top: 30px;
   align-items: center;
 `;
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PreviewDictionaryScreen);

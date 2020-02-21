@@ -14,6 +14,12 @@ export const SCREENS = {
   SETTINGS_DICTIONARY: 'SettingsDictionary'
 };
 
+// Navigation Params
+export const NAVIGATION_PARAMS = {
+  preview_dictionary: 'preview_dictionary'
+};
+
+
 // Actions
 export const SET_USER = 'SET_USER';
 export const SET_NOTIFICATION = 'SET_NOTIFICATION';
