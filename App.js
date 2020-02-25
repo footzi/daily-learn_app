@@ -35,8 +35,8 @@ const App = () => {
     return (
       <Provider store={store}>
         <Root>
-          <AppNavigator />
           <Notification />
+          <AppNavigator />
         </Root>
       </Provider>
     );

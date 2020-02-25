@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Loader from '../../components/loader';
+import { Loader } from '@components';
 import * as effects from './effects';
 
 export const AuthScreen = ({ navigation }) => {

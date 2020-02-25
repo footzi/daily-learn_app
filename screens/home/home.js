@@ -1,35 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components/native';
 import { Content, ListItem, Text, Button, H3, CheckBox } from 'native-base';
-import { useSelector } from 'react-redux';
-import { normalizeDictionaries } from './normalize';
+import { useSelector, useDispatch } from 'react-redux';
+import { Loader } from '@components';
+import * as effects from './effects';
 
 const HomeScreen = ({ navigation }) => {
-  const data = useSelector(state => state.data);
-  const [dictionaries, selectDictionary] = useState(normalizeDictionaries(data.dictionaries));
+  const { homeScreen, data, isProcessing } = useSelector(state => state);
+  const { dictionaries } = homeScreen;
+  const dispatch = useDispatch();
 
-  const onStart = () => {
-    const selectedDictionaries = dictionaries.filter(item => item.checked).map(dict => dict.id);
-
-    navigation.navigate('DictionaryTraining', { selectedDictionaries });
-  };
-
-  const onSelect = dict => {
-    const checkedDictionaries = dictionaries.map(item => {
-      if (dict.id === item.id) {
-        item.checked = !item.checked;
-      }
-
-      return item;
-    });
-
-    selectDictionary(checkedDictionaries);
-  };
+  const onStart = () => dispatch(effects.startTraining(navigation));
+  const onSelect = id => dispatch(effects.selectDictionary(id));
 
   const haveSelected = dictionaries.some(item => item.checked);
 
+  useEffect(() => {
+    if (data.dictionaries) {
+      dispatch(effects.setDictionaries());
+    }
+  }, [data]);
+
   return (
     <Content>
+      {isProcessing && <Loader opacity={0.4} />}
       <Container>
         {dictionaries.length > 0 ? (
           <Text style={{ textAlign: 'center' }}>Выберите словарь для старта</Text>
@@ -40,8 +34,8 @@ const HomeScreen = ({ navigation }) => {
         <Dictionaries>
           {dictionaries.map(item => (
             <ListItem key={item.id}>
-              <CheckBox onPress={() => onSelect(item)} checked={item.checked} />
-              <Item onPress={() => onSelect(item)}>
+              <CheckBox onPress={() => onSelect(item.id)} checked={item.checked} />
+              <Item onPress={() => onSelect(item.id)}>
                 <Name>{item.name}</Name>
               </Item>
             </ListItem>

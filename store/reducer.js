@@ -1,5 +1,5 @@
 import { initState } from './state';
-import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_AUTH, SET_DATA } from '@constants';
+import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_AUTH, SET_DATA, SET_HOME_SCREEN } from '@constants';
 
 // редьюсеры
 export const reducer = (state = initState, action) => {
@@ -19,6 +19,12 @@ export const reducer = (state = initState, action) => {
         ...state,
         data: action.payload
       };
+    case SET_HOME_SCREEN: {
+      return {
+        ...state,
+        homeScreen: action.payload
+      };
+    }
     case SET_NOTIFICATION:
       return {
         ...state,

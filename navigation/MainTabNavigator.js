@@ -54,6 +54,7 @@ DictionaryStack.navigationOptions = {
   tabBarOptions: {
     showLabel: false
   },
+  keyboardHidesTabBar: false,
   tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-book' : 'md-book'} />
 };
 

@@ -1,4 +1,4 @@
-import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_AUTH, SET_DATA } from '@constants';
+import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_AUTH, SET_DATA, SET_HOME_SCREEN } from '@constants';
 
 export const actions = {
   setAuth: () => {
@@ -17,6 +17,11 @@ export const actions = {
 
   setData: payload => ({ type: SET_DATA, payload }),
   clearData: () => ({ type: SET_DATA, payload: null }),
+
+  setHomeScreen: payload => ({
+    type: SET_HOME_SCREEN,
+    payload: { dictionaries: payload.dictionaries }
+  }),
 
   setNotification: payload => ({ type: SET_NOTIFICATION, payload }),
   clearNotification: () => ({

@@ -1,108 +1,102 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Text, Button, Input, Item, Icon, H3, Content } from 'native-base';
+import { Text, Button, ListItem, Icon, H3, Content } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { NAVIGATION_PARAMS } from '@constants';
-import { ButtonLoader } from '@components';
+import { useModal } from '@components';
+import { AddWord } from '../organism';
 import * as effects from '../effects';
 
 export const PreviewDictionaryScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const dictionary = navigation.getParam(NAVIGATION_PARAMS.preview_dictionary);
-  //const { words = [] } = dictionary;
   const [words, setWords] = useState(dictionary.words || []);
+  const [isOpenModal, openModal, closeModal] = useModal();
 
-  console.log(words);
+  const onSaveWord = async fields => {
+    // const body = {
+    //   ru: fields.ru,
+    //   en: fields.en,
+    //   dictionary_id: dictionary.id
+    // };
+    //const word = { id: words.length + 1, ru: { name: fields.ru[0] }, en: { name: fields.en } };
 
-  const [isAdd, setIsAdd] = useState(false);
-  const [isValid, setIsValid] = useState(false);
-  const [fields, setFields] = useState({
-    ru: '',
-    en: ''
-  });
-
-  const onChangeInput = (text, name) => {
-    setFields({
-      ...fields,
-      [name]: text
-    });
+    //setWords([...words, word]);
+    closeModal();
+    //dispatch(effects.saveWord({ navigation, body }));
   };
-
-  const onAdd = () => {
-    setIsAdd(true);
-  };
-
-  const onSaveWord = async () => {
-    const body = {
-      ru: fields.ru,
-      en: fields.en,
-      dictionary_id: dictionary.id
-    };
-    const word = { id: words.length + 1, ru: { name: fields.ru }, en: { name: fields.en } };
-
-    setWords([...words, word]);
-    setIsAdd(false);
-    setFields({ ru: '', en: '' });
-    dispatch(effects.saveWord({ navigation, body }));
-  };
-
-  // todo Проверить правильность валидации. сделать проверку на языки
-  useEffect(() => {
-    setIsValid(fields.ru && fields.en);
-  }, [fields]);
 
   return (
+    //<KeyboardAwareScrollView enableOnAndroid={true} extraScrollHeight={100}>
     <Content>
       <Container>
         {!words.length && <H3 style={{ textAlign: 'center' }}>У вас еще нет слов(</H3>}
 
         <List>
-          <Grid>
             {words.map(item => (
-              <Row style={{ height: 40 }} key={item.id}>
-                <Col>
-                  <Text style={{ textAlign: 'center' }}>{item.ru.name}</Text>
-                </Col>
-                <Col>
-                  <Text style={{ textAlign: 'center' }}>{item.en.name}</Text>
-                </Col>
-              </Row>
+              <ListItem noIndent>
+                <Rows>
+                  <Ru>
+
+                    <Text>{item.en.name}</Text>
+                  </Ru>
+
+                  <En>
+                    <Text>{item.ru.name}</Text>
+                    <Text>{item.ru.name}</Text>
+                    <Text>{item.ru.name}</Text>
+                  </En>
+                </Rows>
+
+                {/*<Remove>*/}
+                {/*  <Button transparent>*/}
+                {/*    <Icon name="trash" />*/}
+                {/*  </Button>*/}
+                {/*</Remove>*/}
+              </ListItem>
+
             ))}
-          </Grid>
         </List>
 
-        {isAdd && (
-          <InputGroup>
-            <Item inlineLabel>
-              <Input placeholder="English" onChangeText={text => onChangeInput(text, 'en')} value={fields.en} />
-            </Item>
-            <Item inlineLabel>
-              <Input placeholder="Русский" onChangeText={text => onChangeInput(text, 'ru')} value={fields.ru} />
-            </Item>
+        <Add>
+          <Button bordered success onPress={openModal}>
+            <Icon name="add" />
+          </Button>
+        </Add>
 
-            <Save>
-              <ButtonLoader success={!!isValid} name="Cохранить" width={130} onPress={onSaveWord} disabled={!isValid} />
-            </Save>
-          </InputGroup>
-        )}
-
-        {!isAdd && (
-          <Add>
-            <Button bordered success onPress={onAdd}>
-              <Icon name="add" />
-            </Button>
-          </Add>
-        )}
+        <AddWord isOpenModal={isOpenModal} closeModal={closeModal} onSaveWord={onSaveWord} />
       </Container>
     </Content>
+    //</KeyboardAvoidingView>
   );
 };
 
 PreviewDictionaryScreen.navigationOptions = ({ navigation }) => ({
   title: navigation.getParam(NAVIGATION_PARAMS.preview_dictionary).name
 });
+
+
+const Rows = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+const Ru = styled.View`
+flex: 0.5;
+align-items: flex-start;
+justify-content: flex-start;
+text-align: left;
+`;
+
+const En = styled.View`
+flex: 0.5;
+`;
+
+const Remove = styled.View`
+  position: absolute;
+  right: 0;
+`;
 
 const Container = styled.View`
   padding: 10px;
@@ -113,15 +107,7 @@ const List = styled.View`
   margin-top: 10px;
 `;
 
-const InputGroup = styled.View``;
-
 const Add = styled.View`
   margin-top: 20px;
-  align-items: center;
-`;
-
-const Save = styled.View`
-  flex: 1;
-  margin-top: 30px;
   align-items: center;
 `;

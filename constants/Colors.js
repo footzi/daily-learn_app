@@ -34,5 +34,4 @@ export const Colors = {
   success: '#5cb85c',
   white: '#ffffff',
   gray: '#ccc'
-}
-
+};

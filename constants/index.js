@@ -9,6 +9,7 @@ export { Colors } from './Colors';
 
 // Screens
 export const SCREENS = {
+  DICTIONARY_TRAINING: 'DictionaryTraining',
   CREATE_DICTIONARY: 'CreateDictionary',
   PREVIEW_DICTIONARY: 'PreviewDictionary',
   SETTINGS_DICTIONARY: 'SettingsDictionary'
@@ -19,13 +20,13 @@ export const NAVIGATION_PARAMS = {
   preview_dictionary: 'preview_dictionary'
 };
 
-
 // Actions
 export const SET_USER = 'SET_USER';
 export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 export const SET_PROCESSING = 'SET_PROCESSING';
 export const SET_AUTH = 'SET_AUTH';
 export const SET_DATA = 'SET_DATA';
+export const SET_HOME_SCREEN = 'SET_HOME_SCREEN';
 
 // Notification
 export const ERROR = 'ERROR';

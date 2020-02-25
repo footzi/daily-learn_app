@@ -32,21 +32,3 @@ const Title = styled.Text`
   font-size: 20px;
   margin-bottom: 20px;
 `;
-
-// return (
-//   <Modal.BottomModal
-//     visible={isOpenModal}
-//     width={1}
-//     onTouchOutside={closeModal}
-//     onSwipeOut={closeModal}
-//     modalTitle={<ModalTitle title={title} />}
-//     modalAnimation={
-//       new SlideAnimation({
-//         initialValue: 0,
-//         slideFrom: 'bottom',
-//         useNativeDriver: true
-//       })
-//     }>
-//     <ModalContent>{children}</ModalContent>
-//   </Modal.BottomModal>
-// );
