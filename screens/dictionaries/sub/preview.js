@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
 import { Text, Button, ListItem, Icon, H3, Content } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-import { NAVIGATION_PARAMS } from '@constants';
-import { useModal } from '@components';
+import { NAVIGATION_PARAMS, Colors } from '@constants';
+import { useModal, Checkbox } from '@components';
 import { AddWord } from '../organism';
 import * as effects from '../effects';
 
@@ -13,13 +13,22 @@ export const PreviewDictionaryScreen = ({ navigation }) => {
   const dictionary = navigation.getParam(NAVIGATION_PARAMS.preview_dictionary);
   const [words, setWords] = useState(dictionary.words || []);
   const [isOpenModal, openModal, closeModal] = useModal();
+  const [isEn, setIsEn] = useState(true);
+  const [isRu, setIsRu] = useState(true);
+  const [isMix, setIsMix] = useState(false);
+
+  const onOnlyRu = () => setIsRu(!isRu);
+  const onOnlyEn = () => setIsEn(!isEn);
+  const onMix = () => setIsMix(!isMix);
 
   const onSaveWord = async fields => {
-    // const body = {
-    //   ru: fields.ru,
-    //   en: fields.en,
-    //   dictionary_id: dictionary.id
-    // };
+    const body = {
+      ru: fields.ru,
+      en: fields.en.map((item) => item.value),
+      dictionary_id: dictionary.id
+    };
+
+    console.log(body);
     //const word = { id: words.length + 1, ru: { name: fields.ru[0] }, en: { name: fields.en } };
 
     //setWords([...words, word]);
@@ -33,31 +42,35 @@ export const PreviewDictionaryScreen = ({ navigation }) => {
       <Container>
         {!words.length && <H3 style={{ textAlign: 'center' }}>У вас еще нет слов(</H3>}
 
-        <List>
-            {words.map(item => (
-              <ListItem noIndent>
-                <Rows>
-                  <Ru>
+        <CheckLine>
+          <Checkbox checked={!isRu} text="только русский" onPress={onOnlyRu} />
+          <Checkbox checked={!isEn} text="только английский" onPress={onOnlyEn} />
+        </CheckLine>
+        <CheckLine>
+          <Checkbox checked={isMix} text="перемешать слова" onPress={onMix} />
+        </CheckLine>
 
-                    <Text>{item.en.name}</Text>
-                  </Ru>
+        {words.map(item => (
+          <Line key={item.id}>
+            <En>{isRu && <Text>{item.en.name}</Text>}</En>
+            <Ru>
+              {isEn && (
+                <>
+                  <Text>{item.ru.name}</Text>
+                  <Text>{item.ru.name}</Text>
+                  <Text>{item.ru.name}</Text>
+                  <Text>{item.ru.name}</Text>
+                </>
+              )}
+            </Ru>
 
-                  <En>
-                    <Text>{item.ru.name}</Text>
-                    <Text>{item.ru.name}</Text>
-                    <Text>{item.ru.name}</Text>
-                  </En>
-                </Rows>
-
-                {/*<Remove>*/}
-                {/*  <Button transparent>*/}
-                {/*    <Icon name="trash" />*/}
-                {/*  </Button>*/}
-                {/*</Remove>*/}
-              </ListItem>
-
-            ))}
-        </List>
+            <Remove>
+              <Button transparent>
+                <Icon name="trash" />
+              </Button>
+            </Remove>
+          </Line>
+        ))}
 
         <Add>
           <Button bordered success onPress={openModal}>
@@ -76,26 +89,33 @@ PreviewDictionaryScreen.navigationOptions = ({ navigation }) => ({
   title: navigation.getParam(NAVIGATION_PARAMS.preview_dictionary).name
 });
 
-
-const Rows = styled.View`
-  flex: 1;
+const CheckLine = styled.View`
+  margin-top: 10px;
   flex-direction: row;
-  justify-content: space-between;
+  flex-wrap: wrap;
 `;
+
+const Line = styled.View`
+  flex-direction: row;
+  border-bottom-width: 1px;
+  border-bottom-color: ${Colors.gray};
+  padding: 10px;
+`;
+
 const Ru = styled.View`
-flex: 0.5;
-align-items: flex-start;
-justify-content: flex-start;
-text-align: left;
+  flex: 1;
+  flex-direction: column;
 `;
 
 const En = styled.View`
-flex: 0.5;
+  flex: 1;
+  flex-direction: column;
 `;
 
 const Remove = styled.View`
   position: absolute;
-  right: 0;
+  top: 0;
+  right: -10px;
 `;
 
 const Container = styled.View`
