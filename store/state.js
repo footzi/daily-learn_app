@@ -5,6 +5,9 @@ export const initState = {
   homeScreen: {
     dictionaries: []
   },
+  dictionariesScreen: {
+    dictionaryWords: []
+  },
   processing: false,
   test: '',
   notification: {

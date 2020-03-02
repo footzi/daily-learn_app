@@ -31,10 +31,27 @@ export const createDictionary = ({ navigation, body, closeModal }) => async (dis
   }
 };
 
-export const saveWord = ({ body }) => async dispatch => {
+export const setDictionaryWords = ({ words }) => dispatch => {
+  dispatch(actions.setDictionaryWords(words));
+};
+
+export const saveWord = ({ body }) => async (dispatch, getState) => {
   dispatch(actions.setProcessing());
 
+  const { dictionariesScreen } = getState();
+  const { dictionaryWords } = dictionariesScreen;
+
+  // dispatch(actions.setProcessing());
+  //
   try {
+    const word = {
+      id: dictionaryWords.length + 1,
+      en: { name: body.en },
+      ru: { name: body.ru.map(item => item.value) }
+    };
+
+    dispatch(actions.setDictionaryWords([...dictionaryWords, word]));
+
     const response = await requestWithToken('post', '/api/words/create', body);
     const { data } = response.data;
 

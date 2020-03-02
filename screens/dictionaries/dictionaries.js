@@ -12,7 +12,7 @@ export const DictionariesScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [isOpenModal, openModal, closeModal] = useModal();
 
-  const onCreate = body => dispatch(effects.createDictionary({ navigation, body, closeModal}));
+  const onCreate = body => dispatch(effects.createDictionary({ navigation, body, closeModal }));
   const onPreview = preview_dictionary => {
     navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { preview_dictionary }); //NAVIGATION_PARAMS.preview_dictionary
   };
@@ -27,7 +27,7 @@ export const DictionariesScreen = ({ navigation }) => {
           </H3>
         )}
 
-        {dictionaries.length && (
+        {dictionaries.length > 0 && (
           <List testID="list">
             {dictionaries.map(item => (
               <ListItem key={item.id} onPress={() => onPreview(item)} noIndent>

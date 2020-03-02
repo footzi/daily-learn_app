@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { Text, Button, ListItem, Icon, H3, Content } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
@@ -9,9 +9,10 @@ import { AddWord } from '../organism';
 import * as effects from '../effects';
 
 export const PreviewDictionaryScreen = ({ navigation }) => {
+  const words = useSelector(state => state.dictionariesScreen.dictionaryWords);
   const dispatch = useDispatch();
+
   const dictionary = navigation.getParam(NAVIGATION_PARAMS.preview_dictionary);
-  const [words, setWords] = useState(dictionary.words || []);
   const [isOpenModal, openModal, closeModal] = useModal();
   const [isEn, setIsEn] = useState(true);
   const [isRu, setIsRu] = useState(true);
@@ -22,19 +23,26 @@ export const PreviewDictionaryScreen = ({ navigation }) => {
   const onMix = () => setIsMix(!isMix);
 
   const onSaveWord = async fields => {
+    //console.log(fields);
     const body = {
       ru: fields.ru,
-      en: fields.en.map((item) => item.value),
+      en: fields.en,
       dictionary_id: dictionary.id
     };
-
-    console.log(body);
+    //
+    // console.log(body);
     //const word = { id: words.length + 1, ru: { name: fields.ru[0] }, en: { name: fields.en } };
 
     //setWords([...words, word]);
     closeModal();
-    //dispatch(effects.saveWord({ navigation, body }));
+    dispatch(effects.saveWord({ body }));
   };
+
+  //console.log(words);
+
+  useEffect(() => {
+    dispatch(effects.setDictionaryWords(dictionary));
+  }, []);
 
   return (
     //<KeyboardAwareScrollView enableOnAndroid={true} extraScrollHeight={100}>
@@ -56,10 +64,9 @@ export const PreviewDictionaryScreen = ({ navigation }) => {
             <Ru>
               {isEn && (
                 <>
-                  <Text>{item.ru.name}</Text>
-                  <Text>{item.ru.name}</Text>
-                  <Text>{item.ru.name}</Text>
-                  <Text>{item.ru.name}</Text>
+                  {item.ru.name.map((name, index) => (
+                    <Text key={index}>{name}</Text>
+                  ))}
                 </>
               )}
             </Ru>

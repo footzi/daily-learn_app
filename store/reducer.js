@@ -1,5 +1,13 @@
 import { initState } from './state';
-import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_AUTH, SET_DATA, SET_HOME_SCREEN } from '@constants';
+import {
+  SET_NOTIFICATION,
+  SET_PROCESSING,
+  SET_USER,
+  SET_AUTH,
+  SET_DATA,
+  SET_HOME_SCREEN,
+  SET_DICTINARY_WORDS
+} from '@constants';
 
 // редьюсеры
 export const reducer = (state = initState, action) => {
@@ -23,6 +31,15 @@ export const reducer = (state = initState, action) => {
       return {
         ...state,
         homeScreen: action.payload
+      };
+    }
+    case SET_DICTINARY_WORDS: {
+      return {
+        ...state,
+        dictionariesScreen: {
+          ...state.dictionariesScreen,
+          dictionaryWords: action.payload
+        }
       };
     }
     case SET_NOTIFICATION:

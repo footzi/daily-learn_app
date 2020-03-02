@@ -1,4 +1,12 @@
-import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_AUTH, SET_DATA, SET_HOME_SCREEN } from '@constants';
+import {
+  SET_NOTIFICATION,
+  SET_PROCESSING,
+  SET_USER,
+  SET_AUTH,
+  SET_DATA,
+  SET_HOME_SCREEN,
+  SET_DICTINARY_WORDS
+} from '@constants';
 
 export const actions = {
   setAuth: () => {
@@ -23,6 +31,8 @@ export const actions = {
     payload: { dictionaries: payload.dictionaries }
   }),
 
+  setDictionaryWords: payload => ({ type: SET_DICTINARY_WORDS, payload }),
+
   setNotification: payload => ({ type: SET_NOTIFICATION, payload }),
   clearNotification: () => ({
     type: SET_NOTIFICATION,
@@ -33,7 +43,5 @@ export const actions = {
   }),
 
   setProcessing: () => ({ type: SET_PROCESSING, payload: true }),
-  removeProcessing: () => ({ type: SET_PROCESSING, payload: false }),
-
-  setTest: payload => ({ type: 'SET_TEST', payload })
+  removeProcessing: () => ({ type: SET_PROCESSING, payload: false })
 };

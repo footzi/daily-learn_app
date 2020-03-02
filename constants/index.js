@@ -27,6 +27,7 @@ export const SET_PROCESSING = 'SET_PROCESSING';
 export const SET_AUTH = 'SET_AUTH';
 export const SET_DATA = 'SET_DATA';
 export const SET_HOME_SCREEN = 'SET_HOME_SCREEN';
+export const SET_DICTINARY_WORDS = 'SET_DICTINARY_WORDS';
 
 // Notification
 export const ERROR = 'ERROR';
