@@ -2,6 +2,7 @@ import { requestWithToken } from '@api';
 import { ERROR } from '@constants';
 import { actions } from '@store';
 import { SCREENS } from '@constants';
+import { shuffleArray } from '@libs';
 import * as commonEffects from '@store/common-effects';
 
 export const createDictionary = ({ navigation, body, closeModal }) => async (dispatch, getState) => {
@@ -31,36 +32,49 @@ export const createDictionary = ({ navigation, body, closeModal }) => async (dis
   }
 };
 
-export const setDictionaryWords = ({ words }) => dispatch => {
+export const setDictionaryWords = words => dispatch => {
   dispatch(actions.setDictionaryWords(words));
 };
 
-export const saveWord = ({ body }) => async (dispatch, getState) => {
+export const saveWord = ({ fields, dictionary }) => async (dispatch, getState) => {
   dispatch(actions.setProcessing());
 
   const { dictionariesScreen } = getState();
   const { dictionaryWords } = dictionariesScreen;
 
-  // dispatch(actions.setProcessing());
-  //
   try {
-    const word = {
-      id: dictionaryWords.length + 1,
-      en: { name: body.en },
-      ru: { name: body.ru.map(item => item.value) }
+    const newWord = {
+      id: dictionaryWords[dictionaryWords.length - 1].id + 1,
+      en: { name: fields.en },
+      ru: { name: fields.ru.map(item => item.value) }
     };
 
-    dispatch(actions.setDictionaryWords([...dictionaryWords, word]));
+    dispatch(actions.setDictionaryWords([...dictionaryWords, newWord]));
+
+    const body = {
+      ru: fields.ru.map(item => item.value).join(','),
+      en: fields.en,
+      dictionary_id: dictionary.id
+    };
 
     const response = await requestWithToken('post', '/api/words/create', body);
     const { data } = response.data;
 
     if (data.success) {
-      dispatch(actions.removeProcessing());
       dispatch(commonEffects.getMainData());
     }
   } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+  } finally {
     dispatch(actions.removeProcessing());
   }
+};
+
+export const setMixDictionaryWords = isMix => (dispatch, getState) => {
+  const { dictionariesScreen } = getState();
+  const { dictionaryWords } = dictionariesScreen;
+
+  const words = isMix ? shuffleArray(dictionaryWords) : dictionaryWords.sort((a, b) => a.id - b.id);
+
+  dispatch(setDictionaryWords(words));
 };

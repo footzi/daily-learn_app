@@ -54,7 +54,7 @@ export const AddWord = ({ isOpenModal, closeModal, onSaveWord }) => {
 
   const onSave = () => {
     onSaveWord(fields);
-    //setFields(initial);
+    setFields(initial);
   };
 
   useEffect(() => {
