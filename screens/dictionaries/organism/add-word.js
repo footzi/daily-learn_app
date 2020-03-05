@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Icon, Input, Item } from 'native-base';
-import styled from 'styled-components/native/dist/styled-components.native.esm';
+import styled from 'styled-components/native';
 import { BottomModal, ButtonLoader } from '@components';
 
 const initial = {

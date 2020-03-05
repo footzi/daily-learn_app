@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { Text, Button, Icon, H3, Content } from 'native-base';
 import { NAVIGATION_PARAMS, Colors } from '@constants';
 import { useModal, Checkbox } from '@components';
-import { AddWord } from '../organism';
+import { AddWord, RemoveWord } from '../organism';
 import * as effects from '../effects';
 import { Loader } from '../../../components/loader';
 
@@ -20,16 +20,27 @@ export const PreviewDictionaryScreen = ({ navigation }) => {
   const [isMix, setIsMix] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const [deletedWord, setDeletedWord] = useState({});
   const [isOpenModal, openModal, closeModal] = useModal();
+  const [isDeleteWordOpenModal, deleteWordOpenModal, deleteWordCloseModal] = useModal();
 
   const onOnlyRu = () => setIsRu(!isRu);
   const onOnlyEn = () => setIsEn(!isEn);
   const onMix = () => setIsMix(!isMix);
   const onDelete = () => setIsDelete(!isDelete);
 
-  const onSaveWord = async fields => {
+  const onSaveWord = fields => {
     closeModal();
     dispatch(effects.saveWord({ fields, dictionary }));
+  };
+
+  const onDeleteWord = item => {
+    setDeletedWord(item);
+    deleteWordOpenModal();
+  };
+
+  const onSubmitDeleteWord = id => {
+    dispatch(effects.removeWord(id));
   };
 
   useEffect(() => {
@@ -49,7 +60,7 @@ export const PreviewDictionaryScreen = ({ navigation }) => {
   }, [isMix]);
 
   if (!isLoaded) {
-    return <Loader />;
+    return null;
   }
 
   return (
@@ -78,11 +89,13 @@ export const PreviewDictionaryScreen = ({ navigation }) => {
               ))}
             </Item>
 
-            <Remove>
-              <Button transparent style={{padding: 0}}>
-                <Icon name="trash" />
-              </Button>
-            </Remove>
+            {!isDelete && (
+              <Remove>
+                <Button transparent onPress={() => onDeleteWord(item)}>
+                  <Icon name="trash" />
+                </Button>
+              </Remove>
+            )}
           </Line>
         ))}
 
@@ -93,6 +106,12 @@ export const PreviewDictionaryScreen = ({ navigation }) => {
         </Add>
 
         <AddWord isOpenModal={isOpenModal} closeModal={closeModal} onSaveWord={onSaveWord} />
+        <RemoveWord
+          word={deletedWord}
+          isOpenModal={isDeleteWordOpenModal}
+          closeModal={deleteWordCloseModal}
+          onDeleteWord={onSubmitDeleteWord}
+        />
       </Container>
     </Content>
     //</KeyboardAvoidingView>
@@ -116,19 +135,25 @@ const Line = styled.View`
   border-bottom-width: 1px;
   border-bottom-color: ${Colors.gray};
   position: relative;
+  padding-left: 10px;
+  padding-right: 10px;
 `;
 
 const Item = styled.View`
   flex: 1;
   flex-direction: column;
   opacity: ${p => (p.isShow ? 1 : 0)};
+  padding-bottom: 10px;
+  padding-top: 10px;
 `;
 
 const Remove = styled.View`
   position: absolute;
   top: 0;
   right: -10px;
-  right: 0;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Container = styled.View`

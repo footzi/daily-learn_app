@@ -78,3 +78,23 @@ export const setMixDictionaryWords = isMix => (dispatch, getState) => {
 
   dispatch(setDictionaryWords(words));
 };
+
+export const removeWord = (id) => async (dispatch, getState) => {
+  dispatch(actions.setProcessing());
+
+  const { dictionariesScreen } = getState();
+  const { dictionaryWords } = dictionariesScreen;
+
+  try {
+    const response = await requestWithToken('delete', '/api/words/delete', { ids: id });
+    const { data } = response.data;
+
+    // if (data.success) {
+    //   dispatch(commonEffects.getMainData());
+    // }
+  } catch (error) {
+    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+  } finally {
+    dispatch(actions.removeProcessing());
+  }
+};
