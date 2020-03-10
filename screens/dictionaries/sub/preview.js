@@ -6,7 +6,6 @@ import { NAVIGATION_PARAMS, Colors } from '@constants';
 import { useModal, Checkbox } from '@components';
 import { AddWord, RemoveWord } from '../organism';
 import * as effects from '../effects';
-import { Loader } from '../../../components/loader';
 
 export const PreviewDictionaryScreen = ({ navigation }) => {
   const { dictionaryWords } = useSelector(state => state.dictionariesScreen);
@@ -29,9 +28,9 @@ export const PreviewDictionaryScreen = ({ navigation }) => {
   const onMix = () => setIsMix(!isMix);
   const onDelete = () => setIsDelete(!isDelete);
 
-  const onSaveWord = fields => {
+  const onSaveWord = async fields => {
+    await dispatch(effects.saveWord({ fields, dictionary }));
     closeModal();
-    dispatch(effects.saveWord({ fields, dictionary }));
   };
 
   const onDeleteWord = item => {
@@ -41,6 +40,7 @@ export const PreviewDictionaryScreen = ({ navigation }) => {
 
   const onSubmitDeleteWord = id => {
     dispatch(effects.removeWord(id));
+    deleteWordCloseModal();
   };
 
   useEffect(() => {

@@ -43,14 +43,6 @@ export const saveWord = ({ fields, dictionary }) => async (dispatch, getState) =
   const { dictionaryWords } = dictionariesScreen;
 
   try {
-    const newWord = {
-      id: dictionaryWords[dictionaryWords.length - 1].id + 1,
-      en: { name: fields.en },
-      ru: { name: fields.ru.map(item => item.value) }
-    };
-
-    dispatch(actions.setDictionaryWords([...dictionaryWords, newWord]));
-
     const body = {
       ru: fields.ru.map(item => item.value).join(','),
       en: fields.en,
@@ -58,11 +50,22 @@ export const saveWord = ({ fields, dictionary }) => async (dispatch, getState) =
     };
 
     const response = await requestWithToken('post', '/api/words/create', body);
-    const { data } = response.data;
+    const { data, error } = response.data;
+    const { success, id } = data;
 
-    if (data.success) {
-      dispatch(commonEffects.getMainData());
+    if (!success) {
+      throw new Error(error);
     }
+
+    const newWord = {
+      id,
+      en: { name: fields.en },
+      ru: { name: fields.ru.map(item => item.value) }
+    };
+
+    dispatch(actions.setDictionaryWords([...dictionaryWords, newWord]));
+    dispatch(commonEffects.getMainData());
+
   } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
   } finally {
@@ -79,22 +82,21 @@ export const setMixDictionaryWords = isMix => (dispatch, getState) => {
   dispatch(setDictionaryWords(words));
 };
 
-export const removeWord = (id) => async (dispatch, getState) => {
-  dispatch(actions.setProcessing());
-
+export const removeWord = id => async (dispatch, getState) => {
   const { dictionariesScreen } = getState();
   const { dictionaryWords } = dictionariesScreen;
 
   try {
+    const updatedWords = dictionaryWords.filter(item => item.id !== id);
+    dispatch(actions.setDictionaryWords(updatedWords));
+
     const response = await requestWithToken('delete', '/api/words/delete', { ids: id });
     const { data } = response.data;
 
-    // if (data.success) {
-    //   dispatch(commonEffects.getMainData());
-    // }
+    if (data.success) {
+      dispatch(commonEffects.getMainData());
+    }
   } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
-  } finally {
-    dispatch(actions.removeProcessing());
   }
 };

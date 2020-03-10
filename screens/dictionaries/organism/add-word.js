@@ -3,12 +3,11 @@ import { Button, Icon, Input, Item } from 'native-base';
 import styled from 'styled-components/native';
 import { BottomModal, ButtonLoader } from '@components';
 
-const initial = {
-  en: '',
-  ru: [{ id: 1, value: '' }]
-};
-
 export const AddWord = ({ isOpenModal, closeModal, onSaveWord }) => {
+  const initial = {
+    en: '',
+    ru: [{ id: 1, value: '' }]
+  };
   const [isValid, setIsValid] = useState(false);
   const [fields, setFields] = useState(initial);
 
@@ -54,21 +53,25 @@ export const AddWord = ({ isOpenModal, closeModal, onSaveWord }) => {
 
   const onSave = () => {
     onSaveWord(fields);
-    setFields(initial);
   };
 
   useEffect(() => {
-    setIsValid(fields.ru && fields.en);
+    const isValid = fields.en && fields.ru.every((item) => !!item.value);
+    setIsValid(isValid);
   }, [fields]);
+
+  useEffect(() => {
+    if (isOpenModal) {
+      setFields(initial);
+    }
+  }, [isOpenModal]);
 
   return (
     <BottomModal isOpenModal={isOpenModal} closeModal={closeModal} title="Добавить слово">
       <Item inlineLabel>
         <Input placeholder="English" onChangeText={text => onChangeInput(text, 'en')} value={fields.en} />
       </Item>
-      <Item inlineLabel>
-        {/*<Input placeholder="Русский" onChangeText={text => onChangeInput(text, 'ru')} value={fields.ru} />*/}
-      </Item>
+      <Item inlineLabel></Item>
       {fields.ru.map(item => (
         <Item key={item.id} inlineLabel>
           <Input
