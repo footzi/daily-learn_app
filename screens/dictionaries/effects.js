@@ -2,7 +2,6 @@ import { requestWithToken } from '@api';
 import { ERROR } from '@constants';
 import { actions } from '@store';
 import { SCREENS } from '@constants';
-import { shuffleArray } from '@libs';
 import * as commonEffects from '@store/common-effects';
 
 export const createDictionary = ({ navigation, body, closeModal }) => async (dispatch, getState) => {
@@ -39,8 +38,8 @@ export const setDictionaryWords = words => dispatch => {
 export const saveWord = ({ fields, dictionary }) => async (dispatch, getState) => {
   dispatch(actions.setProcessing());
 
-  const { dictionariesScreen } = getState();
-  const { dictionaryWords } = dictionariesScreen;
+  // const { dictionariesScreen } = getState();
+  // const { dictionaryWords } = dictionariesScreen;
 
   try {
     const body = {
@@ -51,19 +50,19 @@ export const saveWord = ({ fields, dictionary }) => async (dispatch, getState) =
 
     const response = await requestWithToken('post', '/api/words/create', body);
     const { data, error } = response.data;
-    const { success, id } = data;
+    const { success } = data;
 
     if (!success) {
       throw new Error(error);
     }
 
-    const newWord = {
-      id,
-      en: { name: fields.en },
-      ru: { name: fields.ru.map(item => item.value) }
-    };
-
-    dispatch(actions.setDictionaryWords([...dictionaryWords, newWord]));
+    // const newWord = {
+    //   id,
+    //   en: { name: fields.en },
+    //   ru: { name: fields.ru.map(item => item.value) }
+    // };
+    //
+    // dispatch(actions.setDictionaryWords([...dictionaryWords, newWord]));
     dispatch(commonEffects.getMainData());
 
   } catch (error) {
@@ -73,22 +72,24 @@ export const saveWord = ({ fields, dictionary }) => async (dispatch, getState) =
   }
 };
 
-export const setMixDictionaryWords = isMix => (dispatch, getState) => {
-  const { dictionariesScreen } = getState();
-  const { dictionaryWords } = dictionariesScreen;
-
-  const words = isMix ? shuffleArray(dictionaryWords) : dictionaryWords.sort((a, b) => a.id - b.id);
-
-  dispatch(setDictionaryWords(words));
-};
+// export const setMixDictionaryWords = isMix => (dispatch, getState) => {
+//   const { dictionariesScreen } = getState();
+//   const { dictionaryWords } = dictionariesScreen;
+//
+//   const words = isMix ? shuffleArray(dictionaryWords) : dictionaryWords.sort((a, b) => a.id - b.id);
+//
+//   dispatch(setDictionaryWords(words));
+// };
 
 export const removeWord = id => async (dispatch, getState) => {
-  const { dictionariesScreen } = getState();
-  const { dictionaryWords } = dictionariesScreen;
+  dispatch(actions.setProcessing());
+
+  // const { dictionariesScreen } = getState();
+  // const { dictionaryWords } = dictionariesScreen;
 
   try {
-    const updatedWords = dictionaryWords.filter(item => item.id !== id);
-    dispatch(actions.setDictionaryWords(updatedWords));
+    // const updatedWords = dictionaryWords.filter(item => item.id !== id);
+    // dispatch(actions.setDictionaryWords(updatedWords));
 
     const response = await requestWithToken('delete', '/api/words/delete', { ids: id });
     const { data } = response.data;
@@ -98,5 +99,7 @@ export const removeWord = id => async (dispatch, getState) => {
     }
   } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+  } finally {
+    dispatch(actions.setProcessing());
   }
 };

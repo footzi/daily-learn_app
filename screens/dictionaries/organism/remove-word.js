@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button, Text } from 'native-base';
-import { BottomModal } from '@components';
+import { BottomModal, ButtonLoader } from '@components';
 
 export const RemoveWord = ({ word, isOpenModal, closeModal, onDeleteWord }) => {
   if (!Object.keys(word).length) {
@@ -19,9 +19,7 @@ export const RemoveWord = ({ word, isOpenModal, closeModal, onDeleteWord }) => {
         </Item>
 
         <Item>
-          <Button danger onPress={() => onDeleteWord(word.id)}>
-            <Text style={{ flex: 1, textAlign: 'center' }}>Удалить</Text>
-          </Button>
+          <ButtonLoader name="Удалить" danger onPress={() => onDeleteWord(word.id)} />
         </Item>
       </Buttons>
     </BottomModal>

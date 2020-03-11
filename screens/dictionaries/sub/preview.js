@@ -4,15 +4,21 @@ import styled from 'styled-components/native';
 import { Text, Button, Icon, H3, Content } from 'native-base';
 import { NAVIGATION_PARAMS, Colors } from '@constants';
 import { useModal, Checkbox } from '@components';
+import { shuffleArray } from '@libs';
 import { AddWord, RemoveWord } from '../organism';
 import * as effects from '../effects';
 
 export const PreviewDictionaryScreen = ({ navigation }) => {
-  const { dictionaryWords } = useSelector(state => state.dictionariesScreen);
-  const words = dictionaryWords;
-  const dispatch = useDispatch();
+  //const { dictionaryWords } = useSelector(state => state.dictionariesScreen);
+  //const words = dictionaryWords;
+  const { dictionaries } = useSelector(state => state.data);
 
+  const dispatch = useDispatch();
   const dictionary = navigation.getParam(NAVIGATION_PARAMS.preview_dictionary);
+
+  const currentWords = dictionaries.find(item => item.id === dictionary.id).words;
+
+  const [words, setWords] = useState(currentWords);
 
   const [isEn, setIsEn] = useState(true);
   const [isRu, setIsRu] = useState(true);
@@ -38,30 +44,44 @@ export const PreviewDictionaryScreen = ({ navigation }) => {
     deleteWordOpenModal();
   };
 
-  const onSubmitDeleteWord = id => {
-    dispatch(effects.removeWord(id));
+  const onSubmitDeleteWord = async id => {
+    await dispatch(effects.removeWord(id));
     deleteWordCloseModal();
+    setDeletedWord('');
   };
 
   useEffect(() => {
-    dispatch(effects.setDictionaryWords(dictionary.words));
-    setIsLoaded(true);
+    setWords(currentWords);
+  }, [currentWords]);
 
-    return () => {
-      dispatch(effects.setDictionaryWords([]));
-      setIsLoaded(false);
-    };
-  }, []);
+  React.useLayoutEffect(() => {
+    console.log(navigation);
+    // navigation.setOptions({
+    //   headerRight: () => (
+    //     <Button onPress={() => {}} title="Update count" />
+    //   ),
+    // });
+  }, [navigation]);
+
+  // useEffect(() => {
+  //   dispatch(effects.setDictionaryWords(dictionary.words));
+  //   setIsLoaded(true);
+  //
+  //   return () => {
+  //     dispatch(effects.setDictionaryWords([]));
+  //     setIsLoaded(false);
+  //   };
+  // }, []);
 
   useEffect(() => {
-    if (isLoaded) {
-      dispatch(effects.setMixDictionaryWords(isMix));
-    }
+    const sortedWords = isMix ? shuffleArray([...words]) : [...words].sort((a, b) => a.id - b.id);
+
+    setWords(sortedWords);
   }, [isMix]);
 
-  if (!isLoaded) {
-    return null;
-  }
+  // if (!isLoaded) {
+  //   return null;
+  // }
 
   return (
     //<KeyboardAwareScrollView enableOnAndroid={true} extraScrollHeight={100}>
