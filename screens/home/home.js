@@ -4,6 +4,7 @@ import { Content, ListItem, Text, Button, H3, CheckBox } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
 import { Loader } from '@components';
 import * as effects from './effects';
+import * as commonEffects from '@store/common-effects';
 
 const HomeScreen = ({ navigation }) => {
   const { homeScreen, data, isProcessing } = useSelector(state => state);
@@ -16,10 +17,18 @@ const HomeScreen = ({ navigation }) => {
   const haveSelected = dictionaries.some(item => item.checked);
 
   useEffect(() => {
-    if (data.dictionaries) {
+    dispatch(commonEffects.getMainData());
+  }, []);
+
+  useEffect(() => {
+    if (data && data.dictionaries) {
       dispatch(effects.setDictionaries());
     }
   }, [data]);
+
+  if (!data) {
+    return <Loader />
+  }
 
   return (
     <Content>

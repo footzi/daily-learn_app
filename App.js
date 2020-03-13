@@ -5,7 +5,8 @@ import { Root } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import AppNavigator from './navigation/AppNavigator';
+//import AppNavigator from './navigation/AppNavigator';
+import { Navigation } from './navigation/AppNavigator';
 import Notification from './components/notification';
 
 // const store = configureStore();
@@ -36,7 +37,7 @@ const App = () => {
       <Provider store={store}>
         <Root>
           <Notification />
-          <AppNavigator />
+          <Navigation />
         </Root>
       </Provider>
     );
