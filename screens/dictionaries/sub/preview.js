@@ -1,29 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
+import { Dimensions, Modal, StatusBar } from "react-native";
+import { Header } from 'react-navigation-stack';
 import { Text, Button, Icon, H3, Content } from 'native-base';
-import { NAVIGATION_PARAMS, Colors } from '@constants';
+import { Colors } from '@constants';
 import { useModal, Checkbox } from '@components';
 import { shuffleArray } from '@libs';
 import { AddWord, RemoveWord } from '../organism';
 import * as effects from '../effects';
 
-export const PreviewDictionaryScreen = ({ navigation }) => {
-  //const { dictionaryWords } = useSelector(state => state.dictionariesScreen);
-  //const words = dictionaryWords;
+export const PreviewDictionaryScreen = ({ navigation, route }) => {
   const { dictionaries } = useSelector(state => state.data);
-
   const dispatch = useDispatch();
-  const dictionary = navigation.getParam(NAVIGATION_PARAMS.preview_dictionary);
 
-  const currentWords = dictionaries.find(item => item.id === dictionary.id).words;
+  const { preview_dictionary } = route.params;
+  const currentWords = dictionaries.find(item => item.id === preview_dictionary.id).words;
 
   const [words, setWords] = useState(currentWords);
-
   const [isEn, setIsEn] = useState(true);
   const [isRu, setIsRu] = useState(true);
   const [isMix, setIsMix] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [deletedWord, setDeletedWord] = useState({});
   const [isOpenModal, openModal, closeModal] = useModal();
@@ -35,7 +32,7 @@ export const PreviewDictionaryScreen = ({ navigation }) => {
   const onDelete = () => setIsDelete(!isDelete);
 
   const onSaveWord = async fields => {
-    await dispatch(effects.saveWord({ fields, dictionary }));
+    await dispatch(effects.saveWord({ fields, preview_dictionary }));
     closeModal();
   };
 
@@ -54,34 +51,47 @@ export const PreviewDictionaryScreen = ({ navigation }) => {
     setWords(currentWords);
   }, [currentWords]);
 
-  React.useLayoutEffect(() => {
-    console.log(navigation);
-    // navigation.setOptions({
-    //   headerRight: () => (
-    //     <Button onPress={() => {}} title="Update count" />
-    //   ),
-    // });
-  }, [navigation]);
+  const [isOpen, setIsOpen ] = useState(false);
 
-  // useEffect(() => {
-  //   dispatch(effects.setDictionaryWords(dictionary.words));
-  //   setIsLoaded(true);
-  //
-  //   return () => {
-  //     dispatch(effects.setDictionaryWords([]));
-  //     setIsLoaded(false);
-  //   };
-  // }, []);
+  React.useLayoutEffect(() => {
+
+    console.log(Header.HEIGHT);
+    navigation.setOptions({
+      title: preview_dictionary.name,
+      headerRight: () => (
+        <Button transparent>
+          <Icon name="md-menu" />
+
+          <Modal transparent>
+            <Test>
+              <CheckLine style={{marginBottom: 10}}>
+                <Checkbox checked={!isRu} text="только русский" onPress={onOnlyRu} />
+              </CheckLine>
+
+              <CheckLine style={{marginBottom: 10}}>
+                <Checkbox checked={!isEn} text="только английский" onPress={onOnlyEn} />
+              </CheckLine>
+              <CheckLine style={{marginBottom: 10}}>
+
+                <Checkbox checked={isMix} text="перемешать слова" onPress={onMix} />
+              </CheckLine>
+              <CheckLine>
+
+                <Checkbox checked={isDelete} text="удалить слова" onPress={onDelete} />
+              </CheckLine>
+            </Test>
+
+          </Modal>
+        </Button>
+      )
+    });
+  }, [navigation]);
 
   useEffect(() => {
     const sortedWords = isMix ? shuffleArray([...words]) : [...words].sort((a, b) => a.id - b.id);
 
     setWords(sortedWords);
   }, [isMix]);
-
-  // if (!isLoaded) {
-  //   return null;
-  // }
 
   return (
     //<KeyboardAwareScrollView enableOnAndroid={true} extraScrollHeight={100}>
@@ -90,12 +100,8 @@ export const PreviewDictionaryScreen = ({ navigation }) => {
         {!words.length && <H3 style={{ textAlign: 'center' }}>У вас еще нет слов(</H3>}
 
         <CheckLine>
-          <Checkbox checked={!isRu} text="только русский" onPress={onOnlyRu} />
-          <Checkbox checked={!isEn} text="только английский" onPress={onOnlyEn} />
         </CheckLine>
         <CheckLine>
-          <Checkbox checked={isMix} text="перемешать слова" onPress={onMix} />
-          <Checkbox checked={isDelete} text="удалить слова" onPress={onDelete} />
         </CheckLine>
 
         {words.map(item => (
@@ -138,12 +144,36 @@ export const PreviewDictionaryScreen = ({ navigation }) => {
   );
 };
 
-PreviewDictionaryScreen.navigationOptions = ({ navigation }) => ({
-  title: navigation.getParam(NAVIGATION_PARAMS.preview_dictionary).name
-});
+const Cont = styled.View`
+  bottom: 0;
+  position: relative;
+
+`;
+const Wrapper = styled.View`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 100;
+`;
+
+const Test = styled.View`
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 250px;
+  background-color: white;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-shadow: 10px 5px 5px black;
+  z-index: 1000;
+`;
+
+const C = styled.View`
+  height: 100px;
+`;
 
 const CheckLine = styled.View`
-  margin-top: 10px;
   flex-direction: row;
   flex-wrap: wrap;
 `;
