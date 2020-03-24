@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { useSelector, useDispatch } from 'react-redux';
-import { Text, Content, Button, List, ListItem, Icon, H3 } from 'native-base';
+import { Text, Content, Button, List, ListItem, Icon } from 'native-base';
 import { SCREENS } from '@constants';
-import { BottomModal, useModal } from '@components';
+import { Title, BottomModal, useModal } from '@components';
 import { CreateDict } from './organism';
 import * as effects from './effects';
 
@@ -21,10 +21,10 @@ export const DictionariesScreen = ({ navigation }) => {
   return (
     <Content>
       <Container>
-        {!dictionaries.length && (
-          <H3 style={{ textAlign: 'center' }} testID="empty-title">
-            У вас еще нет словаря(
-          </H3>
+        {dictionaries.length ? (
+          <Title>Ваши словари:</Title>
+        ) : (
+          <Title testID="empty-title">У вас еще нет словаря(</Title>
         )}
 
         {dictionaries.length > 0 && (
@@ -67,7 +67,3 @@ const Create = styled.View`
   flex: 1;
   align-items: center;
 `;
-
-DictionariesScreen.navigationOptions = {
-  title: 'Словари'
-};

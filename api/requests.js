@@ -26,17 +26,12 @@ export const requestWithToken = async (method = 'get', url, body) => {
   const headers = { Authorization: token };
   const data = body ? createFormData(body) : '';
 
-  try {
-    return await axios({
-      method,
-      url: `${SETTINGS.host}${url}`,
-      headers,
-      data
-    });
-  } catch (err) {
-    const { error } = err.response.data;
-    throw error;
-  }
+  return axios({
+    method,
+    url: `${SETTINGS.host}${url}`,
+    headers,
+    data
+  });
 };
 
 const refreshTokens = async () => {

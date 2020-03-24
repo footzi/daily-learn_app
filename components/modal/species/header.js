@@ -19,7 +19,8 @@ export const HeaderModal = ({ isOpenModal = false, closeModal = () => {}, childr
 const View = styled.View`
   position: absolute;
   top: 0;
-  right: 0;
+  margin-top: 30px;
+  right: -18px;
   width: 250px;
   background-color: white;
   padding: 10px;

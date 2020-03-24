@@ -29,12 +29,10 @@ export const SignUpScreen = ({ navigation }) => {
       password: fields.password
     };
 
-    dispatch(toSignUp(navigation, body));
+    dispatch(toSignUp(body));
   };
 
-  const onSignIn = () => {
-    navigation.navigate('SignIn');
-  };
+  const onSignIn = () => navigation.navigate('SignIn');
 
   useEffect(() => {
     const isPasswordsMatch = fields.password === fields.password2;

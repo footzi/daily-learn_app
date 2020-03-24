@@ -24,7 +24,7 @@ export const actions = {
   },
 
   setData: payload => ({ type: SET_DATA, payload }),
-  clearData: () => ({ type: SET_DATA, payload: null }),
+  clearData: () => ({ type: SET_DATA, payload: {} }),
 
   setHomeScreen: payload => ({
     type: SET_HOME_SCREEN,

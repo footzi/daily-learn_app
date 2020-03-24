@@ -20,12 +20,10 @@ export const SignInScreen = ({ navigation }) => {
       password: fields.password
     };
 
-    dispatch(toSignIn(navigation, body));
+    dispatch(toSignIn(body));
   };
 
-  const onSignUp = () => {
-    navigation.navigate('SignUp');
-  };
+  const onSignUp = () => navigation.navigate('SignUp');
 
   const onChange = (text, name) => {
     setFields({

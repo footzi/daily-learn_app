@@ -1,26 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { Dimensions, StatusBar, View } from 'react-native';
-import { Header } from 'react-navigation-stack';
 import { Text, Button, Icon, H3, Content } from 'native-base';
 import { Colors } from '@constants';
 import { useModal, HeaderModal, Checkbox } from '@components';
 import { shuffleArray } from '@libs';
 import { AddWord, RemoveWord } from '../organism';
+import { normalizePreviewWords } from '../normalize';
 import * as effects from '../effects';
-import Modal from 'react-native-modal';
 
 export const PreviewDictionaryScreen = ({ navigation, route }) => {
   const { dictionaries } = useSelector(state => state.data);
   const dispatch = useDispatch();
 
   const { preview_dictionary } = route.params;
-  const currentWords = dictionaries.find(item => item.id === preview_dictionary.id).words;
 
-
-  const [isTest, setIsTest] = useState(false);
-  const [words, setWords] = useState(currentWords);
+  const [words, setWords] = useState([]);
   const [isEn, setIsEn] = useState(true);
   const [isRu, setIsRu] = useState(true);
   const [isMix, setIsMix] = useState(false);
@@ -35,18 +30,6 @@ export const PreviewDictionaryScreen = ({ navigation, route }) => {
   const onMix = () => setIsMix(!isMix);
   const onDelete = () => setIsDelete(!isDelete);
 
-  const onToggle = () => {
-    if (isTest) {
-      console.log('truee');
-      setIsTest(false)
-    } else {
-      console.log('faalse');
-      setIsTest(true)
-    }
-
-    console.log(isTest);
-  };
-
   const onSaveWord = async fields => {
     await dispatch(effects.saveWord({ fields, preview_dictionary }));
     closeModal();
@@ -59,37 +42,39 @@ export const PreviewDictionaryScreen = ({ navigation, route }) => {
 
   const onSubmitDeleteWord = async id => {
     await dispatch(effects.removeWord(id));
-    deleteWordCloseModal();
     setDeletedWord('');
+    deleteWordCloseModal();
   };
 
   useEffect(() => {
+    const dictionaryWords = dictionaries.find(item => item.id === preview_dictionary.id).words;
+    const currentWords = normalizePreviewWords(dictionaryWords);
+
     setWords(currentWords);
-  }, [currentWords]);
+    
+    console.log(currentWords);
+  }, [dictionaries]);
 
-
-
-  useEffect(() => {
-    console.log(isTest, 'set');
-  }, [isTest])
-
-
-  React.useEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       title: preview_dictionary.name,
       headerRight: () => (
-          <Button transparent onPress={headerOpenModal}>
-            {isHeaderOpenModal ? <Icon name="md-close" /> : <Icon name="md-menu" />}
-          </Button>
+        <Button transparent onPress={headerOpenModal}>
+          {isHeaderOpenModal ? <Icon name="md-close" /> : <Icon name="md-menu" />}
+        </Button>
       )
     });
   }, [navigation, isHeaderOpenModal]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const sortedWords = isMix ? shuffleArray([...words]) : [...words].sort((a, b) => a.id - b.id);
 
     setWords(sortedWords);
   }, [isMix]);
+
+  useLayoutEffect(() => {
+    if (isDelete) headerCloseModal();
+  }, [isDelete]);
 
   return (
     //<KeyboardAwareScrollView enableOnAndroid={true} extraScrollHeight={100}>
@@ -99,17 +84,17 @@ export const PreviewDictionaryScreen = ({ navigation, route }) => {
           {!words.length && <H3 style={{ textAlign: 'center' }}>У вас еще нет слов(</H3>}
 
           {words.map(item => (
-            <Line key={item.id}>
+            <Line key={item.groupId}>
               <Item isShow={isRu}>
-                <Text>{item.en.name}</Text>
+                <Text>{item.name}</Text>
               </Item>
               <Item isShow={isEn}>
-                {item.ru.name.map((name, index) => (
+                {item.translate.map((name, index) => (
                   <Text key={index}>{name}</Text>
                 ))}
               </Item>
 
-              {!isDelete && (
+              {isDelete && (
                 <Remove>
                   <Button transparent onPress={() => onDeleteWord(item)}>
                     <Icon name="trash" />
@@ -133,72 +118,25 @@ export const PreviewDictionaryScreen = ({ navigation, route }) => {
             onDeleteWord={onSubmitDeleteWord}
           />
           <HeaderModal isOpenModal={isHeaderOpenModal} closeModal={headerCloseModal}>
-              <CheckLine style={{ marginBottom: 10 }}>
-                <Checkbox checked={!isRu} text="только русский" onPress={onOnlyRu} />
-              </CheckLine>
-
-              <CheckLine style={{ marginBottom: 10 }}>
-                <Checkbox checked={!isEn} text="только английский" onPress={onOnlyEn} />
-              </CheckLine>
-              <CheckLine style={{ marginBottom: 10 }}>
-                <Checkbox checked={isMix} text="перемешать слова" onPress={onMix} />
-              </CheckLine>
-              <CheckLine>
-                <Checkbox checked={isDelete} text="удалить слова" onPress={onDelete} />
-              </CheckLine>
+            <CheckLine style={{ marginBottom: 10 }}>
+              <Checkbox checked={!isRu} text="только русский" onPress={onOnlyRu} />
+            </CheckLine>
+            <CheckLine style={{ marginBottom: 10 }}>
+              <Checkbox checked={!isEn} text="только английский" onPress={onOnlyEn} />
+            </CheckLine>
+            <CheckLine style={{ marginBottom: 10 }}>
+              <Checkbox checked={isMix} text="перемешать слова" onPress={onMix} />
+            </CheckLine>
+            <CheckLine>
+              <Checkbox checked={isDelete} text="удалить слова" onPress={onDelete} />
+            </CheckLine>
           </HeaderModal>
         </Container>
       </Content>
-        {/*<Modal isVisible={isTest}*/}
-        {/*       onSwipeComplete={onToggle}*/}
-        {/*       onBackdropPress={onToggle}*/}
-        {/*       backdropColor='transparent'*/}
-        {/*       animationIn='slideInRight'*/}
-        {/*       animationOut='slideInLeft'*/}
-        {/*       useNativeDriver={true}>*/}
-        {/*  <Test>*/}
-        {/*  <CheckLine style={{ marginBottom: 10 }}>*/}
-        {/*    <Checkbox checked={!isRu} text="только русский" onPress={onOnlyRu} />*/}
-        {/*  </CheckLine>*/}
-
-        {/*  <CheckLine style={{ marginBottom: 10 }}>*/}
-        {/*    <Checkbox checked={!isEn} text="только английский" onPress={onOnlyEn} />*/}
-        {/*  </CheckLine>*/}
-        {/*  <CheckLine style={{ marginBottom: 10 }}>*/}
-        {/*    <Checkbox checked={isMix} text="перемешать слова" onPress={onMix} />*/}
-        {/*  </CheckLine>*/}
-        {/*  <CheckLine>*/}
-        {/*    <Checkbox checked={isDelete} text="удалить слова" onPress={onDelete} />*/}
-        {/*  </CheckLine>*/}
-        {/*  </Test>*/}
-        {/*</Modal>*/}
     </>
     //</KeyboardAvoidingView>
   );
 };
-
-const Cont = styled.View`
-  bottom: 0;
-  position: relative;
-`;
-const Wrapper = styled.View`
-  position: absolute;
-  top: 0;
-  right: 0;
-   elevation: 8;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-`;
-
-
-
-
-
-const C = styled.View`
-  height: 100px;
-`;
 
 const CheckLine = styled.View`
   flex-direction: row;

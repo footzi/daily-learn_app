@@ -3,7 +3,7 @@ import { actions } from '@store';
 import { LocalStorage, getErrorMessage } from '@libs';
 import { TOKENS_LS, USER_LS, ERROR } from '@constants';
 
-export const toSignIn = (navigation = {}, body = {}) => async dispatch => {
+export const toSignIn = (body = {}) => async dispatch => {
   dispatch(actions.setProcessing());
 
   try {
@@ -12,8 +12,6 @@ export const toSignIn = (navigation = {}, body = {}) => async dispatch => {
     const { user, tokens } = data;
 
     if (user.id && tokens) {
-      navigation.navigate('Start');
-
       dispatch(actions.setUser(user));
       dispatch(actions.setAuth());
 

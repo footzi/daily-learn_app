@@ -7,11 +7,11 @@ import Statistics from './organism/statistics';
 import * as effects from '../effects';
 import { createWords, getNext } from './helpers';
 
-export const DictionaryTrainingScreen = ({ navigation = {} }) => {
+export const DictionaryTrainingScreen = ({ navigation = {}, route }) => {
   const allDictionaries = useSelector(state => state.data.dictionaries);
   const dispatch = useDispatch();
 
-  const selectedDictionaries = navigation.getParam('selectedDictionaries') || [];
+  const { selectedDictionaries } = route.params || [];
   const dictionaries = allDictionaries.filter(item => selectedDictionaries.includes(item.id));
 
   const [words, updateWords] = useState(createWords(dictionaries));

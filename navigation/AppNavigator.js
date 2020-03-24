@@ -1,25 +1,26 @@
-// import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import * as React from 'react';
-import { AuthScreen, SignUpScreen, SignInScreen, StartScreen } from '../screens';
-import HomeScreen from '../screens/home';
-import { DictionaryTrainingScreen } from '../screens/training';
-
-import { DictionariesScreen } from '../screens/dictionaries';
-import CreateDictionaryScreen from '../screens/dictionaries/sub/create';
-import { PreviewDictionaryScreen } from '../screens/dictionaries/sub/preview';
-import SettingsDictionaryScreen from '../screens/dictionaries/sub/settings';
+import React, { useEffect } from 'react';
+import { Platform } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {
+  SignUpScreen,
+  SignInScreen,
+  HomeScreen,
+  DictionaryTrainingScreen,
+  DictionariesScreen,
+  PreviewDictionaryScreen,
+  SettingsDictionaryScreen,
+  SettingsScreen
+} from '../screens';
+import TabBarIcon from '../components/TabBarIcon';
+import * as commonEffects from '@store/common-effects';
 
 //import { DictionariesScreen } from '../screens/dictionaries';
 
-import { createStackNavigator } from '@react-navigation/stack';
 // import tabNavigator from './MainTabNavigator';
 // const AuthStack = createStackNavigator({ SignIn: SignInScreen });
-
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import SettingsScreen from '../screens/settings';
-import TabBarIcon from '../components/TabBarIcon';
-import { Platform } from 'react-native';
 
 // export default createAppContainer(
 //   createSwitchNavigator({
@@ -39,6 +40,7 @@ import { Platform } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
+const AppStack = createStackNavigator();
 const HomeStack = createStackNavigator();
 const DictionaryStack = createStackNavigator();
 
@@ -49,7 +51,9 @@ const HomeStackScreen = () => {
       <HomeStack.Screen
         name="DictionaryTraining"
         component={DictionaryTrainingScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerTitle: 'Тренировка'
+        }}
       />
     </HomeStack.Navigator>
   );
@@ -58,8 +62,7 @@ const HomeStackScreen = () => {
 const DictionaryStackScreen = () => {
   return (
     <DictionaryStack.Navigator>
-      <DictionaryStack.Screen name="Dictionary" component={DictionariesScreen} />
-      <DictionaryStack.Screen name="CreateDictionary" component={CreateDictionaryScreen} />
+      <DictionaryStack.Screen name="Dictionary" component={DictionariesScreen} options={{ headerShown: false }} />
       <DictionaryStack.Screen name="PreviewDictionary" component={PreviewDictionaryScreen} />
       <DictionaryStack.Screen name="SettingsDictionary" component={SettingsDictionaryScreen} />
     </DictionaryStack.Navigator>
@@ -96,30 +99,29 @@ const Main = () => {
   );
 };
 
-const TStack = createStackNavigator();
+export const Navigation = () => {
+  const state = useSelector(state => state);
+  const { auth } = state;
+  const dispatch = useDispatch();
 
-// const getAuth = async () => {
-//   const isAuth = await LocalStorage.has(TOKENS_LS);
-//   const user = await LocalStorage.get(USER_LS);
-//
-//   return isAuth
-// }
+  useEffect(() => {
+    dispatch(commonEffects.checkInitAuth());
+  }, []);
 
-const isAuth = true;
-
-export const Navigation = () => (
-  <NavigationContainer>
-    <TStack.Navigator>
-      {isAuth ? (
-        <>
-          <TStack.Screen name="Main" component={Main} options={{ headerShown: false }} />
-        </>
-      ) : (
-        <>
-          <TStack.Screen name="SignIn" component={SignInScreen} />
-          <TStack.Screen name="SignUp" component={SignUpScreen} />
-        </>
-      )}
-    </TStack.Navigator>
-  </NavigationContainer>
-);
+  return (
+    <NavigationContainer>
+      <AppStack.Navigator>
+        {auth ? (
+          <>
+            <AppStack.Screen name="Main" component={Main} options={{ headerShown: false }} />
+          </>
+        ) : (
+          <>
+            <AppStack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
+            <AppStack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
+          </>
+        )}
+      </AppStack.Navigator>
+    </NavigationContainer>
+  );
+};

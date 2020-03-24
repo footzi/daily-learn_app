@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { Text } from 'native-base';
 
-const SettingsDictionaryScreen = () => {
+export const SettingsDictionaryScreen = () => {
   return (
     <Container>
       <Text>Здесь пока ничего нет :(</Text>
@@ -13,9 +13,3 @@ const SettingsDictionaryScreen = () => {
 const Container = styled.View`
   padding: 10px;
 `;
-
-SettingsDictionaryScreen.navigationOptions = {
-  title: 'Настройки'
-};
-
-export default SettingsDictionaryScreen;

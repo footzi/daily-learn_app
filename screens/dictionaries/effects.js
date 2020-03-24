@@ -30,25 +30,23 @@ export const createDictionary = ({ navigation, body, closeModal }) => async (dis
     dispatch(actions.removeProcessing());
   }
 };
+//
+// export const setDictionaryWords = words => dispatch => {
+//   dispatch(actions.setDictionaryWords(words));
+// };
 
-export const setDictionaryWords = words => dispatch => {
-  dispatch(actions.setDictionaryWords(words));
-};
-
-export const saveWord = ({ fields, dictionary }) => async (dispatch, getState) => {
+export const saveWord = ({ fields, preview_dictionary }) => async (dispatch) => {
   dispatch(actions.setProcessing());
-
-  // const { dictionariesScreen } = getState();
-  // const { dictionaryWords } = dictionariesScreen;
 
   try {
     const body = {
-      ru: fields.ru.map(item => item.value).join(','),
-      en: fields.en,
-      dictionary_id: dictionary.id
+      name: JSON.stringify([fields.name]),
+      translate: JSON.stringify(fields.translate.map(item => item.value)),
+      dictionary_id: preview_dictionary.id
     };
 
     const response = await requestWithToken('post', '/api/words/create', body);
+
     const { data, error } = response.data;
     const { success } = data;
 
@@ -56,15 +54,7 @@ export const saveWord = ({ fields, dictionary }) => async (dispatch, getState) =
       throw new Error(error);
     }
 
-    // const newWord = {
-    //   id,
-    //   en: { name: fields.en },
-    //   ru: { name: fields.ru.map(item => item.value) }
-    // };
-    //
-    // dispatch(actions.setDictionaryWords([...dictionaryWords, newWord]));
     dispatch(commonEffects.getMainData());
-
   } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
   } finally {
