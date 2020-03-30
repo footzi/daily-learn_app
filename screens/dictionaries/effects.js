@@ -30,12 +30,8 @@ export const createDictionary = ({ navigation, body, closeModal }) => async (dis
     dispatch(actions.removeProcessing());
   }
 };
-//
-// export const setDictionaryWords = words => dispatch => {
-//   dispatch(actions.setDictionaryWords(words));
-// };
 
-export const saveWord = ({ fields, preview_dictionary }) => async (dispatch) => {
+export const saveWord = ({ fields, preview_dictionary }) => async dispatch => {
   dispatch(actions.setProcessing());
 
   try {
@@ -62,26 +58,11 @@ export const saveWord = ({ fields, preview_dictionary }) => async (dispatch) => 
   }
 };
 
-// export const setMixDictionaryWords = isMix => (dispatch, getState) => {
-//   const { dictionariesScreen } = getState();
-//   const { dictionaryWords } = dictionariesScreen;
-//
-//   const words = isMix ? shuffleArray(dictionaryWords) : dictionaryWords.sort((a, b) => a.id - b.id);
-//
-//   dispatch(setDictionaryWords(words));
-// };
-
-export const removeWord = id => async (dispatch, getState) => {
+export const removeWord = ids => async dispatch => {
   dispatch(actions.setProcessing());
 
-  // const { dictionariesScreen } = getState();
-  // const { dictionaryWords } = dictionariesScreen;
-
   try {
-    // const updatedWords = dictionaryWords.filter(item => item.id !== id);
-    // dispatch(actions.setDictionaryWords(updatedWords));
-
-    const response = await requestWithToken('delete', '/api/words/delete', { ids: id });
+    const response = await requestWithToken('delete', '/api/words/delete', { ids: JSON.stringify(ids) });
     const { data } = response.data;
 
     if (data.success) {

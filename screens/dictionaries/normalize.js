@@ -1,23 +1,23 @@
 export const normalizePreviewWords = words => {
-  const result = [];
+  return words.reduce((acc, current) => {
+    const addedItem = acc.find(item => current.groupId === item.groupId);
 
-  words.forEach(word => {
-    const isAdded = result.find(item => word.groupId === item.groupId);
+    const setTranslate = ({ id, translate, count }) => ({ id, translate, count });
 
-    if (isAdded) {
-      isAdded.translate = [...isAdded.translate, word.translate];
-      isAdded.count = [...isAdded.count, word.count];
-      isAdded.ids = [...isAdded.ids, word.id];
-    } else {
-      word.translate = [word.translate];
-      word.count = [word.count];
-      word.ids = [word.id];
+    if (!addedItem) {
+      const item = {
+        groupId: current.groupId,
+        name: current.name,
+        translates: [setTranslate(current)]
+      };
 
-      delete word.id;
-
-      result.push(word);
+      return [...acc, item];
     }
-  });
 
-  return result;
+    if (addedItem) {
+      addedItem.translates = [...addedItem.translates, setTranslate(current)];
+
+      return acc;
+    }
+  }, []);
 };

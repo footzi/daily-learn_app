@@ -40,8 +40,10 @@ export const PreviewDictionaryScreen = ({ navigation, route }) => {
     deleteWordOpenModal();
   };
 
-  const onSubmitDeleteWord = async id => {
-    await dispatch(effects.removeWord(id));
+  const onSubmitDeleteWord = async () => {
+    const ids = deletedWord.translates.map(item => item.id);
+
+    await dispatch(effects.removeWord(ids));
     setDeletedWord('');
     deleteWordCloseModal();
   };
@@ -51,8 +53,6 @@ export const PreviewDictionaryScreen = ({ navigation, route }) => {
     const currentWords = normalizePreviewWords(dictionaryWords);
 
     setWords(currentWords);
-    
-    console.log(currentWords);
   }, [dictionaries]);
 
   useLayoutEffect(() => {
@@ -60,7 +60,11 @@ export const PreviewDictionaryScreen = ({ navigation, route }) => {
       title: preview_dictionary.name,
       headerRight: () => (
         <Button transparent onPress={headerOpenModal}>
-          {isHeaderOpenModal ? <Icon name="md-close" /> : <Icon name="md-menu" />}
+          {isHeaderOpenModal ? (
+            <Icon name="md-close" style={{ color: Colors.black }} />
+          ) : (
+            <Icon name="md-menu" style={{ color: Colors.black }} />
+          )}
         </Button>
       )
     });
@@ -89,8 +93,8 @@ export const PreviewDictionaryScreen = ({ navigation, route }) => {
                 <Text>{item.name}</Text>
               </Item>
               <Item isShow={isEn}>
-                {item.translate.map((name, index) => (
-                  <Text key={index}>{name}</Text>
+                {item.translates.map(({ id, translate }) => (
+                  <Text key={id}>{translate}</Text>
                 ))}
               </Item>
 
