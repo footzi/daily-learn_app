@@ -10,29 +10,61 @@ export const createWords = dictionaries => {
     return result;
   }
 
-  dictionaries.forEach(item => {
-    item.words.forEach(word => {
-      const { id, en, ru } = word;
+  dictionaries.forEach(dictionary => {
+    dictionary.words.forEach(word => {
+      const { id, groupId, name, translate, count } = word;
+
+      const translates = dictionary.words.filter(item => item.groupId === groupId).map(item => item.translate);
 
       result.push({
         id,
-        id_unique: id + '_en',
-        lang: 'en',
-        question: en.name,
-        answer: ru.name,
-        count: en.count,
-        isShow: en.count < SETTINGS.attempt
+        // uid: Date.now() + id,
+        type: 'name',
+        question: name,
+        answers: translates,
+        count,
+        isShow: count < SETTINGS.attempt
       });
 
       result.push({
-        id: id,
-        id_unique: id + '_ru',
-        lang: 'ru',
-        question: ru.name,
-        answer: en.name,
-        count: ru.count,
-        isShow: ru.count < SETTINGS.attempt
+        id,
+        // uid: Date.now() + id,
+        type: 'translate',
+        question: translate,
+        answers: [name],
+        count,
+        isShow: count < SETTINGS.attempt
       });
+
+      // result.push({
+      //   id: id,
+      //   id_unique: id + '_ru',
+      //   lang: 'ru',
+      //   question: ru.name,
+      //   answer: en.name,
+      //   count: ru.count,
+      //   isShow: ru.count < SETTINGS.attempt
+      // });
+
+      // result.push({
+      //   id,
+      //   id_unique: id + '_en',
+      //   lang: 'en',
+      //   question: en.name,
+      //   answer: ru.name,
+      //   count: en.count,
+      //   isShow: en.count < SETTINGS.attempt
+      // });
+      //
+      // result.push({
+      //   id: id,
+      //   id_unique: id + '_ru',
+      //   lang: 'ru',
+      //   question: ru.name,
+      //   answer: en.name,
+      //   count: ru.count,
+      //   isShow: ru.count < SETTINGS.attempt
+      // });
     });
   });
 

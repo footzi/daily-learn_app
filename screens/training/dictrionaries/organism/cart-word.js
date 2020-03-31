@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
-import { Card, Icon, Item, H3, Input, Button, Text } from 'native-base';
+import { Card, Item, H3, Input, Button, Text } from 'native-base';
 import { ProgressBar } from '@components';
 import { SETTINGS } from '@constants';
 
@@ -9,8 +9,9 @@ export const CartWord = ({ word, onRight, onWrong, onFinished }) => {
   const [isNotRemember, setIsNotRemember] = useState(false);
   const [isWrong, setIsWrong] = useState(false);
 
-  const isCheck = word.answer.toLowerCase() === field.toLowerCase();
+  // const isCheck = word.answer.toLowerCase() === field.toLowerCase();
 
+  const isCheck = true;
   const onChange = text => setField(text);
   const onNotRemember = () => setIsNotRemember(true);
   const onAnswer = () => (isCheck ? onRight() : setIsWrong(true));
@@ -26,7 +27,7 @@ export const CartWord = ({ word, onRight, onWrong, onFinished }) => {
               <Answer>
                 <Item>
                   <Input
-                    placeholder={word.lang === 'en' ? 'Ответь на русском' : 'English please'}
+                    placeholder={word.type === 'translate' ? 'Ответь на русском' : 'English please'}
                     onChangeText={onChange}
                     value={field}
                     autoFocus={true}
@@ -43,7 +44,7 @@ export const CartWord = ({ word, onRight, onWrong, onFinished }) => {
               </NotRemember>
             </Ask>
           )}
-          {(isNotRemember || isWrong) && <RightAnswer isWrong={isWrong}>{word.answer}</RightAnswer>}
+          {(isNotRemember || isWrong) && <RightAnswer isWrong={isWrong}>123</RightAnswer>}
         </AskContainer>
         <Actions>
           {!isNotRemember && !isWrong && (

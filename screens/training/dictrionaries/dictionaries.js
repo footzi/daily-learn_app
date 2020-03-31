@@ -7,7 +7,7 @@ import Statistics from './organism/statistics';
 import * as effects from '../effects';
 import { createWords, getNext } from './helpers';
 
-export const DictionaryTrainingScreen = ({ navigation = {}, route }) => {
+export const DictionaryTrainingScreen = ({ route }) => {
   const allDictionaries = useSelector(state => state.data.dictionaries);
   const dispatch = useDispatch();
 
@@ -16,26 +16,28 @@ export const DictionaryTrainingScreen = ({ navigation = {}, route }) => {
 
   const [words, updateWords] = useState(createWords(dictionaries));
 
+  console.log(words);
+
   const startWord = words.find(item => item.isShow) || null;
   const [word, setWord] = useState(startWord);
   const [isStatistics, setIsStatistics] = useState(false);
 
   const onRight = () => {
-    const body = { words_id: word.id, lang: word.lang };
+    //const body = { words_id: word.id, lang: word.lang };
     const count = word.count + 1;
-
-    const updatedWords = words.map(item => {
-      if (item.id_unique === word.id_unique) {
-        item.count = count;
-        item.isShow = count < SETTINGS.attempt;
-      }
-      return item;
-    });
-
-    updateWords(updatedWords);
+    //
+    // const updatedWords = words.map(item => {
+    //   if (item.id_unique === word.id_unique) {
+    //     item.count = count;
+    //     item.isShow = count < SETTINGS.attempt;
+    //   }
+    //   return item;
+    // });
+    //
+    // updateWords(updatedWords);
     setNext();
 
-    dispatch(effects.saveCountWord(body));
+    //dispatch(effects.saveCountWord(body));
   };
 
   const onWrong = () => setNext();
@@ -57,7 +59,7 @@ export const DictionaryTrainingScreen = ({ navigation = {}, route }) => {
       {!isStatistics && !word && <NotWord testID="not-word">Вы выучили все слова</NotWord>}
 
       {!isStatistics && word && (
-        <CartWord word={word} key={word.id_unique} onRight={onRight} onWrong={onWrong} onFinished={onFinished} />
+        <CartWord word={word} onRight={onRight} onWrong={onWrong} onFinished={onFinished} />
       )}
 
       {isStatistics && <Statistics words={words} />}
