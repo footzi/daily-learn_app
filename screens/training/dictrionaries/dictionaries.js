@@ -16,13 +16,14 @@ export const DictionaryTrainingScreen = ({ route }) => {
 
   const [words, updateWords] = useState(createWords(dictionaries));
 
-  console.log(words);
+  // console.log(words);
 
   const startWord = words.find(item => item.isShow) || null;
   const [word, setWord] = useState(startWord);
   const [isStatistics, setIsStatistics] = useState(false);
 
   const onRight = () => {
+    console.log('right');
     //const body = { words_id: word.id, lang: word.lang };
     const count = word.count + 1;
     //

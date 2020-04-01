@@ -11,14 +11,14 @@ export const createWords = dictionaries => {
   }
 
   dictionaries.forEach(dictionary => {
-    dictionary.words.forEach(word => {
+    dictionary.words.forEach((word, index) => {
       const { id, groupId, name, translate, count } = word;
 
       const translates = dictionary.words.filter(item => item.groupId === groupId).map(item => item.translate);
 
       result.push({
         id,
-        // uid: Date.now() + id,
+        uid: id + index,
         type: 'name',
         question: name,
         answers: translates,
@@ -28,43 +28,13 @@ export const createWords = dictionaries => {
 
       result.push({
         id,
-        // uid: Date.now() + id,
+        uid: id + index + 1,
         type: 'translate',
         question: translate,
         answers: [name],
         count,
         isShow: count < SETTINGS.attempt
       });
-
-      // result.push({
-      //   id: id,
-      //   id_unique: id + '_ru',
-      //   lang: 'ru',
-      //   question: ru.name,
-      //   answer: en.name,
-      //   count: ru.count,
-      //   isShow: ru.count < SETTINGS.attempt
-      // });
-
-      // result.push({
-      //   id,
-      //   id_unique: id + '_en',
-      //   lang: 'en',
-      //   question: en.name,
-      //   answer: ru.name,
-      //   count: en.count,
-      //   isShow: en.count < SETTINGS.attempt
-      // });
-      //
-      // result.push({
-      //   id: id,
-      //   id_unique: id + '_ru',
-      //   lang: 'ru',
-      //   question: ru.name,
-      //   answer: en.name,
-      //   count: ru.count,
-      //   isShow: ru.count < SETTINGS.attempt
-      // });
     });
   });
 
@@ -72,7 +42,7 @@ export const createWords = dictionaries => {
 };
 
 export const getNext = (words, current_word) => {
-  const index_word = words.findIndex(item => item.id_unique === current_word.id_unique);
+  const index_word = words.findIndex(item => item.uid === current_word.uid);
   // проверяем от текущего до конца массива
   const next_from = words.findIndex((item, index) => index >= index_word + 1 && item.isShow);
   // проверяем от начала массива

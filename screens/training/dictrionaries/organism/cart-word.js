@@ -11,11 +11,15 @@ export const CartWord = ({ word, onRight, onWrong, onFinished }) => {
 
   // const isCheck = word.answer.toLowerCase() === field.toLowerCase();
 
-  const isCheck = true;
+  const isCheck = word.answers.some(item => item.toLowerCase() === field.toLowerCase());
   const onChange = text => setField(text);
   const onNotRemember = () => setIsNotRemember(true);
   const onAnswer = () => (isCheck ? onRight() : setIsWrong(true));
-  const onRemember = () => onWrong();
+  //const onAnswer = () => console.log(word);
+  const onRemember = () => {
+    setIsNotRemember(false);
+    onWrong();
+  };
 
   return (
     <Card testID="cart-word">
@@ -44,7 +48,15 @@ export const CartWord = ({ word, onRight, onWrong, onFinished }) => {
               </NotRemember>
             </Ask>
           )}
-          {(isNotRemember || isWrong) && <RightAnswer isWrong={isWrong}>123</RightAnswer>}
+          {(isNotRemember || isWrong) && (
+            <RightAnswer>
+              {word.answers.map((item, index) => (
+                <ItemAnswer key={index} isWrong={isWrong}>
+                  {item}
+                </ItemAnswer>
+              ))}
+            </RightAnswer>
+          )}
         </AskContainer>
         <Actions>
           {!isNotRemember && !isWrong && (
@@ -110,12 +122,15 @@ const Actions = styled.View`
   justify-content: space-between;
 `;
 
-const RightAnswer = styled.Text`
+const RightAnswer = styled.View`
+  flex: 1;
+  justify-content: center;
+`;
+
+const ItemAnswer = styled.Text`
   font-size: 22px;
   font-weight: 500;
   text-transform: uppercase;
-  flex: 1;
   text-align: center;
-  margin-top: 50px;
   color: ${p => (p.isWrong ? 'red' : 'black')};
 `;
