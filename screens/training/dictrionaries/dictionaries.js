@@ -16,29 +16,25 @@ export const DictionaryTrainingScreen = ({ route }) => {
 
   const [words, updateWords] = useState(createWords(dictionaries));
 
-  // console.log(words);
-
   const startWord = words.find(item => item.isShow) || null;
   const [word, setWord] = useState(startWord);
   const [isStatistics, setIsStatistics] = useState(false);
 
   const onRight = () => {
-    console.log('right');
-    //const body = { words_id: word.id, lang: word.lang };
+    const body = { id: word.id, type: word.type };
     const count = word.count + 1;
-    //
-    // const updatedWords = words.map(item => {
-    //   if (item.id_unique === word.id_unique) {
-    //     item.count = count;
-    //     item.isShow = count < SETTINGS.attempt;
-    //   }
-    //   return item;
-    // });
-    //
-    // updateWords(updatedWords);
-    setNext();
 
-    //dispatch(effects.saveCountWord(body));
+    const updatedWords = words.map(item => {
+      if (item.uid === word.uid) {
+        item.count = count;
+        item.isShow = count < SETTINGS.attempt;
+      }
+      return item;
+    });
+
+    updateWords(updatedWords);
+    setNext();
+    dispatch(effects.saveCountWord(body));
   };
 
   const onWrong = () => setNext();
@@ -59,18 +55,12 @@ export const DictionaryTrainingScreen = ({ route }) => {
     <Container>
       {!isStatistics && !word && <NotWord testID="not-word">Вы выучили все слова</NotWord>}
 
-      {!isStatistics && word && (
-        <CartWord word={word} onRight={onRight} onWrong={onWrong} onFinished={onFinished} />
-      )}
+      {!isStatistics && word && <CartWord word={word} onRight={onRight} onWrong={onWrong} onFinished={onFinished} />}
 
       {isStatistics && <Statistics words={words} />}
     </Container>
   );
 };
-
-DictionaryTrainingScreen.navigationOptions = () => ({
-  title: 'Тренировка'
-});
 
 const Container = styled.View`
   padding: 10px;

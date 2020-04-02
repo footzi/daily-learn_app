@@ -90,7 +90,8 @@ const Main = () => {
     <Tab.Navigator
       screenOptions={setBarOptions}
       tabBarOptions={{
-        showLabel: false
+        showLabel: false,
+        keyboardHidesTabBar: true,
       }}>
       <Tab.Screen name="Home" component={HomeStackScreen} />
       <Tab.Screen name="DictionariesScreen" component={DictionaryStackScreen} />

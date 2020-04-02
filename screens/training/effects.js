@@ -3,13 +3,14 @@ import { ERROR } from '@constants';
 import { actions } from '@store';
 
 export const saveCountWord = (body) => async (dispatch) => {
-  try {
-    await requestWithToken('post', '/api/words/changeCount', body);
-    
-  } catch (error) {
-    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
-    dispatch(actions.removeProcessing());
-  }
+  //console.log(body);
+  // try {
+  //   await requestWithToken('post', '/api/words/changeCount', body);
+  //
+  // } catch (error) {
+  //   dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+  //   dispatch(actions.removeProcessing());
+  // }
 };
 
 // Пока не используется

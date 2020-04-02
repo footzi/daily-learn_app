@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { KeyboardAvoidingView } from 'react-native';
 import styled from 'styled-components/native';
 import { Card, Item, H3, Input, Button, Text } from 'native-base';
 import { ProgressBar } from '@components';
@@ -9,19 +10,34 @@ export const CartWord = ({ word, onRight, onWrong, onFinished }) => {
   const [isNotRemember, setIsNotRemember] = useState(false);
   const [isWrong, setIsWrong] = useState(false);
 
-  // const isCheck = word.answer.toLowerCase() === field.toLowerCase();
-
-  const isCheck = word.answers.some(item => item.toLowerCase() === field.toLowerCase());
   const onChange = text => setField(text);
   const onNotRemember = () => setIsNotRemember(true);
-  const onAnswer = () => (isCheck ? onRight() : setIsWrong(true));
-  //const onAnswer = () => console.log(word);
+
+  const onAnswer = () => {
+    const isCheck = word.answers.some(item => item.toLowerCase() === field.toLowerCase());
+
+    if (isCheck) {
+      setField('');
+      onRight();
+    } else {
+      setIsWrong(true);
+    }
+  };
+
   const onRemember = () => {
     setIsNotRemember(false);
+    setField('');
+    onWrong();
+  };
+
+  const onWrongNext = () => {
+    setIsWrong(false);
+    setField('');
     onWrong();
   };
 
   return (
+
     <Card testID="cart-word">
       <CardWrapper>
         <H3 style={{ textAlign: 'center' }}>{word.question}</H3>
@@ -31,7 +47,7 @@ export const CartWord = ({ word, onRight, onWrong, onFinished }) => {
               <Answer>
                 <Item>
                   <Input
-                    placeholder={word.type === 'translate' ? 'Ответь на русском' : 'English please'}
+                    placeholder={word.type === 'translate' ? 'English please' : 'Ответь на русском'}
                     onChangeText={onChange}
                     value={field}
                     autoFocus={true}
@@ -81,7 +97,7 @@ export const CartWord = ({ word, onRight, onWrong, onFinished }) => {
               <Button warning onPress={onFinished} style={{ width: 120 }}>
                 <Text style={{ flex: 1, textAlign: 'center' }}>Завершить</Text>
               </Button>
-              <Button success onPress={onWrong} style={{ width: 120 }}>
+              <Button success onPress={onWrongNext} style={{ width: 120 }}>
                 <Text style={{ flex: 1, textAlign: 'center' }}>Далее</Text>
               </Button>
             </>
