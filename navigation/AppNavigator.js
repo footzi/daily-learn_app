@@ -16,6 +16,7 @@ import {
 } from '../screens';
 import TabBarIcon from '../components/TabBarIcon';
 import * as commonEffects from '@store/common-effects';
+import { Loader } from '@components';
 
 //import { DictionariesScreen } from '../screens/dictionaries';
 
@@ -91,7 +92,7 @@ const Main = () => {
       screenOptions={setBarOptions}
       tabBarOptions={{
         showLabel: false,
-        keyboardHidesTabBar: true,
+        keyboardHidesTabBar: false
       }}>
       <Tab.Screen name="Home" component={HomeStackScreen} />
       <Tab.Screen name="DictionariesScreen" component={DictionaryStackScreen} />
@@ -108,6 +109,10 @@ export const Navigation = () => {
   useEffect(() => {
     dispatch(commonEffects.checkInitAuth());
   }, []);
+
+  if (auth === null) {
+    return <Loader />;
+  }
 
   return (
     <NavigationContainer>

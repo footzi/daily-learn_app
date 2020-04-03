@@ -12,7 +12,7 @@ export const createWords = dictionaries => {
 
   dictionaries.forEach(dictionary => {
     dictionary.words.forEach((word, index) => {
-      const { id, groupId, name, translate, count } = word;
+      const { id, groupId, name, translate, nameCount, translateCount } = word;
 
       const translates = dictionary.words.filter(item => item.groupId === groupId).map(item => item.translate);
 
@@ -22,8 +22,8 @@ export const createWords = dictionaries => {
         type: 'name',
         question: name,
         answers: translates,
-        count,
-        isShow: count < SETTINGS.attempt
+        count: nameCount,
+        isShow: nameCount < SETTINGS.attempt
       });
 
       result.push({
@@ -32,8 +32,8 @@ export const createWords = dictionaries => {
         type: 'translate',
         question: translate,
         answers: [name],
-        count,
-        isShow: count < SETTINGS.attempt
+        count: translateCount,
+        isShow: translateCount < SETTINGS.attempt
       });
     });
   });

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView } from 'react-native';
 import styled from 'styled-components/native';
 import { Card, Item, H3, Input, Button, Text } from 'native-base';
 import { ProgressBar } from '@components';
@@ -37,7 +36,6 @@ export const CartWord = ({ word, onRight, onWrong, onFinished }) => {
   };
 
   return (
-
     <Card testID="cart-word">
       <CardWrapper>
         <H3 style={{ textAlign: 'center' }}>{word.question}</H3>
