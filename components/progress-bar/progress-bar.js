@@ -24,7 +24,7 @@ export const ProgressBar = ({ progress }) => {
         <Animated.View
           style={{
             width: width,
-            height: 10,
+            height: 3,
             backgroundColor: `${(progress < 50 && Colors.warning) || (progress >= 50 && Colors.success)}`
           }}
         />
@@ -39,7 +39,7 @@ const View = styled.View`
 
 const Rail = styled.View`
   border-radius: 4px;
-  height: 10px;
+  height: 3px;
   overflow: hidden;
   background-color: ${Colors.gray};
 `;

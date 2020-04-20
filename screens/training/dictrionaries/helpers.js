@@ -41,19 +41,50 @@ export const createWords = dictionaries => {
   return shuffleArray(result);
 };
 
-export const getNext = (words, current_word) => {
-  const index_word = words.findIndex(item => item.uid === current_word.uid);
+export const getNext = (words, currentIndex) => {
+  //const indexWord = words.findIndex(item => item.uid === current.uid);
   // проверяем от текущего до конца массива
-  const next_from = words.findIndex((item, index) => index >= index_word + 1 && item.isShow);
+  //const nextFrom = words.findIndex((item, index) => index >= currentIndex + 1 && item.isShow);
+  const nextFrom = words.findIndex((item, index) => index >= currentIndex + 1 && item.isShow);
   // проверяем от начала массива
-  const next_to = words.findIndex(item => item.isShow);
+  const nextTo = words.findIndex(item => item.isShow);
 
-  if (next_from + 1) {
-    return words[next_from];
+  if (nextFrom + 1) {
+    return words[nextFrom];
   }
 
-  if (next_to + 1) {
-    return words[next_to];
+  if (nextTo + 1) {
+    return words[nextTo];
+  }
+
+  return null;
+};
+
+export const getStartIndex = words => {
+  if (words[0].isShow) {
+    return 0;
+  }
+
+  const index = words.findIndex(item => item.isShow);
+
+  if (index + 1) {
+    return index;
+  } else {
+    return null;
+  }
+};
+
+export const getNextIndex = (words, currentIndex) => {
+  const nextFrom = words.findIndex((item, index) => index >= currentIndex + 1 && item.isShow);
+  // проверяем от начала массива
+  const nextTo = words.findIndex(item => item.isShow);
+
+  if (nextFrom + 1) {
+    return nextFrom;
+  }
+
+  if (nextTo + 1) {
+    return nextTo;
   }
 
   return null;

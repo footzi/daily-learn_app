@@ -4,8 +4,56 @@ import styled from 'styled-components/native';
 import { SETTINGS } from '@constants';
 import { CartWord } from './organism/cart-word';
 import Statistics from './organism/statistics';
+import { createWords, getStartIndex } from './helpers';
 import * as effects from '../effects';
-import { createWords, getNext } from './helpers';
+
+const testWords = [
+  {
+    id: 1,
+    uid: 1,
+    type: 'translate',
+    question: 'Первый',
+    answers: ['One', 'One'],
+    count: 1,
+    isShow: true
+  },
+  {
+    id: 2,
+    uid: 2,
+    type: 'translate',
+    question: 'Второй',
+    answers: ['Two'],
+    count: 0,
+    isShow: true
+  },
+  {
+    id: 3,
+    uid: 3,
+    type: 'translate',
+    question: 'Третий',
+    answers: ['Third'],
+    count: 0,
+    isShow: true
+  },
+  {
+    id: 4,
+    uid: 4,
+    type: 'translate',
+    question: 'Четвертый',
+    answers: ['Four'],
+    count: 0,
+    isShow: true
+  },
+  {
+    id: 5,
+    uid: 5,
+    type: 'translate',
+    question: 'Пятый',
+    answers: ['Five'],
+    count: 0,
+    isShow: true
+  }
+];
 
 export const DictionaryTrainingScreen = ({ route }) => {
   const allDictionaries = useSelector(state => state.data.dictionaries);
@@ -14,13 +62,13 @@ export const DictionaryTrainingScreen = ({ route }) => {
   const { selectedDictionaries } = route.params || [];
   const dictionaries = allDictionaries.filter(item => selectedDictionaries.includes(item.id));
 
-  const [words, updateWords] = useState(createWords(dictionaries));
-
-  const startWord = words.find(item => item.isShow) || null;
-  const [word, setWord] = useState(startWord);
+  //const [words, updateWords] = useState(createWords(dictionaries));
+  const [words, updateWords] = useState(testWords);
+  const startWordIndex = getStartIndex(words);
   const [isStatistics, setIsStatistics] = useState(false);
+  const isAvailableWords = startWordIndex !== null;
 
-  const onRight = () => {
+  const onUpdateWords = word => {
     const body = { id: word.id, type: word.type };
     const count = word.count + 1;
 
@@ -33,37 +81,23 @@ export const DictionaryTrainingScreen = ({ route }) => {
     });
 
     updateWords(updatedWords);
-    setNext();
     dispatch(effects.saveCountWord(body));
-  };
-
-  const onWrong = () => setNext();
-
-  const setNext = () => {
-    const target = getNext(words, word);
-
-    if (target) {
-      setWord(target);
-    } else {
-      setIsStatistics(true);
-    }
   };
 
   const onFinished = () => setIsStatistics(true);
 
   return (
     <Container>
-      {!isStatistics && !word && <NotWord testID="not-word">Вы выучили все слова</NotWord>}
+      {isStatistics && <Statistics />}
 
-      {!isStatistics && word && <CartWord word={word} onRight={onRight} onWrong={onWrong} onFinished={onFinished} />}
+      {!isStatistics && isAvailableWords && (
+        <CartWord words={words} startIndex={startWordIndex} onFinished={onFinished} onUpdateWords={onUpdateWords} />
+      )}
 
-      {isStatistics && <Statistics words={words} />}
+      {!isStatistics && !isAvailableWords && <NotWord testID="not-word">Вы выучили все слова</NotWord>}
     </Container>
   );
 };
 
-const Container = styled.View`
-  padding: 10px;
-`;
-
+const Container = styled.View``;
 const NotWord = styled.Text``;
