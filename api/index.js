@@ -1,2 +1,3 @@
-export { request, requestWithToken } from './requests';
+export { request } from './requests';
 export { checkAccessToken, createFormData } from './helpers';
+export { ApiCall } from './call';

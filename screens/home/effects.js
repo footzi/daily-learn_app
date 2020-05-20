@@ -3,14 +3,16 @@ import { actions } from '@store';
 import { SCREENS } from '@constants';
 
 export const setDictionaries = () => (dispatch, getState) => {
-  const { dictionaries } = getState().data;
+  const { data } = getState();
+  const { dictionaries } = data;
   const normalized = normalizeDictionaries(dictionaries);
 
   dispatch(actions.setHomeScreen({ dictionaries: normalized }));
 };
 
 export const selectDictionary = id => (dispatch, getState) => {
-  const { dictionaries } = getState().homeScreen;
+  const { homeScreen } = getState();
+  const { dictionaries } = homeScreen;
 
   const selected = dictionaries.map(item => {
     if (id === item.id) {
@@ -24,7 +26,8 @@ export const selectDictionary = id => (dispatch, getState) => {
 };
 
 export const startTraining = navigation => (dispatch, getState) => {
-  const { dictionaries } = getState().homeScreen;
+  const { homeScreen } = getState();
+  const { dictionaries } = homeScreen;
 
   const selectedDictionaries = dictionaries.filter(item => item.checked).map(dict => dict.id);
 

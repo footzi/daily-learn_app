@@ -8,16 +8,15 @@ export const toSignUp = (body = {}) => async dispatch => {
 
   try {
     const response = await request('post', '/api/signup', body);
-
     const { data } = response.data;
     const { user, tokens } = data;
 
     if (user && tokens) {
       dispatch(actions.setUser(user));
-      dispatch(actions.setAuth());
+      dispatch(actions.setIsAuth());
 
-      LocalStorage.set(TOKENS_LS, tokens);
-      LocalStorage.set(USER_LS, user);
+      await LocalStorage.set(TOKENS_LS, tokens);
+      await LocalStorage.set(USER_LS, user);
     }
   } catch (err) {
     dispatch(actions.setNotification({ type: ERROR, text: getErrorMessage(err) }));

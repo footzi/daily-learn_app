@@ -2,18 +2,17 @@ import {
   SET_NOTIFICATION,
   SET_PROCESSING,
   SET_USER,
-  SET_AUTH,
+  SET_IS_AUTH,
   SET_DATA,
   SET_HOME_SCREEN,
-  SET_DICTINARY_WORDS
 } from '@constants';
 
 export const actions = {
-  setAuth: () => {
-    return { type: SET_AUTH, payload: true };
+  setIsAuth: () => {
+    return { type: SET_IS_AUTH, payload: true };
   },
-  removeAuth: () => {
-    return { type: SET_AUTH, payload: false };
+  removeIsAuth: () => {
+    return { type: SET_IS_AUTH, payload: false };
   },
 
   setUser: payload => {
@@ -24,14 +23,12 @@ export const actions = {
   },
 
   setData: payload => ({ type: SET_DATA, payload }),
-  clearData: () => ({ type: SET_DATA, payload: {} }),
+  clearData: () => ({ type: SET_DATA, payload: null }),
 
   setHomeScreen: payload => ({
     type: SET_HOME_SCREEN,
     payload: { dictionaries: payload.dictionaries }
   }),
-
-  setDictionaryWords: payload => ({ type: SET_DICTINARY_WORDS, payload }),
 
   setNotification: payload => ({ type: SET_NOTIFICATION, payload }),
   clearNotification: () => ({

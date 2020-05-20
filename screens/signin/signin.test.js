@@ -6,7 +6,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import { mockFormData, renderWithRedux } from '@mocks';
-import { SET_PROCESSING, SET_USER, SET_AUTH, SET_NOTIFICATION, SETTINGS, ERROR } from '@constants';
+import { SET_PROCESSING, SET_USER, SET_IS_AUTH, SET_NOTIFICATION, SETTINGS, ERROR } from '@constants';
 import { SignInScreen } from './signin';
 import { toSignIn } from './effects';
 
@@ -103,7 +103,7 @@ describe('SignIn Screen - Render', () => {
 });
 
 describe('SignIn Screen - Effects', () => {
-  it('toSignIn success setUser setAuth', async () => {
+  it('toSignIn success setUser setIsAuth', async () => {
     const body = { login: 'test', password: 'test' };
     const data = {
       user: {
@@ -125,7 +125,7 @@ describe('SignIn Screen - Effects', () => {
         payload: { id: data.user.id }
       },
       {
-        type: SET_AUTH,
+        type: SET_IS_AUTH,
         payload: true
       },
       {

@@ -10,8 +10,6 @@ export const CartWord = ({ words, startIndex, onUpdateWords, onFinished }) => {
   const [isWrong, setIsWrong] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(startIndex);
   const [nextIndex, setNextIndex] = useState(0);
-  
-  console.log(currentIndex);
 
   const currentWord = words[currentIndex];
   const nextWord = words[nextIndex];
@@ -27,7 +25,7 @@ export const CartWord = ({ words, startIndex, onUpdateWords, onFinished }) => {
   };
 
   const onAnswer = () => {
-    const isRight = currentWord.answers.some(item => item.toLowerCase() === field.toLowerCase());
+    const isRight = currentWord.answers.some(item => item.toLowerCase() === field.toLowerCase().trim());
 
     if (isRight) {
       onUpdateWords(currentWord);

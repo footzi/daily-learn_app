@@ -12,11 +12,11 @@ export const toSignOut = () => async dispatch => {
 
     if (data.success) {
       dispatch(actions.removeUser());
-      dispatch(actions.removeAuth());
+      dispatch(actions.removeIsAuth());
       dispatch(actions.clearData());
 
-      LocalStorage.remove(TOKENS_LS);
-      LocalStorage.remove(USER_LS);
+      await LocalStorage.remove(TOKENS_LS);
+      await LocalStorage.remove(USER_LS);
     }
   } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));

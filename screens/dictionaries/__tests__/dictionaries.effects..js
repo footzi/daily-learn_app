@@ -3,7 +3,7 @@
 // import { toSignUp } from '../../signup/effects';
 // import thunk from 'redux-thunk';
 // import configureMockStore from 'redux-mock-store';
-// import { SET_PROCESSING, SET_USER, SET_AUTH, SET_NOTIFICATION, SETTINGS, ERROR } from '@constants';
+// import { SET_PROCESSING, SET_USER, SET_IS_AUTH, SET_NOTIFICATION, SETTINGS, ERROR } from '@constants';
 //
 // const middlewares = [thunk];
 // const mockStore = configureMockStore(middlewares);
@@ -37,7 +37,7 @@ describe('DictionariesScreen Effects', () => {
   //       payload: { id: data.user.id }
   //     },
   //     {
-  //       type: SET_AUTH,
+  //       type: SET_IS_AUTH,
   //       payload: true
   //     },
   //     {

@@ -13,6 +13,10 @@ const configureStore = (initialState = initState) =>
 
 export const store = configureStore();
 
+export const createAppStore = (state = {}) => {
+  return configureStore({ ...initState, ...state });
+};
+
 export const createTestStore = (state = {}) => {
   return configureStore({ ...state, initState });
 };

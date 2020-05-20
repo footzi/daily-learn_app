@@ -1,5 +1,5 @@
 export const initState = {
-  auth: null, // при первом запуске состояние не известно
+  isAuth: null,
   user: null,
   data: null,
   homeScreen: {

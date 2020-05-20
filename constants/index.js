@@ -18,10 +18,9 @@ export const NAVIGATION_PARAMS = {
 export const SET_USER = 'SET_USER';
 export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 export const SET_PROCESSING = 'SET_PROCESSING';
-export const SET_AUTH = 'SET_AUTH';
+export const SET_IS_AUTH = 'SET_IS_AUTH';
 export const SET_DATA = 'SET_DATA';
 export const SET_HOME_SCREEN = 'SET_HOME_SCREEN';
-export const SET_DICTINARY_WORDS = 'SET_DICTINARY_WORDS';
 
 // Notification
 export const ERROR = 'ERROR';

@@ -18,27 +18,6 @@ import TabBarIcon from '../components/TabBarIcon';
 import * as commonEffects from '@store/common-effects';
 import { Loader } from '@components';
 
-//import { DictionariesScreen } from '../screens/dictionaries';
-
-// import tabNavigator from './MainTabNavigator';
-// const AuthStack = createStackNavigator({ SignIn: SignInScreen });
-
-// export default createAppContainer(
-//   createSwitchNavigator({
-//     Auth: AuthScreen,
-//     Start: StartScreen,
-//     SignIn: SignInScreen,
-//     SignUp: SignUpScreen,
-//     Main: tabNavigator
-//     //Auth: AuthStack,
-//     // You could add another route here for authentication.
-//     // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-//   }),
-//   {
-//     initialRouteName: 'Auth'
-//   }
-// );
-
 const Tab = createBottomTabNavigator();
 
 const AppStack = createStackNavigator();
@@ -103,30 +82,33 @@ const Main = () => {
 
 export const Navigation = () => {
   const state = useSelector(state => state);
-  const { auth } = state;
+  const { isAuth, data } = state;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(commonEffects.checkInitAuth());
-  }, []);
+    if (isAuth) {
+      dispatch(commonEffects.getMainData());
+    }
+  }, [isAuth]);
 
-  if (auth === null) {
+  console.log(isAuth);
+
+  // показываем только тогда идет запрос за данными
+  if (isAuth && !data) {
     return <Loader />;
   }
 
   return (
     <NavigationContainer>
       <AppStack.Navigator>
-        {auth ? (
-          <>
-            <AppStack.Screen name="Main" component={Main} options={{ headerShown: false }} />
-          </>
-        ) : (
+        {!isAuth && (
           <>
             <AppStack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
             <AppStack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
           </>
         )}
+
+        {isAuth && data && <AppStack.Screen name="Main" component={Main} options={{ headerShown: false }} />}
       </AppStack.Navigator>
     </NavigationContainer>
   );

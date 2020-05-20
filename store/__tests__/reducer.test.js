@@ -1,5 +1,5 @@
 import { reducer } from '../reducer';
-import { SET_AUTH, SET_USER, SET_DATA, SET_NOTIFICATION, SET_PROCESSING } from '../../constants/action-types';
+import { SET_IS_AUTH, SET_USER, SET_DATA, SET_NOTIFICATION, SET_PROCESSING } from '../../constants/action-types';
 import { ERROR } from '../../constants';
 
 describe('Main reducer', () => {
@@ -9,7 +9,7 @@ describe('Main reducer', () => {
     };
 
     const action = {
-      type: SET_AUTH,
+      type: SET_IS_AUTH,
       payload: true
     };
 
@@ -25,7 +25,7 @@ describe('Main reducer', () => {
     };
 
     const action = {
-      type: SET_AUTH,
+      type: SET_IS_AUTH,
       payload: false
     };
 

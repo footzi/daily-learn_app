@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Toast, View } from 'native-base';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ERROR, SUCCESS } from '../../constants';
 import * as effects from './effects';
 
@@ -9,18 +9,11 @@ const types = {
   [SUCCESS]: 'success'
 };
 
-const mapStateToProps = state => ({
-  notification: state.notification
-});
+export const Notification = () => {
+  const { notification } = useSelector(state => state);
+  const dispatch = useDispatch();
 
-const mapDispatchToProps = {
-  clearNotification: effects.clearNotification
-};
-
-const Notification = ({ notification, clearNotification }) => {
-  const onClose = () => {
-    clearNotification();
-  };
+  const onClose = () => dispatch(effects.clearNotification);
 
   useEffect(() => {
     const { text, type } = notification;
@@ -32,15 +25,10 @@ const Notification = ({ notification, clearNotification }) => {
         buttonText: 'Okay',
         position: 'top',
         duration: 10000,
-        onClose: onClose
+        onClose
       });
     }
   }, [notification]);
 
   return <View />;
 };
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Notification);

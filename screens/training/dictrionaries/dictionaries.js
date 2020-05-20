@@ -7,54 +7,6 @@ import Statistics from './organism/statistics';
 import { createWords, getStartIndex } from './helpers';
 import * as effects from '../effects';
 
-const testWords = [
-  {
-    id: 1,
-    uid: 1,
-    type: 'translate',
-    question: 'Первый',
-    answers: ['One', 'One'],
-    count: 1,
-    isShow: true
-  },
-  {
-    id: 2,
-    uid: 2,
-    type: 'translate',
-    question: 'Второй',
-    answers: ['Two'],
-    count: 0,
-    isShow: true
-  },
-  {
-    id: 3,
-    uid: 3,
-    type: 'translate',
-    question: 'Третий',
-    answers: ['Third'],
-    count: 0,
-    isShow: true
-  },
-  {
-    id: 4,
-    uid: 4,
-    type: 'translate',
-    question: 'Четвертый',
-    answers: ['Four'],
-    count: 0,
-    isShow: true
-  },
-  {
-    id: 5,
-    uid: 5,
-    type: 'translate',
-    question: 'Пятый',
-    answers: ['Five'],
-    count: 0,
-    isShow: true
-  }
-];
-
 export const DictionaryTrainingScreen = ({ route }) => {
   const allDictionaries = useSelector(state => state.data.dictionaries);
   const dispatch = useDispatch();
@@ -62,8 +14,7 @@ export const DictionaryTrainingScreen = ({ route }) => {
   const { selectedDictionaries } = route.params || [];
   const dictionaries = allDictionaries.filter(item => selectedDictionaries.includes(item.id));
 
-  //const [words, updateWords] = useState(createWords(dictionaries));
-  const [words, updateWords] = useState(testWords);
+  const [words, updateWords] = useState(createWords(dictionaries));
   const startWordIndex = getStartIndex(words);
   const [isStatistics, setIsStatistics] = useState(false);
   const isAvailableWords = startWordIndex !== null;

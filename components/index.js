@@ -4,3 +4,4 @@ export { BottomModal, HeaderModal, useModal } from './modal';
 export { Loader } from './loader';
 export { Checkbox } from './checkbox';
 export { Title } from './title';
+export { Notification } from './notification';
