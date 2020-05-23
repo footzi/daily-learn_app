@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { Card, H3 } from 'native-base';
 
-export const Statistics = () => {
+export const Congratulation = () => {
   return (
     <Card>
       <CardWrapper>
         <H3 style={{ textAlign: 'center' }}>Поздравляем!</H3>
-        <Field>Скоро здесь будет статистика</Field>
+        <Field>Вы выучили все слова</Field>
       </CardWrapper>
     </Card>
   );

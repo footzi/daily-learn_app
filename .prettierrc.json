@@ -1,6 +1,12 @@
 {
   "singleQuote": true,
+  "trailingComma": "es5",
+  "arrowParens": "always",
+  "bracketSpacing": true,
+  "eslintIntegration": true,
+  "semi": true,
   "endOfLine": "auto",
   "jsxBracketSameLine": true,
-  "printWidth": 120
+  "printWidth": 120,
+  "quoteProps": "consistent"
 }

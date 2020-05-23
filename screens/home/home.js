@@ -6,18 +6,18 @@ import { Title } from '@components';
 import * as effects from './effects';
 
 export const HomeScreen = ({ navigation }) => {
-  const { homeScreen } = useSelector(state => state);
+  const { data = {}, homeScreen = {} } = useSelector((state) => state);
   const { dictionaries = [] } = homeScreen;
   const dispatch = useDispatch();
 
   const onStart = () => dispatch(effects.startTraining(navigation));
-  const onSelect = id => dispatch(effects.selectDictionary(id));
+  const onSelect = (id) => dispatch(effects.selectDictionary(id));
 
-  const haveSelected = dictionaries.some(item => item.checked);
+  const haveSelected = dictionaries.some((item) => item.checked);
 
   useEffect(() => {
-    dispatch(effects.setDictionaries());
-  }, []);
+    dispatch(effects.setDictionaries(data));
+  }, [data]);
 
   return (
     <Content>
@@ -25,7 +25,7 @@ export const HomeScreen = ({ navigation }) => {
         {dictionaries.length ? <Title>Выберите словарь для старта</Title> : <Title>Для начала создайте словарь</Title>}
 
         <Dictionaries>
-          {dictionaries.map(item => (
+          {dictionaries.map((item) => (
             <ListItem key={item.id}>
               <CheckBox onPress={() => onSelect(item.id)} checked={item.checked} />
               <Item onPress={() => onSelect(item.id)}>

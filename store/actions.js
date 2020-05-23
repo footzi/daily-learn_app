@@ -1,11 +1,4 @@
-import {
-  SET_NOTIFICATION,
-  SET_PROCESSING,
-  SET_USER,
-  SET_IS_AUTH,
-  SET_DATA,
-  SET_HOME_SCREEN,
-} from '@constants';
+import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_IS_AUTH, SET_DATA, SET_HOME_SCREEN } from '@constants';
 
 export const actions = {
   setIsAuth: () => {
@@ -15,30 +8,30 @@ export const actions = {
     return { type: SET_IS_AUTH, payload: false };
   },
 
-  setUser: payload => {
+  setUser: (payload) => {
     return { type: SET_USER, payload };
   },
   removeUser: () => {
     return { type: SET_USER, payload: null };
   },
 
-  setData: payload => ({ type: SET_DATA, payload }),
-  clearData: () => ({ type: SET_DATA, payload: null }),
+  setData: (payload) => ({ type: SET_DATA, payload }),
+  clearData: () => ({ type: SET_DATA, payload: {} }),
 
-  setHomeScreen: payload => ({
+  setHomeScreen: (payload) => ({
     type: SET_HOME_SCREEN,
-    payload: { dictionaries: payload.dictionaries }
+    payload: { dictionaries: payload.dictionaries },
   }),
 
-  setNotification: payload => ({ type: SET_NOTIFICATION, payload }),
+  setNotification: (payload) => ({ type: SET_NOTIFICATION, payload }),
   clearNotification: () => ({
     type: SET_NOTIFICATION,
     payload: {
       type: '',
-      text: ''
-    }
+      text: '',
+    },
   }),
 
   setProcessing: () => ({ type: SET_PROCESSING, payload: true }),
-  removeProcessing: () => ({ type: SET_PROCESSING, payload: false })
+  removeProcessing: () => ({ type: SET_PROCESSING, payload: false }),
 };

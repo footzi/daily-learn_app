@@ -1,17 +1,16 @@
 export const initState = {
   isAuth: null,
   user: null,
-  data: null,
+  data: {},
   homeScreen: {
-    dictionaries: []
+    dictionaries: [],
   },
   dictionariesScreen: {
-    dictionaryWords: []
+    dictionaryWords: [],
   },
   processing: false,
-  test: '',
   notification: {
     type: '',
-    text: ''
-  }
+    text: '',
+  },
 };

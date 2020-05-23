@@ -5,7 +5,31 @@ export const ApiCall = {
     return request.public('post', '/api/signin', body);
   },
 
+  signUp(body) {
+    return request.public('post', '/api/signup', body);
+  },
+
   mainData() {
     return request.private('get', '/screens/home');
+  },
+
+  createDictionary(body) {
+    return request.private('post', '/api/dictionary/create', body);
+  },
+
+  saveWord(body) {
+    return request.private('post', '/api/words/create', body);
+  },
+
+  removeWord(body) {
+    return request.private('delete', '/api/words/delete', body);
+  },
+
+  changeCountWord(body) {
+    return request.private('put', '/api/words/changeCount', body);
+  },
+
+  logout() {
+    return request.private('post', '/api/signout');
   }
 };

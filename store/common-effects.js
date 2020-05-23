@@ -2,7 +2,7 @@ import { ERROR } from '@constants';
 import { ApiCall } from '@api';
 import { actions } from './index';
 
-export const getMainData = () => async dispatch => {
+export const getMainData = () => async (dispatch) => {
   dispatch(actions.setProcessing());
 
   try {

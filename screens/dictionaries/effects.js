@@ -1,6 +1,6 @@
-import { requestWithToken } from '@api';
 import { ERROR } from '@constants';
 import { actions } from '@store';
+import { ApiCall } from '@api';
 import { SCREENS } from '@constants';
 import * as commonEffects from '@store/common-effects';
 
@@ -8,12 +8,12 @@ export const createDictionary = ({ navigation, body, closeModal }) => async (dis
   dispatch(actions.setProcessing());
 
   try {
-    const response = await requestWithToken('post', '/api/dictionary/create', body);
-    const { data } = response.data;
+    const response = await ApiCall.createDictionary(body);
+    const { data, error } = response.data;
     const { success, id } = data;
 
     if (!success) {
-      throw new Error();
+      throw new Error(error);
     }
 
     await dispatch(commonEffects.getMainData());
@@ -41,7 +41,7 @@ export const saveWord = ({ fields, preview_dictionary }) => async dispatch => {
       dictionary_id: preview_dictionary.id
     };
 
-    const response = await requestWithToken('post', '/api/words/create', body);
+    const response = await ApiCall.saveWord(body);
 
     const { data, error } = response.data;
     const { success } = data;
@@ -62,12 +62,15 @@ export const removeWord = ids => async dispatch => {
   dispatch(actions.setProcessing());
 
   try {
-    const response = await requestWithToken('delete', '/api/words/delete', { ids: JSON.stringify(ids) });
-    const { data } = response.data;
+    const response = await ApiCall.removeWord({ ids: JSON.stringify(ids) });
+    const { data, error } = response.data;
+    const { success } = data;
 
-    if (data.success) {
-      dispatch(commonEffects.getMainData());
+    if (!success) {
+      throw new Error(error);
     }
+
+    dispatch(commonEffects.getMainData());
   } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
   } finally {

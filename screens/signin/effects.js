@@ -1,4 +1,3 @@
-import { request } from '@api';
 import { actions } from '@store';
 import { LocalStorage, getErrorMessage } from '@libs';
 import { ApiCall } from '@api';
@@ -8,7 +7,6 @@ export const toSignIn = (body = {}) => async dispatch => {
   dispatch(actions.setProcessing());
 
   try {
-    // const response = await request('post', '/api/signin', body);
     const response = await ApiCall.signIn(body);
     const { data } = response.data;
     const { user, tokens } = data;

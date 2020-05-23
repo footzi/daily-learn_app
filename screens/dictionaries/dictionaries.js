@@ -8,15 +8,16 @@ import { CreateDict } from './organism';
 import * as effects from './effects';
 
 export const DictionariesScreen = ({ navigation }) => {
-  const { dictionaries } = useSelector(state => state.data);
+  const { data = {} } = useSelector((state) => state);
+  const { dictionaries = [] } = data;
   const dispatch = useDispatch();
   const [isOpenModal, openModal, closeModal] = useModal();
 
-  const onCreate = body => dispatch(effects.createDictionary({ navigation, body, closeModal }));
-  const onPreview = preview_dictionary => {
+  const onCreate = (body) => dispatch(effects.createDictionary({ navigation, body, closeModal }));
+  const onPreview = (preview_dictionary) => {
     navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { preview_dictionary }); //NAVIGATION_PARAMS.preview_dictionary
   };
-  const onSettings = dictionary => navigation.navigate(SCREENS.SETTINGS_DICTIONARY, { dictionary });
+  const onSettings = (dictionary) => navigation.navigate(SCREENS.SETTINGS_DICTIONARY, { dictionary });
 
   return (
     <Content>
@@ -29,7 +30,7 @@ export const DictionariesScreen = ({ navigation }) => {
 
         {dictionaries.length > 0 && (
           <List testID="list">
-            {dictionaries.map(item => (
+            {dictionaries.map((item) => (
               <ListItem key={item.id} onPress={() => onPreview(item)} noIndent>
                 <Text>{item.name}</Text>
                 <Button

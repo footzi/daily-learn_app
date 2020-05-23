@@ -1,13 +1,13 @@
-import { request } from '@api';
 import { actions } from '@store';
 import { ERROR, TOKENS_LS, USER_LS } from '@constants';
 import { getErrorMessage, LocalStorage } from '@libs';
+import { ApiCall } from '@api';
 
 export const toSignUp = (body = {}) => async dispatch => {
   dispatch(actions.setProcessing());
 
   try {
-    const response = await request('post', '/api/signup', body);
+    const response = await ApiCall.signUp(body);
     const { data } = response.data;
     const { user, tokens } = data;
 

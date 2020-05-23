@@ -1,15 +1,12 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import Modal from 'react-native-modal';
 import { Spinner } from 'native-base';
 
-export const Loader = ({ opacity = 0 }) => {
+export const Loader = () => {
   return (
-    <Modal isVisible={true} backdropOpacity={opacity}>
-      <Container>
-        <Spinner color="blue" size={50} />
-      </Container>
-    </Modal>
+    <Container>
+      <Spinner color="blue" size={50} />
+    </Container>
   );
 };
 

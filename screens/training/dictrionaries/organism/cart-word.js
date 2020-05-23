@@ -1,69 +1,120 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components/native';
 import { Card, Item, Input, Button, Text } from 'native-base';
 import { Colors } from '@constants';
 import { AskSlide } from './ask-slide';
 import { getNextIndex } from '../helpers';
 
-export const CartWord = ({ words, startIndex, onUpdateWords, onFinished }) => {
+export const CartWord = ({ words, startIndex, curentWord, nexWord, onUpdateWords, onFinished, onChangeCurrentWord, onUpdateCurrentWord }) => {
+
+  // console.log(curentWord);
+  // console.log(nexWord);
+
+
+  const [prevWord, setPrevWord] = useState(curentWord);
+
   const [field, setField] = useState('');
   const [isWrong, setIsWrong] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(startIndex);
-  const [nextIndex, setNextIndex] = useState(0);
+  // const [currentIndex, setCurrentIndex] = useState(startIndex);
+  // const [nextIndex, setNextIndex] = useState(0);
+  // const [currentWord, setCurrentWord] = useState(words[startIndex]);
+  // const [nextWord, setNextWord] = useState(words[0]);
 
-  const currentWord = words[currentIndex];
-  const nextWord = words[nextIndex];
+  // const currentWord = words[currentIndex];
+  // const nextWord = words[nextIndex];
 
+
+  const prevWordRef = useRef();
   const currentRef = useRef();
   const nextRef = useRef();
 
-  const onChange = text => setField(text);
+  const onChange = (text) => setField(text);
 
   const onNotRemember = () => {
     setField('');
     setIsWrong(true);
   };
 
+  const onNext = () => {
+    setPrevWord(curentWord);
+    onChangeCurrentWord();
+    prevWordRef.current.slideOutLeft(500);
+    currentRef.current.slideOutLeft(500);
+    setIsWrong(false);
+  }
+
   const onAnswer = () => {
-    const isRight = currentWord.answers.some(item => item.toLowerCase() === field.toLowerCase().trim());
+    const isRight = curentWord.answers.some((item) => item.toLowerCase() === field.toLowerCase().trim());
 
     if (isRight) {
-      onUpdateWords(currentWord);
+      // onUpdateWords();
+
+      onUpdateCurrentWord();
+
 
       setTimeout(() => {
         onNext();
-      }, 300);
+        onUpdateWords();
+      }, 300)
     } else {
       setIsWrong(true);
     }
 
     setField('');
+
+    // const isRight = currentWord.answers.some((item) => item.toLowerCase() === field.toLowerCase().trim());
+    //
+    // if (isRight) {
+    //   onUpdateWords(currentWord);
+    //
+    //   setTimeout(() => {
+    //     onNext();
+    //   }, 300);
+    // } else {
+    //   setIsWrong(true);
+    // }
+    //
+    // setField('');
   };
 
-  const onNext = () => {
-    const nextIndex = getNextIndex(words, currentIndex);
+  // const onTransitionEnd = () => {
+  //   console.log('nhfyc tcn');
+  // }
 
-    if (nextIndex !== null) {
-      setNextIndex(nextIndex);
-
-      currentRef.current.slideOutLeft(500);
-      nextRef.current.slideOutLeft(500);
-
-      setTimeout(() => {
-        setCurrentIndex(nextIndex);
-      }, 500);
-    } else {
-      onFinished();
-    }
-
-    setIsWrong(false);
+  const onNext2 = () => {
+    // const nextIndex = getNextIndex(words, currentIndex);
+    //
+    // if (nextIndex !== null) {
+    //   setNextIndex(nextIndex);
+    //
+    //   currentRef.current.slideOutLeft(500);
+    //   nextRef.current.slideOutLeft(500);
+    //
+    //   setTimeout(() => {
+    //     setCurrentIndex(nextIndex);
+    //   }, 500);
+    // } else {
+    //   onFinished();
+    // }
+    //
+    // setIsWrong(false);
   };
+
+  // console.log(curentWord, 'curentWord in cart');
+  // console.log(nexWord, 'nexWord in cart');
+
+  const onEndAnim = () => {
+
+
+    // onUpdateWords();
+  }
+
 
   return (
     <Card>
       <Slides>
-        <AskSlide animateRef={currentRef} word={currentWord} />
-        <AskSlide animateRef={nextRef} word={nextWord} />
+        <AskSlide animateRef={prevWordRef} word={prevWord} />
+        <AskSlide animateRef={currentRef} word={curentWord} />
       </Slides>
 
       <Content>
@@ -92,7 +143,7 @@ export const CartWord = ({ words, startIndex, onUpdateWords, onFinished }) => {
 
           {isWrong && (
             <RightAnswer>
-              {currentWord.answers.map((item, index) => (
+              {curentWord.answers.map((item, index) => (
                 <ItemAnswer key={index}>{item}</ItemAnswer>
               ))}
             </RightAnswer>
@@ -112,7 +163,7 @@ export const CartWord = ({ words, startIndex, onUpdateWords, onFinished }) => {
           )}
 
           {isWrong && (
-            <Button success onPress={onNext} style={{ flex: 1 }}>
+            <Button success onPress={onN} style={{ flex: 1 }}>
               <Text style={{ flex: 1, textAlign: 'center' }}>Запомнил</Text>
             </Button>
           )}

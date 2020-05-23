@@ -8,8 +8,8 @@ import { USER_LS, TOKENS_LS } from '@constants';
 import { request } from '@api';
 import { LocalStorage } from '@libs';
 import { Notification } from '@components';
-import { createAppStore } from './store';
-import { Navigation } from './navigation/AppNavigator';
+import { createAppStore } from '@store';
+import { Navigation } from './navigation';
 
 const App = () => {
   const [isReady, setReady] = useState(false);
@@ -30,9 +30,7 @@ const App = () => {
     setIsUser(storageUser);
   };
 
-  if (!isReady) {
-    return <AppLoading startAsync={setInitialData} onFinish={() => setReady(true)} onError={e => console.error(e)} />;
-  } else {
+  if (isReady) {
     const store = createAppStore({ isAuth, user });
     request.connectStore(store);
 
@@ -44,6 +42,10 @@ const App = () => {
         </Root>
       </Provider>
     );
+  }
+
+  if (!isReady) {
+    return <AppLoading startAsync={setInitialData} onFinish={() => setReady(true)} onError={e => console.error(e)} />;
   }
 };
 
