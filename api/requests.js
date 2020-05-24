@@ -28,7 +28,7 @@ class Request {
       method,
       url: `${SETTINGS.host}${url}`,
       data,
-      withCredentials: true
+      withCredentials: true,
     });
   }
 
@@ -47,7 +47,7 @@ class Request {
       method,
       url: `${SETTINGS.host}${url}`,
       headers,
-      data
+      data,
     });
   }
 
@@ -59,7 +59,7 @@ class Request {
       const response = await axios({
         method: 'post',
         url: `${SETTINGS.host}/api/refresh`,
-        headers
+        headers,
       });
 
       const { data } = response.data;

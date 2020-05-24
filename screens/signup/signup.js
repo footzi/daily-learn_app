@@ -10,7 +10,7 @@ export const SignUpScreen = ({ navigation }) => {
     login: '',
     email: '',
     password: '',
-    password2: ''
+    password2: '',
   });
   const [isValid, setIsValid] = useState(false);
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export const SignUpScreen = ({ navigation }) => {
   const onChange = (text, name) => {
     setFields({
       ...fields,
-      [name]: text
+      [name]: text,
     });
   };
 
@@ -26,7 +26,7 @@ export const SignUpScreen = ({ navigation }) => {
     const body = {
       login: fields.login,
       email: fields.email,
-      password: fields.password
+      password: fields.password,
     };
 
     dispatch(toSignUp(body));
@@ -52,16 +52,16 @@ export const SignUpScreen = ({ navigation }) => {
           <H2>Регистрация</H2>
         </Header>
         <Item>
-          <Input placeholder="Логин *" onChangeText={text => onChange(text, 'login')} value={fields.login} />
+          <Input placeholder="Логин *" onChangeText={(text) => onChange(text, 'login')} value={fields.login} />
         </Item>
         <Item>
-          <Input placeholder="Е-mail" onChangeText={text => onChange(text, 'email')} value={fields.email} />
+          <Input placeholder="Е-mail" onChangeText={(text) => onChange(text, 'email')} value={fields.email} />
         </Item>
         <Item>
           <Input
             placeholder="Пароль *"
             secureTextEntry
-            onChangeText={text => onChange(text, 'password')}
+            onChangeText={(text) => onChange(text, 'password')}
             value={fields.password}
           />
         </Item>
@@ -70,7 +70,7 @@ export const SignUpScreen = ({ navigation }) => {
             type="password"
             secureTextEntry
             placeholder="Подтвердите пароль *"
-            onChangeText={text => onChange(text, 'password2')}
+            onChangeText={(text) => onChange(text, 'password2')}
             value={fields.password2}
           />
         </Item>
@@ -116,5 +116,5 @@ const SignIn = styled.View`
 `;
 
 SignUpScreen.navigationOptions = {
-  title: 'Регистрация'
+  title: 'Регистрация',
 };

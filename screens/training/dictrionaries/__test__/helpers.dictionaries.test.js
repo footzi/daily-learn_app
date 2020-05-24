@@ -3,7 +3,7 @@ import { SETTINGS } from '../../../../constants';
 
 jest.mock('../../../../libs/shuffle-array.js', () => {
   return {
-    shuffleArray: array => array
+    shuffleArray: (array) => array,
   };
 });
 
@@ -14,7 +14,7 @@ describe('Training Dictionaries Helpers', () => {
         {
           id: 11,
           name: 'Hello',
-          words: []
+          words: [],
         },
         {
           id: 31,
@@ -24,15 +24,15 @@ describe('Training Dictionaries Helpers', () => {
               id: 51,
               en: {
                 name: 'Cat',
-                count: 0
+                count: 0,
               },
               ru: {
                 name: 'Кот',
-                count: 0
-              }
-            }
-          ]
-        }
+                count: 0,
+              },
+            },
+          ],
+        },
       ];
 
       const expectedWords = [
@@ -43,7 +43,7 @@ describe('Training Dictionaries Helpers', () => {
           question: 'Cat',
           answer: 'Кот',
           count: 0,
-          isShow: true
+          isShow: true,
         },
         {
           id: 51,
@@ -52,8 +52,8 @@ describe('Training Dictionaries Helpers', () => {
           question: 'Кот',
           answer: 'Cat',
           count: 0,
-          isShow: true
-        }
+          isShow: true,
+        },
       ];
 
       const createdWords = createWords(dictionaries);
@@ -71,15 +71,15 @@ describe('Training Dictionaries Helpers', () => {
               id: 51,
               en: {
                 name: 'Cat',
-                count: SETTINGS.attempt + 10
+                count: SETTINGS.attempt + 10,
               },
               ru: {
                 name: 'Кот',
-                count: 0
-              }
-            }
-          ]
-        }
+                count: 0,
+              },
+            },
+          ],
+        },
       ];
 
       const expectedWords = [
@@ -90,7 +90,7 @@ describe('Training Dictionaries Helpers', () => {
           question: 'Cat',
           answer: 'Кот',
           count: SETTINGS.attempt + 10,
-          isShow: false
+          isShow: false,
         },
         {
           id: 51,
@@ -99,8 +99,8 @@ describe('Training Dictionaries Helpers', () => {
           question: 'Кот',
           answer: 'Cat',
           count: 0,
-          isShow: true
-        }
+          isShow: true,
+        },
       ];
 
       const createdWords = createWords(dictionaries);
@@ -125,7 +125,7 @@ describe('Training Dictionaries Helpers', () => {
 
       expect(createdWords).toEqual(expectedWords);
     });
-  })
+  });
   describe('GetNext Helper', () => {
     it('getNext is successful if current word have +1', () => {
       const words = [
@@ -136,7 +136,7 @@ describe('Training Dictionaries Helpers', () => {
           question: 'Cat',
           answer: 'Кот',
           count: 0,
-          isShow: true
+          isShow: true,
         },
         {
           id: 51,
@@ -145,16 +145,16 @@ describe('Training Dictionaries Helpers', () => {
           question: 'Кот',
           answer: 'Cat',
           count: 0,
-          isShow: true
-        }
+          isShow: true,
+        },
       ];
       const currentWord = words[0];
       const expectedWords = words[1];
 
-      const nextWord = getNext(words, currentWord)
+      const nextWord = getNext(words, currentWord);
 
       expect(nextWord).toEqual(expectedWords);
-    })
+    });
 
     it('getNext is successful if next word isShow false', () => {
       const words = [
@@ -165,7 +165,7 @@ describe('Training Dictionaries Helpers', () => {
           question: 'Cat',
           answer: 'Кот',
           count: 0,
-          isShow: true
+          isShow: true,
         },
         {
           id: 51,
@@ -174,8 +174,8 @@ describe('Training Dictionaries Helpers', () => {
           question: 'Кот',
           answer: 'Cat',
           count: 0,
-          isShow: false
-        }
+          isShow: false,
+        },
       ];
       const currentWord = words[0];
       const expectedWords = words[0];
@@ -183,7 +183,7 @@ describe('Training Dictionaries Helpers', () => {
       const nextWord = getNext(words, currentWord);
 
       expect(nextWord).toEqual(expectedWords);
-    })
+    });
 
     it('getNext is successful if current word in end array', () => {
       const words = [
@@ -194,7 +194,7 @@ describe('Training Dictionaries Helpers', () => {
           question: 'Cat',
           answer: 'Кот',
           count: 0,
-          isShow: true
+          isShow: true,
         },
         {
           id: 51,
@@ -203,8 +203,8 @@ describe('Training Dictionaries Helpers', () => {
           question: 'Кот',
           answer: 'Cat',
           count: 0,
-          isShow: true
-        }
+          isShow: true,
+        },
       ];
       const currentWord = words[1];
       const expectedWords = words[0];
@@ -212,7 +212,7 @@ describe('Training Dictionaries Helpers', () => {
       const nextWord = getNext(words, currentWord);
 
       expect(nextWord).toEqual(expectedWords);
-    })
+    });
 
     it('getNext is successful if current word in end array and next word isShow false', () => {
       const words = [
@@ -223,7 +223,7 @@ describe('Training Dictionaries Helpers', () => {
           question: 'Cat',
           answer: 'Кот',
           count: 0,
-          isShow: false
+          isShow: false,
         },
         {
           id: 51,
@@ -232,8 +232,8 @@ describe('Training Dictionaries Helpers', () => {
           question: 'Кот',
           answer: 'Cat',
           count: 0,
-          isShow: true
-        }
+          isShow: true,
+        },
       ];
       const currentWord = words[1];
       const expectedWords = words[1];
@@ -241,8 +241,8 @@ describe('Training Dictionaries Helpers', () => {
       const nextWord = getNext(words, currentWord);
 
       expect(nextWord).toEqual(expectedWords);
-    })
-  })
+    });
+  });
 
   it('getNext is null if all words isShow false', () => {
     const words = [
@@ -253,7 +253,7 @@ describe('Training Dictionaries Helpers', () => {
         question: 'Cat',
         answer: 'Кот',
         count: 0,
-        isShow: false
+        isShow: false,
       },
       {
         id: 51,
@@ -262,13 +262,13 @@ describe('Training Dictionaries Helpers', () => {
         question: 'Кот',
         answer: 'Cat',
         count: 0,
-        isShow: false
-      }
+        isShow: false,
+      },
     ];
     const currentWord = words[0];
 
     const nextWord = getNext(words, currentWord);
 
     expect(nextWord).toEqual(null);
-  })
+  });
 });

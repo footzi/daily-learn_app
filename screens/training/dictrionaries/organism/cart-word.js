@@ -17,7 +17,7 @@ export const CartWord = ({ words, startIndex, onUpdateWords, onFinished }) => {
   const currentRef = useRef();
   const nextRef = useRef();
 
-  const onChange = text => setField(text);
+  const onChange = (text) => setField(text);
 
   const onNotRemember = () => {
     setField('');
@@ -25,7 +25,7 @@ export const CartWord = ({ words, startIndex, onUpdateWords, onFinished }) => {
   };
 
   const onAnswer = () => {
-    const isRight = currentWord.answers.some(item => item.toLowerCase() === field.toLowerCase().trim());
+    const isRight = currentWord.answers.some((item) => item.toLowerCase() === field.toLowerCase().trim());
 
     if (isRight) {
       onUpdateWords(currentWord);

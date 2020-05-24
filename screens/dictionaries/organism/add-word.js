@@ -6,14 +6,14 @@ import { BottomModal, ButtonLoader } from '@components';
 export const AddWord = ({ isOpenModal, closeModal, onSaveWord }) => {
   const initial = {
     name: '',
-    translate: [{ id: 1, value: '' }]
+    translate: [{ id: 1, value: '' }],
   };
   const [isValid, setIsValid] = useState(false);
   const [fields, setFields] = useState(initial);
 
   const onChangeInput = (text, name, id) => {
     if (name === 'translate') {
-      const updates = fields.translate.map(item => {
+      const updates = fields.translate.map((item) => {
         if (item.id === id) {
           item.value = text;
         }
@@ -23,14 +23,14 @@ export const AddWord = ({ isOpenModal, closeModal, onSaveWord }) => {
 
       setFields({
         ...fields,
-        translate: updates
+        translate: updates,
       });
     }
 
     if (name === 'name') {
       setFields({
         ...fields,
-        name: text
+        name: text,
       });
     }
   };
@@ -39,22 +39,22 @@ export const AddWord = ({ isOpenModal, closeModal, onSaveWord }) => {
     const id = fields.translate.length + 1;
     setFields({
       ...fields,
-      translate: [...fields.translate, { id, value: '' }]
+      translate: [...fields.translate, { id, value: '' }],
     });
   };
 
-  const onRemoveField = id => {
-    const updates = fields.translate.filter(item => item.id !== id);
+  const onRemoveField = (id) => {
+    const updates = fields.translate.filter((item) => item.id !== id);
     setFields({
       ...fields,
-      translate: updates
+      translate: updates,
     });
   };
 
   const onSave = () => onSaveWord(fields);
 
   useEffect(() => {
-    const isValid = fields.name && fields.translate.every(item => !!item.value);
+    const isValid = fields.name && fields.translate.every((item) => !!item.value);
     setIsValid(isValid);
   }, [fields]);
 
@@ -67,14 +67,14 @@ export const AddWord = ({ isOpenModal, closeModal, onSaveWord }) => {
   return (
     <BottomModal isOpenModal={isOpenModal} closeModal={closeModal} title="Добавить слово">
       <Item inlineLabel>
-        <Input placeholder="English" onChangeText={text => onChangeInput(text, 'name')} value={fields.name} />
+        <Input placeholder="English" onChangeText={(text) => onChangeInput(text, 'name')} value={fields.name} />
       </Item>
 
-      {fields.translate.map(item => (
+      {fields.translate.map((item) => (
         <Item key={item.id} inlineLabel>
           <Input
             placeholder={item.id === 1 ? 'Русский' : 'Добавить перевод'}
-            onChangeText={text => onChangeInput(text, 'translate', item.id)}
+            onChangeText={(text) => onChangeInput(text, 'translate', item.id)}
             value={item.value}
           />
           {item.id === 1 ? (

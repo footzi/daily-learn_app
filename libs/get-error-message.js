@@ -1,4 +1,4 @@
-export const getErrorMessage = error => {
+export const getErrorMessage = (error) => {
   if (error.response && typeof error.response.data.error !== 'undefined') {
     return error.response.data.error.message;
   } else {

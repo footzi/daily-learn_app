@@ -7,15 +7,15 @@ describe('Home normalize', () => {
       {
         id: 31,
         name: "'Ghehhll'",
-        words: [{ id: 51, en: { name: '31', count: 0 }, ru: { name: 'Привет', count: 0 } }]
-      }
+        words: [{ id: 51, en: { name: '31', count: 0 }, ru: { name: 'Привет', count: 0 } }],
+      },
     ];
 
     const normalize = normalizeDictionaries(dict);
 
     const expected = [
       { id: 21, name: "'Ghehh'", checked: false },
-      { id: 31, name: "'Ghehhll'", checked: false }
+      { id: 31, name: "'Ghehhll'", checked: false },
     ];
     expect(normalize).toEqual(expected);
   });
@@ -27,7 +27,7 @@ describe('Home normalize', () => {
 
     const expected = [
       { id: null, name: '', checked: false },
-      { id: null, name: '', checked: false }
+      { id: null, name: '', checked: false },
     ];
     expect(normalize).toEqual(expected);
   });

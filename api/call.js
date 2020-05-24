@@ -31,5 +31,5 @@ export const ApiCall = {
 
   logout() {
     return request.private('post', '/api/signout');
-  }
+  },
 };

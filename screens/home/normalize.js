@@ -1,9 +1,9 @@
-export const normalizeDictionaries = dictionaries => {
+export const normalizeDictionaries = (dictionaries) => {
   if (!Array.isArray(dictionaries)) {
     return [];
   }
 
-  return dictionaries.map(item => {
+  return dictionaries.map((item) => {
     const { id, name } = item;
     const normalize = {};
 

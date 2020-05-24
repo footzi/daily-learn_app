@@ -20,7 +20,7 @@ const App = () => {
     await Font.loadAsync({
       Roboto: require('./assets/fonts/Roboto.ttf'),
       Roboto_medium: require('./assets/fonts/Roboto_medium.ttf'),
-      ...Ionicons.font
+      ...Ionicons.font,
     });
 
     const isStorageAuth = await LocalStorage.has(TOKENS_LS);
@@ -45,7 +45,7 @@ const App = () => {
   }
 
   if (!isReady) {
-    return <AppLoading startAsync={setInitialData} onFinish={() => setReady(true)} onError={e => console.error(e)} />;
+    return <AppLoading startAsync={setInitialData} onFinish={() => setReady(true)} onError={(e) => console.error(e)} />;
   }
 };
 

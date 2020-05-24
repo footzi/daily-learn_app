@@ -6,12 +6,12 @@ export const SCREENS = {
   DICTIONARY_TRAINING: 'DictionaryTraining',
   CREATE_DICTIONARY: 'CreateDictionary',
   PREVIEW_DICTIONARY: 'PreviewDictionary',
-  SETTINGS_DICTIONARY: 'SettingsDictionary'
+  SETTINGS_DICTIONARY: 'SettingsDictionary',
 };
 
 // Navigation Params
 export const NAVIGATION_PARAMS = {
-  preview_dictionary: 'preview_dictionary'
+  preview_dictionary: 'preview_dictionary',
 };
 
 // Actions

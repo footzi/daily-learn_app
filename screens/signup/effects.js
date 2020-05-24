@@ -3,7 +3,7 @@ import { ERROR, TOKENS_LS, USER_LS } from '@constants';
 import { getErrorMessage, LocalStorage } from '@libs';
 import { ApiCall } from '@api';
 
-export const toSignUp = (body = {}) => async dispatch => {
+export const toSignUp = (body = {}) => async (dispatch) => {
   dispatch(actions.setProcessing());
 
   try {

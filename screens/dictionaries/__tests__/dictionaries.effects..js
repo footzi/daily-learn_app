@@ -13,8 +13,8 @@
 //
 //
 describe('DictionariesScreen Effects', () => {
-  it.todo('createDictionary')
-  it.todo('saveWord')
+  it.todo('createDictionary');
+  it.todo('saveWord');
   // it('createDictionary', async () => {
   //   const body = { login: 'test', password: 'test' };
   //   const data = {
@@ -56,37 +56,37 @@ describe('DictionariesScreen Effects', () => {
   //   await store.dispatch(toSignUp(props.navigation, body));
   //
   //   expect(store.getActions()).toEqual(expectedActions);
-  });
+});
 
-  // it('toSignUp error setNotification', async () => {
-  //   const store = mockStore();
-  //   const request = new MockAdapter(axios);
-  //   const error = {
-  //     message: 'error'
-  //   };
-  //
-  //   const expectedActions = [
-  //     {
-  //       type: SET_PROCESSING,
-  //       payload: true
-  //     },
-  //     {
-  //       type: SET_NOTIFICATION,
-  //       payload: {
-  //         type: ERROR,
-  //         text: error.message
-  //       }
-  //     },
-  //     {
-  //       type: SET_PROCESSING,
-  //       payload: false
-  //     }
-  //   ];
-  //
-  //   mockFormData();
-  //   request.onPost(`${SETTINGS.host}/api/signup`).reply(500, { error });
-  //
-  //   await store.dispatch(toSignUp());
-  //   expect(store.getActions()).toEqual(expectedActions);
-  // });
+// it('toSignUp error setNotification', async () => {
+//   const store = mockStore();
+//   const request = new MockAdapter(axios);
+//   const error = {
+//     message: 'error'
+//   };
+//
+//   const expectedActions = [
+//     {
+//       type: SET_PROCESSING,
+//       payload: true
+//     },
+//     {
+//       type: SET_NOTIFICATION,
+//       payload: {
+//         type: ERROR,
+//         text: error.message
+//       }
+//     },
+//     {
+//       type: SET_PROCESSING,
+//       payload: false
+//     }
+//   ];
+//
+//   mockFormData();
+//   request.onPost(`${SETTINGS.host}/api/signup`).reply(500, { error });
+//
+//   await store.dispatch(toSignUp());
+//   expect(store.getActions()).toEqual(expectedActions);
+// });
 //});

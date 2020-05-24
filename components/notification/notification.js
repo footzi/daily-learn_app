@@ -6,11 +6,11 @@ import * as effects from './effects';
 
 const types = {
   [ERROR]: 'danger',
-  [SUCCESS]: 'success'
+  [SUCCESS]: 'success',
 };
 
 export const Notification = () => {
-  const { notification } = useSelector(state => state);
+  const { notification } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const onClose = () => dispatch(effects.clearNotification);
@@ -25,7 +25,7 @@ export const Notification = () => {
         buttonText: 'Okay',
         position: 'top',
         duration: 10000,
-        onClose
+        onClose,
       });
     }
   }, [notification]);

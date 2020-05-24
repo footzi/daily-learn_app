@@ -15,7 +15,7 @@ export default {
   danger: '#d9534f',
   success: '#5cb85c',
   white: '#ffffff',
-  gray: '#ccc'
+  gray: '#ccc',
 };
 
 export const Colors = {
@@ -34,5 +34,5 @@ export const Colors = {
   success: '#5cb85c',
   white: '#ffffff',
   gray: '#ccc',
-  black: '#000000'
+  black: '#000000',
 };

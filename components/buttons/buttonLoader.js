@@ -3,7 +3,7 @@ import { Button, Text, Spinner } from 'native-base';
 import { useSelector } from 'react-redux';
 
 export const ButtonLoader = ({ onPress, width, disabled, name, ...rest }) => {
-  const processing = useSelector(state => state.processing);
+  const processing = useSelector((state) => state.processing);
 
   return (
     <Button disabled={disabled} onPress={onPress} style={{ width }} {...rest}>

@@ -1,6 +1,6 @@
-export const normalizePreviewWords = words => {
+export const normalizePreviewWords = (words) => {
   return words.reduce((acc, current) => {
-    const addedItem = acc.find(item => current.groupId === item.groupId);
+    const addedItem = acc.find((item) => current.groupId === item.groupId);
 
     const setTranslate = ({ id, translate, count }) => ({ id, translate, count });
 
@@ -8,7 +8,7 @@ export const normalizePreviewWords = words => {
       const item = {
         groupId: current.groupId,
         name: current.name,
-        translates: [setTranslate(current)]
+        translates: [setTranslate(current)],
       };
 
       return [...acc, item];

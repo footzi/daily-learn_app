@@ -6,7 +6,7 @@ describe('Main actions', () => {
   it('setIsAuth', () => {
     const expectedAction = {
       type: SET_IS_AUTH,
-      payload: true
+      payload: true,
     };
 
     expect(actions.setIsAuth()).toEqual(expectedAction);
@@ -15,7 +15,7 @@ describe('Main actions', () => {
   it('removeIsAuth', () => {
     const expectedAction = {
       type: SET_IS_AUTH,
-      payload: false
+      payload: false,
     };
 
     expect(actions.removeIsAuth()).toEqual(expectedAction);
@@ -25,8 +25,8 @@ describe('Main actions', () => {
     const expectedAction = {
       type: SET_USER,
       payload: {
-        id: 1
-      }
+        id: 1,
+      },
     };
 
     expect(actions.setUser(expectedAction.payload)).toEqual(expectedAction);
@@ -35,7 +35,7 @@ describe('Main actions', () => {
   it('removeUser', () => {
     const expectedAction = {
       type: SET_USER,
-      payload: null
+      payload: null,
     };
 
     expect(actions.removeUser()).toEqual(expectedAction);
@@ -45,8 +45,8 @@ describe('Main actions', () => {
     const expectedAction = {
       type: SET_DATA,
       payload: {
-        dictionaries: []
-      }
+        dictionaries: [],
+      },
     };
 
     expect(actions.setData(expectedAction.payload)).toEqual(expectedAction);
@@ -55,7 +55,7 @@ describe('Main actions', () => {
   it('clearData', () => {
     const expectedAction = {
       type: SET_DATA,
-      payload: null
+      payload: null,
     };
 
     expect(actions.clearData()).toEqual(expectedAction);
@@ -66,8 +66,8 @@ describe('Main actions', () => {
       type: SET_NOTIFICATION,
       payload: {
         type: ERROR,
-        text: 'Error 500'
-      }
+        text: 'Error 500',
+      },
     };
 
     expect(actions.setNotification(expectedAction.payload)).toEqual(expectedAction);
@@ -78,8 +78,8 @@ describe('Main actions', () => {
       type: SET_NOTIFICATION,
       payload: {
         type: '',
-        text: ''
-      }
+        text: '',
+      },
     };
 
     expect(actions.clearNotification()).toEqual(expectedAction);
@@ -88,7 +88,7 @@ describe('Main actions', () => {
   it('setProcessing', () => {
     const expectedAction = {
       type: SET_PROCESSING,
-      payload: true
+      payload: true,
     };
 
     expect(actions.setProcessing()).toEqual(expectedAction);
@@ -97,7 +97,7 @@ describe('Main actions', () => {
   it('clearProcessing', () => {
     const expectedAction = {
       type: SET_PROCESSING,
-      payload: false
+      payload: false,
     };
 
     expect(actions.removeProcessing()).toEqual(expectedAction);

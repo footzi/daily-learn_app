@@ -3,7 +3,7 @@ import { LocalStorage, getErrorMessage } from '@libs';
 import { ApiCall } from '@api';
 import { TOKENS_LS, USER_LS, ERROR } from '@constants';
 
-export const toSignIn = (body = {}) => async dispatch => {
+export const toSignIn = (body = {}) => async (dispatch) => {
   dispatch(actions.setProcessing());
 
   try {

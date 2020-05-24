@@ -18,13 +18,13 @@ describe('Common effects', () => {
         {
           id: 31,
           name: "'Ghehhll'",
-          words: [{ id: 51, en: { name: '31', count: 0 }, ru: { name: 'Привет', count: 0 } }]
+          words: [{ id: 51, en: { name: '31', count: 0 }, ru: { name: 'Привет', count: 0 } }],
         },
         { id: 41, name: '3232', words: [] },
         {
           id: 51,
           name: 'Новый словарь',
-          words: [{ id: 61, en: { name: 'Слово 1', count: 0 }, ru: { name: 'Слово 1', count: 0 } }]
+          words: [{ id: 61, en: { name: 'Слово 1', count: 0 }, ru: { name: 'Слово 1', count: 0 } }],
         },
         {
           id: 61,
@@ -32,17 +32,17 @@ describe('Common effects', () => {
           words: [
             { id: 71, en: { name: 'Слово 2', count: 0 }, ru: { name: 'Слово 2', count: 0 } },
             { id: 81, en: { name: 'Слово 3', count: 3 }, ru: { name: 'Слово 3', count: 1 } },
-            { id: 141, en: { name: 'Slovo', count: 0 }, ru: { name: 'Слово 3', count: 0 } }
-          ]
+            { id: 141, en: { name: 'Slovo', count: 0 }, ru: { name: 'Слово 3', count: 0 } },
+          ],
         },
-        { id: 141, name: 'Новый словарь 34', words: [] }
-      ]
+        { id: 141, name: 'Новый словарь 34', words: [] },
+      ],
     };
     const expectedActions = [
       {
         type: SET_DATA,
-        payload: data
-      }
+        payload: data,
+      },
     ];
     const store = mockStore();
     const request = new MockAdapter(axios);
@@ -50,7 +50,7 @@ describe('Common effects', () => {
     mockFormData();
     mockRefreshToken(request);
     request.onGet(`${SETTINGS.host}/screens/home`).reply(200, {
-      data
+      data,
     });
 
     await store.dispatch(effects.getMainData());
@@ -61,7 +61,7 @@ describe('Common effects', () => {
     const store = mockStore();
     const request = new MockAdapter(axios);
     const error = {
-      message: 'error'
+      message: 'error',
     };
 
     const expectedActions = [
@@ -69,9 +69,9 @@ describe('Common effects', () => {
         type: SET_NOTIFICATION,
         payload: {
           type: ERROR,
-          text: error.message
-        }
-      }
+          text: error.message,
+        },
+      },
     ];
 
     mockFormData();

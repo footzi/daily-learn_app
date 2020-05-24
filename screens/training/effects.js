@@ -3,7 +3,7 @@ import { ERROR } from '@constants';
 import { actions } from '@store';
 import * as commonEffects from '@store/common-effects';
 
-export const saveCountWord = body => async dispatch => {
+export const saveCountWord = (body) => async (dispatch) => {
   try {
     const response = await ApiCall.changeCountWord(body);
     const { data, error } = response.data;

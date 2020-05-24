@@ -49,7 +49,7 @@ export const DictionaryTrainingScreen = ({ route }) => {
   }, []);
 
   if (isLoading) {
-    return <Loader />
+    return <Loader />;
   }
 
   if (isNotWords) {

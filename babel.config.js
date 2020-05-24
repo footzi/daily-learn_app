@@ -15,12 +15,12 @@ module.exports = function(api) {
                 '@store': './store',
                 '@api': './api',
                 '@libs': './libs',
-                '@mocks': './mocks'
-              }
-            }
-          ]
-        ]
-      }
-    }
+                '@mocks': './mocks',
+              },
+            },
+          ],
+        ],
+      },
+    },
   };
 };
