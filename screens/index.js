@@ -3,6 +3,5 @@ export { SignUpScreen } from './signup';
 export { HomeScreen } from './home';
 export { DictionaryTrainingScreen } from './training';
 export { DictionariesScreen } from './dictionaries';
-export { PreviewDictionaryScreen } from './dictionaries/sub/preview';
-export { SettingsDictionaryScreen } from '../screens/dictionaries/sub/settings';
+export { PreviewDictionaryScreen, SettingsDictionaryScreen } from './dictionaries/sub';
 export { SettingsScreen } from '../screens/settings';

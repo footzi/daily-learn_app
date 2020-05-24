@@ -43,6 +43,8 @@ export const CartWord = ({ words, startIndex, onUpdateWords, onFinished }) => {
   const onNext = () => {
     const nextIndex = getNextIndex(words, currentIndex);
 
+    setIsWrong(false);
+
     if (nextIndex !== null) {
       setNextIndex(nextIndex);
 
@@ -55,9 +57,19 @@ export const CartWord = ({ words, startIndex, onUpdateWords, onFinished }) => {
     } else {
       onFinished();
     }
-
-    setIsWrong(false);
   };
+
+  // console.log(words);
+  // console.log(currentIndex);
+  //
+  // console.log(currentWord);
+  // console.log(nextWord);
+  // // useEffect(() => {
+  // //   return () => {
+  // //     setCurrentIndex(0);
+  // //     setNextIndex(0);
+  // //   };
+  // // }, []);
 
   return (
     <Card>

@@ -4,11 +4,11 @@ import * as Font from 'expo-font';
 import { Root } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
-import { USER_LS, TOKENS_LS } from '@constants';
-import { request } from '@api';
-import { LocalStorage } from '@libs';
-import { Notification } from '@components';
-import { createAppStore } from '@store';
+import { USER_LS, TOKENS_LS } from './constants';
+import { request } from './api';
+import { LocalStorage } from './libs';
+import { Notification } from './components';
+import { createAppStore } from './store';
 import { Navigation } from './navigation';
 
 const App = () => {
@@ -18,8 +18,8 @@ const App = () => {
 
   const setInitialData = async () => {
     await Font.loadAsync({
-      Roboto: require('./assets/fonts/Roboto.ttf'),
-      Roboto_medium: require('./assets/fonts/Roboto_medium.ttf'),
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
       ...Ionicons.font,
     });
 

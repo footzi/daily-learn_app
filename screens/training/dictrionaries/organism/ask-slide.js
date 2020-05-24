@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
 import { H3 } from 'native-base';
 import { ProgressBar } from '@components';

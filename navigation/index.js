@@ -92,6 +92,7 @@ export const Navigation = () => {
   }, [isAuth]);
 
   // показываем только тогда идет запрос за данными
+  // isAuth && !isData
   if (isAuth && !isData) {
     return <Loader />;
   }
