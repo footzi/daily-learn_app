@@ -10,10 +10,10 @@ import { normalizePreviewWords } from '../normalize';
 import * as effects from '../effects';
 
 export const PreviewDictionaryScreen = ({ navigation, route }) => {
-  const { dictionaries } = useSelector(state => state.data);
+  const { data } = useSelector((state) => state);
+  const { dictionaries = [] } = data;
   const dispatch = useDispatch();
-
-  const { preview_dictionary } = route.params;
+  const { preview_dictionary = {} } = route.params;
 
   const [words, setWords] = useState([]);
   const [isEn, setIsEn] = useState(true);
@@ -30,18 +30,18 @@ export const PreviewDictionaryScreen = ({ navigation, route }) => {
   const onMix = () => setIsMix(!isMix);
   const onDelete = () => setIsDelete(!isDelete);
 
-  const onSaveWord = async fields => {
+  const onSaveWord = async (fields) => {
     await dispatch(effects.saveWord({ fields, preview_dictionary }));
     closeModal();
   };
 
-  const onDeleteWord = item => {
+  const onDeleteWord = (item) => {
     setDeletedWord(item);
     deleteWordOpenModal();
   };
 
   const onSubmitDeleteWord = async () => {
-    const ids = deletedWord.translates.map(item => item.id);
+    const ids = deletedWord.translates.map((item) => item.id);
 
     await dispatch(effects.removeWord(ids));
     setDeletedWord('');
@@ -49,10 +49,14 @@ export const PreviewDictionaryScreen = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    const dictionaryWords = dictionaries.find(item => item.id === preview_dictionary.id).words;
-    const currentWords = normalizePreviewWords(dictionaryWords);
+    const currentDictionary = dictionaries.find((item) => item.id === preview_dictionary.id);
 
-    setWords(currentWords);
+    if (currentDictionary) {
+      const dictionaryWords = currentDictionary.words;
+      const currentWords = normalizePreviewWords(dictionaryWords);
+
+      setWords(currentWords);
+    }
   }, [dictionaries]);
 
   useLayoutEffect(() => {
@@ -66,7 +70,7 @@ export const PreviewDictionaryScreen = ({ navigation, route }) => {
             <Icon name="md-menu" style={{ color: Colors.black }} />
           )}
         </Button>
-      )
+      ),
     });
   }, [navigation, isHeaderOpenModal]);
 
@@ -87,7 +91,7 @@ export const PreviewDictionaryScreen = ({ navigation, route }) => {
         <Container>
           {!words.length && <H3 style={{ textAlign: 'center' }}>У вас еще нет слов(</H3>}
 
-          {words.map(item => (
+          {words.map((item) => (
             <Line key={item.groupId}>
               <Item isShow={isRu}>
                 <Text>{item.name}</Text>
@@ -161,7 +165,7 @@ const Line = styled.View`
 const Item = styled.View`
   flex: 1;
   flex-direction: column;
-  opacity: ${p => (p.isShow ? 1 : 0)};
+  opacity: ${(p) => (p.isShow ? 1 : 0)};
   padding-bottom: 10px;
   padding-top: 10px;
 `;

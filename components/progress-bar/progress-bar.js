@@ -3,11 +3,11 @@ import { Animated } from 'react-native';
 import styled from 'styled-components/native';
 import { Colors } from '@constants';
 
-export const ProgressBar = ({ progress, useCallbackEndAnimation = false, onEndAnimation = () => {} }) => {
+export const ProgressBar = ({ progress = 0, onEndAnimation = () => {} }) => {
   const [value] = useState(new Animated.Value(progress));
 
   const onAnimEndCallback = () => {
-    if (useCallbackEndAnimation && progress) {
+    if (progress) {
       onEndAnimation();
     }
   };
@@ -15,7 +15,7 @@ export const ProgressBar = ({ progress, useCallbackEndAnimation = false, onEndAn
   useEffect(() => {
     Animated.timing(value, {
       toValue: progress,
-      duration: 300,
+      duration: 200,
     }).start(onAnimEndCallback);
   }, [progress]);
 

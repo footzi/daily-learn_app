@@ -15,6 +15,8 @@ export const toSignOut = () => async (dispatch) => {
       throw new Error(error);
     }
 
+    dispatch(actions.removeProcessing()); // не в finally иначе на логин весит лоадер
+
     dispatch(actions.removeUser());
     dispatch(actions.removeIsAuth());
     dispatch(actions.clearData());
@@ -23,7 +25,7 @@ export const toSignOut = () => async (dispatch) => {
     await LocalStorage.remove(USER_LS);
   } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
-  } finally {
+
     dispatch(actions.removeProcessing());
   }
 };

@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { SETTINGS } from '@constants';
 import { Loader } from '@components/loader';
 import { Statistics, CartWord, Congratulation, NotWords } from './organism';
-import { createWords, getNextIndex, getStartIndex, getStartWord, getNextWord } from './helpers';
+import { createWords, getStartIndex } from './helpers';
 import * as effects from '../effects';
 
 export const DictionaryTrainingScreen = ({ route }) => {
@@ -15,28 +15,18 @@ export const DictionaryTrainingScreen = ({ route }) => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [words, setWords] = useState([]);
-
-  const [currentWord, setCurrentWord] = useState({});
-  const [nextWord, setNextWord] = useState({});
-
-  // const [startWordIndex, setStartWordIndex] = useState(0);
+  const [startWordIndex, setStartWordIndex] = useState(0);
   const [isStatistics, setIsStatistics] = useState(false);
 
   const isNotWords = words.length === 0;
-  // const isAvailableWords = !isNotWords && startWordIndex !== null;
+  const isAvailableWords = !isNotWords && startWordIndex !== null;
 
-  const onUpdateCurrentWord = () => {
-    const count = currentWord.count + 1;
-
-    setCurrentWord({ ...currentWord, count });
-  };
-
-  const onUpdateWords = () => {
-    const body = { id: currentWord.id, type: currentWord.type };
-    const count = currentWord.count + 1;
+  const onUpdateWords = (word) => {
+    const body = { id: word.id, type: word.type };
+    const count = word.count + 1;
 
     const updatedWords = words.map((item) => {
-      if (item.uid === currentWord.uid) {
+      if (item.uid === word.uid) {
         item.count = count;
         item.isShow = count < SETTINGS.attempt;
       }
@@ -45,70 +35,38 @@ export const DictionaryTrainingScreen = ({ route }) => {
 
     setWords(updatedWords);
     dispatch(effects.saveCountWord(body));
-
-    // const body = { id: word.id, type: word.type };
-    // const count = word.count + 1;
-    //
-    // const updatedWords = words.map((item) => {
-    //   if (item.uid === word.uid) {
-    //     item.count = count;
-    //     item.isShow = count < SETTINGS.attempt;
-    //   }
-    //   return item;
-    // });
-    //
-    // setWords(updatedWords);
-    // dispatch(effects.saveCountWord(body));
-  };
-
-  const onChangeCurrentWord = () => {
-    const nextWord = getNextWord(words, currentWord);
-
-    setCurrentWord(nextWord);
   };
 
   const onFinished = () => setIsStatistics(true);
 
   useEffect(() => {
     const words = createWords(allDictionaries, selectedDictionaries);
-
-    const currentWord = getStartWord(words); // {} || null
-    //const nextWord = getNextWord(words, currentWord);
+    const startWordIndex = getStartIndex(words);
 
     setWords(words);
-    setCurrentWord(currentWord);
-
+    setStartWordIndex(startWordIndex);
     setIsLoading(false);
   }, []);
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader />
   }
 
-  // if (isNotWords) {
-  //   return <NotWords />;
-  // }
-  //
-  // if (isStatistics) {
-  //   return <Statistics />;
-  // }
+  if (isNotWords) {
+    return <NotWords />;
+  }
 
-  // if (!isAvailableWords) {
-  //   return <Congratulation />;
-  // }
+  if (isStatistics) {
+    return <Statistics />;
+  }
+
+  if (!isAvailableWords) {
+    return <Congratulation />;
+  }
 
   return (
     <Container>
-      <CartWord
-        words={words}
-        curentWord={currentWord}
-        nexWord={nextWord}
-        startIndex={null}
-        onUpdateWords={onUpdateWords}
-        onChangeCurrentWord={onChangeCurrentWord}
-        onFinished={onFinished}
-        onUpdateCurrentWord={onUpdateCurrentWord}
-      />
+      <CartWord words={words} startIndex={startWordIndex} onUpdateWords={onUpdateWords} onFinished={onFinished} />
     </Container>
   );
 };

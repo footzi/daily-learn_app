@@ -64,61 +64,59 @@ export const getStartIndex = (words) => {
   }
 };
 
-export const getStartWord = (words) => {
-  if (!words.length) {
-    return null;
-  }
+// export const getStartWord = (words) => {
+//   if (!words.length) {
+//     return null;
+//   }
+//
+//   if (words[0].isShow) {
+//     return words[0];
+//   }
+//
+//   const word = words.find((item) => item.isShow);
+//
+//   if (word) {
+//     return word;
+//   } else {
+//     return null;
+//   }
+// };
 
-  if (words[0].isShow) {
-    return words[0];
-  }
-
-  const word = words.find((item) => item.isShow);
-
-  if (word) {
-    return word;
-  } else {
-    return null;
-  }
-};
-
-export const getNextWord = (words, currentWord) => {
-  const currentIndex = words.findIndex((item) => item.uid === currentWord.uid);
-
-  const nextFrom = words.find((item, index) => index >= currentIndex + 1 && item.isShow);
-
-  // const nextFrom = words.findIndex((item, index) => index >= currentIndex + 1 && item.isShow);
-  // // проверяем от начала массива
-  const nextTo = words.find((item) => item.isShow);
-  //
-  if (nextFrom) {
-    return nextFrom;
-  }
-
-  if (nextTo) {
-    return nextTo;
-  }
-
-  return null;
-};
-
-// export const getNextIndex = (words, currentWord) => {
+// export const getNextWord = (words, currentWord) => {
 //   const currentIndex = words.findIndex((item) => item.uid === currentWord.uid);
 //
-//   const nextFrom = words.findIndex((item, index) => index >= currentIndex + 1 && item.isShow);
-//   // проверяем от начала массива
-//   const nextTo = words.findIndex((item) => item.isShow);
+//   const nextFrom = words.find((item, index) => index >= currentIndex + 1 && item.isShow);
 //
-//   if (nextFrom + 1) {
+//   // const nextFrom = words.findIndex((item, index) => index >= currentIndex + 1 && item.isShow);
+//   // // проверяем от начала массива
+//   const nextTo = words.find((item) => item.isShow);
+//   //
+//   if (nextFrom) {
 //     return nextFrom;
 //   }
 //
-//   if (nextTo + 1) {
+//   if (nextTo) {
 //     return nextTo;
 //   }
 //
 //   return null;
 // };
+
+export const getNextIndex = (words, currentIndex) => {
+  const nextFrom = words.findIndex((item, index) => index >= currentIndex + 1 && item.isShow);
+  // проверяем от начала массива
+  const nextTo = words.findIndex((item) => item.isShow);
+
+  if (nextFrom + 1) {
+    return nextFrom;
+  }
+
+  if (nextTo + 1) {
+    return nextTo;
+  }
+
+  return null;
+};
 
 // export const getNext = (words, currentIndex) => {
 //   // проверяем от текущего до конца массива
