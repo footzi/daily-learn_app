@@ -1,7 +1,7 @@
 import { TOKENS_LS } from '@constants';
 import { LocalStorage } from '@libs';
 
-export const createFormData = params => {
+export const createFormData = (params) => {
   const formData = new FormData();
 
   if (!params) {

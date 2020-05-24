@@ -1,38 +1,31 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components/native';
-import { Content, ListItem, Text, Button, H3, CheckBox } from 'native-base';
+import { Content, ListItem, Text, Button, CheckBox } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
-import { Loader } from '@components';
+import { Title } from '@components';
 import * as effects from './effects';
 
-const HomeScreen = ({ navigation }) => {
-  const { homeScreen, data, isProcessing } = useSelector(state => state);
-  const { dictionaries } = homeScreen;
+export const HomeScreen = ({ navigation }) => {
+  const { data = {}, homeScreen = {} } = useSelector((state) => state);
+  const { dictionaries = [] } = homeScreen;
   const dispatch = useDispatch();
 
   const onStart = () => dispatch(effects.startTraining(navigation));
-  const onSelect = id => dispatch(effects.selectDictionary(id));
+  const onSelect = (id) => dispatch(effects.selectDictionary(id));
 
-  const haveSelected = dictionaries.some(item => item.checked);
+  const haveSelected = dictionaries.some((item) => item.checked);
 
   useEffect(() => {
-    if (data.dictionaries) {
-      dispatch(effects.setDictionaries());
-    }
+    dispatch(effects.setDictionaries(data));
   }, [data]);
 
   return (
     <Content>
-      {isProcessing && <Loader opacity={0.4} />}
       <Container>
-        {dictionaries.length > 0 ? (
-          <Text style={{ textAlign: 'center' }}>Выберите словарь для старта</Text>
-        ) : (
-          <H3 style={{ textAlign: 'center' }}>Для начала создайте словарь</H3>
-        )}
+        {dictionaries.length ? <Title>Выберите словарь для старта</Title> : <Title>Для начала создайте словарь</Title>}
 
         <Dictionaries>
-          {dictionaries.map(item => (
+          {dictionaries.map((item) => (
             <ListItem key={item.id}>
               <CheckBox onPress={() => onSelect(item.id)} checked={item.checked} />
               <Item onPress={() => onSelect(item.id)}>
@@ -52,10 +45,6 @@ const HomeScreen = ({ navigation }) => {
       </Container>
     </Content>
   );
-};
-
-HomeScreen.navigationOptions = {
-  title: 'Тренировки'
 };
 
 const Container = styled.View`
@@ -80,5 +69,3 @@ const Item = styled.TouchableOpacity`
 const Name = styled.Text`
   align-self: flex-start;
 `;
-
-export default HomeScreen;

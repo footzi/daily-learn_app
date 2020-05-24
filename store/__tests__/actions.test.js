@@ -1,32 +1,32 @@
 import { actions } from '../index';
-import { SET_AUTH, SET_USER, SET_DATA, SET_NOTIFICATION, SET_PROCESSING } from '../../constants/action-types';
+import { SET_IS_AUTH, SET_USER, SET_DATA, SET_NOTIFICATION, SET_PROCESSING } from '../../constants/action-types';
 import { ERROR } from '../../constants';
 
 describe('Main actions', () => {
-  it('setAuth', () => {
+  it('setIsAuth', () => {
     const expectedAction = {
-      type: SET_AUTH,
-      payload: true
+      type: SET_IS_AUTH,
+      payload: true,
     };
 
-    expect(actions.setAuth()).toEqual(expectedAction);
+    expect(actions.setIsAuth()).toEqual(expectedAction);
   });
 
-  it('removeAuth', () => {
+  it('removeIsAuth', () => {
     const expectedAction = {
-      type: SET_AUTH,
-      payload: false
+      type: SET_IS_AUTH,
+      payload: false,
     };
 
-    expect(actions.removeAuth()).toEqual(expectedAction);
+    expect(actions.removeIsAuth()).toEqual(expectedAction);
   });
 
   it('setUser', () => {
     const expectedAction = {
       type: SET_USER,
       payload: {
-        id: 1
-      }
+        id: 1,
+      },
     };
 
     expect(actions.setUser(expectedAction.payload)).toEqual(expectedAction);
@@ -35,7 +35,7 @@ describe('Main actions', () => {
   it('removeUser', () => {
     const expectedAction = {
       type: SET_USER,
-      payload: null
+      payload: null,
     };
 
     expect(actions.removeUser()).toEqual(expectedAction);
@@ -45,8 +45,8 @@ describe('Main actions', () => {
     const expectedAction = {
       type: SET_DATA,
       payload: {
-        dictionaries: []
-      }
+        dictionaries: [],
+      },
     };
 
     expect(actions.setData(expectedAction.payload)).toEqual(expectedAction);
@@ -55,7 +55,7 @@ describe('Main actions', () => {
   it('clearData', () => {
     const expectedAction = {
       type: SET_DATA,
-      payload: null
+      payload: null,
     };
 
     expect(actions.clearData()).toEqual(expectedAction);
@@ -66,8 +66,8 @@ describe('Main actions', () => {
       type: SET_NOTIFICATION,
       payload: {
         type: ERROR,
-        text: 'Error 500'
-      }
+        text: 'Error 500',
+      },
     };
 
     expect(actions.setNotification(expectedAction.payload)).toEqual(expectedAction);
@@ -78,8 +78,8 @@ describe('Main actions', () => {
       type: SET_NOTIFICATION,
       payload: {
         type: '',
-        text: ''
-      }
+        text: '',
+      },
     };
 
     expect(actions.clearNotification()).toEqual(expectedAction);
@@ -88,7 +88,7 @@ describe('Main actions', () => {
   it('setProcessing', () => {
     const expectedAction = {
       type: SET_PROCESSING,
-      payload: true
+      payload: true,
     };
 
     expect(actions.setProcessing()).toEqual(expectedAction);
@@ -97,7 +97,7 @@ describe('Main actions', () => {
   it('clearProcessing', () => {
     const expectedAction = {
       type: SET_PROCESSING,
-      payload: false
+      payload: false,
     };
 
     expect(actions.removeProcessing()).toEqual(expectedAction);

@@ -10,13 +10,13 @@ export const mockFormData = () => {
   return (global.FormData = () => ({ entries, append }));
 };
 
-export const mockRefreshToken = request => {
+export const mockRefreshToken = (request) => {
   request.onPost(`${SETTINGS.host}/api/refresh`).reply(200, {
     data: {
       access_token: '',
       refresh_token: '',
-      expire: ''
-    }
+      expire: '',
+    },
   });
 };
 
@@ -25,6 +25,6 @@ export const renderWithRedux = (children, initialState = {}) => {
 
   return {
     ...render(<Provider store={store}>{children}</Provider>),
-    store
+    store,
   };
 };

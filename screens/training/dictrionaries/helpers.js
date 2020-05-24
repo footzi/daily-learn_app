@@ -3,35 +3,42 @@
 import { SETTINGS } from '@constants/settings';
 import { shuffleArray } from '@libs';
 
-export const createWords = dictionaries => {
+export const createWords = (allDictionaries = [], selectedDictionaries = []) => {
+  const dictionaries = allDictionaries.filter((item) => selectedDictionaries.includes(item.id));
   const result = [];
 
   if (!Array.isArray(dictionaries)) {
     return result;
   }
 
-  dictionaries.forEach(item => {
-    item.words.forEach(word => {
-      const { id, en, ru } = word;
+  dictionaries.forEach((dictionary) => {
+    if (!dictionary.words.length) {
+      return result;
+    }
+
+    dictionary.words.forEach((word, index) => {
+      const { id, groupId, name, translate, nameCount, translateCount } = word;
+
+      const translates = dictionary.words.filter((item) => item.groupId === groupId).map((item) => item.translate);
 
       result.push({
         id,
-        id_unique: id + '_en',
-        lang: 'en',
-        question: en.name,
-        answer: ru.name,
-        count: en.count,
-        isShow: en.count < SETTINGS.attempt
+        uid: id + index,
+        type: 'name',
+        question: name,
+        answers: translates,
+        count: nameCount,
+        isShow: nameCount < SETTINGS.attempt,
       });
 
       result.push({
-        id: id,
-        id_unique: id + '_ru',
-        lang: 'ru',
-        question: ru.name,
-        answer: en.name,
-        count: ru.count,
-        isShow: ru.count < SETTINGS.attempt
+        id,
+        uid: id + index + 1,
+        type: 'translate',
+        question: translate,
+        answers: [name],
+        count: translateCount,
+        isShow: translateCount < SETTINGS.attempt,
       });
     });
   });
@@ -39,47 +46,92 @@ export const createWords = dictionaries => {
   return shuffleArray(result);
 };
 
-export const getNext = (words, current_word) => {
-  const index_word = words.findIndex(item => item.id_unique === current_word.id_unique);
-  // проверяем от текущего до конца массива
-  const next_from = words.findIndex((item, index) => index >= index_word + 1 && item.isShow);
-  // проверяем от начала массива
-  const next_to = words.findIndex(item => item.isShow);
-
-  if (next_from + 1) {
-    return words[next_from];
+export const getStartIndex = (words) => {
+  if (!words.length) {
+    return null;
   }
 
-  if (next_to + 1) {
-    return words[next_to];
+  if (words[0].isShow) {
+    return 0;
+  }
+
+  const index = words.findIndex((item) => item.isShow);
+
+  if (index + 1) {
+    return index;
+  } else {
+    return null;
+  }
+};
+
+// export const getStartWord = (words) => {
+//   if (!words.length) {
+//     return null;
+//   }
+//
+//   if (words[0].isShow) {
+//     return words[0];
+//   }
+//
+//   const word = words.find((item) => item.isShow);
+//
+//   if (word) {
+//     return word;
+//   } else {
+//     return null;
+//   }
+// };
+
+// export const getNextWord = (words, currentWord) => {
+//   const currentIndex = words.findIndex((item) => item.uid === currentWord.uid);
+//
+//   const nextFrom = words.find((item, index) => index >= currentIndex + 1 && item.isShow);
+//
+//   // const nextFrom = words.findIndex((item, index) => index >= currentIndex + 1 && item.isShow);
+//   // // проверяем от начала массива
+//   const nextTo = words.find((item) => item.isShow);
+//   //
+//   if (nextFrom) {
+//     return nextFrom;
+//   }
+//
+//   if (nextTo) {
+//     return nextTo;
+//   }
+//
+//   return null;
+// };
+
+export const getNextIndex = (words, currentIndex) => {
+  const nextFrom = words.findIndex((item, index) => index >= currentIndex + 1 && item.isShow);
+  // проверяем от начала массива
+  const nextTo = words.findIndex((item) => item.isShow);
+
+  if (nextFrom + 1) {
+    return nextFrom;
+  }
+
+  if (nextTo + 1) {
+    return nextTo;
   }
 
   return null;
 };
 
-export const getPrev = (words, current) => {
-  let prev_from = '';
-  let prev_to = '';
-
-  // проверям от текущего к началу массива
-  words.forEach((item, index) => {
-    if (current - 1 >= index && item.isShow) {
-      prev_from = index;
-    }
-  });
-
-  // проверям от конца массива к текущему
-  words.forEach((item, index) => {
-    if (current <= index && item.isShow) {
-      prev_to = index;
-    }
-  });
-
-  if (prev_from !== '') {
-    return prev_from;
-  }
-
-  if (prev_to !== '') {
-    return prev_to;
-  }
-};
+// export const getNext = (words, currentIndex) => {
+//   // проверяем от текущего до конца массива
+//   //const nextFrom = words.findIndex((item, index) => index >= currentIndex + 1 && item.isShow);
+//   const nextFrom = words.findIndex((item, index) => index >= currentIndex + 1 && item.isShow);
+//   // проверяем от начала массива
+//   const nextTo = words.findIndex((item) => item.isShow);
+//
+//   if (nextFrom + 1) {
+//     return words[nextFrom];
+//   }
+//
+//   if (nextTo + 1) {
+//     return words[nextTo];
+//   }
+//
+//   return null;
+// };

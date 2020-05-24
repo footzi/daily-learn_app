@@ -3,19 +3,25 @@ import { Animated } from 'react-native';
 import styled from 'styled-components/native';
 import { Colors } from '@constants';
 
-export const ProgressBar = ({ progress }) => {
+export const ProgressBar = ({ progress = 0, onEndAnimation = () => {} }) => {
   const [value] = useState(new Animated.Value(progress));
+
+  const onAnimEndCallback = () => {
+    if (progress) {
+      onEndAnimation();
+    }
+  };
 
   useEffect(() => {
     Animated.timing(value, {
       toValue: progress,
-      duration: 200
-    }).start();
+      duration: 200,
+    }).start(onAnimEndCallback);
   }, [progress]);
 
   const width = value.interpolate({
     inputRange: [0, 100],
-    outputRange: ['0%', '100%']
+    outputRange: ['0%', '100%'],
   });
 
   return (
@@ -23,9 +29,9 @@ export const ProgressBar = ({ progress }) => {
       <Rail>
         <Animated.View
           style={{
-            width: width,
-            height: 10,
-            backgroundColor: `${(progress < 50 && Colors.warning) || (progress >= 50 && Colors.success)}`
+            width,
+            height: 3,
+            backgroundColor: `${(progress < 50 && Colors.warning) || (progress >= 50 && Colors.success)}`,
           }}
         />
       </Rail>
@@ -39,7 +45,7 @@ const View = styled.View`
 
 const Rail = styled.View`
   border-radius: 4px;
-  height: 10px;
+  height: 3px;
   overflow: hidden;
   background-color: ${Colors.gray};
 `;

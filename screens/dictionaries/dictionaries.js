@@ -1,35 +1,36 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { useSelector, useDispatch } from 'react-redux';
-import { Text, Content, Button, List, ListItem, Icon, H3 } from 'native-base';
+import { Text, Content, Button, List, ListItem, Icon } from 'native-base';
 import { SCREENS } from '@constants';
-import { BottomModal, useModal } from '@components';
+import { Title, BottomModal, useModal } from '@components';
 import { CreateDict } from './organism';
 import * as effects from './effects';
 
 export const DictionariesScreen = ({ navigation }) => {
-  const { dictionaries } = useSelector(state => state.data);
+  const { data = {} } = useSelector((state) => state);
+  const { dictionaries = [] } = data;
   const dispatch = useDispatch();
   const [isOpenModal, openModal, closeModal] = useModal();
 
-  const onCreate = body => dispatch(effects.createDictionary({ navigation, body, closeModal }));
-  const onPreview = preview_dictionary => {
+  const onCreate = (body) => dispatch(effects.createDictionary({ navigation, body, closeModal }));
+  const onPreview = (preview_dictionary) => {
     navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { preview_dictionary }); //NAVIGATION_PARAMS.preview_dictionary
   };
-  const onSettings = dictionary => navigation.navigate(SCREENS.SETTINGS_DICTIONARY, { dictionary });
+  const onSettings = (dictionary) => navigation.navigate(SCREENS.SETTINGS_DICTIONARY, { dictionary });
 
   return (
     <Content>
       <Container>
-        {!dictionaries.length && (
-          <H3 style={{ textAlign: 'center' }} testID="empty-title">
-            У вас еще нет словаря(
-          </H3>
+        {dictionaries.length ? (
+          <Title>Ваши словари:</Title>
+        ) : (
+          <Title testID="empty-title">У вас еще нет словаря(</Title>
         )}
 
         {dictionaries.length > 0 && (
           <List testID="list">
-            {dictionaries.map(item => (
+            {dictionaries.map((item) => (
               <ListItem key={item.id} onPress={() => onPreview(item)} noIndent>
                 <Text>{item.name}</Text>
                 <Button
@@ -67,7 +68,3 @@ const Create = styled.View`
   flex: 1;
   align-items: center;
 `;
-
-DictionariesScreen.navigationOptions = {
-  title: 'Словари'
-};

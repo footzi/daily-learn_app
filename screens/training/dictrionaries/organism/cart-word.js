@@ -1,52 +1,118 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components/native';
-import { Card, Icon, Item, H3, Input, Button, Text } from 'native-base';
-import { ProgressBar } from '@components';
-import { SETTINGS } from '@constants';
+import { Card, Item, Input, Button, Text } from 'native-base';
+import { Colors } from '@constants';
+import { AskSlide } from './ask-slide';
+import { getNextIndex } from '../helpers';
 
-export const CartWord = ({ word, onRight, onWrong, onFinished }) => {
+export const CartWord = ({ words, startIndex, onUpdateWords, onFinished }) => {
   const [field, setField] = useState('');
-  const [isNotRemember, setIsNotRemember] = useState(false);
   const [isWrong, setIsWrong] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(startIndex);
+  const [nextIndex, setNextIndex] = useState(0);
 
-  const isCheck = word.answer.toLowerCase() === field.toLowerCase();
+  const currentWord = words[currentIndex];
+  const nextWord = words[nextIndex];
 
-  const onChange = text => setField(text);
-  const onNotRemember = () => setIsNotRemember(true);
-  const onAnswer = () => (isCheck ? onRight() : setIsWrong(true));
-  const onRemember = () => onWrong();
+  const currentRef = useRef();
+  const nextRef = useRef();
+
+  const onChange = (text) => setField(text);
+
+  const onNotRemember = () => {
+    setField('');
+    setIsWrong(true);
+  };
+
+  const onAnswer = () => {
+    const isRight = currentWord.answers.some((item) => item.toLowerCase() === field.toLowerCase().trim());
+
+    if (isRight) {
+      onUpdateWords(currentWord);
+
+      setTimeout(() => {
+        onNext();
+      }, 300);
+    } else {
+      setIsWrong(true);
+    }
+
+    setField('');
+  };
+
+  const onNext = () => {
+    const nextIndex = getNextIndex(words, currentIndex);
+
+    setIsWrong(false);
+
+    if (nextIndex !== null) {
+      setNextIndex(nextIndex);
+
+      currentRef.current.slideOutLeft(500);
+      nextRef.current.slideOutLeft(500);
+
+      setTimeout(() => {
+        setCurrentIndex(nextIndex);
+      }, 500);
+    } else {
+      onFinished();
+    }
+  };
+
+  // console.log(words);
+  // console.log(currentIndex);
+  //
+  // console.log(currentWord);
+  // console.log(nextWord);
+  // // useEffect(() => {
+  // //   return () => {
+  // //     setCurrentIndex(0);
+  // //     setNextIndex(0);
+  // //   };
+  // // }, []);
 
   return (
-    <Card testID="cart-word">
-      <CardWrapper>
-        <H3 style={{ textAlign: 'center' }}>{word.question}</H3>
-        <AskContainer>
-          {!isNotRemember && !isWrong && (
-            <Ask>
+    <Card>
+      <Slides>
+        <AskSlide animateRef={currentRef} word={currentWord} />
+        <AskSlide animateRef={nextRef} word={nextWord} />
+      </Slides>
+
+      <Content>
+        <Actions>
+          {!isWrong && (
+            <>
               <Answer>
                 <Item>
                   <Input
-                    placeholder={word.lang === 'en' ? 'Ответь на русском' : 'English please'}
+                    placeholder="Введите ответ"
                     onChangeText={onChange}
+                    onSubmitEditing={onAnswer}
                     value={field}
                     autoFocus={true}
                   />
                 </Item>
               </Answer>
-              <ProgressWrapper>
-                <ProgressBar progress={(word.count / SETTINGS.attempt) * 100} />
-              </ProgressWrapper>
-              <NotRemember>
+
+              <Wrong>
                 <Button danger transparent onPress={onNotRemember}>
                   <Text>Не помню :(</Text>
                 </Button>
-              </NotRemember>
-            </Ask>
+              </Wrong>
+            </>
           )}
-          {(isNotRemember || isWrong) && <RightAnswer isWrong={isWrong}>{word.answer}</RightAnswer>}
-        </AskContainer>
-        <Actions>
-          {!isNotRemember && !isWrong && (
+
+          {isWrong && (
+            <RightAnswer>
+              {currentWord.answers.map((item, index) => (
+                <ItemAnswer key={index}>{item}</ItemAnswer>
+              ))}
+            </RightAnswer>
+          )}
+        </Actions>
+
+        <Buttons>
+          {!isWrong && (
             <>
               <Button warning onPress={onFinished} style={{ width: 120 }}>
                 <Text style={{ flex: 1, textAlign: 'center' }}>Завершить</Text>
@@ -57,64 +123,55 @@ export const CartWord = ({ word, onRight, onWrong, onFinished }) => {
             </>
           )}
 
-          {isNotRemember && !isWrong && (
-            <Button success onPress={onRemember} style={{ flex: 1 }}>
+          {isWrong && (
+            <Button success onPress={onNext} style={{ flex: 1 }}>
               <Text style={{ flex: 1, textAlign: 'center' }}>Запомнил</Text>
             </Button>
           )}
-
-          {isWrong && (
-            <>
-              <Button warning onPress={onFinished} style={{ width: 120 }}>
-                <Text style={{ flex: 1, textAlign: 'center' }}>Завершить</Text>
-              </Button>
-              <Button success onPress={onWrong} style={{ width: 120 }}>
-                <Text style={{ flex: 1, textAlign: 'center' }}>Далее</Text>
-              </Button>
-            </>
-          )}
-        </Actions>
-      </CardWrapper>
+        </Buttons>
+      </Content>
     </Card>
   );
 };
 
-const CardWrapper = styled.View`
-  padding: 20px;
+const Slides = styled.View`
+  padding-top: 20px;
+  flex-direction: row;
+`;
+
+const Content = styled.View`
+  padding-left: 20px;
+  padding-right: 20px;
+`;
+
+const Actions = styled.View`
+  min-height: 130px;
 `;
 
 const Answer = styled.View`
-  margin-top: 10px;
-`;
-
-const AskContainer = styled.View`
-  height: 130px;
-`;
-
-const Ask = styled.View``;
-
-const ProgressWrapper = styled.View`
   margin-top: 20px;
 `;
 
-const NotRemember = styled.View`
-  margin-top: 15px;
+const Wrong = styled.View`
+  margin-top: 5px;
   flex-direction: row;
   justify-content: flex-end;
 `;
 
-const Actions = styled.View`
+const Buttons = styled.View`
   flex-direction: row;
-  margin-top: 30px;
   justify-content: space-between;
+  padding-bottom: 20px;
 `;
 
-const RightAnswer = styled.Text`
-  font-size: 22px;
-  font-weight: 500;
-  text-transform: uppercase;
+const RightAnswer = styled.View`
+  justify-content: center;
   flex: 1;
+`;
+
+const ItemAnswer = styled.Text`
+  font-size: 26px;
+  font-weight: 500;
   text-align: center;
-  margin-top: 50px;
-  color: ${p => (p.isWrong ? 'red' : 'black')};
+  color: ${Colors.danger};
 `;

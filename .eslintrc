@@ -17,7 +17,9 @@
     "react"
   ],
   "env": {
-    "jest": true
+    "jest": true,
+    "browser": true,
+    "node": true
   },
   "rules": {
     "no-use-before-define": "off",

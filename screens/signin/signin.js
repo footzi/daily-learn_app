@@ -8,7 +8,7 @@ import { toSignIn } from './effects';
 export const SignInScreen = ({ navigation }) => {
   const [fields, setFields] = useState({
     login: '',
-    password: ''
+    password: '',
   });
 
   const [isValid, setIsValid] = useState(false);
@@ -17,20 +17,18 @@ export const SignInScreen = ({ navigation }) => {
   const onSubmit = () => {
     const body = {
       login: fields.login,
-      password: fields.password
+      password: fields.password,
     };
 
-    dispatch(toSignIn(navigation, body));
+    dispatch(toSignIn(body));
   };
 
-  const onSignUp = () => {
-    navigation.navigate('SignUp');
-  };
+  const onSignUp = () => navigation.navigate('SignUp');
 
   const onChange = (text, name) => {
     setFields({
       ...fields,
-      [name]: text
+      [name]: text,
     });
   };
 
@@ -49,13 +47,13 @@ export const SignInScreen = ({ navigation }) => {
           <H2>Вход</H2>
         </Header>
         <Item>
-          <Input placeholder="Логин" onChangeText={text => onChange(text, 'login')} value={fields.login} />
+          <Input placeholder="Логин" onChangeText={(text) => onChange(text, 'login')} value={fields.login} />
         </Item>
         <Item>
           <Input
             placeholder="Пароль"
             secureTextEntry
-            onChangeText={text => onChange(text, 'password')}
+            onChangeText={(text) => onChange(text, 'password')}
             value={fields.password}
           />
         </Item>
@@ -101,5 +99,5 @@ const SignUp = styled.View`
 `;
 
 SignInScreen.navigationOptions = {
-  title: 'Вход'
+  title: 'Вход',
 };

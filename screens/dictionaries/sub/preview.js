@@ -1,32 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { Text, Button, Icon, H3, Content } from 'native-base';
-import { NAVIGATION_PARAMS, Colors } from '@constants';
-import { useModal, Checkbox } from '@components';
+import { Colors } from '@constants';
+import { useModal, HeaderModal, Checkbox } from '@components';
 import { shuffleArray } from '@libs';
 import { AddWord, RemoveWord } from '../organism';
+import { normalizePreviewWords } from '../normalize';
 import * as effects from '../effects';
 
-export const PreviewDictionaryScreen = ({ navigation }) => {
-  //const { dictionaryWords } = useSelector(state => state.dictionariesScreen);
-  //const words = dictionaryWords;
-  const { dictionaries } = useSelector(state => state.data);
-
+export const PreviewDictionaryScreen = ({ navigation, route }) => {
+  const { data } = useSelector((state) => state);
+  const { dictionaries = [] } = data;
   const dispatch = useDispatch();
-  const dictionary = navigation.getParam(NAVIGATION_PARAMS.preview_dictionary);
+  const { preview_dictionary = {} } = route.params;
 
-  const currentWords = dictionaries.find(item => item.id === dictionary.id).words;
-
-  const [words, setWords] = useState(currentWords);
-
+  const [words, setWords] = useState([]);
   const [isEn, setIsEn] = useState(true);
   const [isRu, setIsRu] = useState(true);
   const [isMix, setIsMix] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [deletedWord, setDeletedWord] = useState({});
   const [isOpenModal, openModal, closeModal] = useModal();
+  const [isHeaderOpenModal, headerOpenModal, headerCloseModal] = useModal();
   const [isDeleteWordOpenModal, deleteWordOpenModal, deleteWordCloseModal] = useModal();
 
   const onOnlyRu = () => setIsRu(!isRu);
@@ -34,116 +30,123 @@ export const PreviewDictionaryScreen = ({ navigation }) => {
   const onMix = () => setIsMix(!isMix);
   const onDelete = () => setIsDelete(!isDelete);
 
-  const onSaveWord = async fields => {
-    await dispatch(effects.saveWord({ fields, dictionary }));
+  const onSaveWord = async (fields) => {
+    await dispatch(effects.saveWord({ fields, preview_dictionary }));
     closeModal();
   };
 
-  const onDeleteWord = item => {
+  const onDeleteWord = (item) => {
     setDeletedWord(item);
     deleteWordOpenModal();
   };
 
-  const onSubmitDeleteWord = async id => {
-    await dispatch(effects.removeWord(id));
-    deleteWordCloseModal();
+  const onSubmitDeleteWord = async () => {
+    const ids = deletedWord.translates.map((item) => item.id);
+
+    await dispatch(effects.removeWord(ids));
     setDeletedWord('');
+    deleteWordCloseModal();
   };
 
   useEffect(() => {
-    setWords(currentWords);
-  }, [currentWords]);
+    const currentDictionary = dictionaries.find((item) => item.id === preview_dictionary.id);
 
-  React.useLayoutEffect(() => {
-    console.log(navigation);
-    // navigation.setOptions({
-    //   headerRight: () => (
-    //     <Button onPress={() => {}} title="Update count" />
-    //   ),
-    // });
-  }, [navigation]);
+    if (currentDictionary) {
+      const dictionaryWords = currentDictionary.words;
+      const currentWords = normalizePreviewWords(dictionaryWords);
 
-  // useEffect(() => {
-  //   dispatch(effects.setDictionaryWords(dictionary.words));
-  //   setIsLoaded(true);
-  //
-  //   return () => {
-  //     dispatch(effects.setDictionaryWords([]));
-  //     setIsLoaded(false);
-  //   };
-  // }, []);
+      setWords(currentWords);
+    }
+  }, [dictionaries]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: preview_dictionary.name,
+      headerRight: () => (
+        <Button transparent onPress={headerOpenModal}>
+          {isHeaderOpenModal ? (
+            <Icon name="md-close" style={{ color: Colors.black }} />
+          ) : (
+            <Icon name="md-menu" style={{ color: Colors.black }} />
+          )}
+        </Button>
+      ),
+    });
+  }, [navigation, isHeaderOpenModal]);
+
+  useLayoutEffect(() => {
     const sortedWords = isMix ? shuffleArray([...words]) : [...words].sort((a, b) => a.id - b.id);
 
     setWords(sortedWords);
   }, [isMix]);
 
-  // if (!isLoaded) {
-  //   return null;
-  // }
+  useLayoutEffect(() => {
+    if (isDelete) headerCloseModal();
+  }, [isDelete]);
 
   return (
     //<KeyboardAwareScrollView enableOnAndroid={true} extraScrollHeight={100}>
-    <Content>
-      <Container>
-        {!words.length && <H3 style={{ textAlign: 'center' }}>У вас еще нет слов(</H3>}
+    <>
+      <Content>
+        <Container>
+          {!words.length && <H3 style={{ textAlign: 'center' }}>У вас еще нет слов(</H3>}
 
-        <CheckLine>
-          <Checkbox checked={!isRu} text="только русский" onPress={onOnlyRu} />
-          <Checkbox checked={!isEn} text="только английский" onPress={onOnlyEn} />
-        </CheckLine>
-        <CheckLine>
-          <Checkbox checked={isMix} text="перемешать слова" onPress={onMix} />
-          <Checkbox checked={isDelete} text="удалить слова" onPress={onDelete} />
-        </CheckLine>
+          {words.map((item) => (
+            <Line key={item.groupId}>
+              <Item isShow={isRu}>
+                <Text>{item.name}</Text>
+              </Item>
+              <Item isShow={isEn}>
+                {item.translates.map(({ id, translate }) => (
+                  <Text key={id}>{translate}</Text>
+                ))}
+              </Item>
 
-        {words.map(item => (
-          <Line key={item.id}>
-            <Item isShow={isRu}>
-              <Text>{item.en.name}</Text>
-            </Item>
-            <Item isShow={isEn}>
-              {item.ru.name.map((name, index) => (
-                <Text key={index}>{name}</Text>
-              ))}
-            </Item>
+              {isDelete && (
+                <Remove>
+                  <Button transparent onPress={() => onDeleteWord(item)}>
+                    <Icon name="trash" />
+                  </Button>
+                </Remove>
+              )}
+            </Line>
+          ))}
 
-            {!isDelete && (
-              <Remove>
-                <Button transparent onPress={() => onDeleteWord(item)}>
-                  <Icon name="trash" />
-                </Button>
-              </Remove>
-            )}
-          </Line>
-        ))}
+          <Add>
+            <Button bordered success onPress={openModal}>
+              <Icon name="add" />
+            </Button>
+          </Add>
 
-        <Add>
-          <Button bordered success onPress={openModal}>
-            <Icon name="add" />
-          </Button>
-        </Add>
-
-        <AddWord isOpenModal={isOpenModal} closeModal={closeModal} onSaveWord={onSaveWord} />
-        <RemoveWord
-          word={deletedWord}
-          isOpenModal={isDeleteWordOpenModal}
-          closeModal={deleteWordCloseModal}
-          onDeleteWord={onSubmitDeleteWord}
-        />
-      </Container>
-    </Content>
+          <AddWord isOpenModal={isOpenModal} closeModal={closeModal} onSaveWord={onSaveWord} />
+          <RemoveWord
+            word={deletedWord}
+            isOpenModal={isDeleteWordOpenModal}
+            closeModal={deleteWordCloseModal}
+            onDeleteWord={onSubmitDeleteWord}
+          />
+          <HeaderModal isOpenModal={isHeaderOpenModal} closeModal={headerCloseModal}>
+            <CheckLine style={{ marginBottom: 10 }}>
+              <Checkbox checked={!isRu} text="только русский" onPress={onOnlyRu} />
+            </CheckLine>
+            <CheckLine style={{ marginBottom: 10 }}>
+              <Checkbox checked={!isEn} text="только английский" onPress={onOnlyEn} />
+            </CheckLine>
+            <CheckLine style={{ marginBottom: 10 }}>
+              <Checkbox checked={isMix} text="перемешать слова" onPress={onMix} />
+            </CheckLine>
+            <CheckLine>
+              <Checkbox checked={isDelete} text="удалить слова" onPress={onDelete} />
+            </CheckLine>
+          </HeaderModal>
+        </Container>
+      </Content>
+    </>
     //</KeyboardAvoidingView>
   );
 };
 
-PreviewDictionaryScreen.navigationOptions = ({ navigation }) => ({
-  title: navigation.getParam(NAVIGATION_PARAMS.preview_dictionary).name
-});
-
 const CheckLine = styled.View`
-  margin-top: 10px;
   flex-direction: row;
   flex-wrap: wrap;
 `;
@@ -162,7 +165,7 @@ const Line = styled.View`
 const Item = styled.View`
   flex: 1;
   flex-direction: column;
-  opacity: ${p => (p.isShow ? 1 : 0)};
+  opacity: ${(p) => (p.isShow ? 1 : 0)};
   padding-bottom: 10px;
   padding-top: 10px;
 `;

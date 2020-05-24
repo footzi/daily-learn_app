@@ -1,1 +1,1 @@
-export { default } from './settings';
+export { SettingsScreen } from './settings';

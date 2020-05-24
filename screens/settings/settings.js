@@ -1,41 +1,25 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
 import { Content } from 'native-base';
-import { connect } from 'react-redux';
-import { ButtonLoader } from '@components';
+import { useDispatch } from 'react-redux';
+import { ButtonLoader, Title } from '@components';
 import * as effects from './effects';
 
-const mapDispatchToProps = {
-  toSignOut: effects.toSignOut
-};
+export const SettingsScreen = () => {
+  const dispatch = useDispatch();
 
-const mapStateToProps = state => ({
-  // auth: state.auth
-});
-
-const SettingsScreen = ({ toSignOut, navigation }) => {
-  const onSignOut = () => {
-    toSignOut({ navigation });
-  };
+  const onSignOut = () => dispatch(effects.toSignOut());
 
   return (
     <Content>
       <Container>
+        <Title>Настройки</Title>
         <ButtonLoader warning onPress={onSignOut} name="Выйти" width={100} />
       </Container>
     </Content>
   );
 };
 
-SettingsScreen.navigationOptions = {
-  title: 'Настройки'
-};
-
 const Container = styled.View`
   padding: 10px;
 `;
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SettingsScreen);

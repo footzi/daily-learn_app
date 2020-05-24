@@ -9,8 +9,8 @@ describe('Main DictionariesScreen', () => {
   it('Render is successful', () => {
     const initialState = {
       data: {
-        dictionaries: []
-      }
+        dictionaries: [],
+      },
     };
     const { baseElement } = renderWithRedux(<DictionariesScreen />, initialState);
 
@@ -20,8 +20,8 @@ describe('Main DictionariesScreen', () => {
   it('Empty title if dictionaries array length 0', () => {
     const initialState = {
       data: {
-        dictionaries: []
-      }
+        dictionaries: [],
+      },
     };
     const { queryByTestId } = renderWithRedux(<DictionariesScreen />, initialState);
 
@@ -31,8 +31,8 @@ describe('Main DictionariesScreen', () => {
   it('Not list if dictionaries array length 0', () => {
     const initialState = {
       data: {
-        dictionaries: []
-      }
+        dictionaries: [],
+      },
     };
     const { queryByTestId } = renderWithRedux(<DictionariesScreen />, initialState);
 
@@ -42,8 +42,8 @@ describe('Main DictionariesScreen', () => {
   it('Create button text is "Создать" if dictionaries array length 0', () => {
     const initialState = {
       data: {
-        dictionaries: []
-      }
+        dictionaries: [],
+      },
     };
     const { queryByTestId } = renderWithRedux(<DictionariesScreen />, initialState);
 
@@ -57,7 +57,7 @@ describe('Main DictionariesScreen', () => {
           {
             id: 11,
             name: "'Hellooo'",
-            words: []
+            words: [],
           },
           {
             id: 31,
@@ -67,17 +67,17 @@ describe('Main DictionariesScreen', () => {
                 id: 51,
                 en: {
                   name: '31',
-                  count: 0
+                  count: 0,
                 },
                 ru: {
                   name: 'Привет',
-                  count: 0
-                }
-              }
-            ]
-          }
-        ]
-      }
+                  count: 0,
+                },
+              },
+            ],
+          },
+        ],
+      },
     };
     const { queryByTestId } = renderWithRedux(<DictionariesScreen />, initialState);
 
@@ -91,10 +91,10 @@ describe('Main DictionariesScreen', () => {
           {
             id: 11,
             name: "'Hellooo'",
-            words: []
-          }
-        ]
-      }
+            words: [],
+          },
+        ],
+      },
     };
     const { queryByTestId } = renderWithRedux(<DictionariesScreen />, initialState);
 
@@ -108,10 +108,10 @@ describe('Main DictionariesScreen', () => {
           {
             id: 11,
             name: "'Hellooo'",
-            words: []
-          }
-        ]
-      }
+            words: [],
+          },
+        ],
+      },
     };
     const { queryByTestId } = renderWithRedux(<DictionariesScreen />, initialState);
 

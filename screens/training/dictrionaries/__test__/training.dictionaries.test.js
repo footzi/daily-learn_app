@@ -10,13 +10,13 @@ describe('Training Dictionaries', () => {
   it('Render is successful', () => {
     const initialState = {
       data: {
-        dictionaries: []
-      }
+        dictionaries: [],
+      },
     };
     const navigation = {
       getParam() {
         return [];
-      }
+      },
     };
     const { baseElement } = renderWithRedux(<DictionaryTrainingScreen navigation={navigation} />, initialState);
 
@@ -30,7 +30,7 @@ describe('Training Dictionaries', () => {
           {
             id: 11,
             name: 'Hellooo',
-            words: []
+            words: [],
           },
           {
             id: 31,
@@ -40,22 +40,22 @@ describe('Training Dictionaries', () => {
                 id: 51,
                 en: {
                   name: '31',
-                  count: 0
+                  count: 0,
                 },
                 ru: {
                   name: 'Привет',
-                  count: 0
-                }
-              }
-            ]
-          }
-        ]
-      }
+                  count: 0,
+                },
+              },
+            ],
+          },
+        ],
+      },
     };
     const navigation = {
       getParam() {
         return [11, 31];
-      }
+      },
     };
     const { queryByTestId } = renderWithRedux(<DictionaryTrainingScreen navigation={navigation} />, initialState);
 
@@ -74,22 +74,22 @@ describe('Training Dictionaries', () => {
                 id: 51,
                 en: {
                   name: '31',
-                  count: SETTINGS.attempt + 10
+                  count: SETTINGS.attempt + 10,
                 },
                 ru: {
                   name: 'Привет',
-                  count: SETTINGS.attempt + 10
-                }
-              }
-            ]
-          }
-        ]
-      }
+                  count: SETTINGS.attempt + 10,
+                },
+              },
+            ],
+          },
+        ],
+      },
     };
     const navigation = {
       getParam() {
         return [31];
-      }
+      },
     };
     const { queryByTestId } = renderWithRedux(<DictionaryTrainingScreen navigation={navigation} />, initialState);
 
@@ -99,13 +99,13 @@ describe('Training Dictionaries', () => {
   it('Not word is successful if word attempt more then SETTINGS.ATTEMPT', () => {
     const initialState = {
       data: {
-        dictionaries: []
-      }
+        dictionaries: [],
+      },
     };
     const navigation = {
       getParam() {
         return [11, 31];
-      }
+      },
     };
     const { queryByTestId } = renderWithRedux(<DictionaryTrainingScreen navigation={navigation} />, initialState);
 

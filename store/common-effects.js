@@ -1,12 +1,12 @@
 import { ERROR } from '@constants';
-import { requestWithToken } from '@api';
+import { ApiCall } from '@api';
 import { actions } from './index';
 
-export const getMainData = () => async dispatch => {
+export const getMainData = () => async (dispatch) => {
   dispatch(actions.setProcessing());
 
   try {
-    const response = await requestWithToken('get', '/screens/home');
+    const response = await ApiCall.mainData();
     const { data } = response.data;
 
     dispatch(actions.setData(data));

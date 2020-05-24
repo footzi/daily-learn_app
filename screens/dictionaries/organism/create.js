@@ -6,7 +6,7 @@ import { ButtonLoader } from '@components';
 export const CreateDict = ({ onCreate }) => {
   const [name, setName] = useState('');
 
-  const onChangeName = text => setName(text);
+  const onChangeName = (text) => setName(text);
 
   return (
     <Container>
@@ -18,7 +18,7 @@ export const CreateDict = ({ onCreate }) => {
       <Save>
         <ButtonLoader
           success={!!name}
-          name="Cохранить"
+          name="Сохранить"
           width={130}
           disabled={!name}
           onPress={() => onCreate({ name })}

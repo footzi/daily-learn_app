@@ -1,76 +1,74 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { SETTINGS } from '@constants';
-import { CartWord } from './organism/cart-word';
-import Statistics from './organism/statistics';
+import { Loader } from '@components/loader';
+import { Statistics, CartWord, Congratulation, NotWords } from './organism';
+import { createWords, getStartIndex } from './helpers';
 import * as effects from '../effects';
-import { createWords, getNext } from './helpers';
 
-export const DictionaryTrainingScreen = ({ navigation = {} }) => {
-  const allDictionaries = useSelector(state => state.data.dictionaries);
+export const DictionaryTrainingScreen = ({ route }) => {
+  const { data = {} } = useSelector((state) => state);
+  const allDictionaries = data.dictionaries;
+  const { selectedDictionaries } = route.params || [];
   const dispatch = useDispatch();
 
-  const selectedDictionaries = navigation.getParam('selectedDictionaries') || [];
-  const dictionaries = allDictionaries.filter(item => selectedDictionaries.includes(item.id));
-
-  const [words, updateWords] = useState(createWords(dictionaries));
-
-  const startWord = words.find(item => item.isShow) || null;
-  const [word, setWord] = useState(startWord);
+  const [isLoading, setIsLoading] = useState(true);
+  const [words, setWords] = useState([]);
+  const [startWordIndex, setStartWordIndex] = useState(0);
   const [isStatistics, setIsStatistics] = useState(false);
 
-  const onRight = () => {
-    const body = { words_id: word.id, lang: word.lang };
+  const isNotWords = words.length === 0;
+  const isAvailableWords = !isNotWords && startWordIndex !== null;
+
+  const onUpdateWords = (word) => {
+    const body = { id: word.id, type: word.type };
     const count = word.count + 1;
 
-    const updatedWords = words.map(item => {
-      if (item.id_unique === word.id_unique) {
+    const updatedWords = words.map((item) => {
+      if (item.uid === word.uid) {
         item.count = count;
         item.isShow = count < SETTINGS.attempt;
       }
       return item;
     });
 
-    updateWords(updatedWords);
-    setNext();
-
+    setWords(updatedWords);
     dispatch(effects.saveCountWord(body));
-  };
-
-  const onWrong = () => setNext();
-
-  const setNext = () => {
-    const target = getNext(words, word);
-
-    if (target) {
-      setWord(target);
-    } else {
-      setIsStatistics(true);
-    }
   };
 
   const onFinished = () => setIsStatistics(true);
 
+  useEffect(() => {
+    const words = createWords(allDictionaries, selectedDictionaries);
+    const startWordIndex = getStartIndex(words);
+
+    setWords(words);
+    setStartWordIndex(startWordIndex);
+    setIsLoading(false);
+  }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isNotWords) {
+    return <NotWords />;
+  }
+
+  if (isStatistics) {
+    return <Statistics />;
+  }
+
+  if (!isAvailableWords) {
+    return <Congratulation />;
+  }
+
   return (
     <Container>
-      {!isStatistics && !word && <NotWord testID="not-word">Вы выучили все слова</NotWord>}
-
-      {!isStatistics && word && (
-        <CartWord word={word} key={word.id_unique} onRight={onRight} onWrong={onWrong} onFinished={onFinished} />
-      )}
-
-      {isStatistics && <Statistics words={words} />}
+      <CartWord words={words} startIndex={startWordIndex} onUpdateWords={onUpdateWords} onFinished={onFinished} />
     </Container>
   );
 };
 
-DictionaryTrainingScreen.navigationOptions = () => ({
-  title: 'Тренировка'
-});
-
-const Container = styled.View`
-  padding: 10px;
-`;
-
-const NotWord = styled.Text``;
+const Container = styled.View``;

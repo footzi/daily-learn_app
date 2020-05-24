@@ -4,42 +4,48 @@ import * as Font from 'expo-font';
 import { Root } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
-import { store } from './store';
-import AppNavigator from './navigation/AppNavigator';
-import Notification from './components/notification';
-
-// const store = configureStore();
-
-const _loadAssets = async () => {
-  await Font.loadAsync({
-    Roboto: require('./assets/fonts/Roboto.ttf'),
-    Roboto_medium: require('./assets/fonts/Roboto_medium.ttf'),
-    ...Ionicons.font
-  });
-};
+import { USER_LS, TOKENS_LS } from './constants';
+import { request } from './api';
+import { LocalStorage } from './libs';
+import { Notification } from './components';
+import { createAppStore } from './store';
+import { Navigation } from './navigation';
 
 const App = () => {
   const [isReady, setReady] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
+  const [user, setIsUser] = useState(false);
 
-  // import('./ReactotronConfig').then(() => console.log('Reactotron Configured'));
+  const setInitialData = async () => {
+    await Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font,
+    });
 
-  if (!isReady) {
-    return (
-      <AppLoading
-        startAsync={_loadAssets} // this loads the fonts
-        onFinish={() => setReady(true)}
-        onError={e => console.error(e)}
-      />
-    );
-  } else {
+    const isStorageAuth = await LocalStorage.has(TOKENS_LS);
+    const storageUser = await LocalStorage.get(USER_LS);
+
+    setIsAuth(isStorageAuth);
+    setIsUser(storageUser);
+  };
+
+  if (isReady) {
+    const store = createAppStore({ isAuth, user });
+    request.connectStore(store);
+
     return (
       <Provider store={store}>
         <Root>
           <Notification />
-          <AppNavigator />
+          <Navigation />
         </Root>
       </Provider>
     );
+  }
+
+  if (!isReady) {
+    return <AppLoading startAsync={setInitialData} onFinish={() => setReady(true)} onError={(e) => console.error(e)} />;
   }
 };
 

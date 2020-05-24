@@ -10,7 +10,9 @@ export const RemoveWord = ({ word, isOpenModal, closeModal, onDeleteWord }) => {
 
   return (
     <BottomModal isOpenModal={isOpenModal} closeModal={closeModal} title="Удалить слово">
-      <Text>Вы действительно хотите удалить `{word.en.name}`?</Text>
+      <Text>
+        Вы действительно хотите удалить <Name>{word.name}</Name>?
+      </Text>
       <Buttons>
         <Item style={{ marginRight: 20 }}>
           <Button success onPress={closeModal}>
@@ -19,7 +21,7 @@ export const RemoveWord = ({ word, isOpenModal, closeModal, onDeleteWord }) => {
         </Item>
 
         <Item>
-          <ButtonLoader name="Удалить" danger onPress={() => onDeleteWord(word.id)} />
+          <ButtonLoader name="Удалить" danger onPress={onDeleteWord} />
         </Item>
       </Buttons>
     </BottomModal>
@@ -33,4 +35,8 @@ const Buttons = styled.View`
 
 const Item = styled.View`
   flex-basis: 50%;
+`;
+
+const Name = styled.Text`
+  font-weight: bold;
 `;
