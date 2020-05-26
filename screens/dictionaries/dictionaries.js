@@ -15,7 +15,7 @@ export const DictionariesScreen = ({ navigation }) => {
 
   const onCreate = (body) => dispatch(effects.createDictionary({ navigation, body, closeModal }));
   const onPreview = (preview_dictionary) => {
-    navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { preview_dictionary }); //NAVIGATION_PARAMS.preview_dictionary
+    navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { preview_dictionary });
   };
   const onSettings = (dictionary) => navigation.navigate(SCREENS.SETTINGS_DICTIONARY, { dictionary });
 

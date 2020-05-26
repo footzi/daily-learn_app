@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import { Content, ListItem, Text, Button, CheckBox } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
 import { Title } from '@components';
+import { SCREENS } from '@constants';
 import * as effects from './effects';
 
 export const HomeScreen = ({ navigation }) => {
@@ -18,6 +19,9 @@ export const HomeScreen = ({ navigation }) => {
   useEffect(() => {
     dispatch(effects.setDictionaries(data));
   }, [data]);
+
+
+  // navigation.navigate(SCREENS.DICTIONARIES)
 
   return (
     <Content>

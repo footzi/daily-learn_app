@@ -3,15 +3,14 @@ export { Colors } from './Colors';
 
 // Screens
 export const SCREENS = {
+  HOME: 'Home',
+  DICTIONARIES: 'Dictionaries',
+  PROFILE: 'Profile',
   DICTIONARY_TRAINING: 'DictionaryTraining',
+  DICTIONARIES_LIST: 'DictionariesList',
   CREATE_DICTIONARY: 'CreateDictionary',
   PREVIEW_DICTIONARY: 'PreviewDictionary',
   SETTINGS_DICTIONARY: 'SettingsDictionary',
-};
-
-// Navigation Params
-export const NAVIGATION_PARAMS = {
-  preview_dictionary: 'preview_dictionary',
 };
 
 // Actions

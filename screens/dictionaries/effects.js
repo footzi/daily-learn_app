@@ -23,7 +23,7 @@ export const createDictionary = ({ navigation, body, closeModal }) => async (dis
     const preview_dictionary = dictionaries.find((item) => item.id === id);
 
     closeModal();
-    navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { preview_dictionary }); //NAVIGATION_PARAMS.preview_dictionary
+    navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { preview_dictionary });
   } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
   } finally {
