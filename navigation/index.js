@@ -12,13 +12,12 @@ import {
   DictionariesScreen,
   PreviewDictionaryScreen,
   SettingsDictionaryScreen,
-  SettingsScreen,
+  ProfileScreen,
 } from '../screens';
 import TabBarIcon from '../components/TabBarIcon';
 import { SCREENS } from '@constants';
 import { Loader } from '@components';
 import * as commonEffects from '@store/common-effects';
-
 
 const Tab = createBottomTabNavigator();
 const AppStack = createStackNavigator();
@@ -43,7 +42,11 @@ const HomeStackScreen = () => {
 const DictionaryStackScreen = () => {
   return (
     <DictionaryStack.Navigator>
-      <DictionaryStack.Screen name={SCREENS.DICTIONARIES_LIST} component={DictionariesScreen} options={{ headerShown: false }} />
+      <DictionaryStack.Screen
+        name={SCREENS.DICTIONARIES_LIST}
+        component={DictionariesScreen}
+        options={{ headerShown: false }}
+      />
       <DictionaryStack.Screen name={SCREENS.PREVIEW_DICTIONARY} component={PreviewDictionaryScreen} />
       <DictionaryStack.Screen name={SCREENS.SETTINGS_DICTIONARY} component={SettingsDictionaryScreen} />
     </DictionaryStack.Navigator>
@@ -76,7 +79,7 @@ const Main = () => {
       }}>
       <Tab.Screen name={SCREENS.HOME} component={HomeStackScreen} />
       <Tab.Screen name={SCREENS.DICTIONARIES} component={DictionaryStackScreen} />
-      <Tab.Screen name={SCREENS.PROFILE} component={SettingsScreen} />
+      <Tab.Screen name={SCREENS.PROFILE} component={ProfileScreen} />
     </Tab.Navigator>
   );
 };
