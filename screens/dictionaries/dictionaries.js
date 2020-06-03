@@ -25,7 +25,7 @@ export const DictionariesScreen = ({ navigation }) => {
         {dictionaries.length ? (
           <Title>Ваши словари:</Title>
         ) : (
-          <Title testID="empty-title">У вас еще нет словаря(</Title>
+          <Title testID="empty-title">Создайте свой первый словарь</Title>
         )}
 
         {dictionaries.length > 0 && (

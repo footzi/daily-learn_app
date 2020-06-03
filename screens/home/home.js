@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import { Content, ListItem, Text, Button, CheckBox } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,6 +11,8 @@ export const HomeScreen = ({ navigation }) => {
   const { dictionaries = [] } = homeScreen;
   const dispatch = useDispatch();
 
+  const [isReady, setIsReady] = useState(false);
+
   const onStart = () => dispatch(effects.startTraining(navigation));
   const onSelect = (id) => dispatch(effects.selectDictionary(id));
 
@@ -18,15 +20,25 @@ export const HomeScreen = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(effects.setDictionaries(data));
+    setIsReady(true);
+
+    return () => setIsReady(false);
   }, [data]);
 
-
-  // navigation.navigate(SCREENS.DICTIONARIES)
+  useEffect(() => {
+    if (!dictionaries.length && isReady) {
+      navigation.navigate(SCREENS.DICTIONARIES);
+    }
+  }, [dictionaries]);
 
   return (
     <Content>
       <Container>
-        {dictionaries.length ? <Title>Выберите словарь для старта</Title> : <Title>Для начала создайте словарь</Title>}
+        {dictionaries.length ? (
+          <Title>Выберите словарь для старта</Title>
+        ) : (
+          <Title>Чтобы начать тренировку, создайте свой первый словарь</Title>
+        )}
 
         <Dictionaries>
           {dictionaries.map((item) => (
