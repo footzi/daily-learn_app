@@ -1,6 +1,14 @@
-import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_IS_AUTH, SET_DATA, SET_HOME_SCREEN } from '@constants';
+import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_IS_AUTH, SET_PROFILE, SET_DICTIONARIES } from '@constants';
+import { SET_IS_LOADED } from '../constants';
 
 export const actions = {
+  setIsLoaded: () => {
+    return { type: SET_IS_LOADED, payload: true };
+  },
+  removeIsLoaded: () => {
+    return { type: SET_IS_LOADED, payload: false };
+  },
+
   setIsAuth: () => {
     return { type: SET_IS_AUTH, payload: true };
   },
@@ -15,12 +23,14 @@ export const actions = {
     return { type: SET_USER, payload: null };
   },
 
-  setData: (payload) => ({ type: SET_DATA, payload }),
-  clearData: () => ({ type: SET_DATA, payload: {} }),
+  setDictionaries: (payload) => ({
+    type: SET_DICTIONARIES,
+    payload,
+  }),
 
-  setHomeScreen: (payload) => ({
-    type: SET_HOME_SCREEN,
-    payload: { dictionaries: payload.dictionaries },
+  setProfile: (payload) => ({
+    type: SET_PROFILE,
+    payload,
   }),
 
   setNotification: (payload) => ({ type: SET_NOTIFICATION, payload }),

@@ -7,9 +7,18 @@ export const getMainData = () => async (dispatch) => {
 
   try {
     const response = await ApiCall.mainData();
-    const { data } = response.data;
 
-    dispatch(actions.setData(data));
+    if (!response || !response.data) {
+      throw new Error('Get main data error');
+    }
+
+    const { data } = response.data;
+    const { user, dictionaries } = data;
+    const { login, email, paws } = user;
+
+    dispatch(actions.setDictionaries(dictionaries));
+    dispatch(actions.setProfile({ login, email, paws }));
+    dispatch(actions.setIsLoaded());
   } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
   } finally {

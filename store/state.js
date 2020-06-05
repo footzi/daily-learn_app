@@ -1,12 +1,12 @@
 export const initState = {
+  isLoaded: false,
   isAuth: null,
   user: null,
-  data: {},
-  homeScreen: {
-    dictionaries: [],
-  },
-  dictionariesScreen: {
-    dictionaryWords: [],
+  dictionaries: [],
+  profile: {
+    login: '',
+    email: '',
+    paws: 0,
   },
   processing: false,
   notification: {

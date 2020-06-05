@@ -5,30 +5,41 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Title } from '@components';
 import { SCREENS } from '@constants';
 import * as effects from './effects';
+import { normalizeDictionaries } from './normalize';
 
 export const HomeScreen = ({ navigation }) => {
-  const { data = {}, homeScreen = {} } = useSelector((state) => state);
-  const { dictionaries = [] } = homeScreen;
-  const dispatch = useDispatch();
+  const { dictionaries = [] } = useSelector((state) => state);
+  const [dictionariesList, setDictionariesList] = useState([]);
 
-  const [isReady, setIsReady] = useState(false);
+  const onStart = () => {
+    const selectedDictionaries = dictionariesList.filter((item) => item.checked).map((dict) => dict.id);
 
-  const onStart = () => dispatch(effects.startTraining(navigation));
-  const onSelect = (id) => dispatch(effects.selectDictionary(id));
+    navigation.navigate(SCREENS.DICTIONARY_TRAINING, { selectedDictionaries });
+  };
 
-  const haveSelected = dictionaries.some((item) => item.checked);
+  const onSelect = (id) => {
+    const selected = dictionariesList.map((item) => {
+      if (id === item.id) {
+        item.checked = !item.checked;
+      }
+
+      return item;
+    });
+
+    setDictionariesList(selected);
+  };
+
+  const haveSelected = dictionariesList.some((item) => item.checked);
 
   useEffect(() => {
-    dispatch(effects.setDictionaries(data));
-    setIsReady(true);
-
-    return () => setIsReady(false);
-  }, [data]);
-
-  useEffect(() => {
-    if (!dictionaries.length && isReady) {
+    if (!dictionaries.length) {
       navigation.navigate(SCREENS.DICTIONARIES);
+
+      return;
     }
+
+    const normalized = normalizeDictionaries(dictionaries);
+    setDictionariesList(normalized);
   }, [dictionaries]);
 
   return (
@@ -41,7 +52,7 @@ export const HomeScreen = ({ navigation }) => {
         )}
 
         <Dictionaries>
-          {dictionaries.map((item) => (
+          {dictionariesList.map((item) => (
             <ListItem key={item.id}>
               <CheckBox onPress={() => onSelect(item.id)} checked={item.checked} />
               <Item onPress={() => onSelect(item.id)}>
@@ -51,7 +62,7 @@ export const HomeScreen = ({ navigation }) => {
           ))}
         </Dictionaries>
 
-        {dictionaries.length > 0 && (
+        {dictionariesList.length > 0 && (
           <Start>
             <Button info={haveSelected} disabled={!haveSelected} onPress={onStart}>
               <Text>Начать</Text>

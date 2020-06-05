@@ -10,8 +10,7 @@ import { normalizePreviewWords } from '../normalize';
 import * as effects from '../effects';
 
 export const PreviewDictionaryScreen = ({ navigation, route }) => {
-  const { data } = useSelector((state) => state);
-  const { dictionaries = [] } = data;
+  const { dictionaries } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { preview_dictionary = {} } = route.params;
 

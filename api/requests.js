@@ -28,7 +28,6 @@ class Request {
       method,
       url: `${SETTINGS.host}${url}`,
       data,
-      withCredentials: true,
     });
   }
 

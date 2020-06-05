@@ -8,8 +8,7 @@ import { createWords, getStartIndex } from './helpers';
 import * as effects from '../effects';
 
 export const DictionaryTrainingScreen = ({ route }) => {
-  const { data = {} } = useSelector((state) => state);
-  const allDictionaries = data.dictionaries;
+  const { dictionaries: allDictionaries = [] } = useSelector((state) => state);
   const { selectedDictionaries } = route.params || [];
   const dispatch = useDispatch();
 

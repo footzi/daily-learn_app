@@ -16,16 +16,15 @@ export const toSignOut = () => async (dispatch) => {
     }
 
     dispatch(actions.removeProcessing()); // не в finally иначе на логин весит лоадер
-
+    dispatch(actions.removeIsLoaded());
     dispatch(actions.removeUser());
     dispatch(actions.removeIsAuth());
-    dispatch(actions.clearData());
+    // dispatch(actions.clearData());
 
     await LocalStorage.remove(TOKENS_LS);
     await LocalStorage.remove(USER_LS);
   } catch (error) {
     dispatch(actions.setNotification({ type: ERROR, text: error.message }));
-
     dispatch(actions.removeProcessing());
   }
 };

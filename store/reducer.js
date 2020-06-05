@@ -1,9 +1,22 @@
 import { initState } from './state';
-import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_IS_AUTH, SET_DATA, SET_HOME_SCREEN } from '@constants';
+import {
+  SET_IS_LOADED,
+  SET_NOTIFICATION,
+  SET_PROCESSING,
+  SET_USER,
+  SET_IS_AUTH,
+  SET_PROFILE,
+  SET_DICTIONARIES,
+} from '@constants';
 
 // редьюсеры
 export const reducer = (state = initState, action) => {
   switch (action.type) {
+    case SET_IS_LOADED:
+      return {
+        ...state,
+        isLoaded: action.payload,
+      };
     case SET_IS_AUTH:
       return {
         ...state,
@@ -14,15 +27,16 @@ export const reducer = (state = initState, action) => {
         ...state,
         user: action.payload,
       };
-    case SET_DATA:
+    case SET_DICTIONARIES: {
       return {
         ...state,
-        data: action.payload,
+        dictionaries: action.payload,
       };
-    case SET_HOME_SCREEN: {
+    }
+    case SET_PROFILE: {
       return {
         ...state,
-        homeScreen: action.payload,
+        profile: action.payload,
       };
     }
     case SET_NOTIFICATION:

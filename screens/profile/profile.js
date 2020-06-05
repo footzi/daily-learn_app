@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { Content } from 'native-base';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ButtonLoader, Title } from '@components';
 import * as effects from './effects';
 
 export const ProfileScreen = () => {
+  const { profile = {} } = useSelector((state) => state);
+  const { login, email, paws } = profile;
   const dispatch = useDispatch();
 
   const onSignOut = () => dispatch(effects.toSignOut());
@@ -16,9 +18,9 @@ export const ProfileScreen = () => {
         <Title>Профиль</Title>
 
         <List>
-          <Item>Логин - Владик</Item>
-          <Item>Электронная почта - test@tets.com</Item>
-          <Item>Лапки - 100</Item>
+          <Item>Логин - {login}</Item>
+          <Item>Электронная почта - {email}</Item>
+          <Item>Лапки - {paws}</Item>
         </List>
 
         <ButtonLoader warning onPress={onSignOut} name="Выйти" width={100} />

@@ -19,7 +19,7 @@ export const createDictionary = ({ navigation, body, closeModal }) => async (dis
     await dispatch(commonEffects.getMainData());
 
     const state = getState();
-    const { dictionaries } = state.data;
+    const { dictionaries } = state;
     const preview_dictionary = dictionaries.find((item) => item.id === id);
 
     closeModal();

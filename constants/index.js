@@ -14,12 +14,15 @@ export const SCREENS = {
 };
 
 // Actions
+export const SET_IS_LOADED = 'SET_IS_LOADED';
 export const SET_USER = 'SET_USER';
 export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 export const SET_PROCESSING = 'SET_PROCESSING';
 export const SET_IS_AUTH = 'SET_IS_AUTH';
 export const SET_DATA = 'SET_DATA';
 export const SET_HOME_SCREEN = 'SET_HOME_SCREEN';
+export const SET_PROFILE = 'SET_PROFILE';
+export const SET_DICTIONARIES = 'SET_DICTIONARIES';
 
 // Notification
 export const ERROR = 'ERROR';

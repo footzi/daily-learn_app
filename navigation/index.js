@@ -86,8 +86,8 @@ const Main = () => {
 
 export const Navigation = () => {
   const state = useSelector((state) => state);
-  const { isAuth, data } = state;
-  const isData = Object.keys(data).length > 0;
+  const { isLoaded, isAuth, dictionaries, profile } = state;
+  // const isLoaded = Object.keys(profile).length > 0 && dictionaries.length;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -97,8 +97,7 @@ export const Navigation = () => {
   }, [isAuth]);
 
   // показываем только тогда идет запрос за данными
-  // isAuth && !isData
-  if (isAuth && !isData) {
+  if (isAuth && !isLoaded) {
     return <Loader />;
   }
 
@@ -112,7 +111,7 @@ export const Navigation = () => {
           </>
         )}
 
-        {isAuth && isData && <AppStack.Screen name="Main" component={Main} options={{ headerShown: false }} />}
+        {isAuth && isLoaded && <AppStack.Screen name="Main" component={Main} options={{ headerShown: false }} />}
       </AppStack.Navigator>
     </NavigationContainer>
   );
