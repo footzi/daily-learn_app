@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { SETTINGS } from '@constants';
@@ -6,9 +6,12 @@ import { Loader } from '@components/loader';
 import { Statistics, CartWord, Congratulation, NotWords } from './organism';
 import { createWords, getStartIndex } from './helpers';
 import * as effects from '../effects';
+import { Button, Icon, Text } from 'native-base';
+import * as Animatable from 'react-native-animatable';
+import { Colors } from '../../../constants';
 
-export const DictionaryTrainingScreen = ({ route }) => {
-  const { dictionaries: allDictionaries = [] } = useSelector((state) => state);
+export const DictionaryTrainingScreen = ({ route, navigation }) => {
+  const { dictionaries: allDictionaries = [], profile = {} } = useSelector((state) => state);
   const { selectedDictionaries } = route.params || [];
   const dispatch = useDispatch();
 
@@ -16,6 +19,8 @@ export const DictionaryTrainingScreen = ({ route }) => {
   const [words, setWords] = useState([]);
   const [startWordIndex, setStartWordIndex] = useState(0);
   const [isStatistics, setIsStatistics] = useState(false);
+
+  const pawRef = useRef(null);
 
   const isNotWords = words.length === 0;
   const isAvailableWords = !isNotWords && startWordIndex !== null;
@@ -36,7 +41,15 @@ export const DictionaryTrainingScreen = ({ route }) => {
     dispatch(effects.saveCountWord(body));
   };
 
-  const onFinished = () => setIsStatistics(true);
+  const onUpdatePaws = (value) => {
+    // setPaws(paws + value);
+  };
+
+  // const onFinished = () => setIsStatistics(true);
+  const onFinished = () => {
+    // pawRef.current.animate(zoomIn, 500);
+    //pawRef.current.animate(zoomOut, 500);
+  };
 
   useEffect(() => {
     const words = createWords(allDictionaries, selectedDictionaries);
@@ -65,9 +78,19 @@ export const DictionaryTrainingScreen = ({ route }) => {
 
   return (
     <Container>
-      <CartWord words={words} startIndex={startWordIndex} onUpdateWords={onUpdateWords} onFinished={onFinished} />
+      <CartWord
+        words={words}
+        startIndex={startWordIndex}
+        profile={profile}
+        onUpdateWords={onUpdateWords}
+        onUpdatePaws={onUpdatePaws}
+        onFinished={onFinished}
+        navigation={navigation}
+      />
     </Container>
   );
 };
 
-const Container = styled.View``;
+const Container = styled.View`
+  z-index: -1;
+`;

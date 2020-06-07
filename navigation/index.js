@@ -62,7 +62,7 @@ const setBarOptions = ({ route }) => ({
     } else if (route.name === SCREENS.DICTIONARIES) {
       iconName = Platform.OS === 'ios' ? 'ios-book' : 'md-book';
     } else if (route.name === SCREENS.PROFILE) {
-      iconName = Platform.OS === 'ios' ? 'ios-options' : 'md-options';
+      iconName = Platform.OS === 'ios' ? 'ios-person' : 'md-person';
     }
 
     return <TabBarIcon focused={focused} name={iconName} />;
@@ -86,8 +86,7 @@ const Main = () => {
 
 export const Navigation = () => {
   const state = useSelector((state) => state);
-  const { isLoaded, isAuth, dictionaries, profile } = state;
-  // const isLoaded = Object.keys(profile).length > 0 && dictionaries.length;
+  const { isLoaded, isAuth } = state;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -96,7 +95,6 @@ export const Navigation = () => {
     }
   }, [isAuth]);
 
-  // показываем только тогда идет запрос за данными
   if (isAuth && !isLoaded) {
     return <Loader />;
   }

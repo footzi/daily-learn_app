@@ -29,6 +29,10 @@ export const ApiCall = {
     return request.private('put', '/api/words/changeCount', body);
   },
 
+  changeProfile(body) {
+    return request.private('put', '/api/user/change', body);
+  },
+
   logout() {
     return request.private('post', '/api/signout');
   },
