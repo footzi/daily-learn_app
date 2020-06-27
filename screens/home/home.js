@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import { Content, ListItem, Text, Button, CheckBox } from 'native-base';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Title } from '@components';
 import { SCREENS } from '@constants';
-import * as effects from './effects';
 import { normalizeDictionaries } from './normalize';
 
-export const HomeScreen = ({ navigation }) => {
+export const HomeScreen = ({ navigation = {} }) => {
   const { dictionaries = [] } = useSelector((state) => state);
   const [dictionariesList, setDictionariesList] = useState([]);
 
@@ -29,6 +28,17 @@ export const HomeScreen = ({ navigation }) => {
     setDictionariesList(selected);
   };
 
+  const onClearSelect = () => {
+    if (dictionariesList.length) {
+      const unSelected = dictionariesList.map((item) => {
+        item.checked = false;
+        return item;
+      });
+
+      setDictionariesList(unSelected);
+    }
+  };
+
   const haveSelected = dictionariesList.some((item) => item.checked);
 
   useEffect(() => {
@@ -41,6 +51,10 @@ export const HomeScreen = ({ navigation }) => {
     const normalized = normalizeDictionaries(dictionaries);
     setDictionariesList(normalized);
   }, [dictionaries]);
+
+  useEffect(() => {
+    return navigation.addListener('blur', () => onClearSelect());
+  }, [navigation]);
 
   return (
     <Content>

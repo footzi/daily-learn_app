@@ -15,9 +15,9 @@ import {
   ProfileScreen,
 } from '../screens';
 import TabBarIcon from '../components/TabBarIcon';
-import { SCREENS } from '@constants';
+import { SCREENS, LOADING_ITEMS } from '@constants';
 import { Loader } from '@components';
-import * as commonEffects from '@store/common-effects';
+import { loadingData } from '@store/common-effects';
 
 const Tab = createBottomTabNavigator();
 const AppStack = createStackNavigator();
@@ -86,30 +86,31 @@ const Main = () => {
 
 export const Navigation = () => {
   const state = useSelector((state) => state);
-  const { isLoaded, isAuth } = state;
+  const { isAuth, loading } = state;
+  const isFirstLoading = loading[LOADING_ITEMS.FIRST];
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (isAuth) {
-      dispatch(commonEffects.getMainData());
+      dispatch(loadingData());
     }
   }, [isAuth]);
 
-  if (isAuth && !isLoaded) {
+  if (isAuth && isFirstLoading) {
     return <Loader />;
   }
 
   return (
     <NavigationContainer>
       <AppStack.Navigator>
+        {isAuth && <AppStack.Screen name="Main" component={Main} options={{ headerShown: false }} />}
+
         {!isAuth && (
           <>
             <AppStack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
             <AppStack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
           </>
         )}
-
-        {isAuth && isLoaded && <AppStack.Screen name="Main" component={Main} options={{ headerShown: false }} />}
       </AppStack.Navigator>
     </NavigationContainer>
   );

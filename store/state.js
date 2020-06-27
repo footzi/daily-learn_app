@@ -1,5 +1,4 @@
 export const initState = {
-  isLoaded: false,
   isAuth: null,
   user: null,
   dictionaries: [],
@@ -8,7 +7,8 @@ export const initState = {
     email: '',
     paws: 0,
   },
-  processing: false,
+  loading: {},
+  errors: {},
   notification: {
     type: '',
     text: '',

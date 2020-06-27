@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createFormData, getToken, checkAccessToken } from './helpers';
 import { LocalStorage } from '@libs';
-import { actions } from '@store';
+import { removeIsAuth, removeUser } from '@store';
 import { TOKENS_LS, SETTINGS } from '@constants';
 
 let instance = null;
@@ -68,9 +68,8 @@ class Request {
     } catch (err) {
       await LocalStorage.remove(TOKENS_LS);
 
-      this.store.dispatch(actions.removeIsAuth());
-      this.store.dispatch(actions.clearData());
-      this.store.dispatch(actions.removeUser());
+      this.store.dispatch(removeIsAuth());
+      this.store.dispatch(removeUser());
     }
   }
 }

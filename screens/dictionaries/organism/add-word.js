@@ -3,7 +3,7 @@ import { Button, Icon, Input, Item } from 'native-base';
 import styled from 'styled-components/native';
 import { BottomModal, ButtonLoader } from '@components';
 
-export const AddWord = ({ isOpenModal, closeModal, onSaveWord }) => {
+export const AddWord = ({ isOpenModal = true, closeModal = () => {}, onSaveWord = () => {} }) => {
   const initial = {
     name: '',
     translate: [{ id: 1, value: '' }],

@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import { ButtonLoader } from '@components';
 import { toSignIn } from './effects';
 
-export const SignInScreen = ({ navigation }) => {
+export const SignInScreen = ({ navigation = {} }) => {
   const [fields, setFields] = useState({
     login: '',
     password: '',

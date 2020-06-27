@@ -1,10 +1,10 @@
-import { actions } from '@store';
+import { startLoading, endLoading, setNotification, setUser, setIsAuth } from '@store';
 import { LocalStorage, getErrorMessage } from '@libs';
 import { ApiCall } from '@api';
-import { TOKENS_LS, USER_LS, ERROR } from '@constants';
+import { TOKENS_LS, USER_LS, ERROR, LOADING_ITEMS } from '@constants';
 
 export const toSignIn = (body = {}) => async (dispatch) => {
-  dispatch(actions.setProcessing());
+  dispatch(startLoading(LOADING_ITEMS.INNER));
 
   try {
     const response = await ApiCall.signIn(body);
@@ -12,15 +12,15 @@ export const toSignIn = (body = {}) => async (dispatch) => {
     const { user, tokens } = data;
 
     if (user && tokens) {
-      dispatch(actions.setUser(user));
-      dispatch(actions.setIsAuth());
+      dispatch(setUser(user));
+      dispatch(setIsAuth());
 
       await LocalStorage.set(TOKENS_LS, tokens);
       await LocalStorage.set(USER_LS, user);
     }
   } catch (err) {
-    dispatch(actions.setNotification({ type: ERROR, text: getErrorMessage(err) }));
+    dispatch(setNotification({ type: ERROR, text: getErrorMessage(err) }));
   } finally {
-    dispatch(actions.removeProcessing());
+    dispatch(endLoading(LOADING_ITEMS.INNER));
   }
 };

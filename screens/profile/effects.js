@@ -1,10 +1,10 @@
 import { ApiCall } from '@api';
-import { ERROR, TOKENS_LS, USER_LS } from '@constants';
-import { actions } from '@store';
+import { ERROR, TOKENS_LS, USER_LS, LOADING_ITEMS } from '@constants';
+import { startLoading, endLoading, setNotification, removeUser, removeIsAuth } from '@store';
 import { LocalStorage } from '@libs';
 
 export const toSignOut = () => async (dispatch) => {
-  dispatch(actions.setProcessing());
+  dispatch(startLoading(LOADING_ITEMS.INNER));
 
   try {
     const response = await ApiCall.logout();
@@ -15,16 +15,14 @@ export const toSignOut = () => async (dispatch) => {
       throw new Error(error);
     }
 
-    dispatch(actions.removeProcessing()); // не в finally иначе на логин весит лоадер
-    dispatch(actions.removeIsLoaded());
-    dispatch(actions.removeUser());
-    dispatch(actions.removeIsAuth());
-    // dispatch(actions.clearData());
+    dispatch(endLoading(LOADING_ITEMS.INNER));
+    dispatch(removeUser());
+    dispatch(removeIsAuth());
 
     await LocalStorage.remove(TOKENS_LS);
     await LocalStorage.remove(USER_LS);
   } catch (error) {
-    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
-    dispatch(actions.removeProcessing());
+    dispatch(setNotification({ type: ERROR, text: error.message }));
+    dispatch(endLoading(LOADING_ITEMS.INNER));
   }
 };

@@ -7,7 +7,7 @@ import { Title, BottomModal, useModal } from '@components';
 import { CreateDict } from './organism';
 import * as effects from './effects';
 
-export const DictionariesScreen = ({ navigation }) => {
+export const DictionariesScreen = ({ navigation = {} }) => {
   const { dictionaries = [] } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [isOpenModal, openModal, closeModal] = useModal();

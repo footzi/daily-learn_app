@@ -2,13 +2,11 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { Spinner } from 'native-base';
 
-export const Loader = () => {
-  return (
-    <Container>
-      <Spinner color="blue" size={50} />
-    </Container>
-  );
-};
+export const Loader = () => (
+  <Container>
+    <Spinner color="blue" size={50} />
+  </Container>
+);
 
 const Container = styled.View`
   flex: 1;

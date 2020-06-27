@@ -1,95 +1,74 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from 'styled-components/native';
-import { Card, Item, Input, Button, Text, View, H3 } from 'native-base';
-// import { Colors } from '@constants';
-import { AskSlide } from './ask-slide';
-import { ProgressBar } from '@components';
-import { SETTINGS } from '@constants';
-import { getNextIndex } from '../helpers';
-
-import { Icon } from 'native-base';
 import * as Animatable from 'react-native-animatable';
-import { Colors } from '@constants';
+import { Card, Item, Input, Button, Text, View, H3, Icon } from 'native-base';
+import { ProgressBar } from '@components';
+import { SETTINGS, PAWS_DURATION, Colors } from '@constants';
+import { getNextIndex } from '../helpers';
 
 const zoomOut = {
   0: {
-    opacity: 1,
     translateY: 0,
   },
-  1: {
+  0.9: {
     opacity: 1,
-    translateY: 300,
+  },
+  1: {
+    opacity: 0,
+    translateY: 280,
   },
 };
 
 const zoomIn = {
   0: {
     opacity: 1,
-    translateY: 300,
+    translateY: 280,
+  },
+  0.9: {
+    opacity: 1,
   },
   1: {
-    opacity: 1,
+    opacity: 0,
     translateY: 0,
   },
 };
 
-const duration = 900;
-
-export const CartWord = ({ words, profile, startIndex, onUpdateWords, onUpdatePaws, onFinished, navigation }) => {
+export const CartWord = ({
+  words = [],
+  paws = 0,
+  startIndex = 1,
+  onUpdateWords = () => {},
+  onUpdatePaws = () => {},
+  onFinished = () => {},
+  navigation = {},
+}) => {
   const [field, setField] = useState('');
   const [isWrong, setIsWrong] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(startIndex);
-  const [nextIndex, setNextIndex] = useState(0);
-  const [paws, setPaws] = useState(profile.paws);
-
   const pawRef = useRef(null);
 
   const currentWord = words[currentIndex];
-  const nextWord = words[nextIndex];
-
-  const currentRef = useRef();
-  const nextRef = useRef();
 
   const onChange = (text) => setField(text);
 
   const onNotRemember = () => {
     setField('');
     setIsWrong(true);
+    pawRef.current.animate(zoomOut, PAWS_DURATION);
+    onUpdatePaws(-1);
   };
-
-  const onAnimationEnd = () => {
-    // console.log('anim end');
-    // onUpdatePaws(1);
-    // onUpdatePaws(1);
-
-    setPaws(paws + 1);
-  }
 
   const onAnswer = () => {
     const isRight = currentWord.answers.some((item) => item.toLowerCase() === field.toLowerCase().trim());
 
     if (isRight) {
-      // onUpdateWords(currentWord);
-
-      pawRef.current.animate(zoomIn, duration).then((p) => {
-
-        setPaws(paws + 1);
-        //onUpdatePaws(1);
-      });
-
+      pawRef.current.animate(zoomIn, PAWS_DURATION).then(() => onUpdatePaws(1));
+      onUpdateWords(currentWord);
       onNext();
-
-
-      setTimeout(() => {
-
-      }, duration)
-      // setTimeout(() => {
-      //   onNext();
-      // }, 300);
     } else {
+      pawRef.current.animate(zoomOut, PAWS_DURATION);
       setIsWrong(true);
       onUpdatePaws(-1);
-      pawRef.current.animate(zoomOut, duration);
     }
 
     setField('');
@@ -101,15 +80,7 @@ export const CartWord = ({ words, profile, startIndex, onUpdateWords, onUpdatePa
     setIsWrong(false);
 
     if (nextIndex !== null) {
-      setNextIndex(nextIndex);
-
-      // currentRef.current.slideOutLeft(500);
-      // nextRef.current.slideOutLeft(500);
-
-
       setCurrentIndex(nextIndex);
-      setTimeout(() => {
-      }, 500);
     } else {
       onFinished();
     }
@@ -118,26 +89,17 @@ export const CartWord = ({ words, profile, startIndex, onUpdateWords, onUpdatePa
     navigation.setOptions({
       headerRight: () => (
         <Paw>
-          <Animatable.View
-            // animation={zoomIn}
-            ref={pawRef}
-            style={{ position: 'absolute', left: 0, zIndex: 1, flex: 1, flexDirection: 'row'}}
-            easing="ease-in-out"
-            useNativeDriver
-            onAnimationEnd={onAnimationEnd}>
-
-            <IconAnimate>
+          <PawAnimate>
+            <Animatable.View ref={pawRef} easing="ease-in-out" useNativeDriver>
               <Icon name="md-paw" style={{ color: isWrong ? Colors.danger : Colors.success }} />
-            </IconAnimate>
-            <Count style={{ zIndex: 2, position: 'absolute', left: 20}}>+1</Count>
-          </Animatable.View>
+              <Count>{isWrong ? '-1' : '+1'}</Count>
+            </Animatable.View>
+          </PawAnimate>
 
-
-          <View style={{flex: 1, flexDirection: 'row', position: 'relative'}}>
-
-            <Icon name="md-paw" style={{ zIndex: 2, color: Colors.success}} />
-            <Count style={{ zIndex: 2, position: 'absolute', left: 20, minWidth: 50}}>{paws}</Count>
-          </View>
+          <PawStatic>
+            <Icon name="md-paw" style={{ color: isWrong ? Colors.danger : Colors.success }} />
+            <Count isStatic>{paws}</Count>
+          </PawStatic>
         </Paw>
       ),
     });
@@ -145,17 +107,12 @@ export const CartWord = ({ words, profile, startIndex, onUpdateWords, onUpdatePa
 
   return (
     <Card>
-      {/*<Slides>*/}
-      {/*  <AskSlide animateRef={currentRef} word={currentWord} />*/}
-      {/*  <AskSlide animateRef={nextRef} word={nextWord} />*/}
-      {/*</Slides>*/}
-
       <Content>
-      <H3 style={{ textAlign: 'center' }}>{currentWord.question}</H3>
+        <H3 style={{ textAlign: 'center' }}>{currentWord.question}</H3>
 
-      <ProgressWrapper>
-        <ProgressBar progress={(currentWord.count / SETTINGS.attempt) * 100} />
-      </ProgressWrapper>
+        <ProgressWrapper>
+          <ProgressBar progress={(currentWord.count / SETTINGS.attempt) * 100} />
+        </ProgressWrapper>
 
         <Actions>
           {!isWrong && (
@@ -212,15 +169,9 @@ export const CartWord = ({ words, profile, startIndex, onUpdateWords, onUpdatePa
   );
 };
 
-const Slides = styled.View`
-  padding-top: 20px;
-  flex-direction: row;
-`;
-
 const ProgressWrapper = styled.View`
   margin-top: 20px;
 `;
-
 
 const Content = styled.View`
   padding: 20px;
@@ -265,19 +216,30 @@ const Paw = styled.View`
   padding-right: 40px;
 `;
 
-const Count = styled.Text`
-  font-size: 16px;
-  margin-left: 5px;
-  background-color: white;
-`;
-
-const IconAnimate = styled.View`
-  z-index: 1;
-`;
-
-const T = styled.View`
+const PawStatic = styled.View`
   flex: 1;
   flex-direction: row;
   align-items: center;
+  position: relative;
+  z-index: 2;
+`;
+
+const PawAnimate = styled.View`
   position: absolute;
+  top: 14px;
+  left: 0;
+  z-index: 1;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const Count = styled.Text`
+  font-size: 16px;
+  margin-left: 5px;
+  z-index: 2;
+  position: absolute;
+  left: 20px;
+  min-width: 50px;
+  background-color: ${({ isStatic }) => (isStatic ? Colors.white : 'transparent')};
 `;

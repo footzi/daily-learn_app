@@ -1,4 +1,4 @@
-export { ButtonLoader } from './buttons/buttonLoader';
+export { ButtonLoader } from './Button-Loader';
 export { ProgressBar } from './progress-bar';
 export { BottomModal, HeaderModal, useModal } from './modal';
 export { Loader } from './loader';

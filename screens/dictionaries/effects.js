@@ -1,11 +1,11 @@
 import { ERROR } from '@constants';
-import { actions } from '@store';
+import { startLoading, endLoading, setNotification } from '@store';
 import { ApiCall } from '@api';
-import { SCREENS } from '@constants';
-import * as commonEffects from '@store/common-effects';
+import { SCREENS, LOADING_ITEMS } from '@constants';
+import { updateData } from '@store/common-effects';
 
 export const createDictionary = ({ navigation, body, closeModal }) => async (dispatch, getState) => {
-  dispatch(actions.setProcessing());
+  dispatch(startLoading(LOADING_ITEMS.INNER));
 
   try {
     const response = await ApiCall.createDictionary(body);
@@ -16,7 +16,7 @@ export const createDictionary = ({ navigation, body, closeModal }) => async (dis
       throw new Error(error);
     }
 
-    await dispatch(commonEffects.getMainData());
+    await dispatch(updateData());
 
     const state = getState();
     const { dictionaries } = state;
@@ -25,14 +25,14 @@ export const createDictionary = ({ navigation, body, closeModal }) => async (dis
     closeModal();
     navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { preview_dictionary });
   } catch (error) {
-    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+    dispatch(setNotification({ type: ERROR, text: error.message }));
   } finally {
-    dispatch(actions.removeProcessing());
+    dispatch(endLoading(LOADING_ITEMS.INNER));
   }
 };
 
 export const saveWord = ({ fields, preview_dictionary }) => async (dispatch) => {
-  dispatch(actions.setProcessing());
+  dispatch(startLoading(LOADING_ITEMS.INNER));
 
   try {
     const body = {
@@ -50,16 +50,16 @@ export const saveWord = ({ fields, preview_dictionary }) => async (dispatch) => 
       throw new Error(error);
     }
 
-    dispatch(commonEffects.getMainData());
+    dispatch(updateData());
   } catch (error) {
-    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+    dispatch(setNotification({ type: ERROR, text: error.message }));
   } finally {
-    dispatch(actions.removeProcessing());
+    dispatch(endLoading(LOADING_ITEMS.INNER));
   }
 };
 
 export const removeWord = (ids) => async (dispatch) => {
-  dispatch(actions.setProcessing());
+  dispatch(startLoading(LOADING_ITEMS.INNER));
 
   try {
     const response = await ApiCall.removeWord({ ids: JSON.stringify(ids) });
@@ -70,10 +70,10 @@ export const removeWord = (ids) => async (dispatch) => {
       throw new Error(error);
     }
 
-    dispatch(commonEffects.getMainData());
+    dispatch(updateData());
   } catch (error) {
-    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+    dispatch(setNotification({ type: ERROR, text: error.message }));
   } finally {
-    dispatch(actions.setProcessing());
+    dispatch(endLoading(LOADING_ITEMS.INNER));
   }
 };

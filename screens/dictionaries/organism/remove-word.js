@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Button, Text } from 'native-base';
 import { BottomModal, ButtonLoader } from '@components';
 
-export const RemoveWord = ({ word, isOpenModal, closeModal, onDeleteWord }) => {
+export const RemoveWord = ({ word = {}, isOpenModal = true, closeModal = () => {}, onDeleteWord = () => {} }) => {
   if (!Object.keys(word).length) {
     return null;
   }

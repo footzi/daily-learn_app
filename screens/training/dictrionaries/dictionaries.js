@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { SETTINGS } from '@constants';
@@ -6,21 +6,18 @@ import { Loader } from '@components/loader';
 import { Statistics, CartWord, Congratulation, NotWords } from './organism';
 import { createWords, getStartIndex } from './helpers';
 import * as effects from '../effects';
-import { Button, Icon, Text } from 'native-base';
-import * as Animatable from 'react-native-animatable';
-import { Colors } from '../../../constants';
+import { updateData } from '@store/common-effects';
 
-export const DictionaryTrainingScreen = ({ route, navigation }) => {
+export const DictionaryTrainingScreen = ({ route = {}, navigation = {} }) => {
   const { dictionaries: allDictionaries = [], profile = {} } = useSelector((state) => state);
   const { selectedDictionaries } = route.params || [];
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(true);
   const [words, setWords] = useState([]);
+  const [paws, setPaws] = useState(profile.paws);
   const [startWordIndex, setStartWordIndex] = useState(0);
   const [isStatistics, setIsStatistics] = useState(false);
-
-  const pawRef = useRef(null);
 
   const isNotWords = words.length === 0;
   const isAvailableWords = !isNotWords && startWordIndex !== null;
@@ -42,14 +39,12 @@ export const DictionaryTrainingScreen = ({ route, navigation }) => {
   };
 
   const onUpdatePaws = (value) => {
-    // setPaws(paws + value);
+    const count = paws + value;
+    setPaws(paws + value);
+    dispatch(effects.saveCountPaws(count));
   };
 
-  // const onFinished = () => setIsStatistics(true);
-  const onFinished = () => {
-    // pawRef.current.animate(zoomIn, 500);
-    //pawRef.current.animate(zoomOut, 500);
-  };
+  const onFinished = () => setIsStatistics(true);
 
   useEffect(() => {
     const words = createWords(allDictionaries, selectedDictionaries);
@@ -59,6 +54,10 @@ export const DictionaryTrainingScreen = ({ route, navigation }) => {
     setStartWordIndex(startWordIndex);
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    return navigation.addListener('blur', () => dispatch(updateData()));
+  }, [navigation]);
 
   if (isLoading) {
     return <Loader />;
@@ -81,11 +80,11 @@ export const DictionaryTrainingScreen = ({ route, navigation }) => {
       <CartWord
         words={words}
         startIndex={startWordIndex}
-        profile={profile}
+        paws={paws}
+        navigation={navigation}
         onUpdateWords={onUpdateWords}
         onUpdatePaws={onUpdatePaws}
         onFinished={onFinished}
-        navigation={navigation}
       />
     </Container>
   );

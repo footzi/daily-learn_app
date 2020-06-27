@@ -1,22 +1,17 @@
 import { initState } from './state';
 import {
-  SET_IS_LOADED,
   SET_NOTIFICATION,
-  SET_PROCESSING,
   SET_USER,
   SET_IS_AUTH,
   SET_PROFILE,
   SET_DICTIONARIES,
+  SET_LOADING_ITEM,
+  REMOVE_LOADING_ITEM,
 } from '@constants';
 
 // редьюсеры
 export const reducer = (state = initState, action) => {
   switch (action.type) {
-    case SET_IS_LOADED:
-      return {
-        ...state,
-        isLoaded: action.payload,
-      };
     case SET_IS_AUTH:
       return {
         ...state,
@@ -47,11 +42,24 @@ export const reducer = (state = initState, action) => {
           text: action.payload.text,
         },
       };
-    case SET_PROCESSING:
+    case SET_LOADING_ITEM: {
       return {
         ...state,
-        processing: action.payload,
+        loading: {
+          ...state.loading,
+          [action.payload]: true,
+        },
       };
+    }
+    case REMOVE_LOADING_ITEM: {
+      const loading = state.loading;
+      delete loading[action.payload];
+
+      return {
+        ...state,
+        loading,
+      };
+    }
     default:
       return state;
   }
