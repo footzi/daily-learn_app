@@ -1,11 +1,11 @@
 import { ERROR } from '@constants';
-import { startLoading, endLoading, setNotification } from '@store';
 import { ApiCall } from '@api';
 import { SCREENS, LOADING_ITEMS } from '@constants';
 import { updateData } from '@store/common-effects';
+import * as actions from '@store';
 
 export const createDictionary = ({ navigation, body, closeModal }) => async (dispatch, getState) => {
-  dispatch(startLoading(LOADING_ITEMS.INNER));
+  dispatch(actions.startLoading(LOADING_ITEMS.INNER));
 
   try {
     const response = await ApiCall.createDictionary(body);
@@ -25,14 +25,14 @@ export const createDictionary = ({ navigation, body, closeModal }) => async (dis
     closeModal();
     navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { preview_dictionary });
   } catch (error) {
-    dispatch(setNotification({ type: ERROR, text: error.message }));
+    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
   } finally {
-    dispatch(endLoading(LOADING_ITEMS.INNER));
+    dispatch(actions.endLoading(LOADING_ITEMS.INNER));
   }
 };
 
 export const saveWord = ({ fields, preview_dictionary }) => async (dispatch) => {
-  dispatch(startLoading(LOADING_ITEMS.INNER));
+  dispatch(actions.startLoading(LOADING_ITEMS.INNER));
 
   try {
     const body = {
@@ -52,9 +52,9 @@ export const saveWord = ({ fields, preview_dictionary }) => async (dispatch) => 
 
     dispatch(updateData());
   } catch (error) {
-    dispatch(setNotification({ type: ERROR, text: error.message }));
+    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
   } finally {
-    dispatch(endLoading(LOADING_ITEMS.INNER));
+    dispatch(actions.endLoading(LOADING_ITEMS.INNER));
   }
 };
 

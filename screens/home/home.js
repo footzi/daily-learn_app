@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Content, ListItem, Text, Button, CheckBox } from 'native-base';
 import { useSelector } from 'react-redux';
 import { Title } from '@components';
@@ -52,9 +53,11 @@ export const HomeScreen = ({ navigation = {} }) => {
     setDictionariesList(normalized);
   }, [dictionaries]);
 
-  useEffect(() => {
-    return navigation.addListener('blur', () => onClearSelect());
-  }, [navigation]);
+  useFocusEffect(
+    useCallback(() => {
+      return () => onClearSelect();
+    }, [])
+  );
 
   return (
     <Content>

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { SETTINGS } from '@constants';
 import { Loader } from '@components/loader';
 import { Statistics, CartWord, Congratulation, NotWords } from './organism';
@@ -55,9 +56,11 @@ export const DictionaryTrainingScreen = ({ route = {}, navigation = {} }) => {
     setIsLoading(false);
   }, []);
 
-  useEffect(() => {
-    return navigation.addListener('blur', () => dispatch(updateData()));
-  }, [navigation]);
+  useFocusEffect(
+    useCallback(() => {
+      return () => dispatch(updateData());
+    }, [])
+  );
 
   if (isLoading) {
     return <Loader />;
