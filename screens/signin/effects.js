@@ -1,10 +1,10 @@
-import { actions } from '@store';
 import { LocalStorage, getErrorMessage } from '@libs';
 import { ApiCall } from '@api';
-import { TOKENS_LS, USER_LS, ERROR } from '@constants';
+import { TOKENS_LS, USER_LS, ERROR, LOADING_ITEMS } from '@constants';
+import * as actions from '@store';
 
 export const toSignIn = (body = {}) => async (dispatch) => {
-  dispatch(actions.setProcessing());
+  dispatch(actions.startLoading(LOADING_ITEMS.INNER));
 
   try {
     const response = await ApiCall.signIn(body);
@@ -21,6 +21,6 @@ export const toSignIn = (body = {}) => async (dispatch) => {
   } catch (err) {
     dispatch(actions.setNotification({ type: ERROR, text: getErrorMessage(err) }));
   } finally {
-    dispatch(actions.removeProcessing());
+    dispatch(actions.endLoading(LOADING_ITEMS.INNER));
   }
 };

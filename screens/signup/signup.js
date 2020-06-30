@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { ButtonLoader } from '@components';
 import { toSignUp } from './effects';
 
-export const SignUpScreen = ({ navigation }) => {
+export const SignUpScreen = ({ navigation = {} }) => {
   const [fields, setFields] = useState({
     login: '',
     email: '',

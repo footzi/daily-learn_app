@@ -21,4 +21,4 @@ export const createTestStore = (state = {}) => {
   return configureStore({ ...state, initState });
 };
 
-export { actions } from './actions';
+export * from './actions';

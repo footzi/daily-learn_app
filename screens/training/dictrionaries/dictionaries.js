@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { SETTINGS } from '@constants';
 import { Loader } from '@components/loader';
 import { Statistics, CartWord, Congratulation, NotWords } from './organism';
 import { createWords, getStartIndex } from './helpers';
 import * as effects from '../effects';
+import { updateData } from '@store/common-effects';
 
-export const DictionaryTrainingScreen = ({ route }) => {
-  const { data = {} } = useSelector((state) => state);
-  const allDictionaries = data.dictionaries;
+export const DictionaryTrainingScreen = ({ route = {}, navigation = {} }) => {
+  const { dictionaries: allDictionaries = [], profile = {} } = useSelector((state) => state);
   const { selectedDictionaries } = route.params || [];
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(true);
   const [words, setWords] = useState([]);
+  const [paws, setPaws] = useState(profile.paws);
   const [startWordIndex, setStartWordIndex] = useState(0);
   const [isStatistics, setIsStatistics] = useState(false);
 
@@ -37,6 +39,12 @@ export const DictionaryTrainingScreen = ({ route }) => {
     dispatch(effects.saveCountWord(body));
   };
 
+  const onUpdatePaws = (value) => {
+    const count = paws + value;
+    setPaws(paws + value);
+    dispatch(effects.saveCountPaws(count));
+  };
+
   const onFinished = () => setIsStatistics(true);
 
   useEffect(() => {
@@ -47,6 +55,12 @@ export const DictionaryTrainingScreen = ({ route }) => {
     setStartWordIndex(startWordIndex);
     setIsLoading(false);
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => dispatch(updateData());
+    }, [])
+  );
 
   if (isLoading) {
     return <Loader />;
@@ -66,9 +80,19 @@ export const DictionaryTrainingScreen = ({ route }) => {
 
   return (
     <Container>
-      <CartWord words={words} startIndex={startWordIndex} onUpdateWords={onUpdateWords} onFinished={onFinished} />
+      <CartWord
+        words={words}
+        startIndex={startWordIndex}
+        paws={paws}
+        navigation={navigation}
+        onUpdateWords={onUpdateWords}
+        onUpdatePaws={onUpdatePaws}
+        onFinished={onFinished}
+      />
     </Container>
   );
 };
 
-const Container = styled.View``;
+const Container = styled.View`
+  z-index: -1;
+`;

@@ -12,11 +12,12 @@ import {
   DictionariesScreen,
   PreviewDictionaryScreen,
   SettingsDictionaryScreen,
-  SettingsScreen,
+  ProfileScreen,
 } from '../screens';
 import TabBarIcon from '../components/TabBarIcon';
-import * as commonEffects from '@store/common-effects';
+import { SCREENS, LOADING_ITEMS } from '@constants';
 import { Loader } from '@components';
+import { loadingData } from '@store/common-effects';
 
 const Tab = createBottomTabNavigator();
 const AppStack = createStackNavigator();
@@ -26,9 +27,9 @@ const DictionaryStack = createStackNavigator();
 const HomeStackScreen = () => {
   return (
     <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      <HomeStack.Screen name={SCREENS.HOME} component={HomeScreen} options={{ headerShown: false }} />
       <HomeStack.Screen
-        name="DictionaryTraining"
+        name={SCREENS.DICTIONARY_TRAINING}
         component={DictionaryTrainingScreen}
         options={{
           headerTitle: 'Тренировка',
@@ -41,9 +42,13 @@ const HomeStackScreen = () => {
 const DictionaryStackScreen = () => {
   return (
     <DictionaryStack.Navigator>
-      <DictionaryStack.Screen name="Dictionary" component={DictionariesScreen} options={{ headerShown: false }} />
-      <DictionaryStack.Screen name="PreviewDictionary" component={PreviewDictionaryScreen} />
-      <DictionaryStack.Screen name="SettingsDictionary" component={SettingsDictionaryScreen} />
+      <DictionaryStack.Screen
+        name={SCREENS.DICTIONARIES_LIST}
+        component={DictionariesScreen}
+        options={{ headerShown: false }}
+      />
+      <DictionaryStack.Screen name={SCREENS.PREVIEW_DICTIONARY} component={PreviewDictionaryScreen} />
+      <DictionaryStack.Screen name={SCREENS.SETTINGS_DICTIONARY} component={SettingsDictionaryScreen} />
     </DictionaryStack.Navigator>
   );
 };
@@ -52,12 +57,12 @@ const setBarOptions = ({ route }) => ({
   tabBarIcon: ({ focused }) => {
     let iconName;
 
-    if (route.name === 'Home') {
+    if (route.name === SCREENS.HOME) {
       iconName = Platform.OS === 'ios' ? 'ios-school' : 'md-school';
-    } else if (route.name === 'DictionariesScreen') {
+    } else if (route.name === SCREENS.DICTIONARIES) {
       iconName = Platform.OS === 'ios' ? 'ios-book' : 'md-book';
-    } else if (route.name === 'Settings') {
-      iconName = Platform.OS === 'ios' ? 'ios-options' : 'md-options';
+    } else if (route.name === SCREENS.PROFILE) {
+      iconName = Platform.OS === 'ios' ? 'ios-person' : 'md-person';
     }
 
     return <TabBarIcon focused={focused} name={iconName} />;
@@ -72,42 +77,40 @@ const Main = () => {
         showLabel: false,
         keyboardHidesTabBar: false,
       }}>
-      <Tab.Screen name="Home" component={HomeStackScreen} />
-      <Tab.Screen name="DictionariesScreen" component={DictionaryStackScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name={SCREENS.HOME} component={HomeStackScreen} />
+      <Tab.Screen name={SCREENS.DICTIONARIES} component={DictionaryStackScreen} />
+      <Tab.Screen name={SCREENS.PROFILE} component={ProfileScreen} />
     </Tab.Navigator>
   );
 };
 
 export const Navigation = () => {
   const state = useSelector((state) => state);
-  const { isAuth, data } = state;
-  const isData = Object.keys(data).length > 0;
+  const { isAuth, loading } = state;
+  const isFirstLoading = loading[LOADING_ITEMS.FIRST];
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (isAuth) {
-      dispatch(commonEffects.getMainData());
+      dispatch(loadingData());
     }
   }, [isAuth]);
 
-  // показываем только тогда идет запрос за данными
-  // isAuth && !isData
-  if (isAuth && !isData) {
+  if (isAuth && isFirstLoading) {
     return <Loader />;
   }
 
   return (
     <NavigationContainer>
       <AppStack.Navigator>
+        {isAuth && <AppStack.Screen name="Main" component={Main} options={{ headerShown: false }} />}
+
         {!isAuth && (
           <>
             <AppStack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
             <AppStack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
           </>
         )}
-
-        {isAuth && isData && <AppStack.Screen name="Main" component={Main} options={{ headerShown: false }} />}
       </AppStack.Navigator>
     </NavigationContainer>
   );

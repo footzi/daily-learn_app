@@ -1,5 +1,3 @@
-import { actions } from '../../store';
+import { setNotification } from '@store';
 
-export const clearNotification = () => () => {
-  actions.setNotification({ type: null, text: '' });
-};
+export const clearNotification = () => () => setNotification({ type: null, text: '' });

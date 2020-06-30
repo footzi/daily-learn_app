@@ -7,15 +7,14 @@ import { Title, BottomModal, useModal } from '@components';
 import { CreateDict } from './organism';
 import * as effects from './effects';
 
-export const DictionariesScreen = ({ navigation }) => {
-  const { data = {} } = useSelector((state) => state);
-  const { dictionaries = [] } = data;
+export const DictionariesScreen = ({ navigation = {} }) => {
+  const { dictionaries = [] } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [isOpenModal, openModal, closeModal] = useModal();
 
   const onCreate = (body) => dispatch(effects.createDictionary({ navigation, body, closeModal }));
   const onPreview = (preview_dictionary) => {
-    navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { preview_dictionary }); //NAVIGATION_PARAMS.preview_dictionary
+    navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { preview_dictionary });
   };
   const onSettings = (dictionary) => navigation.navigate(SCREENS.SETTINGS_DICTIONARY, { dictionary });
 
@@ -25,7 +24,7 @@ export const DictionariesScreen = ({ navigation }) => {
         {dictionaries.length ? (
           <Title>Ваши словари:</Title>
         ) : (
-          <Title testID="empty-title">У вас еще нет словаря(</Title>
+          <Title testID="empty-title">Создайте свой первый словарь</Title>
         )}
 
         {dictionaries.length > 0 && (

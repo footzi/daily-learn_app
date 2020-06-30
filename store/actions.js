@@ -1,37 +1,37 @@
-import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_IS_AUTH, SET_DATA, SET_HOME_SCREEN } from '@constants';
+import {
+  SET_NOTIFICATION,
+  SET_USER,
+  SET_IS_AUTH,
+  SET_PROFILE,
+  SET_DICTIONARIES,
+  SET_LOADING_ITEM,
+  REMOVE_LOADING_ITEM,
+} from '@constants';
 
-export const actions = {
-  setIsAuth: () => {
-    return { type: SET_IS_AUTH, payload: true };
+export const setIsAuth = () => ({ type: SET_IS_AUTH, payload: true });
+export const removeIsAuth = () => ({ type: SET_IS_AUTH, payload: false });
+
+export const setUser = (payload) => ({ type: SET_USER, payload });
+export const removeUser = () => ({ type: SET_USER, payload: null });
+
+export const setDictionaries = (payload) => ({
+  type: SET_DICTIONARIES,
+  payload,
+});
+
+export const setProfile = (payload) => ({
+  type: SET_PROFILE,
+  payload,
+});
+
+export const setNotification = (payload) => ({ type: SET_NOTIFICATION, payload });
+export const clearNotification = () => ({
+  type: SET_NOTIFICATION,
+  payload: {
+    type: '',
+    text: '',
   },
-  removeIsAuth: () => {
-    return { type: SET_IS_AUTH, payload: false };
-  },
+});
 
-  setUser: (payload) => {
-    return { type: SET_USER, payload };
-  },
-  removeUser: () => {
-    return { type: SET_USER, payload: null };
-  },
-
-  setData: (payload) => ({ type: SET_DATA, payload }),
-  clearData: () => ({ type: SET_DATA, payload: {} }),
-
-  setHomeScreen: (payload) => ({
-    type: SET_HOME_SCREEN,
-    payload: { dictionaries: payload.dictionaries },
-  }),
-
-  setNotification: (payload) => ({ type: SET_NOTIFICATION, payload }),
-  clearNotification: () => ({
-    type: SET_NOTIFICATION,
-    payload: {
-      type: '',
-      text: '',
-    },
-  }),
-
-  setProcessing: () => ({ type: SET_PROCESSING, payload: true }),
-  removeProcessing: () => ({ type: SET_PROCESSING, payload: false }),
-};
+export const startLoading = (item) => ({ type: SET_LOADING_ITEM, payload: item });
+export const endLoading = (item) => ({ type: REMOVE_LOADING_ITEM, payload: item });

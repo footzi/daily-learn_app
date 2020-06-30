@@ -1,5 +1,13 @@
 import { initState } from './state';
-import { SET_NOTIFICATION, SET_PROCESSING, SET_USER, SET_IS_AUTH, SET_DATA, SET_HOME_SCREEN } from '@constants';
+import {
+  SET_NOTIFICATION,
+  SET_USER,
+  SET_IS_AUTH,
+  SET_PROFILE,
+  SET_DICTIONARIES,
+  SET_LOADING_ITEM,
+  REMOVE_LOADING_ITEM,
+} from '@constants';
 
 // редьюсеры
 export const reducer = (state = initState, action) => {
@@ -14,15 +22,16 @@ export const reducer = (state = initState, action) => {
         ...state,
         user: action.payload,
       };
-    case SET_DATA:
+    case SET_DICTIONARIES: {
       return {
         ...state,
-        data: action.payload,
+        dictionaries: action.payload,
       };
-    case SET_HOME_SCREEN: {
+    }
+    case SET_PROFILE: {
       return {
         ...state,
-        homeScreen: action.payload,
+        profile: action.payload,
       };
     }
     case SET_NOTIFICATION:
@@ -33,11 +42,24 @@ export const reducer = (state = initState, action) => {
           text: action.payload.text,
         },
       };
-    case SET_PROCESSING:
+    case SET_LOADING_ITEM: {
       return {
         ...state,
-        processing: action.payload,
+        loading: {
+          ...state.loading,
+          [action.payload]: true,
+        },
       };
+    }
+    case REMOVE_LOADING_ITEM: {
+      const loading = state.loading;
+      delete loading[action.payload];
+
+      return {
+        ...state,
+        loading,
+      };
+    }
     default:
       return state;
   }

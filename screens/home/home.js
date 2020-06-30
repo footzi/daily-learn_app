@@ -1,31 +1,75 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Content, ListItem, Text, Button, CheckBox } from 'native-base';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Title } from '@components';
-import * as effects from './effects';
+import { SCREENS } from '@constants';
+import { normalizeDictionaries } from './normalize';
 
-export const HomeScreen = ({ navigation }) => {
-  const { data = {}, homeScreen = {} } = useSelector((state) => state);
-  const { dictionaries = [] } = homeScreen;
-  const dispatch = useDispatch();
+export const HomeScreen = ({ navigation = {} }) => {
+  const { dictionaries = [] } = useSelector((state) => state);
+  const [dictionariesList, setDictionariesList] = useState([]);
 
-  const onStart = () => dispatch(effects.startTraining(navigation));
-  const onSelect = (id) => dispatch(effects.selectDictionary(id));
+  const onStart = () => {
+    const selectedDictionaries = dictionariesList.filter((item) => item.checked).map((dict) => dict.id);
 
-  const haveSelected = dictionaries.some((item) => item.checked);
+    navigation.navigate(SCREENS.DICTIONARY_TRAINING, { selectedDictionaries });
+  };
+
+  const onSelect = (id) => {
+    const selected = dictionariesList.map((item) => {
+      if (id === item.id) {
+        item.checked = !item.checked;
+      }
+
+      return item;
+    });
+
+    setDictionariesList(selected);
+  };
+
+  const onClearSelect = () => {
+    if (dictionariesList.length) {
+      const unSelected = dictionariesList.map((item) => {
+        item.checked = false;
+        return item;
+      });
+
+      setDictionariesList(unSelected);
+    }
+  };
+
+  const haveSelected = dictionariesList.some((item) => item.checked);
 
   useEffect(() => {
-    dispatch(effects.setDictionaries(data));
-  }, [data]);
+    if (!dictionaries.length) {
+      navigation.navigate(SCREENS.DICTIONARIES);
+
+      return;
+    }
+
+    const normalized = normalizeDictionaries(dictionaries);
+    setDictionariesList(normalized);
+  }, [dictionaries]);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => onClearSelect();
+    }, [])
+  );
 
   return (
     <Content>
       <Container>
-        {dictionaries.length ? <Title>Выберите словарь для старта</Title> : <Title>Для начала создайте словарь</Title>}
+        {dictionaries.length ? (
+          <Title>Выберите словарь для старта</Title>
+        ) : (
+          <Title>Чтобы начать тренировку, создайте свой первый словарь</Title>
+        )}
 
         <Dictionaries>
-          {dictionaries.map((item) => (
+          {dictionariesList.map((item) => (
             <ListItem key={item.id}>
               <CheckBox onPress={() => onSelect(item.id)} checked={item.checked} />
               <Item onPress={() => onSelect(item.id)}>
@@ -35,7 +79,7 @@ export const HomeScreen = ({ navigation }) => {
           ))}
         </Dictionaries>
 
-        {dictionaries.length > 0 && (
+        {dictionariesList.length > 0 && (
           <Start>
             <Button info={haveSelected} disabled={!haveSelected} onPress={onStart}>
               <Text>Начать</Text>
