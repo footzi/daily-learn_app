@@ -43,7 +43,5 @@ export const NewColors = {
   green: '#b9df4d',
   white: '#ffffff',
   black: '#000000',
-  grey: '#fcfcfc',
+  grey: '#cccccc',
 };
-
-//fffef5

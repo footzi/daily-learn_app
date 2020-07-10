@@ -14,9 +14,8 @@ import {
   SettingsDictionaryScreen,
   ProfileScreen,
 } from '../screens';
-import TabBarIcon from '../components/TabBarIcon';
-import { SCREENS, LOADING_ITEMS } from '@constants';
-import { Loader } from '@components';
+import { SCREENS, LOADING_ITEMS, NewColors as Colors } from '@constants';
+import { BarIcon, Loader } from '@components';
 import { loadingData } from '@store/common-effects';
 
 const Tab = createBottomTabNavigator();
@@ -65,7 +64,7 @@ const setBarOptions = ({ route }) => ({
       iconName = Platform.OS === 'ios' ? 'ios-person' : 'md-person';
     }
 
-    return <TabBarIcon focused={focused} name={iconName} />;
+    return <BarIcon focused={focused} name={iconName} />;
   },
 });
 
@@ -76,6 +75,11 @@ const Main = () => {
       tabBarOptions={{
         showLabel: false,
         keyboardHidesTabBar: false,
+        style: {
+          backgroundColor: Colors.secondary,
+          borderTopLeftRadius: 25,
+          borderTopRightRadius: 25,
+        },
       }}>
       <Tab.Screen name={SCREENS.HOME} component={HomeStackScreen} />
       <Tab.Screen name={SCREENS.DICTIONARIES} component={DictionaryStackScreen} />

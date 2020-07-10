@@ -8,3 +8,4 @@ export { Notification } from './notification';
 export { Button } from './Button';
 export { Spinner } from './Spinner';
 export { Input } from './Input';
+export { BarIcon } from './Bar-Icon';

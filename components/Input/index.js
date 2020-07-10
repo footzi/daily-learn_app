@@ -21,7 +21,6 @@ export const Input = ({ theme = 'primary', value = '', ...restProps }) => {
         paddingBottom: 5,
         color: currentTheme.color,
       }}
-      selectionColor={'red'}
       {...restProps}
       onBlur={onBlur}
       onFocus={onFocus}
