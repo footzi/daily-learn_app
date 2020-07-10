@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Item, Input, H2, Button, Text, Content } from 'native-base';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { useDispatch } from 'react-redux';
-import { ButtonLoader } from '@components';
+import { ImageBackground } from 'react-native';
+import { LOADING_ITEMS } from '@constants';
+import { Button, Input, Title } from '@components';
 import { toSignUp } from './effects';
 
 export const SignUpScreen = ({ navigation = {} }) => {
+  const { loading } = useSelector((state) => state);
+  const isLoading = loading[LOADING_ITEMS.INNER];
   const [fields, setFields] = useState({
     login: '',
     email: '',
@@ -46,73 +49,72 @@ export const SignUpScreen = ({ navigation = {} }) => {
   }, [fields]);
 
   return (
-    <Content contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
+    <ImageBackground
+      resizeMode="cover"
+      source={require('../../assets/images/entry-figure.png')}
+      style={{ width: '100%', height: '100%' }}>
       <Container>
-        <Header>
-          <H2>Регистрация</H2>
-        </Header>
-        <Item>
-          <Input placeholder="Логин *" onChangeText={(text) => onChange(text, 'login')} value={fields.login} />
-        </Item>
-        <Item>
-          <Input placeholder="Е-mail" onChangeText={(text) => onChange(text, 'email')} value={fields.email} />
-        </Item>
-        <Item>
-          <Input
-            placeholder="Пароль *"
-            secureTextEntry
-            onChangeText={(text) => onChange(text, 'password')}
-            value={fields.password}
-          />
-        </Item>
-        <Item>
-          <Input
-            type="password"
-            secureTextEntry
-            placeholder="Подтвердите пароль *"
-            onChangeText={(text) => onChange(text, 'password2')}
-            value={fields.password2}
-          />
-        </Item>
-        <GroupButtons>
-          <ButtonLoader
-            theme="primary"
-            disabled={!isValid}
+        <Title>Регистрация</Title>
+        <Form>
+          <Field>
+            <Input placeholder="Логин *" value={fields.login} onChangeText={(text) => onChange(text, 'login')} />
+          </Field>
+          <Field>
+            <Input placeholder="Е-mail" value={fields.login} onChangeText={(text) => onChange(text, 'login')} />
+          </Field>
+          <Field>
+            <Input
+              placeholder="Пароль *"
+              secureTextEntry
+              value={fields.password}
+              onChangeText={(text) => onChange(text, 'password')}
+            />
+          </Field>
+          <Field>
+            <Input
+              placeholder="Повторите пароль *"
+              secureTextEntry
+              value={fields.password2}
+              onChangeText={(text) => onChange(text, 'password2')}
+            />
+          </Field>
+        </Form>
+        <Buttons>
+          <Button
+            theme="secondary"
             onPress={onSubmit}
-            width={200}
-            name="Создать аккаунт"
+            text="Создать аккаунт"
             testID="submit"
+            width={170}
+            disabled={!isValid}
+            useLoader={isLoading}
           />
-          <SignIn>
-            <Button primary onPress={onSignIn}>
-              <Text>Войти</Text>
-            </Button>
-          </SignIn>
-        </GroupButtons>
+          <Button theme="secondary" onPress={onSignIn} text="Войти" width={110} />
+        </Buttons>
       </Container>
-    </Content>
+    </ImageBackground>
   );
 };
-
 const Container = styled.View`
-  padding-left: 15px;
-  padding-right: 15px;
+  flex: 1;
+  justify-content: center;
+  padding-left: 35px;
+  padding-right: 35px;
 `;
 
-const Header = styled.Text`
-  margin-bottom: 30px;
-  text-align: center;
+const Form = styled.View`
+  margin-top: 56px;
 `;
 
-const GroupButtons = styled.View`
+const Field = styled.View`
+  margin-bottom: 20px;
+`;
+
+const Buttons = styled.View`
+  margin-top: 40px;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-`;
-
-const SignIn = styled.View`
-  margin-left: 10px;
+  justify-content: space-between;
 `;
 
 SignUpScreen.navigationOptions = {

@@ -1,5 +1,6 @@
 export { SETTINGS } from './settings';
 export { Colors } from './Colors';
+export { NewColors } from './Colors';
 
 // Screens
 export const SCREENS = {
