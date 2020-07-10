@@ -102,7 +102,3 @@ const Buttons = styled.View`
   align-items: center;
   justify-content: space-between;
 `;
-
-SignInScreen.navigationOptions = {
-  title: 'Вход',
-};

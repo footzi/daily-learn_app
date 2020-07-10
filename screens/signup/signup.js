@@ -116,7 +116,3 @@ const Buttons = styled.View`
   align-items: center;
   justify-content: space-between;
 `;
-
-SignUpScreen.navigationOptions = {
-  title: 'Регистрация',
-};

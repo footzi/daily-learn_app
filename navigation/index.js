@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { rgba } from 'polished';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -23,14 +24,36 @@ const AppStack = createStackNavigator();
 const HomeStack = createStackNavigator();
 const DictionaryStack = createStackNavigator();
 
+// options={{ headerShown: false }}
+
+const headerOptionsMain = {
+  headerStyle: { backgroundColor: Colors.secondary, borderBottomRightRadius: 25, borderBottomLeftRadius: 25 },
+  headerTintColor: Colors.primary,
+  headerTitleStyle: { fontFamily: 'Museo', fontSize: 20, textAlign: 'center' },
+};
+
+const headerOptionsInner = {
+  ...headerOptionsMain,
+  headerTitleStyle: { ...headerOptionsMain.headerTitleStyle, textAlign: 'left' },
+  headerPressColorAndroid: Colors.primary,
+};
+
+const cardStyle = { backgroundColor: Colors.white };
+
+// Главная с тренировками
 const HomeStackScreen = () => {
   return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen name={SCREENS.HOME} component={HomeScreen} options={{ headerShown: false }} />
+    <HomeStack.Navigator screenOptions={{ cardStyle }}>
+      <HomeStack.Screen
+        name={SCREENS.HOME}
+        component={HomeScreen}
+        options={{ ...headerOptionsMain, headerTitle: 'Выберите словарь:' }}
+      />
       <HomeStack.Screen
         name={SCREENS.DICTIONARY_TRAINING}
         component={DictionaryTrainingScreen}
         options={{
+          ...headerOptionsInner,
           headerTitle: 'Тренировка',
         }}
       />
@@ -38,16 +61,30 @@ const HomeStackScreen = () => {
   );
 };
 
+// Словари
 const DictionaryStackScreen = () => {
   return (
-    <DictionaryStack.Navigator>
+    <DictionaryStack.Navigator screenOptions={{ cardStyle }}>
       <DictionaryStack.Screen
         name={SCREENS.DICTIONARIES_LIST}
         component={DictionariesScreen}
-        options={{ headerShown: false }}
+        options={{ ...headerOptionsMain, headerTitle: 'Словари:' }}
       />
       <DictionaryStack.Screen name={SCREENS.PREVIEW_DICTIONARY} component={PreviewDictionaryScreen} />
       <DictionaryStack.Screen name={SCREENS.SETTINGS_DICTIONARY} component={SettingsDictionaryScreen} />
+    </DictionaryStack.Navigator>
+  );
+};
+
+// Профиль
+const ProfileStackScreen = () => {
+  return (
+    <DictionaryStack.Navigator screenOptions={{ cardStyle }}>
+      <DictionaryStack.Screen
+        name={SCREENS.PROFILE}
+        component={ProfileScreen}
+        options={{ ...headerOptionsMain, headerTitle: 'Профиль:' }}
+      />
     </DictionaryStack.Navigator>
   );
 };
@@ -83,7 +120,7 @@ const Main = () => {
       }}>
       <Tab.Screen name={SCREENS.HOME} component={HomeStackScreen} />
       <Tab.Screen name={SCREENS.DICTIONARIES} component={DictionaryStackScreen} />
-      <Tab.Screen name={SCREENS.PROFILE} component={ProfileScreen} />
+      <Tab.Screen name={SCREENS.PROFILE} component={ProfileStackScreen} />
     </Tab.Navigator>
   );
 };
