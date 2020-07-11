@@ -39,7 +39,7 @@ export const Colors = {
 
 export const NewColors = {
   primary: '#ff6c00',
-  secondary: '#fffceb',
+  secondary: '#ffffff', //#fffceb',
   green: '#b9df4d',
   white: '#ffffff',
   black: '#000000',

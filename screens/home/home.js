@@ -1,23 +1,20 @@
-import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { TouchableWithoutFeedback, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
 import { useFocusEffect } from '@react-navigation/native';
-import { Content, ListItem, Text, Button, CheckBox, Icon } from 'native-base';
 import { useSelector } from 'react-redux';
-import { Title } from '@components';
+import { AntDesign } from '@expo/vector-icons';
+import { Button } from '@components';
 import { SCREENS } from '@constants';
 import { normalizeDictionaries } from './normalize';
-import { SignInScreen } from '../signin';
 import { NewColors as Colors } from '../../constants';
-import { AntDesign } from '@expo/vector-icons';
-import { TouchableNativeFeedback, View } from 'react-native';
-import { themes } from '../../components/Button/themes';
 
 export const HomeScreen = ({ navigation = {} }) => {
   const { dictionaries = [] } = useSelector((state) => state);
   const [dictionariesList, setDictionariesList] = useState([]);
 
   const onStart = () => {
-    const selectedDictionaries = dictionariesList.filter((item) => item.checked).map((dict) => dict.id);
+    const selectedDictionaries = dictionariesList.filter((item) => item.isChecked).map((dict) => dict.id);
 
     navigation.navigate(SCREENS.DICTIONARY_TRAINING, { selectedDictionaries });
   };
@@ -25,7 +22,7 @@ export const HomeScreen = ({ navigation = {} }) => {
   const onSelect = (id) => {
     const selected = dictionariesList.map((item) => {
       if (id === item.id) {
-        item.checked = !item.checked;
+        item.isChecked = !item.isChecked;
       }
 
       return item;
@@ -45,7 +42,7 @@ export const HomeScreen = ({ navigation = {} }) => {
     }
   };
 
-  const haveSelected = dictionariesList.some((item) => item.checked);
+  const haveSelected = dictionariesList.some((item) => item.isChecked);
 
   useEffect(() => {
     if (!dictionaries.length) {
@@ -65,56 +62,30 @@ export const HomeScreen = ({ navigation = {} }) => {
   );
 
   return (
-    <Container>
-      <Dictionaries>
-        <Item>
-          <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(Colors.primary)} style={{borderRadius: 20}}>
-              <Inner>
-                <Name>Животные</Name>
-                <AntDesign name="plus" size={40} color={Colors.primary} />
-              </Inner>
+    <>
+      <ScrollView>
+        <Dictionaries>
+          {dictionariesList.map(({ id, name, isChecked }) => (
+            <TouchableWithoutFeedback key={id} onPress={() => onSelect(id)}>
+              <Item isChecked={isChecked}>
+                <Name isChecked={isChecked}>{name}</Name>
+                <AntDesign name="plus" size={40} color={Colors.primary} style={{ opacity: isChecked ? 0 : 1 }} />
+              </Item>
+            </TouchableWithoutFeedback>
+          ))}
+        </Dictionaries>
+      </ScrollView>
 
-
-          </TouchableNativeFeedback>
-        </Item>
-
-      </Dictionaries>
-    </Container>
-    // <Content>
-    //   <Container>
-    //     {!dictionaries.length && (
-    //       <Title style={{ color: 'black' }}>Чтобы начать тренировку, создайте свой первый словарь</Title>
-    //     )}
-    //
-    //     <Dictionaries>
-    //       {dictionariesList.map((item) => (
-    //         <ListItem key={item.id}>
-    //           <CheckBox onPress={() => onSelect(item.id)} checked={item.checked} />
-    //           <Item onPress={() => onSelect(item.id)}>
-    //             <Name>{item.name}</Name>
-    //           </Item>
-    //         </ListItem>
-    //       ))}
-    //     </Dictionaries>
-    //
-    //     {dictionariesList.length > 0 && (
-    //       <Start>
-    //         <Button info={haveSelected} disabled={!haveSelected} onPress={onStart}>
-    //           <Text>Начать</Text>
-    //         </Button>
-    //       </Start>
-    //     )}
-    //   </Container>
-    // </Content>
+      <Start>
+        <Button theme="green" text="Начать тренировку" width={190} disabled={!haveSelected} onPress={onStart}/>
+      </Start>
+    </>
   );
 };
 
-const Container = styled.View`
-  
-`;
-
 const Dictionaries = styled.View`
-  margin-top: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   flex: 1;
   align-items: center;
 `;
@@ -123,26 +94,27 @@ const Item = styled.View`
   width: 320px;
   height: 60px;
   border: 1px solid ${Colors.primary};
-  background-color: ${Colors.secondary};
+  background-color: ${({ isChecked }) => (isChecked ? Colors.primary : Colors.secondary)};
   border-radius: 15px;
-  overflow: hidden;
- 
-`;
-
-const Inner = styled.View`
- display: flex;
+  margin-bottom: 20px;
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
-  padding-left: 30px;
-  padding-right: 30px;
-  height: 100%;
+  padding-left: 25px;
+  padding-right: 25px;
 `;
 
 const Name = styled.Text`
   font-family: Museo;
   font-size: 20px;
-   color: ${Colors.primary};
+  color: ${({ isChecked }) => (isChecked ? Colors.secondary : Colors.primary)};
+`;
+
+const Start = styled.View`
+  width: 100%;
+  position: absolute;
+  bottom: 10px;
+  align-items: center;
 `;
 // const Container = styled.View`
 //   padding: 10px;
