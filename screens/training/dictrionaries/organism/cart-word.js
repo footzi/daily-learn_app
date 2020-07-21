@@ -1,9 +1,9 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from 'styled-components/native';
 import * as Animatable from 'react-native-animatable';
-import { Card, Item, Input, Button, Text, View, H3, Icon } from 'native-base';
-import { ProgressBar } from '@components';
-import { SETTINGS, PAWS_DURATION, Colors } from '@constants';
+import { FontAwesome } from '@expo/vector-icons';
+import { Input, Button, Link } from '@components';
+import { PAWS_DURATION, NewColors as Colors } from '@constants';
 import { getNextIndex } from '../helpers';
 
 const zoomOut = {
@@ -89,16 +89,18 @@ export const CartWord = ({
     navigation.setOptions({
       headerRight: () => (
         <Paw>
-          <PawAnimate>
-            <Animatable.View ref={pawRef} easing="ease-in-out" useNativeDriver>
-              <Icon name="md-paw" style={{ color: isWrong ? Colors.danger : Colors.success }} />
-              <Count>{isWrong ? '-1' : '+1'}</Count>
-            </Animatable.View>
-          </PawAnimate>
+          <Animatable.View ref={pawRef} easing="ease-in-out" useNativeDriver>
+            <PawAnimate>
+              <FontAwesome name="paw" size={25} color={isWrong ? Colors.danger : Colors.green} />
+              <Count isWrong={isWrong}>{isWrong ? '-1' : '+1'}</Count>
+            </PawAnimate>
+          </Animatable.View>
 
           <PawStatic>
-            <Icon name="md-paw" style={{ color: isWrong ? Colors.danger : Colors.success }} />
-            <Count isStatic>{paws}</Count>
+            <FontAwesome name="paw" size={25} color={isWrong ? Colors.danger : Colors.green} />
+            <Count isStatic isWrong={isWrong}>
+              {paws}
+            </Count>
           </PawStatic>
         </Paw>
       ),
@@ -106,89 +108,87 @@ export const CartWord = ({
   }, [navigation, paws, isWrong]);
 
   return (
-    <Card>
-      <Content>
-        <H3 style={{ textAlign: 'center' }}>{currentWord.question}</H3>
-
-        <ProgressWrapper>
-          <ProgressBar progress={(currentWord.count / SETTINGS.attempt) * 100} />
-        </ProgressWrapper>
+    <Container>
+      <Wrapper>
+        <Question>{currentWord.question}</Question>
 
         <Actions>
-          {!isWrong && (
-            <>
-              <Answer>
-                <Item>
-                  <Input
-                    placeholder="Введите ответ"
-                    onChangeText={onChange}
-                    onSubmitEditing={onAnswer}
-                    value={field}
-                    autoFocus={true}
-                  />
-                </Item>
-              </Answer>
-
-              <Wrong>
-                <Button danger transparent onPress={onNotRemember}>
-                  <Text>Не помню :(</Text>
-                </Button>
-              </Wrong>
-            </>
-          )}
-
-          {isWrong && (
+          {isWrong ? (
             <RightAnswer>
               {currentWord.answers.map((item, index) => (
                 <ItemAnswer key={index}>{item}</ItemAnswer>
               ))}
             </RightAnswer>
+          ) : (
+            <>
+              <Field>
+                <Input
+                  theme="primary"
+                  onChangeText={onChange}
+                  onSubmitEditing={onAnswer}
+                  value={field}
+                  autoFocus={true}
+                />
+              </Field>
+              <NotRememberButton>
+                <Link theme="primary" text="Не помню :(" onPress={onNotRemember} />
+              </NotRememberButton>
+            </>
           )}
         </Actions>
 
         <Buttons>
-          {!isWrong && (
+          {isWrong ? (
+            <RememberButton>
+              <Button theme="primary" text="Запомнил" width={130} onPress={onNext} />
+            </RememberButton>
+          ) : (
             <>
-              <Button warning onPress={onFinished} style={{ width: 120 }}>
-                <Text style={{ flex: 1, textAlign: 'center' }}>Завершить</Text>
-              </Button>
-              <Button success={!!field} disabled={!field} onPress={onAnswer} style={{ width: 120 }}>
-                <Text style={{ flex: 1, textAlign: 'center' }}>Ответить</Text>
-              </Button>
+              <Button theme="primary" text="Завершить" width={130} onPress={onFinished} />
+              <Button theme="green" text="Ответить" width={130} onPress={onAnswer} />
             </>
           )}
-
-          {isWrong && (
-            <Button success onPress={onNext} style={{ flex: 1 }}>
-              <Text style={{ flex: 1, textAlign: 'center' }}>Запомнил</Text>
-            </Button>
-          )}
         </Buttons>
-      </Content>
-    </Card>
+      </Wrapper>
+    </Container>
   );
 };
 
-const ProgressWrapper = styled.View`
-  margin-top: 20px;
+const Container = styled.View`
+  elevation: 4;
+  border-radius: 18px;
+  padding: 20px 15px 40px;
+  background-color: ${Colors.white};
+  overflow: hidden;
 `;
 
-const Content = styled.View`
-  padding: 20px;
+const Wrapper = styled.View`
+  border-radius: 18px;
+`;
+
+const Question = styled.Text`
+  font-family: Museo;
+  font-size: 24px;
+  color: ${Colors.primary};
+  text-align: center;
+`;
+
+const Field = styled.View`
+  margin-top: 20px;
 `;
 
 const Actions = styled.View`
-  min-height: 130px;
+  min-height: 120px;
 `;
 
-const Answer = styled.View`
+const NotRememberButton = styled.View`
   margin-top: 20px;
+  align-items: flex-end;
 `;
 
-const Wrong = styled.View`
-  margin-top: 5px;
-  flex-direction: row;
-  justify-content: flex-end;
+const RememberButton = styled.View`
+  width: 100%;
+  align-items: center;
 `;
 
 const Buttons = styled.View`
@@ -202,6 +202,7 @@ const RightAnswer = styled.View`
 `;
 
 const ItemAnswer = styled.Text`
+  font-family: Museo;
   font-size: 26px;
   font-weight: 500;
   text-align: center;
@@ -213,7 +214,8 @@ const Paw = styled.View`
   flex-direction: row;
   align-items: center;
   z-index: 1;
-  padding-right: 40px;
+  padding-right: 50px;
+  position: relative;
 `;
 
 const PawStatic = styled.View`
@@ -226,7 +228,7 @@ const PawStatic = styled.View`
 
 const PawAnimate = styled.View`
   position: absolute;
-  top: 14px;
+  top: -14px;
   left: 0;
   z-index: 1;
   flex: 1;
@@ -235,11 +237,12 @@ const PawAnimate = styled.View`
 `;
 
 const Count = styled.Text`
-  font-size: 16px;
-  margin-left: 5px;
+  font-family: Museo;
+  font-size: 12px;
   z-index: 2;
   position: absolute;
-  left: 20px;
   min-width: 50px;
+  left: 30px;
   background-color: ${({ isStatic }) => (isStatic ? Colors.white : 'transparent')};
+  color: ${({ isWrong }) => (isWrong ? Colors.danger : Colors.green)};
 `;

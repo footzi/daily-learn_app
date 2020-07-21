@@ -6,20 +6,20 @@ export const themes = {
     color: Colors.secondary,
     feedback: Colors.secondary,
     loaderColor: Colors.secondary,
-    elevation: 1,
+    elevation: 4,
   },
   secondary: {
     backgroundColor: Colors.secondary,
     color: Colors.primary,
     feedback: Colors.primary,
     loaderColor: Colors.primary,
-    elevation: 1,
+    elevation: 4,
   },
   green: {
     backgroundColor: Colors.green,
     color: Colors.secondary,
     feedback: Colors.secondary,
     loaderColor: Colors.secondary,
-    elevation: 1,
+    elevation: 4,
   },
 };

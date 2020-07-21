@@ -2,7 +2,7 @@ import React from 'react';
 import { SETTINGS } from '../constants';
 import { render } from '@testing-library/react-native';
 import { Provider } from 'react-redux';
-import { createTestStore, store } from '../store';
+import { createTestStore } from '../store';
 
 export const mockFormData = () => {
   const entries = jest.fn();

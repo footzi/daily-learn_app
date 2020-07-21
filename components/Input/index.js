@@ -21,6 +21,7 @@ export const Input = ({ theme = 'primary', value = '', ...restProps }) => {
         paddingBottom: 5,
         color: currentTheme.color,
       }}
+      value={value}
       {...restProps}
       onBlur={onBlur}
       onFocus={onFocus}

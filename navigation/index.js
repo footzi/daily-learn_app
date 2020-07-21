@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { rgba } from 'polished';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -103,6 +102,9 @@ const setBarOptions = ({ route }) => ({
 
     return <BarIcon focused={focused} name={iconName} />;
   },
+  // style: {
+  //   backgroundColor: Colors.secondary,
+  // }
 });
 
 const Main = () => {
@@ -113,9 +115,15 @@ const Main = () => {
         showLabel: false,
         keyboardHidesTabBar: false,
         style: {
+          // backgroundColor: 'transparent',
+          // position: 'absolute',
+          left: 0,
+          bottom: 0,
+          right: 0,
           backgroundColor: Colors.secondary,
           borderTopLeftRadius: 25,
           borderTopRightRadius: 25,
+          // overflow: 'hidden',
         },
       }}>
       <Tab.Screen name={SCREENS.HOME} component={HomeStackScreen} />

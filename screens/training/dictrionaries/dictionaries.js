@@ -95,4 +95,7 @@ export const DictionaryTrainingScreen = ({ route = {}, navigation = {} }) => {
 
 const Container = styled.View`
   z-index: -1;
+  margin-top: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
 `;

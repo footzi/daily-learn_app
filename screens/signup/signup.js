@@ -57,13 +57,24 @@ export const SignUpScreen = ({ navigation = {} }) => {
         <Title>Регистрация</Title>
         <Form>
           <Field>
-            <Input placeholder="Логин *" value={fields.login} onChangeText={(text) => onChange(text, 'login')} />
-          </Field>
-          <Field>
-            <Input placeholder="Е-mail" value={fields.login} onChangeText={(text) => onChange(text, 'login')} />
+            <Input
+              theme="secondary"
+              placeholder="Логин *"
+              value={fields.login}
+              onChangeText={(text) => onChange(text, 'login')}
+            />
           </Field>
           <Field>
             <Input
+              theme="secondary"
+              placeholder="Е-mail"
+              value={fields.login}
+              onChangeText={(text) => onChange(text, 'login')}
+            />
+          </Field>
+          <Field>
+            <Input
+              theme="secondary"
               placeholder="Пароль *"
               secureTextEntry
               value={fields.password}
@@ -72,6 +83,7 @@ export const SignUpScreen = ({ navigation = {} }) => {
           </Field>
           <Field>
             <Input
+              theme="secondary"
               placeholder="Повторите пароль *"
               secureTextEntry
               value={fields.password2}
