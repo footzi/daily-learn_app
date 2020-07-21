@@ -54,10 +54,16 @@ export const SignInScreen = ({ navigation = {} }) => {
         <Title>Вход</Title>
         <Form>
           <Field>
-            <Input placeholder="Логин" value={fields.login} onChangeText={(text) => onChange(text, 'login')} />
+            <Input
+              theme="secondary"
+              placeholder="Логин"
+              value={fields.login}
+              onChangeText={(text) => onChange(text, 'login')}
+            />
           </Field>
           <Field>
             <Input
+              theme="secondary"
               placeholder="Пароль"
               secureTextEntry
               value={fields.password}
