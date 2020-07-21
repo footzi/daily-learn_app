@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { Item, Input, H2, Button, Text, Content } from 'native-base';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { ButtonLoader } from '@components';
+import { ImageBackground } from 'react-native';
+import { LOADING_ITEMS } from '@constants';
+import { Button, Input, Title } from '@components';
 import { toSignIn } from './effects';
 
 export const SignInScreen = ({ navigation = {} }) => {
+  const { loading } = useSelector((state) => state);
+  const isLoading = loading[LOADING_ITEMS.INNER];
   const [fields, setFields] = useState({
     login: '',
     password: '',
@@ -23,7 +26,9 @@ export const SignInScreen = ({ navigation = {} }) => {
     dispatch(toSignIn(body));
   };
 
-  const onSignUp = () => navigation.navigate('SignUp');
+  const onSignUp = () => {
+    navigation.navigate('SignUp');
+  };
 
   const onChange = (text, name) => {
     setFields({
@@ -41,63 +46,59 @@ export const SignInScreen = ({ navigation = {} }) => {
   }, [fields]);
 
   return (
-    <Content contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
+    <ImageBackground
+      resizeMode="cover"
+      source={require('../../assets/images/entry-figure.png')}
+      style={{ width: '100%', height: '100%' }}>
       <Container>
-        <Header>
-          <H2>Вход</H2>
-        </Header>
-        <Item>
-          <Input placeholder="Логин" onChangeText={(text) => onChange(text, 'login')} value={fields.login} />
-        </Item>
-        <Item>
-          <Input
-            placeholder="Пароль"
-            secureTextEntry
-            onChangeText={(text) => onChange(text, 'password')}
-            value={fields.password}
-          />
-        </Item>
-        <GroupButtons>
-          <ButtonLoader
-            theme="primary"
-            disabled={!isValid}
+        <Title>Вход</Title>
+        <Form>
+          <Field>
+            <Input placeholder="Логин" value={fields.login} onChangeText={(text) => onChange(text, 'login')} />
+          </Field>
+          <Field>
+            <Input
+              placeholder="Пароль"
+              secureTextEntry
+              value={fields.password}
+              onChangeText={(text) => onChange(text, 'password')}
+            />
+          </Field>
+        </Form>
+        <Buttons>
+          <Button
+            theme="secondary"
             onPress={onSubmit}
-            width={150}
-            name="Войти"
-            testID="submit"
+            text="Войти"
+            width={110}
+            disabled={!isValid}
+            useLoader={isLoading}
           />
-          <SignUp>
-            <Button primary onPress={onSignUp}>
-              <Text>Создать аккаунт</Text>
-            </Button>
-          </SignUp>
-        </GroupButtons>
+          <Button theme="secondary" onPress={onSignUp} text="Создать аккаунт" testID="submit" width={170} />
+        </Buttons>
       </Container>
-    </Content>
+    </ImageBackground>
   );
 };
 
 const Container = styled.View`
-  padding-left: 15px;
-  padding-right: 15px;
+  flex: 1;
+  justify-content: center;
+  padding-left: 35px;
+  padding-right: 35px;
 `;
 
-const Header = styled.Text`
-  margin-bottom: 30px;
-  text-align: center;
+const Form = styled.View`
+  margin-top: 56px;
 `;
 
-const GroupButtons = styled.View`
+const Field = styled.View`
+  margin-bottom: 20px;
+`;
+
+const Buttons = styled.View`
+  margin-top: 40px;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  margin-top: 20px;
+  justify-content: space-between;
 `;
-
-const SignUp = styled.View`
-  margin-left: 10px;
-`;
-
-SignInScreen.navigationOptions = {
-  title: 'Вход',
-};

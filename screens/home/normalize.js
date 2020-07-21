@@ -9,7 +9,7 @@ export const normalizeDictionaries = (dictionaries) => {
 
     normalize.id = id ? id : null;
     normalize.name = name ? name : '';
-    normalize.checked = false;
+    normalize.isChecked = false;
 
     return normalize;
   });

@@ -18,6 +18,8 @@ const App = () => {
 
   const setInitialData = async () => {
     await Font.loadAsync({
+      Museo: require('./assets/fonts/MuseoSansCyrl-500.ttf'),
+      Museo300Italic: require('./assets/fonts/MuseoSansCyrl-300Italic.ttf'),
       Roboto: require('native-base/Fonts/Roboto.ttf'),
       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
       ...Ionicons.font,
