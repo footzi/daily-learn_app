@@ -98,7 +98,9 @@ export const CartWord = ({
 
           <PawStatic>
             <FontAwesome name="paw" size={25} color={isWrong ? Colors.danger : Colors.green} />
-            <Count isWrong={isWrong}>{paws}</Count>
+            <Count isStatic isWrong={isWrong}>
+              {paws}
+            </Count>
           </PawStatic>
         </Paw>
       ),
@@ -241,6 +243,6 @@ const Count = styled.Text`
   position: absolute;
   min-width: 50px;
   left: 30px;
-  background-color: transparent;
+  background-color: ${({ isStatic }) => (isStatic ? Colors.white : 'transparent')};
   color: ${({ isWrong }) => (isWrong ? Colors.danger : Colors.green)};
 `;

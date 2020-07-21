@@ -77,7 +77,7 @@ export const HomeScreen = ({ navigation = {} }) => {
       </ScrollView>
 
       <Start>
-        <Button theme="green" text="Начать тренировку" width={190} disabled={!haveSelected} onPress={onStart}/>
+        <Button theme="green" text="Начать тренировку" width={190} disabled={!haveSelected} onPress={onStart} />
       </Start>
     </>
   );

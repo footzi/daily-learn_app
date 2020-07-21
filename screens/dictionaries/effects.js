@@ -59,7 +59,7 @@ export const saveWord = ({ fields, preview_dictionary }) => async (dispatch) => 
 };
 
 export const removeWord = (ids) => async (dispatch) => {
-  dispatch(startLoading(LOADING_ITEMS.INNER));
+  dispatch(actions.startLoading(LOADING_ITEMS.INNER));
 
   try {
     const response = await ApiCall.removeWord({ ids: JSON.stringify(ids) });
@@ -72,8 +72,8 @@ export const removeWord = (ids) => async (dispatch) => {
 
     dispatch(updateData());
   } catch (error) {
-    dispatch(setNotification({ type: ERROR, text: error.message }));
+    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
   } finally {
-    dispatch(endLoading(LOADING_ITEMS.INNER));
+    dispatch(actions.endLoading(LOADING_ITEMS.INNER));
   }
 };

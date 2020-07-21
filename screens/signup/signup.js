@@ -57,10 +57,20 @@ export const SignUpScreen = ({ navigation = {} }) => {
         <Title>Регистрация</Title>
         <Form>
           <Field>
-            <Input theme="secondary" placeholder="Логин *" value={fields.login} onChangeText={(text) => onChange(text, 'login')} />
+            <Input
+              theme="secondary"
+              placeholder="Логин *"
+              value={fields.login}
+              onChangeText={(text) => onChange(text, 'login')}
+            />
           </Field>
           <Field>
-            <Input theme="secondary" placeholder="Е-mail" value={fields.login} onChangeText={(text) => onChange(text, 'login')} />
+            <Input
+              theme="secondary"
+              placeholder="Е-mail"
+              value={fields.login}
+              onChangeText={(text) => onChange(text, 'login')}
+            />
           </Field>
           <Field>
             <Input
