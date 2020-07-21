@@ -19,7 +19,7 @@ export const Button = ({
           onPress={onPress}
           disabled={disabled}
           background={TouchableNativeFeedback.Ripple(themes[theme].feedback)}>
-          <Inner>{useLoader ? <Spinner color={themes[theme].loaderColor} size="small" /> : <Text>{text}</Text>}</Inner>
+          <Inner>{useLoader ? <Spinner color={themes[theme].loaderColor} size={30} /> : <Text>{text}</Text>}</Inner>
         </TouchableNativeFeedback>
       </Container>
     </ThemeProvider>

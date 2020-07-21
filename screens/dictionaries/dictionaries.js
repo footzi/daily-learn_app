@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { useSelector, useDispatch } from 'react-redux';
-import { Text, Content, Button, List, ListItem, Icon } from 'native-base';
-import { SCREENS } from '@constants';
+import { Text, Content, Button } from 'native-base';
+import { ScrollView, TouchableNativeFeedback } from 'react-native';
+import { SCREENS, NewColors as Colors } from '@constants';
 import { Title, BottomModal, useModal } from '@components';
 import { CreateDict } from './organism';
 import * as effects from './effects';
@@ -16,7 +17,7 @@ export const DictionariesScreen = ({ navigation = {} }) => {
   const onPreview = (preview_dictionary) => {
     navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { preview_dictionary });
   };
-  const onSettings = (dictionary) => navigation.navigate(SCREENS.SETTINGS_DICTIONARY, { dictionary });
+  // const onSettings = (dictionary) => navigation.navigate(SCREENS.SETTINGS_DICTIONARY, { dictionary });
 
   return (
     <Content>
@@ -28,20 +29,20 @@ export const DictionariesScreen = ({ navigation = {} }) => {
         )}
 
         {dictionaries.length > 0 && (
-          <List testID="list">
-            {dictionaries.map((item) => (
-              <ListItem key={item.id} onPress={() => onPreview(item)} noIndent>
-                <Text>{item.name}</Text>
-                <Button
-                  warning
-                  transparent
-                  style={{ position: 'absolute', top: 0, right: 0 }}
-                  onPress={() => onSettings(item)}>
-                  <Icon name="settings" />
-                </Button>
-              </ListItem>
-            ))}
-          </List>
+          <ScrollView>
+            <List>
+              {dictionaries.map((item) => (
+                <TouchableNativeFeedback
+                  key={item.id}
+                  background={TouchableNativeFeedback.Ripple(Colors.secondary)}
+                  onPress={() => onPreview(item)}>
+                  <Item>
+                    <Name>{item.name}</Name>
+                  </Item>
+                </TouchableNativeFeedback>
+              ))}
+            </List>
+          </ScrollView>
         )}
 
         <Create>
@@ -58,12 +59,30 @@ export const DictionariesScreen = ({ navigation = {} }) => {
   );
 };
 
-const Container = styled.View`
-  padding: 10px;
-`;
+const Container = styled.View``;
 
 const Create = styled.View`
   margin-top: 20px;
   flex: 1;
   align-items: center;
+`;
+
+const List = styled.View`
+  align-items: center;
+`;
+
+const Item = styled.View`
+  width: 315px;
+  height: 115px;
+  border-radius: 18px;
+  background-color: ${Colors.primary};
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+`;
+
+const Name = styled.Text`
+  font-family: Museo;
+  font-size: 20px;
+  color: ${Colors.white};
 `;

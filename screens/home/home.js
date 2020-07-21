@@ -5,9 +5,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { Button } from '@components';
-import { SCREENS } from '@constants';
+import { SCREENS, NewColors as Colors } from '@constants';
 import { normalizeDictionaries } from './normalize';
-import { NewColors as Colors } from '../../constants';
 
 export const HomeScreen = ({ navigation = {} }) => {
   const { dictionaries = [] } = useSelector((state) => state);
@@ -116,25 +115,3 @@ const Start = styled.View`
   bottom: 10px;
   align-items: center;
 `;
-// const Container = styled.View`
-//   padding: 10px;
-//   flex-direction: column;
-// `;
-//
-// const Dictionaries = styled.View`
-//   margin-top: 20px;
-// `;
-//
-// const Start = styled.View`
-//   margin-top: 20px;
-//   align-items: center;
-// `;
-//
-// const Item = styled.TouchableOpacity`
-//   padding-left: 15px;
-//   flex: 1;
-// `;
-//
-// const Name = styled.Text`
-//   align-self: flex-start;
-// `;

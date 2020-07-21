@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { Spinner } from 'native-base';
+import { NewColors as Colors } from '@constants';
+import { Spinner } from '../Spinner';
 
 export const Loader = () => (
   <Container>
-    <Spinner color="blue" size={50} />
+    <Spinner color={Colors.primary} size={50} />
   </Container>
 );
 
