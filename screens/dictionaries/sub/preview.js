@@ -2,8 +2,11 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { Text, Button, Icon, H3, Content } from 'native-base';
-import { Colors } from '@constants';
-import { useModal, HeaderModal, Checkbox } from '@components';
+import { Feather } from '@expo/vector-icons';
+import { EvilIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+import { NewColors as Colors } from '@constants';
+import { useModal, HeaderModal, Checkbox, ButtonIcon } from '@components';
 import { shuffleArray } from '@libs';
 import { AddWord, RemoveWord } from '../organism';
 import { normalizePreviewWords } from '../normalize';
@@ -62,13 +65,39 @@ export const PreviewDictionaryScreen = ({ navigation = {}, route = {} }) => {
     navigation.setOptions({
       title: preview_dictionary.name,
       headerRight: () => (
-        <Button transparent onPress={headerOpenModal}>
-          {isHeaderOpenModal ? (
-            <Icon name="md-close" style={{ color: Colors.black }} />
-          ) : (
-            <Icon name="md-menu" style={{ color: Colors.black }} />
-          )}
-        </Button>
+        <>
+          <TopNavigation>
+            <ButtonIcon style={{ marginRight: 30 }}>
+              <Feather name="plus-circle" size={26} color={Colors.primary} />
+            </ButtonIcon>
+            <Te>
+              <ButtonIcon>
+                <FontAwesome name="pencil" size={24} color={Colors.primary} />
+                {/*<EvilIcons name="pencil" size={30} color={Colors.primary} />*/}
+              </ButtonIcon>
+            </Te>
+          </TopNavigation>
+
+          <Wr>
+            <ButtonIcon style={{ marginBottom: 30 }}>
+              <Feather name="plus-circle" size={22} color={Colors.green} />
+            </ButtonIcon>
+            <ButtonIcon style={{ marginBottom: 30 }}>
+              <Feather name="plus-circle" size={20} color={Colors.green} />
+            </ButtonIcon>
+            <ButtonIcon>
+              <Feather name="plus-circle" size={20} color={Colors.green} />
+            </ButtonIcon>
+          </Wr>
+        </>
+
+        // <Button transparent onPress={headerOpenModal}>
+        //   {isHeaderOpenModal ? (
+        //     <Icon name="md-close" style={{ color: Colors.black }} />
+        //   ) : (
+        //     <Icon name="md-menu" style={{ color: Colors.black }} />
+        //   )}
+        // </Button>
       ),
     });
   }, [navigation, isHeaderOpenModal]);
@@ -145,6 +174,30 @@ export const PreviewDictionaryScreen = ({ navigation = {}, route = {} }) => {
   );
 };
 
+const Te = styled.View`
+  position: relative;
+`;
+
+const Wr = styled.View`
+  position: absolute;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  right: 30px;
+  top: 105%;
+  bottom: 0;
+  width: 30px;
+  height: 150px;
+  align-items: center;
+  background-color: ${Colors.secondary};
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+`;
+const TopNavigation = styled.View`
+  padding-right: 30px;
+  align-items: center;
+  flex-direction: row;
+`;
+
 const CheckLine = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
@@ -155,7 +208,7 @@ const Line = styled.View`
   justify-content: flex-start;
   align-items: flex-start;
   border-bottom-width: 1px;
-  border-bottom-color: ${Colors.gray};
+  border-bottom-color: ${Colors.black};
   position: relative;
   padding-left: 10px;
   padding-right: 10px;

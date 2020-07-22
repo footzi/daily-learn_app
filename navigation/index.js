@@ -69,7 +69,11 @@ const DictionaryStackScreen = () => {
         component={DictionariesScreen}
         options={{ ...headerOptionsMain, headerTitle: 'Словари:' }}
       />
-      <DictionaryStack.Screen name={SCREENS.PREVIEW_DICTIONARY} component={PreviewDictionaryScreen} />
+      <DictionaryStack.Screen
+        name={SCREENS.PREVIEW_DICTIONARY}
+        component={PreviewDictionaryScreen}
+        options={{ ...headerOptionsInner }}
+      />
       <DictionaryStack.Screen name={SCREENS.SETTINGS_DICTIONARY} component={SettingsDictionaryScreen} />
     </DictionaryStack.Navigator>
   );

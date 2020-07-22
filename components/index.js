@@ -10,3 +10,4 @@ export { Spinner } from './Spinner';
 export { Input } from './Input';
 export { BarIcon } from './Bar-Icon';
 export { Link } from './Link';
+export { ButtonIcon } from './Button-Icon';
