@@ -67,6 +67,12 @@
     "@babel/core": "^7.9.6",
     "@testing-library/jest-native": "^3.1.0",
     "@testing-library/react-native": "^5.0.3",
+    "@types/react": "^16.9.48",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-native": "^0.63.10",
+    "@types/styled-components": "^5.1.2",
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "@typescript-eslint/parser": "^3.10.1",
     "axios-mock-adapter": "^1.18.1",
     "babel-eslint": "^10.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
@@ -84,7 +90,8 @@
     "jest-expo": "^37.0.0",
     "react-dom": "^16.13.1",
     "react-native-debugger-open": "^0.3.24",
-    "redux-mock-store": "^1.5.4"
+    "redux-mock-store": "^1.5.4",
+    "typescript": "^4.0.2"
   },
   "private": true
 }

@@ -4,12 +4,29 @@ import { TouchableNativeFeedback } from 'react-native';
 import { themes } from './themes';
 import { Spinner } from '../Spinner';
 
-export const Button = ({
+type Props = {
+  theme: 'primary' | 'secondary';
+  text: number;
+  disabled?: boolean;
+  useLoader?: boolean;
+  onPress: () => void;
+};
+
+type ContainerProps = {
+  theme: themes.primary | themes.secondary;
+  disabled?: boolean;
+};
+
+type TextProps = {
+  theme: themes.primary | themes.secondary;
+};
+
+export const Button: React.FC<Props> = ({
   theme = 'primary',
   text = '',
   disabled = false,
   useLoader = false,
-  onPress = () => {},
+  onPress,
   ...restProps
 }) => {
   return (
@@ -26,7 +43,7 @@ export const Button = ({
   );
 };
 
-const Container = styled.View`
+const Container = styled.View<ContainerProps>`
   justify-content: center;
   background-color: ${({ theme }) => theme.backgroundColor};
   elevation: ${({ theme }) => theme.elevation};
@@ -42,7 +59,7 @@ const Inner = styled.View`
   justify-content: center;
 `;
 
-const Text = styled.Text`
+const Text = styled.Text<TextProps>`
   color: ${({ theme }) => theme.color};
   font-size: 16px;
   font-family: Museo;
