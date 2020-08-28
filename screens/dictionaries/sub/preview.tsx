@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { Text, Button, Icon, H3, Content } from 'native-base';
@@ -11,6 +11,32 @@ import { shuffleArray } from '@libs';
 import { AddWord, RemoveWord } from '../organism';
 import { normalizePreviewWords } from '../normalize';
 import * as effects from '../effects';
+import * as Animatable from 'react-native-animatable';
+
+const zoomOut = {
+  0: {
+    opacity: 0,
+    translateY: -70,
+  },
+  1: {
+    opacity: 1,
+    translateY: 0,
+  },
+};
+
+// const zoomIn = {
+//   0: {
+//     opacity: 1,
+//     translateY: 280,
+//   },
+//   0.9: {
+//     opacity: 1,
+//   },
+//   1: {
+//     opacity: 0,
+//     translateY: 0,
+//   },
+// };
 
 export const PreviewDictionaryScreen = ({ navigation = {}, route = {} }) => {
   const { dictionaries } = useSelector((state) => state);
@@ -50,6 +76,12 @@ export const PreviewDictionaryScreen = ({ navigation = {}, route = {} }) => {
     deleteWordCloseModal();
   };
 
+  const menuRef = useRef(null);
+  const [isOpenTest, setIsOpenTest] = useState(false);
+  const onOpenTest = () => {
+    menuRef.current.animate(zoomOut, 300);
+  };
+
   useEffect(() => {
     const currentDictionary = dictionaries.find((item) => item.id === preview_dictionary.id);
 
@@ -65,31 +97,35 @@ export const PreviewDictionaryScreen = ({ navigation = {}, route = {} }) => {
     navigation.setOptions({
       title: preview_dictionary.name,
       headerRight: () => (
-        <>
-          <TopNavigation>
+        <TopNavigation>
+          <Buttons>
             <ButtonIcon style={{ marginRight: 30 }}>
               <Feather name="plus-circle" size={26} color={Colors.primary} />
             </ButtonIcon>
-            <Te>
-              <ButtonIcon>
-                <FontAwesome name="pencil" size={24} color={Colors.primary} />
-                {/*<EvilIcons name="pencil" size={30} color={Colors.primary} />*/}
-              </ButtonIcon>
-            </Te>
-          </TopNavigation>
+            <ButtonIcon onPress={onOpenTest}>
+              <FontAwesome name="pencil" size={24} color={Colors.primary} />
+            </ButtonIcon>
 
-          <Wr>
-            <ButtonIcon style={{ marginBottom: 30 }}>
-              <Feather name="plus-circle" size={22} color={Colors.green} />
-            </ButtonIcon>
-            <ButtonIcon style={{ marginBottom: 30 }}>
-              <Feather name="plus-circle" size={20} color={Colors.green} />
-            </ButtonIcon>
-            <ButtonIcon>
-              <Feather name="plus-circle" size={20} color={Colors.green} />
-            </ButtonIcon>
-          </Wr>
-        </>
+
+          </Buttons>
+
+          <Animatable.View ref={menuRef} easing="ease-in-out" useNativeDriver style={{opacity: 0}}>
+            <Menu>
+              <ButtonIcon style={{ marginBottom: 30 }}>
+                <FontAwesome name="trash" size={22} color={Colors.green} />
+              </ButtonIcon>
+              <ButtonIcon style={{ marginBottom: 30 }}>
+                <Feather name="eye-off" size={20} color={Colors.green} />
+              </ButtonIcon>
+              <ButtonIcon>
+                <Feather name="shuffle" size={20} color={Colors.green} />
+              </ButtonIcon>
+            </Menu>
+          </Animatable.View>
+
+
+
+        </TopNavigation>
 
         // <Button transparent onPress={headerOpenModal}>
         //   {isHeaderOpenModal ? (
@@ -177,13 +213,15 @@ export const PreviewDictionaryScreen = ({ navigation = {}, route = {} }) => {
 const Te = styled.View`
   position: relative;
 `;
-
-const Wr = styled.View`
+//right: 30px;
+//transform: translateY(-100px);
+const Menu = styled.View`
   position: absolute;
   padding-top: 10px;
   padding-bottom: 10px;
-  right: 30px;
-  top: 105%;
+  
+  right: 0;
+  top: 17px;
   bottom: 0;
   width: 30px;
   height: 150px;
@@ -191,11 +229,32 @@ const Wr = styled.View`
   background-color: ${Colors.secondary};
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  z-index: 1;
+  
+     
+
 `;
+
+// opacity: 0;
+// transform: translateY(-150px);
+
+
 const TopNavigation = styled.View`
-  padding-right: 30px;
-  align-items: center;
-  flex-direction: row;
+  margin-right: 30px;
+ position: relative;
+`;
+
+//   padding-right: 30px;
+//   align-items: center;
+//   flex-direction: row;
+//   z-index: 2;
+//   position: relative;
+const Buttons = styled.View`
+flex-direction: row;
+ align-items: center;
+   z-index: 2;
+  position: relative;
+  background-color: ${Colors.secondary};
 `;
 
 const CheckLine = styled.View`
