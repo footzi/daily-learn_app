@@ -48,3 +48,23 @@ export const TOKENS_LS = 'TOKENS_LS';
 
 // ANIMATION
 export const PAWS_DURATION = 900;
+
+export const PREVIEW_SLIDE_MENU_DURATION = 200;
+
+export const PREVIEW_SLIDE_MENU_LEFT = {
+  0: {
+    translateX: 30,
+  },
+  1: {
+    translateX: 0,
+  },
+};
+
+export const PREVIEW_SLIDE_MENU_RIGHT = {
+  0: {
+    translateX: 0,
+  },
+  1: {
+    translateX: 30,
+  },
+};

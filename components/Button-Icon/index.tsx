@@ -1,5 +1,6 @@
 import React from 'react';
-import { TouchableWithoutFeedback, View } from 'react-native';
+import { View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type Props = {
   style: StyleProp;
@@ -13,7 +14,7 @@ type StyleProp = {
 export const ButtonIcon: React.FC<Props> = ({ children, onPress, style = {} }) => {
   return (
     <View style={style}>
-      <TouchableWithoutFeedback onPress={onPress}>{children}</TouchableWithoutFeedback>
+      <TouchableOpacity onPressIn={onPress}>{children}</TouchableOpacity>
     </View>
   );
 };

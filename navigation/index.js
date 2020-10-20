@@ -35,6 +35,7 @@ const headerOptionsInner = {
   ...headerOptionsMain,
   headerTitleStyle: { ...headerOptionsMain.headerTitleStyle, textAlign: 'left' },
   headerPressColorAndroid: Colors.primary,
+  headerTitleContainerStyle: { left: 50 },
 };
 
 const cardStyle = { backgroundColor: Colors.white };

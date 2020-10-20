@@ -1,2 +1,2 @@
-export { PreviewDictionaryScreen } from './preview';
+export { PreviewDictionaryScreen } from './preview/preview';
 export { SettingsDictionaryScreen } from './settings';

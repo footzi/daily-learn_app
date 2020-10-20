@@ -45,4 +45,6 @@ export const NewColors = {
   white: '#ffffff',
   black: '#000000',
   grey: '#cccccc',
+  coal: '#6c6c6b',
+  whisper: '#e0e0e0',
 };

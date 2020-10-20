@@ -34,7 +34,7 @@ export const Button: React.FC<Props> = ({
       <Container disabled={disabled} {...restProps}>
         <TouchableNativeFeedback
           onPress={onPress}
-          disabled={disabled}
+          disabled={useLoader || disabled}
           background={TouchableNativeFeedback.Ripple(themes[theme].feedback)}>
           <Inner>{useLoader ? <Spinner color={themes[theme].loaderColor} size={30} /> : <Text>{text}</Text>}</Inner>
         </TouchableNativeFeedback>

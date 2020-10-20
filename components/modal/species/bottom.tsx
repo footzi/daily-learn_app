@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import Modal from 'react-native-modal';
+import { ModalProps } from '../interfaces';
 
-export const BottomModal = ({ isOpenModal = false, closeModal = () => {}, title = '', children }) => (
+export const BottomModal: React.FC<ModalProps> = ({ isOpenModal = false, closeModal, title, children }) => (
   <Modal
     isVisible={isOpenModal}
     swipeDirection="down"
