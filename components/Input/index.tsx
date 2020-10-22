@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { TextInput } from 'react-native';
 import { themes } from './themes';
+import { InputProps } from './interfaces';
 
-export const Input = ({ theme = 'primary', value = '', ...restProps }) => {
+export const Input: React.FC<InputProps> = ({ theme = 'primary', value = '', paddingRight, ...restProps }) => {
   const currentTheme = themes[theme];
   const [borderColor, setBorderColor] = useState(value ? currentTheme.borderFocusColor : currentTheme.borderColor);
 
@@ -19,6 +20,7 @@ export const Input = ({ theme = 'primary', value = '', ...restProps }) => {
         fontSize: 16,
         paddingLeft: 10,
         paddingBottom: 5,
+        paddingRight,
         color: currentTheme.color,
       }}
       value={value}

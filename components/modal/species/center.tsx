@@ -34,10 +34,10 @@ export const CenterModal: React.FC<ModalProps> = ({
 const View = styled.View`
   background-color: ${({ theme }) => theme.backgroundColor};
   elevation: ${({ theme }) => theme.elevation};
-  padding: 20px 15px 30px 15px;
+  padding: 25px 15px 35px 15px;
   border-radius: 27px;
   width: 260px;
-  min-height: 160px;
+  min-height: 190px;
 `;
 
 const Title = styled.Text`

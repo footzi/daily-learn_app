@@ -16,8 +16,7 @@ import {
 } from '@constants';
 import { useModal, HeaderModal, Checkbox, ButtonIcon } from '@components';
 import { shuffleArray } from '@libs';
-import { AddWord } from '../../organism/index';
-import { DeleteWordModal } from './modals';
+import { AddWordModal, DeleteWordModal } from './modals';
 import { PreviewScreenProps, PreviewScreenItemProps } from './interfaces';
 import { normalizePreviewWords } from '../../normalize';
 import * as effects from '../../effects';
@@ -101,19 +100,11 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
     closeModal();
   };
 
-  const onDeleteWord = (item) => {
-    console.log('test');
-    // setDeletedWord(item);
-    // deleteWordOpenModal();
-  };
+  const onDeleteWord = async () => {
+    const ids = deletedWord.translates.map((item) => item.id);
 
-  const onSubmitDeleteWord = async () => {
-    console.log('test');
-    // const ids = deletedWord.translates.map((item) => item.id);
-
-    // await dispatch(effects.removeWord(ids));
-    // setDeletedWord(null);
-    // deleteWordCloseModal();
+    await dispatch(effects.removeWord(ids));
+    deleteWordCloseModal();
   };
 
   const onSwipeRight = () => closeSlideMenu();
@@ -165,12 +156,12 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
             ))}
           </GestureRecognizer>
 
-          <AddWord isOpenModal={isOpenModal} closeModal={closeModal} onSaveWord={onSaveWord} />
+          <AddWordModal isOpenModal={isOpenModal} closeModal={closeModal} onSaveWord={onSaveWord} />
           <DeleteWordModal
             word={deletedWord}
             isOpenModal={isDeleteWordOpenModal}
             closeModal={deleteWordCloseModal}
-            onDeleteWord={onSubmitDeleteWord}
+            onDeleteWord={onDeleteWord}
           />
         </Container>
       </Content>
