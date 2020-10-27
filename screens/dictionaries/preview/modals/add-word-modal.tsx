@@ -4,24 +4,20 @@ import { useSelector } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { CenterModal, Button, Input, ButtonIcon } from '@components';
 import { NewColors as Colors, LOADING_ITEMS } from '@constants';
+import { AddWordModalProps } from '../interfaces';
 
-const initial = {
-  name: '',
-  translate: [{ id: 1, value: '' }],
-};
-
-// перенести initial в тело
-// убрать подсветку с выделения строк слов
-// убрать подсветку у белых кнопко
-
-export const AddWordModal = ({ isOpenModal = true, closeModal = () => {}, onSaveWord = () => {} }) => {
+export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpenModal, closeModal, onSaveWord }) => {
+  const initial = {
+    name: '',
+    translate: [{ id: 1, value: '' }],
+  };
   const { loading } = useSelector((state) => state);
   const isLoading = loading[LOADING_ITEMS.INNER];
   const [isValid, setIsValid] = useState(false);
   const [fields, setFields] = useState(initial);
 
-  const onChangeInput = (text, name, id) => {
-    if (name === 'translate') {
+  const onChangeInput = (text, id = null) => {
+    if (id) {
       const updates = fields.translate.map((item) => {
         if (item.id === id) {
           item.value = text;
@@ -36,7 +32,7 @@ export const AddWordModal = ({ isOpenModal = true, closeModal = () => {}, onSave
       });
     }
 
-    if (name === 'name') {
+    if (!id) {
       setFields({
         ...fields,
         name: text,
@@ -45,7 +41,6 @@ export const AddWordModal = ({ isOpenModal = true, closeModal = () => {}, onSave
   };
 
   const onAddField = () => {
-    console.log('click');
     const id = fields.translate.length + 1;
     setFields({
       ...fields,
@@ -81,15 +76,9 @@ export const AddWordModal = ({ isOpenModal = true, closeModal = () => {}, onSave
           theme="secondary"
           placeholder="English"
           value={fields.name}
-          onChangeText={(text) => onChangeInput(text, 'name')}
+          onChangeText={(text) => onChangeInput(text)}
           autoFocus={fields.translate.length <= 1}
         />
-        {/* <Input
-          placeholder="English"
-          onChangeText={(text) => onChangeInput(text, 'name')}
-          value={fields.name}
-          autoFocus={fields.translate.length <= 1}
-        /> */}
       </Field>
 
       {fields.translate.map((item) => (
@@ -98,17 +87,10 @@ export const AddWordModal = ({ isOpenModal = true, closeModal = () => {}, onSave
             theme="secondary"
             placeholder={item.id === 1 ? 'Русский' : 'Добавить перевод'}
             value={item.value}
-            onChangeText={(text) => onChangeInput(text, 'translate', item.id)}
+            onChangeText={(text) => onChangeInput(text, item.id)}
             paddingRight={25}
             autoFocus={item.id !== 1}
           />
-
-          {/* <Input
-            placeholder={item.id === 1 ? 'Русский' : 'Добавить перевод'}
-            onChangeText={(text) => onChangeInput(text, 'translate', item.id)}
-            value={item.value}
-            autoFocus={item.id !== 1}
-          /> */}
 
           <AdditionButton>
             {item.id === 1 ? (
@@ -125,13 +107,7 @@ export const AddWordModal = ({ isOpenModal = true, closeModal = () => {}, onSave
       ))}
 
       <Save>
-        <Button
-          theme="secondary"
-          text="Cохранить"
-          onPress={() => onSave(fields)}
-          useLoader={isLoading}
-          disabled={!isValid}
-        />
+        <Button theme="secondary" text="Cохранить" onPress={onSave} useLoader={isLoading} disabled={!isValid} />
       </Save>
     </CenterModal>
   );

@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { Input, Item } from 'native-base';
 import { ButtonLoader } from '@components';
 
-export const CreateDict = ({ onCreate = () => {} }) => {
+export const CreateDictModal = ({ onCreate = () => {} }) => {
   const [name, setName] = useState('');
 
   const onChangeName = (text) => setName(text);

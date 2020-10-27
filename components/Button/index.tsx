@@ -3,25 +3,9 @@ import styled, { ThemeProvider } from 'styled-components/native';
 import { TouchableNativeFeedback } from 'react-native';
 import { themes } from './themes';
 import { Spinner } from '../Spinner';
+import { ButtonsProps, ContainerProps } from './interfaces';
 
-type Props = {
-  theme: 'primary' | 'secondary';
-  text: number;
-  disabled?: boolean;
-  useLoader?: boolean;
-  onPress: () => void;
-};
-
-type ContainerProps = {
-  theme: themes.primary | themes.secondary;
-  disabled?: boolean;
-};
-
-type TextProps = {
-  theme: themes.primary | themes.secondary;
-};
-
-export const Button: React.FC<Props> = ({
+export const Button: React.FC<ButtonsProps> = ({
   theme = 'primary',
   text = '',
   disabled = false,
@@ -29,14 +13,15 @@ export const Button: React.FC<Props> = ({
   onPress,
   ...restProps
 }) => {
+  const currentTheme = themes[theme];
   return (
-    <ThemeProvider theme={themes[theme]}>
+    <ThemeProvider theme={currentTheme}>
       <Container disabled={disabled} {...restProps}>
         <TouchableNativeFeedback
           onPress={onPress}
           disabled={useLoader || disabled}
-          background={TouchableNativeFeedback.Ripple(themes[theme].feedback)}>
-          <Inner>{useLoader ? <Spinner color={themes[theme].loaderColor} size={30} /> : <Text>{text}</Text>}</Inner>
+          background={TouchableNativeFeedback.Ripple(currentTheme.feedback)}>
+          <Inner>{useLoader ? <Spinner color={currentTheme.loaderColor} size={30} /> : <Text>{text}</Text>}</Inner>
         </TouchableNativeFeedback>
       </Container>
     </ThemeProvider>
@@ -59,7 +44,7 @@ const Inner = styled.View`
   justify-content: center;
 `;
 
-const Text = styled.Text<TextProps>`
+const Text = styled.Text`
   color: ${({ theme }) => theme.color};
   font-size: 16px;
   font-family: Museo;

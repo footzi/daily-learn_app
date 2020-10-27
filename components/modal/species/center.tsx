@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components/native';
 import Modal from 'react-native-modal';
+import { NewColors as Colors } from '@constants';
 import { ModalProps } from '../interfaces';
 import { themes } from '../themes';
 
@@ -10,26 +11,30 @@ export const CenterModal: React.FC<ModalProps> = ({
   closeModal,
   title,
   children,
-}) => (
-  <ThemeProvider theme={themes[theme]}>
-    <Modal
-      isVisible={isOpenModal}
-      swipeDirection="down"
-      animationIn="zoomIn"
-      animationOut="zoomOut"
-      backdropOpacity={0.4}
-      onSwipeComplete={closeModal}
-      onBackdropPress={closeModal}
-      style={{ justifyContent: 'center', alignItems: 'center', margin: 0 }}
-      useNativeDriver={true}
-      propagateSwipe={true}>
-      <View>
-        {title && <Title>{title}</Title>}
-        {children}
-      </View>
-    </Modal>
-  </ThemeProvider>
-);
+}) => {
+  const currentTheme = themes[theme];
+  return (
+    <ThemeProvider theme={currentTheme}>
+      <Modal
+        isVisible={isOpenModal}
+        swipeDirection="down"
+        animationIn="zoomIn"
+        animationOut="zoomOut"
+        backdropColor={currentTheme.backdropColor}
+        backdropOpacity={currentTheme.backdropOpacity}
+        onSwipeComplete={closeModal}
+        onBackdropPress={closeModal}
+        style={{ justifyContent: 'center', alignItems: 'center', margin: 0 }}
+        useNativeDriver={true}
+        propagateSwipe={true}>
+        <View>
+          {title && <Title>{title}</Title>}
+          {children}
+        </View>
+      </Modal>
+    </ThemeProvider>
+  );
+};
 
 const View = styled.View`
   background-color: ${({ theme }) => theme.backgroundColor};

@@ -9,6 +9,7 @@
           "@components": "./components",
           "@constants": "./constants",
           "@store": "./store",
+          "@navigation": "./navigation",
           "@api": "./api",
           "@libs": "./libs",
           "@mocks": "./mocks"

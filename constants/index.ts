@@ -68,3 +68,9 @@ export const PREVIEW_SLIDE_MENU_RIGHT = {
     translateX: 30,
   },
 };
+
+export enum PREVIEW_FILTER_MODE {
+  NONE = 'NONE',
+  EN = 'EN',
+  RU = 'RU',
+}

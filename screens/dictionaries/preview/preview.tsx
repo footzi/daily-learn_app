@@ -1,44 +1,35 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { Text, View } from 'react-native';
-import { Button, Icon, H3, Content } from 'native-base';
+import * as Animatable from 'react-native-animatable';
+import GestureRecognizer from 'react-native-swipe-gestures';
 import { Feather } from '@expo/vector-icons';
-import { TouchableNativeFeedback } from 'react-native';
-import { EvilIcons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
+import { TouchableWithoutFeedback } from 'react-native';
 
 import {
   NewColors as Colors,
   PREVIEW_SLIDE_MENU_LEFT,
   PREVIEW_SLIDE_MENU_RIGHT,
   PREVIEW_SLIDE_MENU_DURATION,
+  PREVIEW_FILTER_MODE,
 } from '@constants';
-import { useModal, HeaderModal, Checkbox, ButtonIcon } from '@components';
+import { useModal, ButtonIcon } from '@components';
 import { shuffleArray } from '@libs';
 import { AddWordModal, DeleteWordModal } from './modals';
-import { PreviewScreenProps, PreviewScreenItemProps } from './interfaces';
-import { normalizePreviewWords } from '../../normalize';
-import * as effects from '../../effects';
-import * as Animatable from 'react-native-animatable';
-import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
-
-import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { Empty } from '../empty';
+import { PreviewScreenProps, PreviewScreenItemProps, SaveTranslateFields } from './interfaces';
+import { normalizePreviewWords } from './utils';
+import * as effects from './effects';
 
 import { SlideMenu } from './slide-menu';
 
-enum FILTER_MODE {
-  NONE = 'NONE',
-  EN = 'EN',
-  RU = 'RU',
-}
 export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigation, route }) => {
   const { dictionaries } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { preview_dictionary = {} } = route.params;
 
   const [words, setWords] = useState([]);
-  const [filter, setFilter] = useState(FILTER_MODE.NONE);
+  const [filter, setFilter] = useState(PREVIEW_FILTER_MODE.NONE);
   const [isMix, setIsMix] = useState(false);
   const [deletedWord, setDeletedWord] = useState(null);
 
@@ -46,8 +37,9 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
   const [isOpenSlideMenu, setIsOpenSlideMenu] = useState(true);
 
   const [isOpenModal, openModal, closeModal] = useModal();
-  const [isHeaderOpenModal, headerOpenModal, headerCloseModal] = useModal();
   const [isDeleteWordOpenModal, deleteWordOpenModal, deleteWordCloseModal] = useModal();
+
+  const isEmptyDictionary = !words.length;
 
   const getCurrentWords = () => {
     const currentDictionary = dictionaries.find((item) => item.id === preview_dictionary.id);
@@ -83,19 +75,19 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
 
   const onFilter = () => {
     switch (filter) {
-      case FILTER_MODE.NONE:
-        setFilter(FILTER_MODE.RU);
+      case PREVIEW_FILTER_MODE.NONE:
+        setFilter(PREVIEW_FILTER_MODE.RU);
         break;
-      case FILTER_MODE.RU:
-        setFilter(FILTER_MODE.EN);
+      case PREVIEW_FILTER_MODE.RU:
+        setFilter(PREVIEW_FILTER_MODE.EN);
         break;
-      case FILTER_MODE.EN:
-        setFilter(FILTER_MODE.NONE);
+      case PREVIEW_FILTER_MODE.EN:
+        setFilter(PREVIEW_FILTER_MODE.NONE);
         break;
     }
   };
 
-  const onSaveWord = async (fields) => {
+  const onSaveWord = async (fields: SaveTranslateFields) => {
     await dispatch(effects.saveWord({ fields, preview_dictionary }));
     closeModal();
   };
@@ -119,7 +111,6 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
   useEffect(() => {
     const currentWords = getCurrentWords();
     setWords(currentWords);
-    // setCurrentWords();
   }, [dictionaries]);
 
   useLayoutEffect(() => {
@@ -131,47 +122,55 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
         </ButtonIcon>
       ),
     });
-  }, [navigation, isHeaderOpenModal]);
+  }, [navigation]);
 
   return (
     <>
-      <Content>
-        <Container>
-          {!words.length && <H3 style={{ textAlign: 'center' }}>У вас еще нет слов(</H3>}
+      {isEmptyDictionary && <Empty />}
 
-          <GestureRecognizer onSwipeLeft={onSwipeLeft} onSwipeRight={onSwipeRight}>
-            {words.map((item) => (
-              <TouchableNativeFeedback key={item.groupId} onPress={() => onPressWordLine(item)}>
-                <Line>
-                  <Item isHide={filter === FILTER_MODE.RU}>
-                    <WordName>{item.name}</WordName>
-                  </Item>
-                  <Item isHide={filter === FILTER_MODE.EN}>
-                    {item.translates.map(({ id, translate }) => (
-                      <WordName key={id}>{translate}</WordName>
-                    ))}
-                  </Item>
-                </Line>
-              </TouchableNativeFeedback>
-            ))}
-          </GestureRecognizer>
+      {!isEmptyDictionary && (
+        <>
+          <Container>
+            <GestureRecognizer onSwipeLeft={onSwipeLeft} onSwipeRight={onSwipeRight}>
+              {words.map((item) => (
+                <TouchableWithoutFeedback key={item.groupId} onPress={() => onPressWordLine(item)}>
+                  <Line>
+                    <Item isHide={filter === PREVIEW_FILTER_MODE.RU}>
+                      <WordName>{item.name}</WordName>
+                    </Item>
+                    <Item isHide={filter === PREVIEW_FILTER_MODE.EN}>
+                      {item.translates.map(({ id, translate }) => (
+                        <WordName key={id}>{translate}</WordName>
+                      ))}
+                    </Item>
+                  </Line>
+                </TouchableWithoutFeedback>
+              ))}
+            </GestureRecognizer>
 
-          <AddWordModal isOpenModal={isOpenModal} closeModal={closeModal} onSaveWord={onSaveWord} />
-          <DeleteWordModal
-            word={deletedWord}
-            isOpenModal={isDeleteWordOpenModal}
-            closeModal={deleteWordCloseModal}
-            onDeleteWord={onDeleteWord}
-          />
-        </Container>
-      </Content>
+            <DeleteWordModal
+              word={deletedWord}
+              isOpenModal={isDeleteWordOpenModal}
+              closeModal={deleteWordCloseModal}
+              onDeleteWord={onDeleteWord}
+            />
+          </Container>
 
-      <Animatable.View ref={slideMenuRef} easing="ease-in-out" useNativeDriver>
-        <SlideMenu onMix={onMix} onFilter={onFilter} />
-      </Animatable.View>
+          <Animatable.View ref={slideMenuRef} easing="ease-in-out" useNativeDriver>
+            <SlideMenu onMix={onMix} onFilter={onFilter} />
+          </Animatable.View>
+        </>
+      )}
+
+      <AddWordModal isOpenModal={isOpenModal} closeModal={closeModal} onSaveWord={onSaveWord} />
     </>
   );
 };
+
+const Container = styled.ScrollView`
+  padding: 10px;
+  flex-direction: column;
+`;
 
 const Line = styled.View`
   flex-direction: row;
@@ -195,9 +194,4 @@ const WordName = styled.Text`
   font-size: 17px;
   color: ${Colors.coal};
   margin-right: 10px;
-`;
-
-const Container = styled.View`
-  padding: 10px;
-  flex-direction: column;
 `;

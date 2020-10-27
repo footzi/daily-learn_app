@@ -1,0 +1,1 @@
+export { DictionariesListScreen } from './dictionaries';

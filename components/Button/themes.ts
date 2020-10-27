@@ -11,7 +11,7 @@ export const themes = {
   secondary: {
     backgroundColor: Colors.secondary,
     color: Colors.primary,
-    feedback: Colors.primary,
+    feedback: Colors.secondary,
     loaderColor: Colors.primary,
     elevation: 4,
   },

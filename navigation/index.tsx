@@ -9,21 +9,19 @@ import {
   SignInScreen,
   HomeScreen,
   DictionaryTrainingScreen,
-  DictionariesScreen,
+  DictionariesListScreen,
   PreviewDictionaryScreen,
-  SettingsDictionaryScreen,
   ProfileScreen,
 } from '../screens';
+import { DictionaryStackParamList } from './interfaces';
 import { SCREENS, LOADING_ITEMS, NewColors as Colors } from '@constants';
 import { BarIcon, Loader } from '@components';
 import { loadingData } from '@store/common-effects';
 
 const Tab = createBottomTabNavigator();
 const AppStack = createStackNavigator();
-const HomeStack = createStackNavigator();
+const HomeStack = createStackNavigator<DictionaryStackParamList>();
 const DictionaryStack = createStackNavigator();
-
-// options={{ headerShown: false }}
 
 const headerOptionsMain = {
   headerStyle: { backgroundColor: Colors.secondary, borderBottomRightRadius: 25, borderBottomLeftRadius: 25 },
@@ -38,7 +36,7 @@ const headerOptionsInner = {
   headerTitleContainerStyle: { left: 50 },
 };
 
-const cardStyle = { backgroundColor: Colors.white };
+const cardStyle = { backgroundColor: Colors.white, paddingBottom: 50 };
 
 // Главная с тренировками
 const HomeStackScreen = () => {
@@ -67,7 +65,7 @@ const DictionaryStackScreen = () => {
     <DictionaryStack.Navigator screenOptions={{ cardStyle }}>
       <DictionaryStack.Screen
         name={SCREENS.DICTIONARIES_LIST}
-        component={DictionariesScreen}
+        component={DictionariesListScreen}
         options={{ ...headerOptionsMain, headerTitle: 'Словари:' }}
       />
       <DictionaryStack.Screen
@@ -75,7 +73,6 @@ const DictionaryStackScreen = () => {
         component={PreviewDictionaryScreen}
         options={{ ...headerOptionsInner }}
       />
-      <DictionaryStack.Screen name={SCREENS.SETTINGS_DICTIONARY} component={SettingsDictionaryScreen} />
     </DictionaryStack.Navigator>
   );
 };
@@ -107,9 +104,6 @@ const setBarOptions = ({ route }) => ({
 
     return <BarIcon focused={focused} name={iconName} />;
   },
-  // style: {
-  //   backgroundColor: Colors.secondary,
-  // }
 });
 
 const Main = () => {
@@ -120,15 +114,12 @@ const Main = () => {
         showLabel: false,
         keyboardHidesTabBar: false,
         style: {
-          // backgroundColor: 'transparent',
-          // position: 'absolute',
-          left: 0,
-          bottom: 0,
-          right: 0,
+          borderTopWidth: 0,
+          height: 50,
+          position: 'absolute',
           backgroundColor: Colors.secondary,
           borderTopLeftRadius: 25,
           borderTopRightRadius: 25,
-          // overflow: 'hidden',
         },
       }}>
       <Tab.Screen name={SCREENS.HOME} component={HomeStackScreen} />

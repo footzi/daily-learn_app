@@ -27,6 +27,10 @@
     "android": {
       "package": "com.yourcompany.yourappname"
     },
-    "description": ""
+    "description": "",
+    "packagerOpts": {
+      "config": "metro.config.js",
+      "sourceExts": ["js", "jsx", "svg", "ts", "tsx"]
+    }
   }
 }
