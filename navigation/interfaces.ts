@@ -19,3 +19,8 @@ export type PreviewDictionaryScreenNavigationProp = StackNavigationProp<
   DictionaryStackParamList,
   SCREENS.PREVIEW_DICTIONARY
 >;
+
+export type DictionariesListScreenNavigationProp = StackNavigationProp<
+  DictionaryStackParamList,
+  SCREENS.DICTIONARIES_LIST
+>;

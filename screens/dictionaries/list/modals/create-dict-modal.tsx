@@ -1,42 +1,32 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
-import { Input, Item } from 'native-base';
-import { ButtonLoader } from '@components';
+import { useSelector } from 'react-redux';
+import { CenterModal, Button, Input } from '@components';
+import { LOADING_ITEMS } from '@constants';
+import { CreateDictModalProps } from '../interfaces';
 
-export const CreateDictModal = ({ onCreate = () => {} }) => {
+export const CreateDictModal: React.FC<CreateDictModalProps> = ({ isOpenModal, closeModal, onCreate }) => {
   const [name, setName] = useState('');
+  const { loading } = useSelector((state) => state);
+  const isLoading = loading[LOADING_ITEMS.INNER];
 
   const onChangeName = (text) => setName(text);
 
+  const onSave = () => {
+    onCreate(name);
+    // setName('');
+  };
+
   return (
-    <Container>
-      <Name>
-        <Item inlineLabel>
-          <Input placeholder="Название" onChangeText={onChangeName} value={name} />
-        </Item>
-      </Name>
+    <CenterModal theme="primary" title="Введите название" isOpenModal={isOpenModal} closeModal={closeModal}>
+      <Input theme="secondary" onChangeText={onChangeName} value={name} />
       <Save>
-        <ButtonLoader
-          success={!!name}
-          name="Сохранить"
-          width={130}
-          disabled={!name}
-          onPress={() => onCreate({ name })}
-        />
+        <Button theme="secondary" text="Создать" onPress={onSave} useLoader={isLoading} disabled={!name} />
       </Save>
-    </Container>
+    </CenterModal>
   );
 };
 
-const Container = styled.View``;
-
-const Name = styled.View`
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
-`;
-
 const Save = styled.View`
-  margin-top: 20px;
-  align-items: center;
+  margin-top: 30px;
 `;

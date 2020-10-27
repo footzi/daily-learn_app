@@ -5,7 +5,7 @@ export const themes = {
     backgroundColor: Colors.primary,
     titleColor: Colors.secondary,
     backdropColor: Colors.white,
-    backdropOpacity: 0.5,
+    backdropOpacity: 0.8,
     elevation: 4,
   },
   secondary: {

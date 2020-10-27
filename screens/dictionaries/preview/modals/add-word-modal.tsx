@@ -70,7 +70,7 @@ export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpenModal, closeMo
   }, [isOpenModal]);
 
   return (
-    <CenterModal theme="primary" isOpenModal={isOpenModal} closeModal={closeModal} title="Добавьте слово">
+    <CenterModal theme="primary" title="Добавьте слово" isOpenModal={isOpenModal} closeModal={closeModal}>
       <Field>
         <Input
           theme="secondary"

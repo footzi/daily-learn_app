@@ -12,6 +12,7 @@ import {
   PREVIEW_SLIDE_MENU_RIGHT,
   PREVIEW_SLIDE_MENU_DURATION,
   PREVIEW_FILTER_MODE,
+  DICTIONARIES_EMPTY_MODE,
 } from '@constants';
 import { useModal, ButtonIcon } from '@components';
 import { shuffleArray } from '@libs';
@@ -126,7 +127,7 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
 
   return (
     <>
-      {isEmptyDictionary && <Empty />}
+      {isEmptyDictionary && <Empty mode={DICTIONARIES_EMPTY_MODE.PREVIEW} />}
 
       {!isEmptyDictionary && (
         <>

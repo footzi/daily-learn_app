@@ -74,3 +74,8 @@ export enum PREVIEW_FILTER_MODE {
   EN = 'EN',
   RU = 'RU',
 }
+
+export enum DICTIONARIES_EMPTY_MODE {
+  PREVIEW = 'PREVIEW',
+  LIST = 'LIST',
+}

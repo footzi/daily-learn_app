@@ -12,7 +12,8 @@
     "test": "jest --watchAll",
     "build-android-sdk": "expo build:android -t apk",
     "prettier": "prettier --write **/*.js **/*.json",
-    "expo-upgrade": "expo upgrade"
+    "expo-upgrade": "expo upgrade",
+    "tsc": "tsc"
   },
   "jest": {
     "preset": "jest-expo",

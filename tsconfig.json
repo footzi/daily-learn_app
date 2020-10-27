@@ -6,7 +6,8 @@
     "^@libs": "<rootDir>/libs/",
     "^@store": "<rootDir>/store/",
     "^@mocks": "<rootDir>/mocks/",
-    "@components": "components/"
+    "@components": "components/",
+    "^@assets": "<rootDir>/assets/"
   },
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,

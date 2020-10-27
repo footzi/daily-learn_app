@@ -3,30 +3,31 @@ import styled from 'styled-components/native';
 import { ScrollView, TouchableNativeFeedback, TouchableWithoutFeedback } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
-import { SCREENS, NewColors as Colors } from '@constants';
-import { BottomModal, useModal } from '@components';
+import { SCREENS, NewColors as Colors, DICTIONARIES_EMPTY_MODE } from '@constants';
+import { useModal } from '@components';
+import { DictionariesListScreenProps } from './interfaces';
 import { CreateDictModal } from './modals';
 import * as effects from './effects';
 import { Empty } from '../empty';
 
-export const DictionariesListScreen = ({ navigation = {} }) => {
+export const DictionariesListScreen: React.FC<DictionariesListScreenProps> = ({ navigation }) => {
   const { dictionaries = [] } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [isOpenModal, openModal, closeModal] = useModal();
-  const isEmptyList = !dictionaries.length;
+  const isEmptyList = dictionaries.length;
 
   const onCreate = (body) => dispatch(effects.createDictionary({ navigation, body, closeModal }));
   const onPreview = (preview_dictionary) => {
     navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { preview_dictionary });
   };
-  // const onSettings = (dictionary) => navigation.navigate(SCREENS.SETTINGS_DICTIONARY, { dictionary });
 
   return (
     <>
-      {isEmptyList && <Empty />}
+      {isEmptyList && <Empty mode={DICTIONARIES_EMPTY_MODE.LIST} />}
 
       {!isEmptyList && (
         <Container>
+          <ScrollView>
             <List>
               {dictionaries.map((item) => (
                 <TouchableNativeFeedback
@@ -39,29 +40,24 @@ export const DictionariesListScreen = ({ navigation = {} }) => {
                 </TouchableNativeFeedback>
               ))}
             </List>
-          <CreateButton>
-            <TouchableWithoutFeedback onPress={openModal}>
-              <FontAwesome name="plus" size={40} color={Colors.secondary} />
-            </TouchableWithoutFeedback>
-          </CreateButton>
+          </ScrollView>
         </Container>
       )}
 
-      <BottomModal isOpenModal={isOpenModal} closeModal={closeModal} title="Новый словарь">
-        <CreateDictModal onCreate={onCreate} />
-      </BottomModal>
+      <CreateButton>
+        <TouchableWithoutFeedback onPress={openModal}>
+          <FontAwesome name="plus" size={40} color={Colors.secondary} />
+        </TouchableWithoutFeedback>
+      </CreateButton>
+      <CreateDictModal isOpenModal={isOpenModal} closeModal={closeModal} onCreate={onCreate} />
     </>
   );
 };
 
-const Container = styled.View`
-`;
+const Container = styled.View``;
 
-// todo выяснить с отступами!
-const List = styled.ScrollView`
+const List = styled.View`
   padding: 30px;
-  margin-bottom: 30px;
-
 `;
 
 const Item = styled.View`
