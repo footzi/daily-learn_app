@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { CenterModal, Button, Input, ButtonIcon } from '@components';
 import { NewColors as Colors, LOADING_ITEMS } from '@constants';
-import { AddWordModalProps } from '../interfaces';
+import { AddWordModalProps, SaveFieldsWord } from '../interfaces';
 
 export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpenModal, closeModal, onSaveWord }) => {
   const initial = {
@@ -13,8 +13,8 @@ export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpenModal, closeMo
   };
   const { loading } = useSelector((state) => state);
   const isLoading = loading[LOADING_ITEMS.INNER];
-  const [isValid, setIsValid] = useState(false);
-  const [fields, setFields] = useState(initial);
+  const [isValid, setIsValid] = useState<boolean>(false);
+  const [fields, setFields] = useState<SaveFieldsWord>(initial);
 
   const onChangeInput = (text, id = null) => {
     if (id) {
@@ -77,7 +77,6 @@ export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpenModal, closeMo
           placeholder="English"
           value={fields.name}
           onChangeText={(text) => onChangeInput(text)}
-          autoFocus={fields.translate.length <= 1}
         />
       </Field>
 

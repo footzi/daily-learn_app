@@ -18,7 +18,7 @@ import { useModal, ButtonIcon } from '@components';
 import { shuffleArray } from '@libs';
 import { AddWordModal, DeleteWordModal } from './modals';
 import { Empty } from '../empty';
-import { PreviewScreenProps, PreviewScreenItemProps, SaveTranslateFields } from './interfaces';
+import { PreviewScreenProps, PreviewScreenItemProps, SaveFieldsWord } from './interfaces';
 import { normalizePreviewWords } from './utils';
 import * as effects from './effects';
 
@@ -88,7 +88,7 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
     }
   };
 
-  const onSaveWord = async (fields: SaveTranslateFields) => {
+  const onSaveWord = async (fields: SaveFieldsWord) => {
     await dispatch(effects.saveWord({ fields, preview_dictionary }));
     closeModal();
   };

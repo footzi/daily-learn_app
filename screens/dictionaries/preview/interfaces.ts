@@ -20,7 +20,7 @@ export interface DeleteWordModalProps {
 export interface AddWordModalProps {
   isOpenModal: boolean;
   closeModal: () => void;
-  onSaveWord: (fields: SaveTranslateFields) => void;
+  onSaveWord: (fields: SaveFieldsWord) => void;
 }
 
 export interface SlideMenuProps {
@@ -28,12 +28,12 @@ export interface SlideMenuProps {
   onFilter: () => void;
 }
 
-export interface SaveTranslateFields {
+export interface SaveTranslateField {
   id: number;
   value: string;
 }
 
 export interface SaveFieldsWord {
   name: string;
-  translate: SaveTranslateFields[];
+  translate: SaveTranslateField[];
 }

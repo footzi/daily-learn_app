@@ -9,3 +9,9 @@ export interface CreateDictModalProps {
   closeModal: () => void;
   onCreate: (name: string) => void;
 }
+
+export interface CreateDictionaryEffect {
+  navigation: DictionariesListScreenNavigationProp;
+  name: string;
+  closeModal: () => void;
+}

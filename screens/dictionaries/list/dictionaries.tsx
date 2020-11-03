@@ -5,19 +5,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
 import { SCREENS, NewColors as Colors, DICTIONARIES_EMPTY_MODE } from '@constants';
 import { useModal } from '@components';
+import { InitStateInterface, Dictionary } from '@store'
 import { DictionariesListScreenProps } from './interfaces';
 import { CreateDictModal } from './modals';
 import * as effects from './effects';
 import { Empty } from '../empty';
 
 export const DictionariesListScreen: React.FC<DictionariesListScreenProps> = ({ navigation }) => {
-  const { dictionaries = [] } = useSelector((state) => state);
+  const { dictionaries = [] } = useSelector((state: InitStateInterface) => state);
   const dispatch = useDispatch();
   const [isOpenModal, openModal, closeModal] = useModal();
-  const isEmptyList = dictionaries.length;
+  const isEmptyList = !dictionaries.length;
 
-  const onCreate = (body) => dispatch(effects.createDictionary({ navigation, body, closeModal }));
-  const onPreview = (preview_dictionary) => {
+  const onCreate = (name: string) => dispatch(effects.createDictionary({ navigation, name, closeModal }));
+  const onPreview = (preview_dictionary: Dictionary) => {
     navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { preview_dictionary });
   };
 
@@ -29,7 +30,7 @@ export const DictionariesListScreen: React.FC<DictionariesListScreenProps> = ({ 
         <Container>
           <ScrollView>
             <List>
-              {dictionaries.map((item) => (
+              {dictionaries.map((item: Dictionary) => (
                 <TouchableNativeFeedback
                   key={item.id}
                   background={TouchableNativeFeedback.Ripple(Colors.secondary)}
