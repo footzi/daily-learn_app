@@ -1,9 +1,10 @@
+import { Dispatch } from 'react-redux';
 import { ApiCall } from '@api';
 import { ERROR, TOKENS_LS, USER_LS, LOADING_ITEMS } from '@constants';
 import { LocalStorage } from '@libs';
 import * as actions from '@store';
 
-export const toSignOut = () => async (dispatch) => {
+export const toSignOut = () => async (dispatch: Dispatch): Promise<void> => {
   dispatch(actions.startLoading(LOADING_ITEMS.INNER));
 
   try {

@@ -11,6 +11,7 @@ export interface Profile {
 export interface Word {
   id: number;
 }
+
 export interface Dictionary {
   id: number;
   name: string;

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
 import { SCREENS, NewColors as Colors, DICTIONARIES_EMPTY_MODE } from '@constants';
 import { useModal } from '@components';
-import { InitStateInterface, Dictionary } from '@store'
+import { InitStateInterface, Dictionary } from '@store';
 import { DictionariesListScreenProps } from './interfaces';
 import { CreateDictModal } from './modals';
 import * as effects from './effects';
