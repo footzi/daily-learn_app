@@ -11,3 +11,5 @@ export { Input } from './Input';
 export { BarIcon } from './Bar-Icon';
 export { Link } from './Link';
 export { ButtonIcon } from './Button-Icon';
+export { NewNofification } from './NewNotification';
+export { AnimationUnmountable } from './AnimationUnmountable';

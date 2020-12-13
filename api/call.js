@@ -17,6 +17,10 @@ export const ApiCall = {
     return request.private('post', '/api/dictionary/create', body);
   },
 
+  deleteDictionary(body) {
+    return request.private('delete', '/api/dictionary/delete', body);
+  },
+
   saveWord(body) {
     return request.private('post', '/api/words/create', body);
   },

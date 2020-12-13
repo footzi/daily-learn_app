@@ -47,7 +47,7 @@ const Camera = styled.View`
   background-color: ${Colors.primary};
   align-items: center;
   justify-content: center;
-  border-radius: 62;
+  border-radius: 62px;
 `;
 
 const Login = styled.Text`

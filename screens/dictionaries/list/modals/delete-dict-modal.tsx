@@ -4,13 +4,13 @@ import { useSelector } from 'react-redux';
 import { CenterModal, Button } from '@components';
 import { LOADING_ITEMS } from '@constants';
 import { InitStateInterface } from '@store';
-import { DeleteWordModalProps } from '../interfaces';
+import { DeleteDictModalProps } from '../interfaces';
 
-export const DeleteWordModal: React.FC<DeleteWordModalProps> = ({ word, isOpenModal, closeModal, onDeleteWord }) => {
+export const DeleteDictModal: React.FC<DeleteDictModalProps> = ({ dict, isOpenModal, closeModal, onDelete }) => {
   const { loading } = useSelector((state: InitStateInterface) => state);
   const isLoading = loading[LOADING_ITEMS.INNER];
 
-  if (!word) {
+  if (!dict) {
     return null;
   }
 
@@ -21,13 +21,13 @@ export const DeleteWordModal: React.FC<DeleteWordModalProps> = ({ word, isOpenMo
       closeModal={closeModal}
       title={
         <>
-          Удалить слово{'\n'}
-          <Name>«{word.name}»</Name>?
+          Удалить словарь{'\n'}
+          <Name>«{dict.name}»</Name>?
         </>
       }>
       <Buttons>
         <Button theme="secondary" onPress={closeModal} text="Нет" width={100} />
-        <Button theme="secondary" onPress={onDeleteWord} text="Да" width={100} useLoader={isLoading} />
+        <Button theme="secondary" onPress={onDelete} text="Да" width={100} useLoader={isLoading} />
       </Buttons>
     </CenterModal>
   );

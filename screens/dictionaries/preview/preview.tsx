@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import * as Animatable from 'react-native-animatable';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import { Feather } from '@expo/vector-icons';
-import { TouchableWithoutFeedback } from 'react-native';
+import { TouchableWithoutFeedback, ScrollView } from 'react-native';
 
 import {
   NewColors as Colors,
@@ -16,6 +16,7 @@ import {
 } from '@constants';
 import { useModal, ButtonIcon } from '@components';
 import { shuffleArray } from '@libs';
+import { InitStateInterface } from '@store';
 import { AddWordModal, DeleteWordModal } from './modals';
 import { Empty } from '../empty';
 import { PreviewScreenProps, PreviewScreenItemProps, SaveFieldsWord } from './interfaces';
@@ -25,7 +26,7 @@ import * as effects from './effects';
 import { SlideMenu } from './slide-menu';
 
 export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigation, route }) => {
-  const { dictionaries } = useSelector((state) => state);
+  const { dictionaries } = useSelector((state: InitStateInterface) => state);
   const dispatch = useDispatch();
   const { preview_dictionary = {} } = route.params;
 
@@ -131,31 +132,33 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
 
       {!isEmptyDictionary && (
         <>
-          <Container>
-            <GestureRecognizer onSwipeLeft={onSwipeLeft} onSwipeRight={onSwipeRight}>
-              {words.map((item) => (
-                <TouchableWithoutFeedback key={item.groupId} onPress={() => onPressWordLine(item)}>
-                  <Line>
-                    <Item isHide={filter === PREVIEW_FILTER_MODE.RU}>
-                      <WordName>{item.name}</WordName>
-                    </Item>
-                    <Item isHide={filter === PREVIEW_FILTER_MODE.EN}>
-                      {item.translates.map(({ id, translate }) => (
-                        <WordName key={id}>{translate}</WordName>
-                      ))}
-                    </Item>
-                  </Line>
-                </TouchableWithoutFeedback>
-              ))}
-            </GestureRecognizer>
+          <ScrollView>
+            <List>
+              <GestureRecognizer onSwipeLeft={onSwipeLeft} onSwipeRight={onSwipeRight}>
+                {words.map((item) => (
+                  <TouchableWithoutFeedback key={item.groupId} onLongPress={() => onPressWordLine(item)}>
+                    <Line>
+                      <Item isHide={filter === PREVIEW_FILTER_MODE.RU}>
+                        <WordName>{item.name}</WordName>
+                      </Item>
+                      <Item isHide={filter === PREVIEW_FILTER_MODE.EN}>
+                        {item.translates.map(({ id, translate }) => (
+                          <WordName key={id}>{translate}</WordName>
+                        ))}
+                      </Item>
+                    </Line>
+                  </TouchableWithoutFeedback>
+                ))}
+              </GestureRecognizer>
+            </List>
+          </ScrollView>
 
-            <DeleteWordModal
-              word={deletedWord}
-              isOpenModal={isDeleteWordOpenModal}
-              closeModal={deleteWordCloseModal}
-              onDeleteWord={onDeleteWord}
-            />
-          </Container>
+          <DeleteWordModal
+            word={deletedWord}
+            isOpenModal={isDeleteWordOpenModal}
+            closeModal={deleteWordCloseModal}
+            onDeleteWord={onDeleteWord}
+          />
 
           <Animatable.View ref={slideMenuRef} easing="ease-in-out" useNativeDriver>
             <SlideMenu onMix={onMix} onFilter={onFilter} />
@@ -168,7 +171,7 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
   );
 };
 
-const Container = styled.ScrollView`
+const List = styled.View`
   padding: 10px;
   flex-direction: column;
 `;

@@ -1,25 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/native';
-import { ScrollView, TouchableNativeFeedback, TouchableWithoutFeedback } from 'react-native';
+import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
 import { SCREENS, NewColors as Colors, DICTIONARIES_EMPTY_MODE } from '@constants';
 import { useModal } from '@components';
 import { InitStateInterface, Dictionary } from '@store';
 import { DictionariesListScreenProps } from './interfaces';
-import { CreateDictModal } from './modals';
+import { CreateDictModal, DeleteDictModal } from './modals';
 import * as effects from './effects';
 import { Empty } from '../empty';
 
 export const DictionariesListScreen: React.FC<DictionariesListScreenProps> = ({ navigation }) => {
   const { dictionaries = [] } = useSelector((state: InitStateInterface) => state);
   const dispatch = useDispatch();
-  const [isOpenModal, openModal, closeModal] = useModal();
+  const [isCreateOpenModal, openCreateModal, closeCreateModal] = useModal();
+  const [isDeleteOpenModal, openDeleteModal, closeDeleteModal] = useModal();
+  const [deletedDict, setDeletedDict] = useState(null);
   const isEmptyList = !dictionaries.length;
 
-  const onCreate = (name: string) => dispatch(effects.createDictionary({ navigation, name, closeModal }));
+  const onCreate = async (name: string) => {
+    await dispatch(effects.createDictionary({ navigation, name }));
+    closeCreateModal();
+  };
+
   const onPreview = (preview_dictionary: Dictionary) => {
     navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { preview_dictionary });
+  };
+
+  const onLongPress = (id: number, name: string) => {
+    setDeletedDict({ id, name });
+    openDeleteModal();
+  };
+
+  const onDelete = async () => {
+    const { id } = deletedDict;
+    await dispatch(effects.deleteDictionary({ id }));
+    closeDeleteModal();
   };
 
   return (
@@ -27,35 +44,40 @@ export const DictionariesListScreen: React.FC<DictionariesListScreenProps> = ({ 
       {isEmptyList && <Empty mode={DICTIONARIES_EMPTY_MODE.LIST} />}
 
       {!isEmptyList && (
-        <Container>
+        <>
           <ScrollView>
             <List>
               {dictionaries.map((item: Dictionary) => (
-                <TouchableNativeFeedback
+                <TouchableWithoutFeedback
                   key={item.id}
-                  background={TouchableNativeFeedback.Ripple(Colors.secondary)}
-                  onPress={() => onPreview(item)}>
+                  onPress={() => onPreview(item)}
+                  onLongPress={() => onLongPress(item.id, item.name)}>
                   <Item>
                     <Name>{item.name}</Name>
                   </Item>
-                </TouchableNativeFeedback>
+                </TouchableWithoutFeedback>
               ))}
             </List>
           </ScrollView>
-        </Container>
+
+          <DeleteDictModal
+            dict={deletedDict}
+            isOpenModal={isDeleteOpenModal}
+            closeModal={closeDeleteModal}
+            onDelete={onDelete}
+          />
+        </>
       )}
 
       <CreateButton>
-        <TouchableWithoutFeedback onPress={openModal}>
+        <TouchableWithoutFeedback onPress={openCreateModal}>
           <FontAwesome name="plus" size={40} color={Colors.secondary} />
         </TouchableWithoutFeedback>
       </CreateButton>
-      <CreateDictModal isOpenModal={isOpenModal} closeModal={closeModal} onCreate={onCreate} />
+      <CreateDictModal isOpenModal={isCreateOpenModal} closeModal={closeCreateModal} onCreate={onCreate} />
     </>
   );
 };
-
-const Container = styled.View``;
 
 const List = styled.View`
   padding: 30px;

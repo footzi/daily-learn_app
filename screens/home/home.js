@@ -2,15 +2,20 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { TouchableWithoutFeedback, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
 import { useFocusEffect } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { Button } from '@components';
 import { SCREENS, NewColors as Colors } from '@constants';
 import { normalizeDictionaries } from './normalize';
 
+import { Dispatch } from 'react-redux';
+import * as actions from '@store';
+
 export const HomeScreen = ({ navigation = {} }) => {
   const { dictionaries = [] } = useSelector((state) => state);
   const [dictionariesList, setDictionariesList] = useState([]);
+
+  const dispatch = useDispatch();
 
   const onStart = () => {
     const selectedDictionaries = dictionariesList.filter((item) => item.isChecked).map((dict) => dict.id);

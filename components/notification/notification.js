@@ -18,17 +18,15 @@ export const Notification = () => {
   useEffect(() => {
     const { text, type } = notification;
 
-    if (text && type) {
-      Toast.show({
-        text,
-        type: types[type],
-        buttonText: 'Okay',
-        position: 'top',
-        duration: 10000,
-        onClose,
-      });
-    }
-  }, [notification]);
+    Toast.show({
+      text: '1234',
+      type: 'danger',
+      buttonText: 'Okay',
+      position: 'top',
+      duration: 10000,
+      onClose,
+    });
+  }, []);
 
   return <View />;
 };

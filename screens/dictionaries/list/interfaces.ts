@@ -13,5 +13,18 @@ export interface CreateDictModalProps {
 export interface CreateDictionaryEffect {
   navigation: DictionariesListScreenNavigationProp;
   name: string;
+}
+
+export interface DeleteDictModalProps {
+  dict: {
+    id: number;
+    name: string;
+  };
+  isOpenModal: boolean;
   closeModal: () => void;
+  onDelete: () => void;
+}
+
+export interface DeleteDictionaryEffect {
+  id: number;
 }

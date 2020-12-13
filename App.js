@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
-import { Root } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
 import { USER_LS, TOKENS_LS } from './constants';
 import { request } from './api';
 import { LocalStorage } from './libs';
-import { Notification } from './components';
 import { createAppStore } from './store';
 import { Navigation } from './navigation';
 
@@ -38,10 +36,7 @@ const App = () => {
 
     return (
       <Provider store={store}>
-        <Root>
-          <Notification />
-          <Navigation />
-        </Root>
+        <Navigation />
       </Provider>
     );
   }
