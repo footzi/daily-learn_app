@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components/native';
 import { ImageBackground } from 'react-native';
-import { NewColors as Colors, DICTIONARIES_EMPTY_MODE } from '@constants';
+import { Colors, DICTIONARIES_EMPTY_MODE } from '@constants';
 import { EmptyProps, ArrowProps } from './interfaces';
 
 // todo не работаю алиасы assets

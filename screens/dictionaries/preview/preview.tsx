@@ -7,7 +7,7 @@ import { Feather } from '@expo/vector-icons';
 import { TouchableWithoutFeedback, ScrollView } from 'react-native';
 
 import {
-  NewColors as Colors,
+  Colors,
   PREVIEW_SLIDE_MENU_LEFT,
   PREVIEW_SLIDE_MENU_RIGHT,
   PREVIEW_SLIDE_MENU_DURATION,

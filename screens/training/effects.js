@@ -1,5 +1,5 @@
 import { ApiCall } from '@api';
-import { ERROR } from '@constants';
+import { NOTIFICATION_TYPES } from '@constants';
 import * as actions from '@store';
 
 export const saveCountWord = (body) => async (dispatch) => {
@@ -12,7 +12,7 @@ export const saveCountWord = (body) => async (dispatch) => {
       throw new Error(error);
     }
   } catch (error) {
-    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+    dispatch(actions.setNotification({ type: NOTIFICATION_TYPES.ERROR, text: error.message }));
   }
 };
 
@@ -26,6 +26,6 @@ export const saveCountPaws = (paws) => async (dispatch) => {
       throw new Error(error);
     }
   } catch (error) {
-    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+    dispatch(actions.setNotification({ type: NOTIFICATION_TYPES.ERROR, text: error.message }));
   }
 };

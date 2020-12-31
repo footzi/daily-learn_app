@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { EvilIcons, FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@components';
-import { NewColors as Colors, LOADING_ITEMS } from '@constants';
+import { Colors, LOADING_ITEMS } from '@constants';
 import { InitStateInterface } from '@store';
 import * as effects from './effects';
 

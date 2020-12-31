@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { CenterModal, Button, Input, ButtonIcon } from '@components';
-import { NewColors as Colors, LOADING_ITEMS } from '@constants';
+import { Colors, LOADING_ITEMS } from '@constants';
 import { AddWordModalProps, SaveFieldsWord } from '../interfaces';
 
 export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpenModal, closeModal, onSaveWord }) => {

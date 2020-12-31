@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import * as Animatable from 'react-native-animatable';
 import { FontAwesome } from '@expo/vector-icons';
 import { Input, Button, Link } from '@components';
-import { PAWS_DURATION, NewColors as Colors } from '@constants';
+import { PAWS_DURATION, Colors } from '@constants';
 import { getNextIndex } from '../helpers';
 
 const zoomOut = {

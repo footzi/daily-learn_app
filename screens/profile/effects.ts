@@ -1,6 +1,6 @@
 import { Dispatch } from 'react-redux';
 import { ApiCall } from '@api';
-import { ERROR, TOKENS_LS, USER_LS, LOADING_ITEMS } from '@constants';
+import { NOTIFICATION_TYPES, TOKENS_LS, USER_LS, LOADING_ITEMS } from '@constants';
 import { LocalStorage } from '@libs';
 import * as actions from '@store';
 
@@ -23,7 +23,7 @@ export const toSignOut = () => async (dispatch: Dispatch): Promise<void> => {
     await LocalStorage.remove(TOKENS_LS);
     await LocalStorage.remove(USER_LS);
   } catch (error) {
-    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+    dispatch(actions.setNotification({ type: NOTIFICATION_TYPES.ERROR, text: error.message }));
     dispatch(actions.endLoading(LOADING_ITEMS.INNER));
   }
 };

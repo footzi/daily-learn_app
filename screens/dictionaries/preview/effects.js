@@ -1,4 +1,4 @@
-import { ERROR } from '@constants';
+import { NOTIFICATION_TYPES } from '@constants';
 import { ApiCall } from '@api';
 import { LOADING_ITEMS } from '@constants';
 import { updateData } from '@store/common-effects';
@@ -25,7 +25,7 @@ export const saveWord = ({ fields, preview_dictionary }) => async (dispatch) => 
 
     dispatch(updateData());
   } catch (error) {
-    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+    dispatch(actions.setNotification({ type: NOTIFICATION_TYPES.ERROR, text: error.message }));
   } finally {
     dispatch(actions.endLoading(LOADING_ITEMS.INNER));
   }
@@ -45,7 +45,7 @@ export const removeWord = (ids) => async (dispatch) => {
 
     dispatch(updateData());
   } catch (error) {
-    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+    dispatch(actions.setNotification({ type: NOTIFICATION_TYPES.ERROR, text: error.message }));
   } finally {
     dispatch(actions.endLoading(LOADING_ITEMS.INNER));
   }

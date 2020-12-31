@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TouchableWithoutFeedback, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
-import { useFocusEffect } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { Button } from '@components';
-import { SCREENS, NewColors as Colors } from '@constants';
+import { SCREENS, Colors } from '@constants';
 import { normalizeDictionaries } from './normalize';
+import * as actions from '@store';
 
 import { Dispatch } from 'react-redux';
-import * as actions from '@store';
 
 export const HomeScreen = ({ navigation = {} }) => {
   const { dictionaries = [] } = useSelector((state) => state);
@@ -35,16 +34,16 @@ export const HomeScreen = ({ navigation = {} }) => {
     setDictionariesList(selected);
   };
 
-  const onClearSelect = () => {
-    if (dictionariesList.length) {
-      const unSelected = dictionariesList.map((item) => {
-        item.checked = false;
-        return item;
-      });
+  // const onClearSelect = () => {
+  //   if (dictionariesList.length) {
+  //     const unSelected = dictionariesList.map((item) => {
+  //       item.checked = false;
+  //       return item;
+  //     });
 
-      setDictionariesList(unSelected);
-    }
-  };
+  //     setDictionariesList(unSelected);
+  //   }
+  // };
 
   const haveSelected = dictionariesList.some((item) => item.isChecked);
 
@@ -59,14 +58,19 @@ export const HomeScreen = ({ navigation = {} }) => {
     setDictionariesList(normalized);
   }, [dictionaries]);
 
-  useFocusEffect(
-    useCallback(() => {
-      return () => onClearSelect();
-    }, [])
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     return () => onClearSelect();
+  //   }, [])
+  // );
+
+  const clo = () => {
+    dispatch(actions.setNotification({ type: "ERROR", text: 'длинное длинное придлинное придлинное' }));
+  }
 
   return (
     <>
+      <Button theme="green" text="Начать тренировку" width={190} onPress={clo} />
       <ScrollView>
         <Dictionaries>
           {dictionariesList.map(({ id, name, isChecked }) => (

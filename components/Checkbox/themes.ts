@@ -2,6 +2,7 @@ import { Colors } from '@constants';
 
 export const themes = {
   primary: {
-    color: Colors.primary,
+    borderColor: Colors.coal,
+    iconColor: Colors.coal,
   },
 };

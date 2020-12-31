@@ -1,20 +1,22 @@
 {
-  "baseUrl": "./src",
-  "paths": {
-    "^@constants": "<rootDir>/constants",
-    "^@api": "<rootDir>/api/",
-    "^@libs": "<rootDir>/libs/",
-    "^@store": "<rootDir>/store/",
-    "^@mocks": "<rootDir>/mocks/",
-    "@components": "components/",
-    "^@assets": "<rootDir>/assets/"
-  },
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "jsx": "react-native",
     "lib": ["dom", "esnext"],
     "moduleResolution": "node",
     "noEmit": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@constants": ["constants"],
+      "@api": ["api"],
+      "@libs": ["libs"],
+      "@store": ["store"],
+      "@mocks": ["mocks"],
+      "@components": ["components"],
+      "@assets": ["assets"],
+      "@interfaces": ["interfaces"],
+      "@navigation/*": ["navigation/*"]
+    }
   }
 }

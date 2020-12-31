@@ -1,25 +1,26 @@
 export { SETTINGS } from './settings';
-export { Colors } from './Colors';
-export { NewColors } from './Colors';
+export { Colors } from './colors';
 
 // Screens
-export const SCREENS = {
-  HOME: 'Home',
-  DICTIONARIES: 'Dictionaries',
-  PROFILE: 'Profile',
-  DICTIONARY_TRAINING: 'DictionaryTraining',
-  DICTIONARIES_LIST: 'DictionariesList',
-  CREATE_DICTIONARY: 'CreateDictionary',
-  PREVIEW_DICTIONARY: 'PreviewDictionary',
-  SETTINGS_DICTIONARY: 'SettingsDictionary',
-};
+export enum SCREENS {
+  SIGN_IN = 'SignIn',
+  SIGN_UP = 'SignUp',
+  HOME = 'Home',
+  DICTIONARIES = 'Dictionaries',
+  PROFILE = 'Profile',
+  DICTIONARY_TRAINING = 'DictionaryTraining',
+  DICTIONARIES_LIST = 'DictionariesList',
+  CREATE_DICTIONARY = 'CreateDictionary',
+  PREVIEW_DICTIONARY = 'PreviewDictionary',
+  SETTINGS_DICTIONARY = 'SettingsDictionary',
+}
 
 // Loading Items
-export const LOADING_ITEMS = {
-  FIRST: 'FIRST',
-  UPDATE: 'UPDATE',
-  INNER: 'INNER',
-};
+export enum LOADING_ITEMS {
+  FIRST = 'FIRST',
+  UPDATE = 'UPDATE',
+  INNER = 'INNER',
+}
 
 // Actions
 export const SET_USER = 'SET_USER';
@@ -31,10 +32,6 @@ export const SET_PROFILE = 'SET_PROFILE';
 export const SET_DICTIONARIES = 'SET_DICTIONARIES';
 export const SET_LOADING_ITEM = 'SET_LOADING_ITEM';
 export const REMOVE_LOADING_ITEM = 'REMOVE_LOADING_ITEM';
-
-// Notification
-export const ERROR = 'ERROR';
-export const SUCCESS = 'SUCCESS';
 
 // Tokens + LS
 export const ACCESS_TOKEN = 'ACCESS_TOKEN';

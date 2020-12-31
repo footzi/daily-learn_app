@@ -14,7 +14,7 @@ import {
   ProfileScreen,
 } from '../screens';
 import { DictionaryStackParamList } from './interfaces';
-import { SCREENS, LOADING_ITEMS, NewColors as Colors } from '@constants';
+import { SCREENS, LOADING_ITEMS, Colors } from '@constants';
 import { BarIcon, Loader } from '@components';
 import { loadingData } from '@store/common-effects';
 
@@ -152,8 +152,8 @@ export const Navigation = () => {
 
         {!isAuth && (
           <>
-            <AppStack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
-            <AppStack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
+            <AppStack.Screen name={SCREENS.SIGN_IN} component={SignInScreen} options={{ headerShown: false }} />
+            <AppStack.Screen name={SCREENS.SIGN_UP} component={SignUpScreen} options={{ headerShown: false }} />
           </>
         )}
       </AppStack.Navigator>

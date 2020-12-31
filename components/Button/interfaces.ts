@@ -1,10 +1,11 @@
-export interface ButtonsProps {
+import { TouchableNativeFeedbackProps } from 'react-native';
+
+export interface ButtonsProps extends TouchableNativeFeedbackProps {
   theme: string;
-  text: number;
-  disabled?: boolean;
+  text: string;
+  width?: number;
   useLoader?: boolean;
-  onPress: () => void;
-};
+}
 
 export interface ContainerProps {
   disabled?: boolean;

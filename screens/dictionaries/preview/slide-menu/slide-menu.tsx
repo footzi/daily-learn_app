@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { Feather } from '@expo/vector-icons';
-import { NewColors as Colors } from '@constants';
+import { Colors } from '@constants';
 import { ButtonIcon } from '@components';
 import { SlideMenuProps } from '../interfaces';
 
