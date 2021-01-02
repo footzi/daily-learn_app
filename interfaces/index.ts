@@ -20,6 +20,7 @@ export type Dictionaries = Dictionary[] | [];
 
 export interface Word {
   id: number;
+  name: string;
 }
 export type Words = Word[] | [];
 

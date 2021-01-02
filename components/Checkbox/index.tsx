@@ -3,18 +3,9 @@ import styled from 'styled-components/native';
 import { Feather } from '@expo/vector-icons';
 import { ThemeProvider } from 'styled-components/native';
 import { themes } from './themes';
+import { CheckboxProps } from './interfaces';
 
-type Props = {
-  theme: 'primary' | 'secondary';
-  isChecked: boolean;
-  onPress: () => void;
-};
-
-type ContainerProps = {
-  theme: themes.primary | themes.secondary;
-};
-
-export const Checkbox: React.FC<Props> = ({ theme = 'primary', isChecked = false, onPress }) => (
+export const Checkbox: React.FC<CheckboxProps> = ({ theme = 'primary', isChecked = false, onPress }) => (
   <ThemeProvider theme={themes[theme]}>
     <Container onPress={onPress}>
       {isChecked && <Feather name="check" size={18} color={themes[theme].iconColor} />}
@@ -22,7 +13,7 @@ export const Checkbox: React.FC<Props> = ({ theme = 'primary', isChecked = false
   </ThemeProvider>
 );
 
-const Container = styled.TouchableOpacity<ContainerProps>`
+const Container = styled.TouchableOpacity`
   width: 20px;
   height: 20px;
   border-width: 1px;

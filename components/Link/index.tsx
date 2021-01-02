@@ -2,8 +2,9 @@ import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { TouchableWithoutFeedback } from 'react-native';
 import { themes } from './themes';
+import { LinkProps } from './interfaces';
 
-export const Link = ({ theme = 'primary', text = '', onPress = () => {} }) => (
+export const Link: React.FC<LinkProps> = ({ theme = 'primary', text, onPress }) => (
   <ThemeProvider theme={themes[theme]}>
     <TouchableWithoutFeedback onPress={onPress}>
       <Text>{text}</Text>

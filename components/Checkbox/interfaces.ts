@@ -1,11 +1,14 @@
-
-
-export interface CheckboxProps = {
-  theme: 'primary' | 'secondary';
+export interface CheckboxProps {
+  theme: string;
   isChecked: boolean;
   onPress: () => void;
-};
+}
 
-type ContainerProps = {
-  theme: themes.primary | themes.secondary;
-};
+interface Theme {
+  borderColor: string;
+}
+
+declare module 'styled-components' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}

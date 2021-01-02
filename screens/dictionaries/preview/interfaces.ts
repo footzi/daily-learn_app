@@ -1,5 +1,5 @@
 import { PreviewDictionaryScreenRouteProp, PreviewDictionaryScreenNavigationProp } from '@navigation/interfaces';
-import { Word } from '../../interfaces';
+import { Word } from '@interfaces';
 
 export interface PreviewScreenProps {
   navigation: PreviewDictionaryScreenNavigationProp;

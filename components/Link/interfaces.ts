@@ -1,14 +1,12 @@
-export interface ModalProps {
+import { TouchableWithoutFeedbackProps } from 'react-native';
+
+export interface LinkProps extends TouchableWithoutFeedbackProps {
   theme: string;
-  isOpenModal: boolean;
-  closeModal: () => void;
-  title?: JSX.Element | string;
+  text: string;
 }
 
 interface Theme {
-  backgroundColor: string;
-  titleColor: string;
-  elevation: number;
+  color: string;
 }
 
 declare module 'styled-components' {
