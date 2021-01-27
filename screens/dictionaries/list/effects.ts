@@ -1,9 +1,9 @@
 import { Dispatch, GetState } from 'react-redux';
-import { ERROR } from '@constants';
+import { NOTIFICATION_TYPES } from '@constants';
 import { ApiCall } from '@api';
 import { SCREENS, LOADING_ITEMS } from '@constants';
-import { updateData } from '@store/common-effects';
-import { Dictionary } from '@store';
+import { updateData } from '@store';
+import { Dictionary } from '@interfaces';
 import * as actions from '@store';
 import { CreateDictionaryEffect, DeleteDictionaryEffect } from './interfaces';
 
@@ -29,7 +29,7 @@ export const createDictionary = ({ navigation, name }: CreateDictionaryEffect) =
 
     navigation.navigate(SCREENS.PREVIEW_DICTIONARY, { preview_dictionary });
   } catch (error) {
-    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+    dispatch(actions.setNotification({ type: NOTIFICATION_TYPES.ERROR, text: error.message }));
   } finally {
     dispatch(actions.endLoading(LOADING_ITEMS.INNER));
   }
@@ -48,7 +48,7 @@ export const deleteDictionary = ({ id }: DeleteDictionaryEffect) => async (dispa
 
     await dispatch(updateData());
   } catch (error) {
-    dispatch(actions.setNotification({ type: ERROR, text: error.message }));
+    dispatch(actions.setNotification({ type: NOTIFICATION_TYPES.ERROR, text: error.message }));
   } finally {
     dispatch(actions.endLoading(LOADING_ITEMS.INNER));
   }

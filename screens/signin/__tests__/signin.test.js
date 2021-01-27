@@ -7,8 +7,8 @@ import thunk from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import { mockFormData, renderWithRedux } from '@mocks';
 import { SET_PROCESSING, SET_USER, SET_IS_AUTH, SET_NOTIFICATION, SETTINGS, ERROR } from '@constants';
-import { SignInScreen } from './signin';
-import { toSignIn } from './effects';
+import { SignInScreen } from '../signin';
+import { toSignIn } from '../effects';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

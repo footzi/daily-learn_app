@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableWithoutFeedback, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { Button } from '@components';
 import { SCREENS, Colors } from '@constants';
-import { normalizeDictionaries } from './normalize';
-import * as actions from '@store';
+import { HomeScreenProps, DictionaryItemProps } from './interfaces';
+import { normalizePreviewDictionaries } from './utils';
 
-import { Dispatch } from 'react-redux';
-
-export const HomeScreen = ({ navigation = {} }) => {
+export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const { dictionaries = [] } = useSelector((state) => state);
   const [dictionariesList, setDictionariesList] = useState([]);
-
-  const dispatch = useDispatch();
 
   const onStart = () => {
     const selectedDictionaries = dictionariesList.filter((item) => item.isChecked).map((dict) => dict.id);
@@ -34,17 +30,6 @@ export const HomeScreen = ({ navigation = {} }) => {
     setDictionariesList(selected);
   };
 
-  // const onClearSelect = () => {
-  //   if (dictionariesList.length) {
-  //     const unSelected = dictionariesList.map((item) => {
-  //       item.checked = false;
-  //       return item;
-  //     });
-
-  //     setDictionariesList(unSelected);
-  //   }
-  // };
-
   const haveSelected = dictionariesList.some((item) => item.isChecked);
 
   useEffect(() => {
@@ -54,23 +39,12 @@ export const HomeScreen = ({ navigation = {} }) => {
       return;
     }
 
-    const normalized = normalizeDictionaries(dictionaries);
+    const normalized = normalizePreviewDictionaries(dictionaries);
     setDictionariesList(normalized);
   }, [dictionaries]);
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     return () => onClearSelect();
-  //   }, [])
-  // );
-
-  const clo = () => {
-    dispatch(actions.setNotification({ type: "ERROR", text: 'длинное длинное придлинное придлинное' }));
-  }
-
   return (
     <>
-      <Button theme="green" text="Начать тренировку" width={190} onPress={clo} />
       <ScrollView>
         <Dictionaries>
           {dictionariesList.map(({ id, name, isChecked }) => (
@@ -98,7 +72,7 @@ const Dictionaries = styled.View`
   align-items: center;
 `;
 
-const Item = styled.View`
+const Item = styled.View<DictionaryItemProps>`
   width: 320px;
   height: 60px;
   border: 1px solid ${Colors.primary};
@@ -112,7 +86,7 @@ const Item = styled.View`
   padding-right: 25px;
 `;
 
-const Name = styled.Text`
+const Name = styled.Text<DictionaryItemProps>`
   font-family: Museo;
   font-size: 20px;
   color: ${({ isChecked }) => (isChecked ? Colors.secondary : Colors.primary)};

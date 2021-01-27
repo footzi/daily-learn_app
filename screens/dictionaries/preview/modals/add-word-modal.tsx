@@ -106,7 +106,7 @@ export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpenModal, closeMo
       ))}
 
       <Save>
-        <Button theme="secondary" text="Cохранить" onPress={onSave} useLoader={isLoading} disabled={!isValid} />
+        <Button theme="secondary" text="Сохранить" onPress={onSave} useLoader={isLoading} disabled={!isValid} />
       </Save>
     </CenterModal>
   );

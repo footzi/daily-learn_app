@@ -16,12 +16,12 @@ export interface CreateDictionaryEffect {
 }
 
 export interface DeleteDictModalProps {
+  isOpenModal: boolean;
+  closeModal: () => void;
   dict: {
     id: number;
     name: string;
   };
-  isOpenModal: boolean;
-  closeModal: () => void;
   onDelete: () => void;
 }
 

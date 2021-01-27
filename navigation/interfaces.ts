@@ -27,3 +27,4 @@ export type DictionariesListScreenNavigationProp = StackNavigationProp<
 
 export type SignInScreenNavigationProp = StackNavigationProp<undefined, SCREENS.SIGN_IN>;
 export type SignUpScreenNavigationProp = StackNavigationProp<undefined, SCREENS.SIGN_UP>;
+export type HomeScreenNavigationProp = StackNavigationProp<undefined, SCREENS.HOME>;

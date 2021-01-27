@@ -5,6 +5,12 @@ export interface ModalProps {
   title?: JSX.Element | string;
 }
 
+export interface UseModalResult {
+  isOpenModal: boolean;
+  openModal: () => void;
+  closeModal: () => void;
+}
+
 interface Theme {
   backgroundColor: string;
   titleColor: string;

@@ -14,15 +14,18 @@ export interface Profile {
 export interface Dictionary {
   id: number;
   name: string;
-  words: Words;
+  words?: Words;
 }
-export type Dictionaries = Dictionary[] | [];
+export type Dictionaries = Dictionary[];
 
 export interface Word {
   id: number;
   name: string;
+  groupId: number;
+  count: number;
+  translate: string;
 }
-export type Words = Word[] | [];
+export type Words = Word[];
 
 export interface User {
   id: number;

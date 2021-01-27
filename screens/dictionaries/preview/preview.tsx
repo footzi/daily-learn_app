@@ -28,7 +28,7 @@ import { SlideMenu } from './slide-menu';
 export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigation, route }) => {
   const { dictionaries } = useSelector((state: InitStateInterface) => state);
   const dispatch = useDispatch();
-  const { preview_dictionary = {} } = route.params;
+  const { preview_dictionary } = route.params;
 
   const [words, setWords] = useState([]);
   const [filter, setFilter] = useState(PREVIEW_FILTER_MODE.NONE);
@@ -38,8 +38,12 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
   const slideMenuRef = useRef(null);
   const [isOpenSlideMenu, setIsOpenSlideMenu] = useState(true);
 
-  const [isOpenModal, openModal, closeModal] = useModal();
-  const [isDeleteWordOpenModal, deleteWordOpenModal, deleteWordCloseModal] = useModal();
+  const { isOpenModal: isAddWordOpenModal, openModal: addWordOpenModal, closeModal: addWordCloseModal } = useModal();
+  const {
+    isOpenModal: isDeleteWordOpenModal,
+    openModal: deleteWordOpenModal,
+    closeModal: deleteWordCloseModal,
+  } = useModal();
 
   const isEmptyDictionary = !words.length;
 
@@ -91,7 +95,7 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
 
   const onSaveWord = async (fields: SaveFieldsWord) => {
     await dispatch(effects.saveWord({ fields, preview_dictionary }));
-    closeModal();
+    addWordCloseModal();
   };
 
   const onDeleteWord = async () => {
@@ -119,7 +123,7 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
     navigation.setOptions({
       title: preview_dictionary.name,
       headerRight: () => (
-        <ButtonIcon style={{ marginRight: 20 }} onPress={openModal}>
+        <ButtonIcon style={{ marginRight: 20 }} onPress={addWordOpenModal}>
           <Feather name="plus-circle" size={26} color={Colors.primary} />
         </ButtonIcon>
       ),
@@ -166,7 +170,7 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
         </>
       )}
 
-      <AddWordModal isOpenModal={isOpenModal} closeModal={closeModal} onSaveWord={onSaveWord} />
+      <AddWordModal isOpenModal={isAddWordOpenModal} closeModal={addWordCloseModal} onSaveWord={onSaveWord} />
     </>
   );
 };

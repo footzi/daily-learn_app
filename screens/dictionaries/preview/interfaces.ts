@@ -1,5 +1,5 @@
 import { PreviewDictionaryScreenRouteProp, PreviewDictionaryScreenNavigationProp } from '@navigation/interfaces';
-import { Word } from '@interfaces';
+import { Word, Dictionary } from '@interfaces';
 
 export interface PreviewScreenProps {
   navigation: PreviewDictionaryScreenNavigationProp;
@@ -11,9 +11,9 @@ export interface PreviewScreenItemProps {
 }
 
 export interface DeleteWordModalProps {
-  word: Word | null;
   isOpenModal: boolean;
   closeModal: () => void;
+  word: Word | null;
   onDeleteWord: () => void;
 }
 
@@ -28,6 +28,16 @@ export interface SlideMenuProps {
   onFilter: () => void;
 }
 
+export interface PreviewTranslateWord {
+  id: number;
+  count: number;
+  translate: string;
+}
+
+export interface NormalizedPreviewWord extends Word {
+  translates: PreviewTranslateWord[];
+}
+
 export interface SaveTranslateField {
   id: number;
   value: string;
@@ -36,4 +46,13 @@ export interface SaveTranslateField {
 export interface SaveFieldsWord {
   name: string;
   translate: SaveTranslateField[];
+}
+
+export interface SaveWordEffect {
+  fields: SaveFieldsWord;
+  preview_dictionary: Dictionary;
+}
+
+export interface RemoveWordEffect {
+  ids: number[];
 }

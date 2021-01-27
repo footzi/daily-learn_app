@@ -26,3 +26,4 @@ export const createTestStore = (state: InitStateInterface): typeof store => {
 
 export { InitStateInterface } from './interfaces';
 export * from './actions';
+export * from './common-effects';

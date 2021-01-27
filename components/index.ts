@@ -9,4 +9,4 @@ export { Input } from './Input';
 export { BarIcon } from './Bar-Icon';
 export { Link } from './Link';
 export { ButtonIcon } from './Button-Icon';
-export { AnimationUnMountable } from './Animation-Un-Mountable';
+export { AnimationUnMountable } from './Animation-UnMountable';

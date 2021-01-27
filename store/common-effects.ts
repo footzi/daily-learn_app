@@ -1,3 +1,4 @@
+import { Dispatch } from 'react-redux';
 import { NOTIFICATION_TYPES, LOADING_ITEMS } from '@constants';
 import { ApiCall } from '@api';
 import * as actions from './actions';
@@ -15,7 +16,7 @@ const getData = async () => {
   return { user, dictionaries };
 };
 
-export const loadingData = () => async (dispatch) => {
+export const loadingData = () => async (dispatch: Dispatch): Promise<void> => {
   dispatch(actions.startLoading(LOADING_ITEMS.FIRST));
 
   try {
@@ -31,7 +32,7 @@ export const loadingData = () => async (dispatch) => {
   }
 };
 
-export const updateData = () => async (dispatch) => {
+export const updateData = () => async (dispatch: Dispatch): Promise<void> => {
   try {
     const { user, dictionaries } = await getData();
     const { login, email, paws } = user;

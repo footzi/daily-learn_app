@@ -16,7 +16,7 @@ import {
 import { DictionaryStackParamList } from './interfaces';
 import { SCREENS, LOADING_ITEMS, Colors } from '@constants';
 import { BarIcon, Loader } from '@components';
-import { loadingData } from '@store/common-effects';
+import { loadingData } from '@store';
 
 const Tab = createBottomTabNavigator();
 const AppStack = createStackNavigator();

@@ -5,7 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
 import { SCREENS, Colors, DICTIONARIES_EMPTY_MODE } from '@constants';
 import { useModal } from '@components';
-import { InitStateInterface, Dictionary } from '@store';
+import { Dictionary } from '@interfaces';
+import { InitStateInterface } from '@store';
 import { DictionariesListScreenProps } from './interfaces';
 import { CreateDictModal, DeleteDictModal } from './modals';
 import * as effects from './effects';
@@ -14,8 +15,8 @@ import { Empty } from '../empty';
 export const DictionariesListScreen: React.FC<DictionariesListScreenProps> = ({ navigation }) => {
   const { dictionaries = [] } = useSelector((state: InitStateInterface) => state);
   const dispatch = useDispatch();
-  const [isCreateOpenModal, openCreateModal, closeCreateModal] = useModal();
-  const [isDeleteOpenModal, openDeleteModal, closeDeleteModal] = useModal();
+  const { isOpenModal: isCreateOpenModal, openModal: openCreateModal, closeModal: closeCreateModal } = useModal();
+  const { isOpenModal: isDeleteOpenModal, openModal: openDeleteModal, closeModal: closeDeleteModal } = useModal();
   const [deletedDict, setDeletedDict] = useState(null);
   const isEmptyList = !dictionaries.length;
 

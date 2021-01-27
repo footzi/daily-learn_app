@@ -1,10 +1,14 @@
+import { Dispatch } from 'react-redux';
 import { NOTIFICATION_TYPES } from '@constants';
 import { ApiCall } from '@api';
 import { LOADING_ITEMS } from '@constants';
-import { updateData } from '@store/common-effects';
+import { updateData } from '@store';
 import * as actions from '@store';
+import { SaveWordEffect, RemoveWordEffect } from './interfaces';
 
-export const saveWord = ({ fields, preview_dictionary }) => async (dispatch) => {
+export const saveWord = ({ fields, preview_dictionary }: SaveWordEffect) => async (
+  dispatch: Dispatch
+): Promise<void> => {
   dispatch(actions.startLoading(LOADING_ITEMS.INNER));
 
   try {
@@ -31,7 +35,7 @@ export const saveWord = ({ fields, preview_dictionary }) => async (dispatch) => 
   }
 };
 
-export const removeWord = (ids) => async (dispatch) => {
+export const removeWord = (ids: RemoveWordEffect) => async (dispatch: Dispatch): Promise<void> => {
   dispatch(actions.startLoading(LOADING_ITEMS.INNER));
 
   try {

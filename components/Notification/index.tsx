@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { TouchableWithoutFeedback } from 'react-native';
 import { Colors, NOTIFICATION_AUTO_CLOSE_TIMEOUT, NOTIFICATION_TYPES } from '@constants';
 import { setNotification, InitStateInterface } from '@store';
-import { AnimationUnMountable } from '../Animation-Un-Mountable';
+import { AnimationUnMountable } from '../Animation-UnMountable';
 
 let timeout = null;
 

@@ -3,22 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { useFocusEffect } from '@react-navigation/native';
 import { SETTINGS } from '@constants';
-import { Loader } from '@components/loader';
+import { Loader } from '@components';
 import { Statistics, CartWord, Congratulation, NotWords } from './organism';
-import { createWords, getStartIndex } from './helpers';
-import * as effects from '../effects';
-import { updateData } from '@store/common-effects';
+import { createWords, getStartIndex } from './utils';
+import { updateData } from '@store';
+import * as effects from './effects';
 
 export const DictionaryTrainingScreen = ({ route = {}, navigation = {} }) => {
   const { dictionaries: allDictionaries = [], profile = {} } = useSelector((state) => state);
   const { selectedDictionaries } = route.params || [];
   const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [words, setWords] = useState([]);
   const [paws, setPaws] = useState(profile.paws);
-  const [startWordIndex, setStartWordIndex] = useState(0);
-  const [isStatistics, setIsStatistics] = useState(false);
+  const [startWordIndex, setStartWordIndex] = useState<number>(0);
+  const [isStatistics, setIsStatistics] = useState<boolean>(false);
 
   const isNotWords = words.length === 0;
   const isAvailableWords = !isNotWords && startWordIndex !== null;
