@@ -1,7 +1,7 @@
 import { Dispatch } from 'react-redux';
 import { ApiCall } from '@api';
 import { NOTIFICATION_TYPES } from '@constants';
-import { saveCountWordEffectProps, saveCountPawsEffectProps } from './interfaces';
+import { saveCountWordEffectProps } from './interfaces';
 import * as actions from '@store';
 
 export const saveCountWord = (body: saveCountWordEffectProps) => async (dispatch: Dispatch): Promise<void> => {
@@ -18,7 +18,7 @@ export const saveCountWord = (body: saveCountWordEffectProps) => async (dispatch
   }
 };
 
-export const saveCountPaws = (paws: saveCountPawsEffectProps) => async (dispatch: Dispatch): Promise<void> => {
+export const saveCountPaws = (paws: number) => async (dispatch: Dispatch): Promise<void> => {
   try {
     const response = await ApiCall.changeProfile({ paws });
     const { data, error } = response.data;

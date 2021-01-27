@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { createFormData, getToken, checkAccessToken } from './helpers';
 import { LocalStorage } from '@libs';
 import { TOKENS_LS, SETTINGS } from '@constants';
@@ -11,19 +11,21 @@ class Request {
     if (!instance) {
       instance = this;
     }
-
+    // @ts-ignore
     this.store = {};
 
     return instance;
   }
 
   connectStore(store) {
+    // @ts-ignore
     this.store = store;
   }
 
-  public(method = 'get', url, body) {
+  public(method = 'get', url, body): Promise<AxiosResponse> {
     const data = createFormData(body);
 
+    // @ts-ignore
     return axios({
       method,
       url: `${SETTINGS.host}${url}`,
@@ -31,17 +33,18 @@ class Request {
     });
   }
 
-  async private(method = 'get', url, body) {
+  async private(method = 'get', url, body?): Promise<AxiosResponse> {
     const isValidAccessToken = await checkAccessToken();
 
     if (!isValidAccessToken) {
       await this._refreshTokens();
     }
 
-    const token = await getToken('access');
+    const token = await getToken(false);
     const headers = { Authorization: token };
     const data = body ? createFormData(body) : '';
 
+    // @ts-ignore
     return axios({
       method,
       url: `${SETTINGS.host}${url}`,
@@ -51,7 +54,7 @@ class Request {
   }
 
   async _refreshTokens() {
-    const token = await getToken('refresh');
+    const token = await getToken(true);
     const headers = { Authorization: token };
 
     try {
@@ -68,7 +71,9 @@ class Request {
     } catch (err) {
       await LocalStorage.remove(TOKENS_LS);
 
+      // @ts-ignore
       this.store.dispatch(actions.removeIsAuth());
+      // @ts-ignore
       this.store.dispatch(actions.removeUser());
     }
   }

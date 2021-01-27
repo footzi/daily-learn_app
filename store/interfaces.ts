@@ -14,11 +14,10 @@ import { User, Dictionaries, Profile, Notification } from '@interfaces';
 export interface InitStateInterface {
   isAuth: boolean;
   user: User | null;
-  dictionaries: Dictionaries;
-  profile: Profile;
-  loading: Record<SetLoadingPayload, boolean> | null;
-  // errors: object;
-  notification: Notification;
+  dictionaries?: Dictionaries;
+  profile?: Profile;
+  loading?: Record<SetLoadingPayload, boolean> | null;
+  notification?: Notification;
 }
 
 export interface SetIsAuthResult {

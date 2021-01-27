@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
@@ -23,15 +23,15 @@ const AppStack = createStackNavigator();
 const HomeStack = createStackNavigator<DictionaryStackParamList>();
 const DictionaryStack = createStackNavigator();
 
-const headerOptionsMain = {
+const headerOptionsMain: StackNavigationOptions = {
   headerStyle: { backgroundColor: Colors.secondary, borderBottomRightRadius: 25, borderBottomLeftRadius: 25 },
   headerTintColor: Colors.primary,
   headerTitleStyle: { fontFamily: 'Museo', fontSize: 20, textAlign: 'center' },
 };
 
-const headerOptionsInner = {
+const headerOptionsInner: StackNavigationOptions = {
   ...headerOptionsMain,
-  headerTitleStyle: { ...headerOptionsMain.headerTitleStyle, textAlign: 'left' },
+  headerTitleStyle: { fontFamily: 'Museo', fontSize: 20, textAlign: 'left' },
   headerPressColorAndroid: Colors.primary,
   headerTitleContainerStyle: { left: 50 },
 };
@@ -129,7 +129,7 @@ const Main = () => {
   );
 };
 
-export const Navigation = () => {
+export const Navigation: React.FC = () => {
   const state = useSelector((state) => state);
   const { isAuth, loading } = state;
   const isFirstLoading = loading[LOADING_ITEMS.FIRST];

@@ -28,3 +28,21 @@ export type DictionariesListScreenNavigationProp = StackNavigationProp<
 export type SignInScreenNavigationProp = StackNavigationProp<undefined, SCREENS.SIGN_IN>;
 export type SignUpScreenNavigationProp = StackNavigationProp<undefined, SCREENS.SIGN_UP>;
 export type HomeScreenNavigationProp = StackNavigationProp<undefined, SCREENS.HOME>;
+
+export interface SelectedDictionaryForTraining {
+  id: number;
+  name: string;
+}
+
+export type DictionaryTrainingStackParamList = {
+  DictionaryTraining: SelectedDictionaryForTraining[];
+};
+
+export type DictionaryTrainingScreenRouteProp = RouteProp<
+  DictionaryTrainingStackParamList,
+  SCREENS.DICTIONARY_TRAINING
+>;
+export type DictionaryTrainingScreenNavigationProp = StackNavigationProp<
+  DictionaryTrainingStackParamList,
+  SCREENS.DICTIONARY_TRAINING
+>;

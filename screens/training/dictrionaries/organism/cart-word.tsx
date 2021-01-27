@@ -4,7 +4,8 @@ import * as Animatable from 'react-native-animatable';
 import { FontAwesome } from '@expo/vector-icons';
 import { Input, Button, Link } from '@components';
 import { PAWS_DURATION, Colors } from '@constants';
-import { getNextIndex } from '../helpers';
+import { getNextIndex } from '../utils';
+import { CartWordProps, CountPawsProps } from '../interfaces';
 
 const zoomOut = {
   0: {
@@ -33,18 +34,18 @@ const zoomIn = {
   },
 };
 
-export const CartWord = ({
+export const CartWord: React.FC<CartWordProps> = ({
   words = [],
   paws = 0,
   startIndex = 1,
-  onUpdateWords = () => {},
-  onUpdatePaws = () => {},
-  onFinished = () => {},
-  navigation = {},
+  onUpdateWords,
+  onUpdatePaws,
+  onFinished,
+  navigation,
 }) => {
-  const [field, setField] = useState('');
-  const [isWrong, setIsWrong] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(startIndex);
+  const [field, setField] = useState<string>('');
+  const [isWrong, setIsWrong] = useState<boolean>(false);
+  const [currentIndex, setCurrentIndex] = useState<number>(startIndex);
   const pawRef = useRef(null);
 
   const currentWord = words[currentIndex];
@@ -236,7 +237,7 @@ const PawAnimate = styled.View`
   align-items: center;
 `;
 
-const Count = styled.Text`
+const Count = styled.Text<CountPawsProps>`
   font-family: Museo;
   font-size: 12px;
   z-index: 2;

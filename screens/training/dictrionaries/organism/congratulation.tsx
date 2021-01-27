@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { Card, H3 } from 'native-base';
 
-export const NotWords = () => {
+export const Congratulation: React.FC = () => {
   return (
     <Card>
       <CardWrapper>
-        <H3 style={{ textAlign: 'center' }}>Упс :(</H3>
-        <Field>В данном словаре нет слов. Добавьте слова на соответствующей вкладке.</Field>
+        <H3 style={{ textAlign: 'center' }}>Поздравляем!</H3>
+        <Field>Вы выучили все слова</Field>
       </CardWrapper>
     </Card>
   );

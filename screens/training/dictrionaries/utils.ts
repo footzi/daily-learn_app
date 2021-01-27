@@ -1,9 +1,15 @@
 import { SETTINGS } from '@constants';
 import { shuffleArray } from '@libs';
-import { CreatedForTrainingWord } from './interfaces';
+import { Dictionaries, Dictionary, Word } from '@interfaces';
+import { SelectedDictionaryForTraining } from '@navigation/interfaces';
+import { CreatedForTrainingWords } from './interfaces';
 
-export const createWords = (allDictionaries = [], selectedDictionaries = []): CreatedForTrainingWord[] => {
-  const dictionaries = allDictionaries.filter((item) => selectedDictionaries.includes(item.id));
+export const createWords = (
+  allDictionaries: Dictionaries,
+  selectedDictionaries: SelectedDictionaryForTraining[]
+): CreatedForTrainingWords => {
+  // todo что-то странное
+  const dictionaries = allDictionaries.filter((item: Dictionary) => selectedDictionaries.includes(item.id));
   const result = [];
 
   if (!Array.isArray(dictionaries)) {
@@ -15,7 +21,7 @@ export const createWords = (allDictionaries = [], selectedDictionaries = []): Cr
       return result;
     }
 
-    dictionary.words.forEach((word, index) => {
+    dictionary.words.forEach((word: Word, index: number) => {
       const { id, groupId, name, translate, nameCount, translateCount } = word;
 
       const translates = dictionary.words.filter((item) => item.groupId === groupId).map((item) => item.translate);
@@ -45,7 +51,7 @@ export const createWords = (allDictionaries = [], selectedDictionaries = []): Cr
   return shuffleArray(result);
 };
 
-export const getStartIndex = (words) => {
+export const getStartIndex = (words: CreatedForTrainingWords): number => {
   if (!words.length) {
     return null;
   }
@@ -63,7 +69,7 @@ export const getStartIndex = (words) => {
   }
 };
 
-export const getNextIndex = (words, currentIndex) => {
+export const getNextIndex = (words: CreatedForTrainingWords, currentIndex: number): number => {
   const nextFrom = words.findIndex((item, index) => index >= currentIndex + 1 && item.isShow);
   // проверяем от начала массива
   const nextTo = words.findIndex((item) => item.isShow);

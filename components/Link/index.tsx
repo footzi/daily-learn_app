@@ -12,6 +12,7 @@ export const Link: React.FC<LinkProps> = ({ theme = 'primary', text, onPress }) 
   </ThemeProvider>
 );
 
+// @ts-ignore
 export const Text = styled.Text`
   font-family: Museo;
   font-size: 16px;

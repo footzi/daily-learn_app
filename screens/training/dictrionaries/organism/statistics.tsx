@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { Card, H3 } from 'native-base';
 
-export const Statistics = () => {
+export const Statistics: React.FC = () => {
   return (
     <Card>
       <CardWrapper>
