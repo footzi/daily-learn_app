@@ -1,5 +1,4 @@
-import { AsyncStorage } from 'react-native';
-// https://facebook.github.io/react-native/docs/asyncstorage
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export class LocalStorage {
   static async set<T>(key: string, value: T): Promise<void> {

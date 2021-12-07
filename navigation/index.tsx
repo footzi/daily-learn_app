@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Platform } from 'react-native';
+import { Platform, Text } from "react-native";
 import { useDispatch, useSelector } from 'react-redux';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -16,10 +16,9 @@ import {
 import { DictionaryStackParamList } from './interfaces';
 import { SCREENS, LOADING_ITEMS, Colors } from '@constants';
 import { BarIcon, Loader } from '@components';
-import { loadingData } from '@store';
 
 const Tab = createBottomTabNavigator();
-const AppStack = createStackNavigator();
+export const AppStack = createStackNavigator();
 const HomeStack = createStackNavigator<DictionaryStackParamList>();
 const DictionaryStack = createStackNavigator();
 
@@ -39,7 +38,7 @@ const headerOptionsInner: StackNavigationOptions = {
 const cardStyle = { backgroundColor: Colors.white, paddingBottom: 50 };
 
 // Главная с тренировками
-const HomeStackScreen = () => {
+export const HomeStackScreen = () => {
   return (
     <HomeStack.Navigator screenOptions={{ cardStyle }}>
       <HomeStack.Screen
@@ -60,7 +59,7 @@ const HomeStackScreen = () => {
 };
 
 // Словари
-const DictionaryStackScreen = () => {
+export const DictionaryStackScreen = () => {
   return (
     <DictionaryStack.Navigator screenOptions={{ cardStyle }}>
       <DictionaryStack.Screen
@@ -78,7 +77,7 @@ const DictionaryStackScreen = () => {
 };
 
 // Профиль
-const ProfileStackScreen = () => {
+export const ProfileStackScreen = () => {
   return (
     <DictionaryStack.Navigator screenOptions={{ cardStyle }}>
       <DictionaryStack.Screen
@@ -106,7 +105,7 @@ const setBarOptions = ({ route }) => ({
   },
 });
 
-const Main = () => {
+export const Main = () => {
   return (
     <Tab.Navigator
       screenOptions={setBarOptions}
@@ -129,34 +128,4 @@ const Main = () => {
   );
 };
 
-export const Navigation: React.FC = () => {
-  const state = useSelector((state) => state);
-  const { isAuth, loading } = state;
-  const isFirstLoading = loading[LOADING_ITEMS.FIRST];
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (isAuth) {
-      dispatch(loadingData());
-    }
-  }, [isAuth]);
-
-  if (isAuth && isFirstLoading) {
-    return <Loader />;
-  }
-
-  return (
-    <NavigationContainer>
-      <AppStack.Navigator>
-        {isAuth && <AppStack.Screen name="Main" component={Main} options={{ headerShown: false }} />}
-
-        {!isAuth && (
-          <>
-            <AppStack.Screen name={SCREENS.SIGN_IN} component={SignInScreen} options={{ headerShown: false }} />
-            <AppStack.Screen name={SCREENS.SIGN_UP} component={SignUpScreen} options={{ headerShown: false }} />
-          </>
-        )}
-      </AppStack.Navigator>
-    </NavigationContainer>
-  );
-};

@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components/native';
 import { ImageBackground } from 'react-native';
 import { LOADING_ITEMS, SCREENS } from '@constants';
 import { Button, Input, Title } from '@components';
 import { InitStateInterface } from '@store';
 import { SignInScreenProps, Fields } from './interfaces';
 import { toSignIn } from './effects';
+import { Container, Form, Field, Buttons } from "./styles";
 
 export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
-  const { loading } = useSelector((state: InitStateInterface) => state);
-  const isLoading = loading[LOADING_ITEMS.INNER];
   const [fields, setFields] = useState<Fields>({
     login: '',
     password: '',
   });
 
+  const isLoading = true;
+
   const [isValid, setIsValid] = useState<boolean>(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const onSubmit = () => {
     const body = {
@@ -25,7 +24,7 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
       password: fields.password,
     };
 
-    dispatch(toSignIn(body));
+    // dispatch(toSignIn(body));
   };
 
   const onSignUp = () => {
@@ -88,25 +87,3 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
     </ImageBackground>
   );
 };
-
-const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  padding-left: 35px;
-  padding-right: 35px;
-`;
-
-const Form = styled.View`
-  margin-top: 56px;
-`;
-
-const Field = styled.View`
-  margin-bottom: 20px;
-`;
-
-const Buttons = styled.View`
-  margin-top: 40px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;

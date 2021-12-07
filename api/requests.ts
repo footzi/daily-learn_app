@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { createFormData, getToken, checkAccessToken } from './helpers';
 import { LocalStorage } from '@libs';
 import { TOKENS_LS, SETTINGS } from '@constants';
-import * as actions from '@store';
+// import * as actions from '@store';
 
 let instance = null;
 
@@ -11,15 +11,8 @@ class Request {
     if (!instance) {
       instance = this;
     }
-    // @ts-ignore
-    this.store = {};
 
     return instance;
-  }
-
-  connectStore(store) {
-    // @ts-ignore
-    this.store = store;
   }
 
   public(method = 'get', url, body): Promise<AxiosResponse> {
@@ -72,9 +65,9 @@ class Request {
       await LocalStorage.remove(TOKENS_LS);
 
       // @ts-ignore
-      this.store.dispatch(actions.removeIsAuth());
+      // this.store.dispatch(actions.removeIsAuth());
       // @ts-ignore
-      this.store.dispatch(actions.removeUser());
+      // this.store.dispatch(actions.removeUser());
     }
   }
 }

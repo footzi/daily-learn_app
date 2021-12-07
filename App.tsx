@@ -1,49 +1,33 @@
-import React, { useState } from 'react';
-import { AppLoading } from 'expo';
+import React, { useCallback, useState } from "react";
+import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-import { Provider } from 'react-redux';
-import { USER_LS, TOKENS_LS } from '@constants';
-import { request } from '@api';
-import { LocalStorage } from '@libs';
-import { createAppStore } from '@store';
-import { Navigation } from './navigation';
-import { Notification } from '@components';
-import { User } from '@interfaces';
+import { Root } from './screens';
 
 const App: React.FC = () => {
   const [isReady, setReady] = useState<boolean>(false);
-  const [isAuth, setIsAuth] = useState<boolean>(false);
-  const [user, setUser] = useState<User>(null);
 
-  const setInitialData = async () => {
+  const setInitialData = useCallback(async () => {
     await Font.loadAsync({
       Museo: require('./assets/fonts/MuseoSansCyrl-500.ttf'),
       Museo300Italic: require('./assets/fonts/MuseoSansCyrl-300Italic.ttf'),
       ...Ionicons.font,
     });
+  }, []);
 
-    const isStorageAuth = await LocalStorage.has(TOKENS_LS);
-    const storageUser: User = await LocalStorage.get(USER_LS);
+  const onFinish = useCallback(() => setReady(true), []);
 
-    setIsAuth(isStorageAuth);
-    setUser(storageUser);
-  };
+  // @todo Понять в какие-моменты это работает и как можно обработать
+  const onError = useCallback((error) => console.error(error), []);
 
   if (isReady) {
-    const store = createAppStore({ isAuth, user });
-    request.connectStore(store);
-
     return (
-      <Provider store={store}>
-        <Navigation />
-        <Notification />
-      </Provider>
+      <Root />
     );
   }
 
   if (!isReady) {
-    return <AppLoading startAsync={setInitialData} onFinish={() => setReady(true)} onError={(e) => console.error(e)} />;
+    return <AppLoading startAsync={setInitialData} onFinish={onFinish} onError={onError} />;
   }
 };
 

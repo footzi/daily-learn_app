@@ -40,7 +40,7 @@ export const EXPIRE_TOKEN = 'EXPIRE_TOKEN';
 export const USER = 'USER';
 
 // LS
-export const USER_LS = 'USER_LS';
+// export const USER_LS = 'USER_LS';
 export const TOKENS_LS = 'TOKENS_LS';
 
 // ANIMATION

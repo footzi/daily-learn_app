@@ -4,3 +4,4 @@ export { HomeScreen } from './home';
 export { DictionaryTrainingScreen } from './training';
 export { DictionariesListScreen, PreviewDictionaryScreen } from './dictionaries';
 export { ProfileScreen } from './profile';
+export { Root } from './root';

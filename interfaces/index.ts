@@ -1,3 +1,6 @@
+export * from './user';
+export * from './maybe';
+
 import { NOTIFICATION_TYPES } from '@constants';
 
 // MAIN
@@ -7,9 +10,9 @@ export interface Tokens {
   expire: number;
 }
 
-export interface User {
-  id: number;
-}
+// export interface User {
+//   id: number;
+// }
 
 export interface Profile {
   login: string;
@@ -35,9 +38,9 @@ export interface Word {
 }
 export type Words = Word[];
 
-export interface User {
-  id: number;
-}
+// export interface User {
+//   id: number;
+// }
 
 export interface Notification {
   type: NOTIFICATION_TYPES.ERROR | '';
