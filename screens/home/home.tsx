@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableWithoutFeedback, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
-import { useSelector } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { Button } from '@components';
 import { SCREENS, Colors } from '@constants';
 import { HomeScreenProps, DictionaryItemProps } from './interfaces';
 import { normalizePreviewDictionaries } from './utils';
+import { useAppContext } from '@store';
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
-  const { dictionaries = [] } = useSelector((state) => state);
+  const { state } = useAppContext();
+  const { dictionaries = [] } = state;
   const [dictionariesList, setDictionariesList] = useState([]);
 
   const onStart = () => {
     const selectedDictionaries = dictionariesList.filter((item) => item.isChecked).map((dict) => dict.id);
 
+    // @ts-ignore
     navigation.navigate(SCREENS.DICTIONARY_TRAINING, { selectedDictionaries });
   };
 
@@ -34,6 +36,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     if (!dictionaries.length) {
+      // @ts-ignore
       navigation.navigate(SCREENS.DICTIONARIES);
 
       return;

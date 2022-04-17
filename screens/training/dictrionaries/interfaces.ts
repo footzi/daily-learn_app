@@ -6,10 +6,10 @@ export interface DictionaryTrainingScreenProps {
   navigation: DictionaryTrainingScreenNavigationProp;
 }
 
-export interface saveCountWordEffectProps {
-  id: number;
-  type: string;
-}
+// export interface saveCountWordEffectProps {
+//   id: number;
+//   type: string;
+// }
 
 export interface CreatedForTrainingWord extends Word {
   uid: number;

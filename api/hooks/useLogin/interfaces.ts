@@ -1,7 +1,15 @@
-import { UseRequestResult } from '../../interfaces';
+import { UseRequestResult } from '@api';
+import { Tokens, User } from '@interfaces';
 
 export interface UseLoginResult extends UseRequestResult {
-  login: (body: LoginProps) => void
+  login: (body: LoginProps) => void;
+}
+
+export interface UseLoginRequestResult {
+  data?: {
+    tokens: Tokens;
+    user: User;
+  };
 }
 
 export interface LoginProps {

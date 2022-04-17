@@ -1,18 +1,11 @@
-import { InitStateInterface } from './interfaces';
+import { State } from './interfaces';
 
-export const initState: InitStateInterface = {
-  isAuth: null,
+export const initialState: State = {
   user: null,
   dictionaries: [],
-  profile: {
-    login: '',
-    email: '',
-    paws: 0,
-  },
-  loading: null,
-  // errors: {},
   notification: {
     type: '',
     text: '',
   },
+  refetchMainData: () => null,
 };

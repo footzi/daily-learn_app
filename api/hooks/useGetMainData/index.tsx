@@ -1,55 +1,54 @@
-import useAxios from 'axios-hooks';
 import { getRequestConfig } from '../../utils';
 import { API_LIST } from '../../constants';
-import { LocalStorage } from '@libs';
-import { TOKENS_LS } from '@constants';
-import { UseRequestResult } from '../../interfaces';
-import { useContext } from 'react';
-import { ACTIONS, AppContext } from "../../../store/new-store";
-import { useRequest } from "../useRequest";
-
-// export interface UseLoginProps {
-//   login: string;
-//   password: string;
-// }
+import { useContext, useEffect } from 'react';
+import { ACTIONS, AppContext } from '../../../store/new-store';
+import { useRequest } from '../useRequest';
+import { UseGetMainDataResult } from './interfaces';
 
 /**
  * Хук получения основных данных
  */
-export const useGetMainData = (): UseRequestResult => {
-  const { url, method } = getRequestConfig(API_LIST.LOGIN);
-  const { dispatch } = useContext(AppContext);
+export const useGetMainData = (): UseGetMainDataResult => {
+  const { url, method } = getRequestConfig(API_LIST.MAIN_DATA);
 
   const [{ data, loading, error }, refetch] = useRequest({
     url,
-    method
+    method,
   });
-  
-  // console.log(data);
-  // console.log(error);
 
-  // const { user, tokens } = data?.data;
+  const { dispatch } = useContext(AppContext);
 
-  // if (tokens) {
-  //   await LocalStorage.set(TOKENS_LS, tokens);
-  // }
+  const user = data?.data?.user;
+  const dictionaries = data?.data?.dictionaries;
 
-  // if (user) {
-  // dispatch({
-  //   type: 'SET_USER',
-  //   payload: 12345,
-  // });
-  // }
+  useEffect(() => {
+    // @todo переделавть в экшены,
+    if (user) {
+      dispatch({
+        type: ACTIONS.SET_USER,
+        payload: user,
+      });
+    }
 
-  // dispatch({
-  //   type: ACTIONS.SET_USER,
-  //   payload: {
-  //     id: 12345
-  //   },
-  // });
+    if (dictionaries) {
+      dispatch({
+        type: ACTIONS.SET_DICTIONARIES,
+        payload: dictionaries,
+      });
+    }
+
+    dispatch({
+      type: ACTIONS.SET_REFETCH_MAIN_DATA,
+      payload: refetch,
+    });
+  }, [user, dictionaries]);
 
   return {
-    loading,
+    // data: {
+    //   user,
+    //   dictionaries,
+    // },
+    isLoading: loading,
     error,
     refetch,
   };

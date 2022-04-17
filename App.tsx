@@ -1,11 +1,13 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useReducer, useState } from 'react';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { Root } from './screens';
+import { AppContext, initialState, reducer } from './store/new-store';
 
 const App: React.FC = () => {
   const [isReady, setReady] = useState<boolean>(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const setInitialData = useCallback(async () => {
     await Font.loadAsync({
@@ -22,7 +24,9 @@ const App: React.FC = () => {
 
   if (isReady) {
     return (
-      <Root />
+      <AppContext.Provider value={{ state, dispatch }}>
+        <Root />
+      </AppContext.Provider>
     );
   }
 

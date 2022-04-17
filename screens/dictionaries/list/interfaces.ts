@@ -6,17 +6,19 @@ export interface DictionariesListScreenProps {
 
 export interface CreateDictModalProps {
   isOpenModal: boolean;
+  isLoading: boolean;
   closeModal: () => void;
   onCreate: (name: string) => void;
 }
 
-export interface CreateDictionaryEffect {
-  navigation: DictionariesListScreenNavigationProp;
-  name: string;
-}
+// export interface CreateDictionaryEffect {
+//   navigation: DictionariesListScreenNavigationProp;
+//   name: string;
+// }
 
 export interface DeleteDictModalProps {
   isOpenModal: boolean;
+  isLoading: boolean;
   closeModal: () => void;
   dict: {
     id: number;
@@ -25,6 +27,6 @@ export interface DeleteDictModalProps {
   onDelete: () => void;
 }
 
-export interface DeleteDictionaryEffect {
-  id: number;
-}
+// export interface DeleteDictionaryEffect {
+//   id: number;
+// }

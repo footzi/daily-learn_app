@@ -4,7 +4,10 @@ import { checkAccessToken, getToken } from '../../helpers';
 import { getRequestConfig } from '../../utils';
 import { API_LIST } from '../../constants';
 import { LocalStorage } from '@libs';
-import { SETTINGS, TOKENS_LS } from '@constants';
+import { TOKENS_LS } from '@constants';
+import { Options, UseRequestResult } from './interfaces';
+import { useCallback, useContext, useEffect } from 'react';
+import { AppContext, setErrorNotification } from '../../../store/new-store';
 
 const refreshToken = async () => {
   const token = await getToken(true);
@@ -28,22 +31,52 @@ const refreshToken = async () => {
   }
 };
 
-export const useRequest = (config: AxiosRequestConfig): UseAxiosResult => {
-  let token = '';
+export const useRequest = (config: AxiosRequestConfig, options?: Options): UseRequestResult => {
+  const [{ data, loading, error }, request] = useAxios(config, {
+    ...options,
+    manual: true,
+  });
 
-  const getISToket = async () => {
+  const { dispatch } = useContext(AppContext);
+
+  const execute = useCallback(async (config?: AxiosRequestConfig, options?: Options) => {
     const isValidAccessToken = await checkAccessToken();
 
     if (!isValidAccessToken) {
       await refreshToken();
     }
 
-    token = await getToken(false);
-  };
+    const token = await getToken(false);
 
-  getISToket();
+    try {
+      await request(
+        {
+          ...config,
+          headers: { Authorization: token },
+        },
+        options
+      );
 
-  config.headers = { Authorization: token };
+      options?.onSuccess && options.onSuccess();
+    } catch (error) {
+      options?.onError && options.onError();
+      // @todo текст ошибки с бэка не прокидывается в error
+      dispatch(setErrorNotification(error.message));
+    }
+  }, []);
 
-  return useAxios(config);
+  useEffect(() => {
+    if (!options?.manual) {
+      execute(config, options);
+    }
+  }, []);
+
+  return [
+    {
+      data,
+      loading,
+      error,
+    },
+    execute,
+  ];
 };

@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { useSelector } from 'react-redux';
 import { CenterModal, Button } from '@components';
-import { LOADING_ITEMS } from '@constants';
-import { InitStateInterface } from '@store';
 import { DeleteDictModalProps } from '../interfaces';
 
-export const DeleteDictModal: React.FC<DeleteDictModalProps> = ({ dict, isOpenModal, closeModal, onDelete }) => {
-  const { loading } = useSelector((state: InitStateInterface) => state);
-  const isLoading = loading[LOADING_ITEMS.INNER];
-
+export const DeleteDictModal: React.FC<DeleteDictModalProps> = ({
+  dict,
+  isOpenModal,
+  isLoading,
+  closeModal,
+  onDelete,
+}) => {
   if (!dict) {
     return null;
   }

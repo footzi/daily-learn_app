@@ -1,5 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import styled from 'styled-components/native';
 import * as Animatable from 'react-native-animatable';
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -14,20 +13,23 @@ import {
   PREVIEW_FILTER_MODE,
   DICTIONARIES_EMPTY_MODE,
 } from '@constants';
-import { useModal, ButtonIcon } from '@components';
+import { useModal, ButtonIcon, Button } from '@components';
 import { shuffleArray } from '@libs';
 import { InitStateInterface } from '@store';
-import { AddWordModal, DeleteWordModal } from './modals';
-import { Empty } from '../empty';
+import { AddWordModal, DeleteWordModal } from './Modals';
+import { Empty } from '../Empty';
 import { PreviewScreenProps, PreviewScreenItemProps, SaveFieldsWord } from './interfaces';
 import { normalizePreviewWords } from './utils';
-import * as effects from './effects';
+// import * as effects from './effects';
 
-import { SlideMenu } from './slide-menu';
+import { SlideMenu } from './Slide-menu';
+import { AppContext } from '../../../store/new-store';
+import { useCreateWord } from './hooks/useCreateWord';
+import { useDeleteWord } from './hooks/useDeleteWord';
 
 export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigation, route }) => {
-  const { dictionaries } = useSelector((state: InitStateInterface) => state);
-  const dispatch = useDispatch();
+  const { state, dispatch } = useContext(AppContext);
+  const { dictionaries } = state;
   const { preview_dictionary } = route.params;
 
   const [words, setWords] = useState([]);
@@ -44,6 +46,9 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
     openModal: deleteWordOpenModal,
     closeModal: deleteWordCloseModal,
   } = useModal();
+
+  const { createWord, isLoading: isLoadingCreateWord } = useCreateWord();
+  const { deleteWord, isLoading: isLoadingDeleteWord } = useDeleteWord();
 
   const isEmptyDictionary = !words.length;
 
@@ -94,15 +99,12 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
   };
 
   const onSaveWord = async (fields: SaveFieldsWord) => {
-    await dispatch(effects.saveWord({ fields, preview_dictionary }));
-    addWordCloseModal();
+    createWord(fields, preview_dictionary.id, addWordCloseModal);
   };
 
   const onDeleteWord = async () => {
     const ids = deletedWord.translates.map((item) => item.id);
-
-    await dispatch(effects.removeWord(ids));
-    deleteWordCloseModal();
+    deleteWord(ids, deleteWordCloseModal);
   };
 
   const onSwipeRight = () => closeSlideMenu();
@@ -160,6 +162,7 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
           <DeleteWordModal
             word={deletedWord}
             isOpenModal={isDeleteWordOpenModal}
+            isLoading={isLoadingDeleteWord}
             closeModal={deleteWordCloseModal}
             onDeleteWord={onDeleteWord}
           />
@@ -170,7 +173,12 @@ export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigati
         </>
       )}
 
-      <AddWordModal isOpenModal={isAddWordOpenModal} closeModal={addWordCloseModal} onSaveWord={onSaveWord} />
+      <AddWordModal
+        isOpenModal={isAddWordOpenModal}
+        isLoading={isLoadingCreateWord}
+        closeModal={addWordCloseModal}
+        onSaveWord={onSaveWord}
+      />
     </>
   );
 };

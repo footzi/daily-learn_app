@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextProps } from 'react-native';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { Colors } from '@constants';
 
 export const Title: React.FC<TextProps> = ({ children, ...restProps }) => <View {...restProps}>{children}</View>;

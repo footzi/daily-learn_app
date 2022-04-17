@@ -5,7 +5,7 @@
     "start:cache": "expo start -c",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web",
+    "web": "expo web --port=3000",
     "eject": "expo eject",
     "lint": "eslint . --ext .ts,.tsx",
     "lint-fix": "eslint . --ext .ts,.tsx --fix",
@@ -28,6 +28,7 @@
     }
   },
   "dependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.16.0",
     "@expo/samples": "~3.0.3",
     "@expo/vector-icons": "^12.0.5",
     "@react-native-async-storage/async-storage": "^1.15.14",
@@ -73,6 +74,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
+    "@expo/webpack-config": "^0.16.11",
     "@testing-library/jest-native": "^4.0.4",
     "@testing-library/react-native": "^8.0.0",
     "@types/axios": "^0.14.0",
@@ -88,7 +90,7 @@
     "babel-preset-expo": "8.5.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
-    "eslint": "^8.4.0",
+    "eslint": "^8.4.1",
     "eslint-config-airbnb": "^19.0.2",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.3",

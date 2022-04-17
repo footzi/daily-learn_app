@@ -1,13 +1,13 @@
-import { AxiosError, Method } from "axios";
+import { AxiosError, Method } from 'axios';
 
 export interface REQUEST_PARAM {
-  url: string,
+  url: string;
   method: Method;
 }
 
 export interface UseRequestResult {
-  loading: boolean;
-  error: AxiosError;
+  isLoading?: boolean;
+  error?: AxiosError;
 }
 
 export interface UseRequestResultQuery extends UseRequestResult {

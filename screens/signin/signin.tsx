@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { ImageBackground } from 'react-native';
-import { LOADING_ITEMS, SCREENS } from '@constants';
-import { Button, Input, Title } from '@components';
-import { InitStateInterface } from '@store';
+import { SCREENS } from '@constants';
+import { Input, Title, Button } from '@components';
 import { SignInScreenProps, Fields } from './interfaces';
-import { toSignIn } from './effects';
-import { Container, Form, Field, Buttons } from "./styles";
+import { Container, Form, Field, Buttons } from './styles';
+import { useLogin } from '@api';
 
 export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   const [fields, setFields] = useState<Fields>({
@@ -13,18 +12,15 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
     password: '',
   });
 
-  const isLoading = true;
+  const { login, isLoading } = useLogin();
 
   const [isValid, setIsValid] = useState<boolean>(false);
-  // const dispatch = useDispatch();
 
   const onSubmit = () => {
-    const body = {
+    login({
       login: fields.login,
       password: fields.password,
-    };
-
-    // dispatch(toSignIn(body));
+    });
   };
 
   const onSignUp = () => {

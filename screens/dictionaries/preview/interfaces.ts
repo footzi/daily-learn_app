@@ -12,6 +12,7 @@ export interface PreviewScreenItemProps {
 
 export interface DeleteWordModalProps {
   isOpenModal: boolean;
+  isLoading: boolean;
   closeModal: () => void;
   word: Word | null;
   onDeleteWord: () => void;
@@ -19,6 +20,7 @@ export interface DeleteWordModalProps {
 
 export interface AddWordModalProps {
   isOpenModal: boolean;
+  isLoading: boolean;
   closeModal: () => void;
   onSaveWord: (fields: SaveFieldsWord) => void;
 }
@@ -46,13 +48,4 @@ export interface SaveTranslateField {
 export interface SaveFieldsWord {
   name: string;
   translate: SaveTranslateField[];
-}
-
-export interface SaveWordEffect {
-  fields: SaveFieldsWord;
-  preview_dictionary: Dictionary;
-}
-
-export interface RemoveWordEffect {
-  ids: number[];
 }

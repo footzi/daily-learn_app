@@ -5,6 +5,8 @@ import { themes } from './themes';
 import { Spinner } from '../Spinner';
 import { ButtonsProps, ContainerProps } from './interfaces';
 
+import { Button as NButton } from 'native-base';
+
 export const Button: React.FC<ButtonsProps> = ({
   theme = 'primary',
   text = '',
@@ -14,13 +16,16 @@ export const Button: React.FC<ButtonsProps> = ({
   ...restProps
 }) => {
   const currentTheme = themes[theme];
+
+  return <NButton onPress={onPress}>{text}</NButton>;
   return (
     <ThemeProvider theme={currentTheme}>
       <Container disabled={disabled} {...restProps}>
         <TouchableNativeFeedback
           onPress={onPress}
           disabled={useLoader || disabled}
-          background={TouchableNativeFeedback.Ripple(currentTheme.feedback)}>
+          // background={TouchableNativeFeedback.Ripple(currentTheme.feedback)}
+        >
           <Inner>{useLoader ? <Spinner color={currentTheme.loaderColor} size={30} /> : <Text>{text}</Text>}</Inner>
         </TouchableNativeFeedback>
       </Container>

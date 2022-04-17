@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Platform, Text } from "react-native";
+import { Platform, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -127,5 +127,3 @@ export const Main = () => {
     </Tab.Navigator>
   );
 };
-
-

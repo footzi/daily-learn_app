@@ -9,6 +9,7 @@ export const createWords = (
   selectedDictionaries: SelectedDictionaryForTraining[]
 ): CreatedForTrainingWords => {
   // todo что-то странное
+  // @ts-ignore
   const dictionaries = allDictionaries.filter((item: Dictionary) => selectedDictionaries.includes(item.id));
   const result = [];
 

@@ -31,7 +31,7 @@ export const getToken = async (refresh = false): Promise<string | null> => {
 
 export const checkAccessToken = async (): Promise<boolean> => {
   const tokens: Tokens = await LocalStorage.get(TOKENS_LS);
-
+  
   if (tokens) {
     const { expire } = tokens;
     const isExpire = Number(expire) < Math.floor(Date.now() / 1000);

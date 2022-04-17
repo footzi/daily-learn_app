@@ -1,45 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import styled from 'styled-components/native';
-import { Notification as NotificationState } from '@interfaces';
-import { useSelector } from 'react-redux';
 import { TouchableWithoutFeedback } from 'react-native';
 import { Colors, NOTIFICATION_AUTO_CLOSE_TIMEOUT, NOTIFICATION_TYPES } from '@constants';
-import { setNotification, InitStateInterface } from '@store';
 import { AnimationUnMountable } from '../Animation-UnMountable';
+import { AppContext, clearNotification } from '../../store/new-store';
 
 let timeout = null;
 
 export const Notification: React.FC = () => {
-  const [isShow, setIsShow] = useState(false);
-  const [{ text }, setState] = useState<NotificationState>({ type: NOTIFICATION_TYPES.ERROR, text: '' });
-  const { notification } = useSelector((state: InitStateInterface) => state);
+  const { state, dispatch } = useContext(AppContext);
+  const { notification } = state;
 
-  const show = () => {
-    setIsShow(true);
-
-    timeout = setTimeout(() => {
-      hide();
-    }, NOTIFICATION_AUTO_CLOSE_TIMEOUT);
-  };
-
-  const hide = () => {
-    setIsShow(false);
-    setNotification({ type: null, text: '' });
+  const onPress = () => {
+    dispatch(clearNotification());
     clearTimeout(timeout);
   };
 
-  const onPress = () => hide();
-
   useEffect(() => {
-    const isShow = !!notification?.text;
-
-    if (isShow) {
-      const { text, type } = notification;
-
-      setState({ text, type });
-      show();
-    } else {
-      hide();
+    if (notification.text) {
+      timeout = setTimeout(() => {
+        dispatch(clearNotification());
+      }, NOTIFICATION_AUTO_CLOSE_TIMEOUT);
     }
 
     return () => clearTimeout(timeout);
@@ -47,13 +28,13 @@ export const Notification: React.FC = () => {
 
   return (
     <AnimationUnMountable
-      isMounted={isShow}
+      isMounted={Boolean(notification.text)}
       animation="fadeIn"
       umountAnimation="fadeOut"
       style={{ position: 'absolute', top: 50, right: 0, width: '100%' }}>
       <Container>
         <Toast>
-          <Title>{text}</Title>
+          <Title>{notification.text}</Title>
           <TouchableWithoutFeedback onPress={onPress}>
             <Text>Okay</Text>
           </TouchableWithoutFeedback>

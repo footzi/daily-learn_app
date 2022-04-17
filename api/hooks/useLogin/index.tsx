@@ -1,12 +1,9 @@
 import useAxios from 'axios-hooks';
-import { getRequestConfig } from '../../utils';
+import { getRequestConfig, setTokens } from '../../utils';
 import { API_LIST } from '../../constants';
-import { LocalStorage } from '@libs';
-import { TOKENS_LS } from '@constants';
-import { UseRequestResult } from '../../interfaces';
-import { useContext } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { ACTIONS, AppContext } from '../../../store/new-store';
-import { LoginProps, UseLoginResult } from './interfaces';
+import { LoginProps, UseLoginResult, UseLoginRequestResult } from './interfaces';
 
 /**
  * Хук авторизации
@@ -15,7 +12,7 @@ export const useLogin = (): UseLoginResult => {
   const { url, method } = getRequestConfig(API_LIST.LOGIN);
   const { dispatch } = useContext(AppContext);
 
-  const [{ data, loading, error }, execute] = useAxios(
+  const [{ data, loading, error }, execute] = useAxios<UseLoginRequestResult>(
     {
       url,
       method,
@@ -25,34 +22,28 @@ export const useLogin = (): UseLoginResult => {
     }
   );
 
-  const login = (body: LoginProps) => {
+  const login = useCallback((body: LoginProps) => {
     execute({
       data: body,
     });
-  };
+  }, []);
 
-  // const { user, tokens } = data?.data;
+  useEffect(() => {
+    const user = data?.data?.user;
+    const tokens = data?.data?.tokens;
 
-  // if (tokens) {
-  //   await LocalStorage.set(TOKENS_LS, tokens);
-  // }
+    setTokens(tokens);
 
-  // if (user) {
-  // dispatch({
-  //   type: 'SET_USER',
-  //   payload: 12345,
-  // });
-  // }
-
-  dispatch({
-    type: ACTIONS.SET_USER,
-    payload: {
-      id: 12345,
-    },
-  });
+    if (user) {
+      dispatch({
+        type: ACTIONS.SET_USER,
+        payload: user,
+      });
+    }
+  }, [data]);
 
   return {
-    loading,
+    isLoading: loading,
     error,
     login,
   };

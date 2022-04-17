@@ -1,19 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components/native';
 import { EvilIcons, FontAwesome } from '@expo/vector-icons';
-import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@components';
-import { Colors, LOADING_ITEMS } from '@constants';
-import { InitStateInterface } from '@store';
-import * as effects from './effects';
+import { Colors } from '@constants';
+import { AppContext } from '../../store/new-store';
+import { useLogout } from '../../api/hooks/useLogout';
 
 export const ProfileScreen: React.FC = () => {
-  const { profile, loading } = useSelector((state: InitStateInterface) => state);
-  const { login, paws } = profile;
-  const isLoading = loading[LOADING_ITEMS.INNER];
-  const dispatch = useDispatch();
+  const { state, dispatch } = useContext(AppContext);
+  const { login, paws } = state.user;
 
-  const onSignOut = () => dispatch(effects.toSignOut());
+  const { logout, isLoading } = useLogout();
+
+  const onSignOut = () => logout();
 
   return (
     <Container>

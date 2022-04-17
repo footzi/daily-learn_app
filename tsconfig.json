@@ -1,15 +1,19 @@
 {
   "compilerOptions": {
+    "allowJs": false,
     "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+//    "strict": true,
     "jsx": "react-native",
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["es6"],
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,
     "baseUrl": ".",
+    "target": "esnext",
     "paths": {
       "@constants": [
         "constants"
@@ -40,5 +44,6 @@
       ]
     }
   },
+  "exclude": ["node_modules"],
   "extends": "expo/tsconfig.base"
 }

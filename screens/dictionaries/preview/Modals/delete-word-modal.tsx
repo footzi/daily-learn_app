@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { useSelector } from 'react-redux';
 import { CenterModal, Button } from '@components';
-import { LOADING_ITEMS } from '@constants';
-import { InitStateInterface } from '@store';
 import { DeleteWordModalProps } from '../interfaces';
 
-export const DeleteWordModal: React.FC<DeleteWordModalProps> = ({ word, isOpenModal, closeModal, onDeleteWord }) => {
-  const { loading } = useSelector((state: InitStateInterface) => state);
-  const isLoading = loading[LOADING_ITEMS.INNER];
-
+export const DeleteWordModal: React.FC<DeleteWordModalProps> = ({
+  word,
+  isOpenModal,
+  isLoading,
+  closeModal,
+  onDeleteWord,
+}) => {
   if (!word) {
     return null;
   }

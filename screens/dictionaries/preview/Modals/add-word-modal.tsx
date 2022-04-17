@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import { useSelector } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { CenterModal, Button, Input, ButtonIcon } from '@components';
 import { Colors, LOADING_ITEMS } from '@constants';
 import { AddWordModalProps, SaveFieldsWord } from '../interfaces';
 
-export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpenModal, closeModal, onSaveWord }) => {
+export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpenModal, isLoading, closeModal, onSaveWord }) => {
   const initial = {
     name: '',
     translate: [{ id: 1, value: '' }],
   };
-  const { loading } = useSelector((state) => state);
-  const isLoading = loading[LOADING_ITEMS.INNER];
+
   const [isValid, setIsValid] = useState<boolean>(false);
   const [fields, setFields] = useState<SaveFieldsWord>(initial);
 

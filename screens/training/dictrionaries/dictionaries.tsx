@@ -1,23 +1,27 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { useFocusEffect } from '@react-navigation/native';
 import { SETTINGS } from '@constants';
 import { Loader } from '@components';
 import { Statistics, CartWord, Congratulation, NotWords } from './organism';
 import { createWords, getStartIndex } from './utils';
-import { updateData } from '@store';
 import { DictionaryTrainingScreenProps, CreatedForTrainingWord, CreatedForTrainingWords } from './interfaces';
-import * as effects from './effects';
+import { AppContext } from '../../../store/new-store';
+import { useSaveCountPaws } from './hooks/useSaveCountPaws';
+import { useSaveCountWord } from './hooks/useSaveCountWord';
 
 export const DictionaryTrainingScreen: React.FC<DictionaryTrainingScreenProps> = ({ route, navigation }) => {
-  const { dictionaries: allDictionaries = [], profile = {} } = useSelector((state) => state);
+  const { state } = useContext(AppContext);
+  const { dictionaries: allDictionaries = [], user } = state;
+  // @ts-ignore
   const { selectedDictionaries } = route.params || [];
-  const dispatch = useDispatch();
+
+  const { saveCountPaws } = useSaveCountPaws();
+  const { saveCountWord } = useSaveCountWord();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [words, setWords] = useState<CreatedForTrainingWords>([]);
-  const [paws, setPaws] = useState<number>(profile.paws);
+  const [paws, setPaws] = useState<number>(user?.paws);
   const [startWordIndex, setStartWordIndex] = useState<number>(0);
   const [isStatistics, setIsStatistics] = useState<boolean>(false);
 
@@ -25,7 +29,6 @@ export const DictionaryTrainingScreen: React.FC<DictionaryTrainingScreenProps> =
   const isAvailableWords = !isNotWords && startWordIndex !== null;
 
   const onUpdateWords = (word: CreatedForTrainingWord) => {
-    const body = { id: word.id, type: word.type };
     const count = word.count + 1;
 
     const updatedWords = words.map((item: CreatedForTrainingWord) => {
@@ -37,13 +40,13 @@ export const DictionaryTrainingScreen: React.FC<DictionaryTrainingScreenProps> =
     });
 
     setWords(updatedWords);
-    dispatch(effects.saveCountWord(body));
+    saveCountWord(word.id, word.type);
   };
 
   const onUpdatePaws = (value: number) => {
     const count = paws + value;
     setPaws(paws + value);
-    dispatch(effects.saveCountPaws(count));
+    saveCountPaws(count);
   };
 
   const onFinished = () => setIsStatistics(true);
@@ -59,7 +62,7 @@ export const DictionaryTrainingScreen: React.FC<DictionaryTrainingScreenProps> =
 
   useFocusEffect(
     useCallback(() => {
-      return () => dispatch(updateData());
+      return () => state.refetchMainData();
     }, [])
   );
 

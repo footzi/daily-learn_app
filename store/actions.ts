@@ -1,54 +1,22 @@
-import {
-  SET_NOTIFICATION,
-  SET_USER,
-  SET_IS_AUTH,
-  SET_PROFILE,
-  SET_DICTIONARIES,
-  SET_LOADING_ITEM,
-  REMOVE_LOADING_ITEM,
-} from '@constants';
+import { ACTION, ACTIONS, SetNotificationPayload } from './interfaces';
+import { NOTIFICATION_TYPES } from '@constants';
+import { Maybe, User } from '@interfaces';
 
-import {
-  SetIsAuthResult,
-  SetUserPayload,
-  SetUserResult,
-  SetDictionariesPayload,
-  SetDictionariesResult,
-  SetProfilePayload,
-  SetProfileResult,
-  SetNotificationPayload,
-  SetNotificationResult,
-  SetLoadingPayload,
-  SetLoadingResult,
-} from './interfaces';
-
-export const setIsAuth = (): SetIsAuthResult => ({ type: SET_IS_AUTH, payload: true });
-export const removeIsAuth = (): SetIsAuthResult => ({ type: SET_IS_AUTH, payload: false });
-
-export const setUser = (payload: SetUserPayload): SetUserResult => ({ type: SET_USER, payload });
-export const removeUser = (): SetUserResult => ({ type: SET_USER, payload: null });
-
-export const setDictionaries = (payload: SetDictionariesPayload): SetDictionariesResult => ({
-  type: SET_DICTIONARIES,
-  payload,
-});
-
-export const setProfile = (payload: SetProfilePayload): SetProfileResult => ({
-  type: SET_PROFILE,
-  payload,
-});
-
-export const setNotification = (payload: SetNotificationPayload): SetNotificationResult => ({
-  type: SET_NOTIFICATION,
-  payload,
-});
-export const clearNotification = (): SetNotificationResult => ({
-  type: SET_NOTIFICATION,
+export const setErrorNotification = (text: string): ACTION<SetNotificationPayload> => ({
+  type: ACTIONS.SET_NOTIFICATION,
   payload: {
-    type: '',
+    type: NOTIFICATION_TYPES.ERROR,
+    text,
+  },
+});
+
+export const clearNotification = (): ACTION<SetNotificationPayload> => ({
+  type: ACTIONS.SET_NOTIFICATION,
+  payload: {
+    type: null,
     text: '',
   },
 });
 
-export const startLoading = (item: SetLoadingPayload): SetLoadingResult => ({ type: SET_LOADING_ITEM, payload: item });
-export const endLoading = (item: SetLoadingPayload): SetLoadingResult => ({ type: REMOVE_LOADING_ITEM, payload: item });
+// todo приверсти к одному интерфейсу
+export const removeUser = (): ACTION<Maybe<User>> => ({ type: ACTIONS.SET_USER, payload: null });

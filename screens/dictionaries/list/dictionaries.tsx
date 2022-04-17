@@ -1,28 +1,31 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components/native';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
 import { SCREENS, Colors, DICTIONARIES_EMPTY_MODE } from '@constants';
 import { useModal } from '@components';
 import { Dictionary } from '@interfaces';
-import { InitStateInterface } from '@store';
 import { DictionariesListScreenProps } from './interfaces';
 import { CreateDictModal, DeleteDictModal } from './modals';
-import * as effects from './effects';
-import { Empty } from '../empty';
+import { Empty } from '../Empty';
+import { AppContext } from '../../../store/new-store';
+import { useCreateDictionary } from '../hooks/useCreateDictionary';
+import { useDeleteDictionary } from '../hooks/useDeleteDictionary';
 
 export const DictionariesListScreen: React.FC<DictionariesListScreenProps> = ({ navigation }) => {
-  const { dictionaries = [] } = useSelector((state: InitStateInterface) => state);
-  const dispatch = useDispatch();
+  const { state } = useContext(AppContext);
+  const { dictionaries = [] } = state;
+
+  const { createDictionary, isLoading: isLoadingCreateDictionary } = useCreateDictionary();
+  const { deleteDictionary, isLoading: isLoadingDeleteDictionary } = useDeleteDictionary();
+
   const { isOpenModal: isCreateOpenModal, openModal: openCreateModal, closeModal: closeCreateModal } = useModal();
   const { isOpenModal: isDeleteOpenModal, openModal: openDeleteModal, closeModal: closeDeleteModal } = useModal();
   const [deletedDict, setDeletedDict] = useState(null);
   const isEmptyList = !dictionaries.length;
 
-  const onCreate = async (name: string) => {
-    await dispatch(effects.createDictionary({ navigation, name }));
-    closeCreateModal();
+  const onCreate = (name: string) => {
+    createDictionary(name, closeCreateModal);
   };
 
   const onPreview = (preview_dictionary: Dictionary) => {
@@ -34,10 +37,9 @@ export const DictionariesListScreen: React.FC<DictionariesListScreenProps> = ({ 
     openDeleteModal();
   };
 
-  const onDelete = async () => {
+  const onDelete = () => {
     const { id } = deletedDict;
-    await dispatch(effects.deleteDictionary({ id }));
-    closeDeleteModal();
+    deleteDictionary(id, closeDeleteModal);
   };
 
   return (
@@ -62,6 +64,7 @@ export const DictionariesListScreen: React.FC<DictionariesListScreenProps> = ({ 
           </ScrollView>
 
           <DeleteDictModal
+            isLoading={isLoadingDeleteDictionary}
             dict={deletedDict}
             isOpenModal={isDeleteOpenModal}
             closeModal={closeDeleteModal}
@@ -75,7 +78,12 @@ export const DictionariesListScreen: React.FC<DictionariesListScreenProps> = ({ 
           <FontAwesome name="plus" size={40} color={Colors.secondary} />
         </TouchableWithoutFeedback>
       </CreateButton>
-      <CreateDictModal isOpenModal={isCreateOpenModal} closeModal={closeCreateModal} onCreate={onCreate} />
+      <CreateDictModal
+        isOpenModal={isCreateOpenModal}
+        closeModal={closeCreateModal}
+        onCreate={onCreate}
+        isLoading={isLoadingCreateDictionary}
+      />
     </>
   );
 };

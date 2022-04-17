@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components/native';
 import { TouchableWithoutFeedback } from 'react-native';
 import { themes } from './themes';
 import { LinkProps } from './interfaces';
