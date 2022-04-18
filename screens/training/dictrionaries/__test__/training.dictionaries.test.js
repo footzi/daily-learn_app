@@ -1,8 +1,9 @@
-import React from 'react';
-import { toHaveTextContent } from '@testing-library/jest-native';
 import { renderWithRedux } from '@mocks';
-import { DictionaryTrainingScreen } from '../dictionaries';
+import { toHaveTextContent } from '@testing-library/jest-native';
+import React from 'react';
+
 import { SETTINGS } from '../../../../constants';
+import { DictionaryTrainingScreen } from '../dictionaries';
 
 expect.extend({ toHaveTextContent });
 

@@ -1,11 +1,12 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
-import styled from 'styled-components/native';
-import * as Animatable from 'react-native-animatable';
+import { Button, Input, Link } from '@components';
+import { Colors, PAWS_DURATION } from '@constants';
 import { FontAwesome } from '@expo/vector-icons';
-import { Input, Button, Link } from '@components';
-import { PAWS_DURATION, Colors } from '@constants';
-import { getNextIndex } from '../utils';
+import React, { useLayoutEffect, useRef, useState } from 'react';
+import * as Animatable from 'react-native-animatable';
+import styled from 'styled-components/native';
+
 import { CartWordProps, CountPawsProps } from '../interfaces';
+import { getNextIndex } from '../utils';
 
 const zoomOut = {
   0: {

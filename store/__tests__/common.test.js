@@ -1,9 +1,10 @@
+import { ERROR, SETTINGS, SET_DATA, SET_NOTIFICATION } from '@constants';
+import { mockFormData, mockRefreshToken } from '@mocks';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import MockAdapter from 'axios-mock-adapter';
-import axios from 'axios';
-import { SET_DATA, SET_NOTIFICATION, SETTINGS, ERROR } from '@constants';
-import { mockFormData, mockRefreshToken } from '@mocks';
+
 import * as effects from '../common-effects';
 
 const middlewares = [thunk];

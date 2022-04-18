@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { TextInput } from 'react-native';
-import { themes } from './themes';
+
 import { InputProps } from './interfaces';
+import { themes } from './themes';
 
 export const Input: React.FC<InputProps> = ({ theme = 'primary', value = '', paddingRight, ...restProps }) => {
   const currentTheme = themes[theme];

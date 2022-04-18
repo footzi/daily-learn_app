@@ -1,4 +1,4 @@
-import { DictionariesListScreenNavigationProp } from '@navigation/interfaces';
+import { DictionariesListScreenNavigationProp } from '@navigation';
 
 export interface DictionariesListScreenProps {
   navigation: DictionariesListScreenNavigationProp;
@@ -11,11 +11,6 @@ export interface CreateDictModalProps {
   onCreate: (name: string) => void;
 }
 
-// export interface CreateDictionaryEffect {
-//   navigation: DictionariesListScreenNavigationProp;
-//   name: string;
-// }
-
 export interface DeleteDictModalProps {
   isOpenModal: boolean;
   isLoading: boolean;
@@ -26,7 +21,3 @@ export interface DeleteDictModalProps {
   };
   onDelete: () => void;
 }
-
-// export interface DeleteDictionaryEffect {
-//   id: number;
-// }

@@ -1,7 +1,8 @@
 import { SETTINGS } from '@constants';
-import { shuffleArray } from '@libs';
 import { Dictionaries, Dictionary, Word } from '@interfaces';
-import { SelectedDictionaryForTraining } from '@navigation/interfaces';
+import { shuffleArray } from '@libs';
+import { SelectedDictionaryForTraining } from '@navigation';
+
 import { CreatedForTrainingWords } from './interfaces';
 
 export const createWords = (

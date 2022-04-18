@@ -1,6 +1,7 @@
 import React from 'react';
-import styled, { ThemeProvider } from 'styled-components/native';
 import Modal from 'react-native-modal';
+import styled, { ThemeProvider } from 'styled-components/native';
+
 import { ModalProps } from '../interfaces';
 import { themes } from '../themes';
 

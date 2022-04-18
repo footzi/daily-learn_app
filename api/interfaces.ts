@@ -11,5 +11,5 @@ export interface UseRequestResult {
 }
 
 export interface UseRequestResultQuery extends UseRequestResult {
-  refetch: () => void;
+  refetch?: () => void;
 }

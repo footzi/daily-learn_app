@@ -7,5 +7,8 @@
   "endOfLine": "auto",
   "jsxBracketSameLine": true,
   "printWidth": 120,
-  "quoteProps": "consistent"
+  "quoteProps": "consistent",
+  "importOrder": ["^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }

@@ -1,7 +1,8 @@
-import React from 'react';
-import { SETTINGS } from '../constants';
 import { render } from '@testing-library/react-native';
+import React from 'react';
 import { Provider } from 'react-redux';
+
+import { SETTINGS } from '../constants';
 import { createTestStore } from '../store';
 
 export const mockFormData = () => {

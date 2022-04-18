@@ -19,22 +19,7 @@ module.exports = async function (env, argv) {
   config.resolve.alias['@mocks'] = path.resolve(__dirname, './mocks');
   config.resolve.alias['@navigation'] = path.resolve(__dirname, './navigation');
   config.resolve.alias['@components'] = path.resolve(__dirname, './components');
-
-  // config.resolve = {
-  //   alias: {
-  //     '@constants': path.resolve(__dirname, './constants'),
-  //     '@api': path.resolve(__dirname, './api'),
-  //     '@libs': path.resolve(__dirname, './libs'),
-  //     '@store': path.resolve(__dirname, './store'),
-  //     '@mocks': path.resolve(__dirname, './mocks'),
-  //     '@navigation': path.resolve(__dirname, './navigation'),
-  //     '@components': path.resolve(__dirname, './components'),
-  //   },
-  // };
-
-  // config.devServer = {
-  //   port: 3000,
-  // };
+  config.resolve.alias['@hooks'] = path.resolve(__dirname, './hooks');
 
   return config;
 };

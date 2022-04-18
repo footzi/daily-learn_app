@@ -1,4 +1,5 @@
-import { Dictionary, Dictionaries } from '@interfaces';
+import { Dictionaries, Dictionary } from '@interfaces';
+
 import { NormalizedPreviewDictionary } from './interfaces';
 
 export const normalizePreviewDictionaries = (dictionaries: Dictionaries): NormalizedPreviewDictionary[] => {

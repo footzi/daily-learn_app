@@ -1,5 +1,5 @@
-import { Options as AxiosOptions, ResponseValues } from 'axios-hooks';
 import { AxiosRequestConfig } from 'axios';
+import { Options as AxiosOptions, ResponseValues } from 'axios-hooks';
 
 export interface Options extends AxiosOptions {
   onSuccess?(): void;

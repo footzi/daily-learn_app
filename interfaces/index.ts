@@ -1,25 +1,8 @@
+import { NOTIFICATION_TYPES } from '@constants';
+
 export * from './user';
 export * from './maybe';
 export * from './tokens';
-
-import { NOTIFICATION_TYPES } from '@constants';
-
-// MAIN
-// export interface Tokens {
-//   access_token: string;
-//   refresh_token: string;
-//   expire: number;
-// }
-
-// export interface User {
-//   id: number;
-// }
-
-// export interface Profile {
-//   login: string;
-//   email: string;
-//   paws: number;
-// }
 
 export interface Dictionary {
   id: number;
@@ -38,10 +21,6 @@ export interface Word {
   translateCount: number;
 }
 export type Words = Word[];
-
-// export interface User {
-//   id: number;
-// }
 
 export interface Notification {
   type: NOTIFICATION_TYPES.ERROR | '';

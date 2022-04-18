@@ -1,13 +1,13 @@
-import axios, { AxiosRequestConfig } from 'axios';
-import useAxios, { UseAxiosResult } from 'axios-hooks';
-import { checkAccessToken, getToken } from '../../helpers';
-import { getRequestConfig } from '../../utils';
-import { API_LIST } from '../../constants';
-import { LocalStorage } from '@libs';
+import { API_LIST, checkAccessToken, getRequestConfig, getToken } from '@api';
 import { TOKENS_LS } from '@constants';
+import { Maybe } from '@interfaces';
+import { LocalStorage } from '@libs';
+import { setErrorNotification, useAppContext } from '@store';
+import axios, { AxiosRequestConfig } from 'axios';
+import useAxios from 'axios-hooks';
+import { useCallback, useEffect } from 'react';
+
 import { Options, UseRequestResult } from './interfaces';
-import { useCallback, useContext, useEffect } from 'react';
-import { AppContext, setErrorNotification } from '../../../store/new-store';
 
 const refreshToken = async () => {
   const token = await getToken(true);
@@ -37,9 +37,9 @@ export const useRequest = (config: AxiosRequestConfig, options?: Options): UseRe
     manual: true,
   });
 
-  const { dispatch } = useContext(AppContext);
+  const { dispatch } = useAppContext();
 
-  const execute = useCallback(async (config?: AxiosRequestConfig, options?: Options) => {
+  const execute = useCallback(async (config: Maybe<AxiosRequestConfig>, options?: Options) => {
     const isValidAccessToken = await checkAccessToken();
 
     if (!isValidAccessToken) {

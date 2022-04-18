@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+
 import { AppContextType } from './interfaces';
 import { initialState } from './state';
 

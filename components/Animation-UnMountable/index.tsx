@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as Animatable from 'react-native-animatable';
+
 import { AnimationUnMountableProps } from './interfaces';
 
 export const AnimationUnMountable: React.FC<AnimationUnMountableProps> = ({

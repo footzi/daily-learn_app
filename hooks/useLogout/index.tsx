@@ -1,14 +1,15 @@
-import { getRequestConfig, API_LIST } from '@api';
+import { API_LIST, getRequestConfig } from '@api';
+import { removeUser, useAppContext } from '@store';
 import { useCallback } from 'react';
-import { useAppContext, removeUser } from '@store';
+
+import { useRequest } from '../useRequest';
 import { UseLogoutResult } from './interfaces';
-import { useRequest } from '@api';
 
 export const useLogout = (): UseLogoutResult => {
   const { url, method } = getRequestConfig(API_LIST.LOGOUT);
   const { dispatch } = useAppContext();
 
-  const [{ data, loading }, execute] = useRequest(
+  const [{ loading }, execute] = useRequest(
     {
       url,
       method,

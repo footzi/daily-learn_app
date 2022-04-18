@@ -1,8 +1,9 @@
+import { ButtonIcon } from '@components';
+import { Colors } from '@constants';
+import { Feather } from '@expo/vector-icons';
 import React from 'react';
 import styled from 'styled-components/native';
-import { Feather } from '@expo/vector-icons';
-import { Colors } from '@constants';
-import { ButtonIcon } from '@components';
+
 import { SlideMenuProps } from '../interfaces';
 
 export const SlideMenu: React.FC<SlideMenuProps> = ({ onMix, onFilter }) => (

@@ -1,6 +1,7 @@
+import { Button, CenterModal } from '@components';
 import React from 'react';
 import styled from 'styled-components/native';
-import { CenterModal, Button } from '@components';
+
 import { DeleteDictModalProps } from '../interfaces';
 
 export const DeleteDictModal: React.FC<DeleteDictModalProps> = ({

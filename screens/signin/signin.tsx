@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { ImageBackground } from 'react-native';
+import { Button, Input, Title } from '@components';
 import { SCREENS } from '@constants';
-import { Input, Title, Button } from '@components';
-import { SignInScreenProps, Fields } from './interfaces';
-import { Container, Form, Field, Buttons } from './styles';
-import { useLogin } from '@api';
+import React, { useEffect, useState } from 'react';
+import { ImageBackground } from 'react-native';
+
+import { useLogin } from '../../hooks';
+import { Fields, SignInScreenProps } from './interfaces';
+import { Buttons, Container, Field, Form } from './styles';
 
 export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   const [fields, setFields] = useState<Fields>({
@@ -24,6 +25,7 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   };
 
   const onSignUp = () => {
+    // @ts-ignore
     navigation.navigate(SCREENS.SIGN_UP);
   };
 

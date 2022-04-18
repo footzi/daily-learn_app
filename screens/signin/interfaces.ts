@@ -1,5 +1,5 @@
-import { SignInScreenNavigationProp } from '@navigation/interfaces';
 import { SignInRequestBody } from '@interfaces';
+import { SignInScreenNavigationProp } from '@navigation';
 
 export interface SignInScreenProps {
   navigation: SignInScreenNavigationProp;

@@ -1,8 +1,9 @@
+import { Button, ButtonIcon, CenterModal, Input } from '@components';
+import { Colors } from '@constants';
+import { AntDesign } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import { AntDesign } from '@expo/vector-icons';
-import { CenterModal, Button, Input, ButtonIcon } from '@components';
-import { Colors, LOADING_ITEMS } from '@constants';
+
 import { AddWordModalProps, SaveFieldsWord } from '../interfaces';
 
 export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpenModal, isLoading, closeModal, onSaveWord }) => {
@@ -14,7 +15,7 @@ export const AddWordModal: React.FC<AddWordModalProps> = ({ isOpenModal, isLoadi
   const [isValid, setIsValid] = useState<boolean>(false);
   const [fields, setFields] = useState<SaveFieldsWord>(initial);
 
-  const onChangeInput = (text, id = null) => {
+  const onChangeInput = (text: string, id = null) => {
     if (id) {
       const updates = fields.translate.map((item) => {
         if (item.id === id) {

@@ -1,6 +1,6 @@
+import { SCREENS } from '@constants';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { SCREENS } from '@constants';
 
 // Словари
 // todo Разобраться как сделать ключи через константы = [SCREENS.PREVIEW_DICTIONARY]
@@ -25,8 +25,11 @@ export type DictionariesListScreenNavigationProp = StackNavigationProp<
   SCREENS.DICTIONARIES_LIST
 >;
 
+// @ts-ignore
 export type SignInScreenNavigationProp = StackNavigationProp<undefined, SCREENS.SIGN_IN>;
+// @ts-ignore
 export type SignUpScreenNavigationProp = StackNavigationProp<undefined, SCREENS.SIGN_UP>;
+// @ts-ignore
 export type HomeScreenNavigationProp = StackNavigationProp<undefined, SCREENS.HOME>;
 
 export interface SelectedDictionaryForTraining {

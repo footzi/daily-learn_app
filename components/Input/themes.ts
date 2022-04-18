@@ -1,5 +1,5 @@
-import { rgba } from 'polished';
 import { Colors } from '@constants';
+import { rgba } from 'polished';
 
 export const themes = {
   primary: {

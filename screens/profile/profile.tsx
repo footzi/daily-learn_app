@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
-import styled from 'styled-components/native';
-import { EvilIcons, FontAwesome } from '@expo/vector-icons';
 import { Button } from '@components';
 import { Colors } from '@constants';
-import { AppContext } from '../../store/new-store';
-import { useLogout } from '../../api/hooks/useLogout';
+import { EvilIcons, FontAwesome } from '@expo/vector-icons';
+import { useAppContext } from '@store';
+import React from 'react';
+import styled from 'styled-components/native';
+
+import { useLogout } from '../../hooks';
 
 export const ProfileScreen: React.FC = () => {
-  const { state, dispatch } = useContext(AppContext);
-  const { login, paws } = state.user;
+  const { state } = useAppContext();
+  const { user } = state;
 
   const { logout, isLoading } = useLogout();
 
@@ -20,11 +21,11 @@ export const ProfileScreen: React.FC = () => {
         <EvilIcons name="camera" size={80} color={Colors.white} />
       </Camera>
 
-      <Login>{login}</Login>
+      <Login>{user?.login}</Login>
 
       <Balance>
         <FontAwesome name="paw" size={25} color={Colors.green} />
-        <Count>{paws}</Count>
+        <Count>{user?.paws}</Count>
       </Balance>
 
       <Bottom>

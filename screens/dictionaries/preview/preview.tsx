@@ -1,34 +1,31 @@
-import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import styled from 'styled-components/native';
-import * as Animatable from 'react-native-animatable';
-import GestureRecognizer from 'react-native-swipe-gestures';
-import { Feather } from '@expo/vector-icons';
-import { TouchableWithoutFeedback, ScrollView } from 'react-native';
-
+import { ButtonIcon, useModal } from '@components';
 import {
   Colors,
+  DICTIONARIES_EMPTY_MODE,
+  PREVIEW_FILTER_MODE,
+  PREVIEW_SLIDE_MENU_DURATION,
   PREVIEW_SLIDE_MENU_LEFT,
   PREVIEW_SLIDE_MENU_RIGHT,
-  PREVIEW_SLIDE_MENU_DURATION,
-  PREVIEW_FILTER_MODE,
-  DICTIONARIES_EMPTY_MODE,
 } from '@constants';
-import { useModal, ButtonIcon, Button } from '@components';
+import { Feather } from '@expo/vector-icons';
 import { shuffleArray } from '@libs';
-import { InitStateInterface } from '@store';
-import { AddWordModal, DeleteWordModal } from './Modals';
-import { Empty } from '../Empty';
-import { PreviewScreenProps, PreviewScreenItemProps, SaveFieldsWord } from './interfaces';
-import { normalizePreviewWords } from './utils';
-// import * as effects from './effects';
+import { useAppContext } from '@store';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { ScrollView, TouchableWithoutFeedback } from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import GestureRecognizer from 'react-native-swipe-gestures';
+import styled from 'styled-components/native';
 
+import { Empty } from '../Empty';
+import { AddWordModal, DeleteWordModal } from './Modals';
 import { SlideMenu } from './Slide-menu';
-import { AppContext } from '../../../store/new-store';
 import { useCreateWord } from './hooks/useCreateWord';
 import { useDeleteWord } from './hooks/useDeleteWord';
+import { PreviewScreenItemProps, PreviewScreenProps, SaveFieldsWord } from './interfaces';
+import { normalizePreviewWords } from './utils';
 
 export const PreviewDictionaryScreen: React.FC<PreviewScreenProps> = ({ navigation, route }) => {
-  const { state, dispatch } = useContext(AppContext);
+  const { state } = useAppContext();
   const { dictionaries } = state;
   const { preview_dictionary } = route.params;
 

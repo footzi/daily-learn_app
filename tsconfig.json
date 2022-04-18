@@ -6,7 +6,7 @@
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "isolatedModules": true,
-//    "strict": true,
+    //    "strict": true,
     "jsx": "react-native",
     "lib": ["es6"],
     "moduleResolution": "node",
@@ -15,33 +15,16 @@
     "baseUrl": ".",
     "target": "esnext",
     "paths": {
-      "@constants": [
-        "constants"
-      ],
-      "@api": [
-        "api"
-      ],
-      "@libs": [
-        "libs"
-      ],
-      "@store": [
-        "store"
-      ],
-      "@mocks": [
-        "mocks"
-      ],
-      "@components": [
-        "components"
-      ],
-      "@assets": [
-        "assets"
-      ],
-      "@interfaces": [
-        "interfaces"
-      ],
-      "@navigation/*": [
-        "navigation/*"
-      ]
+      "@constants": ["constants"],
+      "@api": ["api"],
+      "@libs": ["libs"],
+      "@store": ["store"],
+      "@mocks": ["mocks"],
+      "@components": ["components"],
+      "@assets": ["assets"],
+      "@interfaces": ["interfaces"],
+      "@navigation": ["navigation"],
+      "@hooks": ["hooks"]
     }
   },
   "exclude": ["node_modules"],

@@ -1,5 +1,5 @@
-import { HomeScreenNavigationProp } from '@navigation/interfaces';
 import { Dictionary } from '@interfaces';
+import { HomeScreenNavigationProp } from '@navigation';
 
 export interface HomeScreenProps {
   navigation: HomeScreenNavigationProp;

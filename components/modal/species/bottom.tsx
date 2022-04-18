@@ -1,6 +1,7 @@
 import React from 'react';
-import styled from 'styled-components/native';
 import Modal from 'react-native-modal';
+import styled from 'styled-components/native';
+
 import { ModalProps } from '../interfaces';
 
 export const BottomModal: React.FC<ModalProps> = ({ isOpenModal = false, closeModal, title, children }) => (

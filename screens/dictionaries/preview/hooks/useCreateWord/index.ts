@@ -1,13 +1,15 @@
-import { useRequest, getRequestConfig, API_LIST } from '@api';
-import { useCallback, useContext } from 'react';
+import { API_LIST, getRequestConfig } from '@api';
+import { useAppContext } from '@store';
+import { useCallback } from 'react';
+
+import { useRequest } from '../../../../../hooks';
 import { UseCreateWordResult } from './interfaces';
-import { AppContext } from '../../../../../store/new-store';
 
 export const useCreateWord = (): UseCreateWordResult => {
   const { url, method } = getRequestConfig(API_LIST.CREATE_WORD);
   const [{ loading }, execute] = useRequest({ url, method }, { manual: true });
 
-  const { state } = useContext(AppContext);
+  const { state } = useAppContext();
 
   const createWord = useCallback((fields, dictionaryId, onSuccess) => {
     execute(

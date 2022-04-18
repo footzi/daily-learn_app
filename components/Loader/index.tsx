@@ -1,6 +1,7 @@
+import { Colors } from '@constants';
 import React from 'react';
 import styled from 'styled-components/native';
-import { Colors } from '@constants';
+
 import { Spinner } from '../Spinner';
 
 export const Loader: React.FC = () => (

@@ -1,9 +1,10 @@
+import { Feather } from '@expo/vector-icons';
 import React from 'react';
 import styled from 'styled-components/native';
-import { Feather } from '@expo/vector-icons';
 import { ThemeProvider } from 'styled-components/native';
-import { themes } from './themes';
+
 import { CheckboxProps } from './interfaces';
+import { themes } from './themes';
 
 export const Checkbox: React.FC<CheckboxProps> = ({ theme = 'primary', isChecked = false, onPress }) => (
   <ThemeProvider theme={themes[theme]}>

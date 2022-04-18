@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-native-modal';
 import styled from 'styled-components/native';
+
 import { ModalProps } from '../interfaces';
 
 export const HeaderModal: React.FC<ModalProps> = ({ isOpenModal = false, closeModal, children }) => (

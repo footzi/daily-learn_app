@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { UseModalResult } from './interfaces';
 
 export const useModal = (): UseModalResult => {

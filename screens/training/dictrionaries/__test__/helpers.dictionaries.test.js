@@ -1,5 +1,5 @@
-import { createWords, getNext } from '../helpers';
 import { SETTINGS } from '../../../../constants';
+import { createWords, getNext } from '../helpers';
 
 jest.mock('../../../../libs/shuffle-array.js', () => {
   return {

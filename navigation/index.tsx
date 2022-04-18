@@ -1,21 +1,18 @@
-import React, { useEffect } from 'react';
-import { Platform, Text } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { BarIcon } from '@components';
+import { Colors, SCREENS } from '@constants';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { StackNavigationOptions, createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
+import { Platform } from 'react-native';
+
 import {
-  SignUpScreen,
-  SignInScreen,
-  HomeScreen,
-  DictionaryTrainingScreen,
   DictionariesListScreen,
+  DictionaryTrainingScreen,
+  HomeScreen,
   PreviewDictionaryScreen,
   ProfileScreen,
 } from '../screens';
 import { DictionaryStackParamList } from './interfaces';
-import { SCREENS, LOADING_ITEMS, Colors } from '@constants';
-import { BarIcon, Loader } from '@components';
 
 const Tab = createBottomTabNavigator();
 export const AppStack = createStackNavigator();
@@ -42,11 +39,13 @@ export const HomeStackScreen = () => {
   return (
     <HomeStack.Navigator screenOptions={{ cardStyle }}>
       <HomeStack.Screen
+        // @ts-ignore
         name={SCREENS.HOME}
         component={HomeScreen}
         options={{ ...headerOptionsMain, headerTitle: 'Выберите словарь:' }}
       />
       <HomeStack.Screen
+        // @ts-ignore
         name={SCREENS.DICTIONARY_TRAINING}
         component={DictionaryTrainingScreen}
         options={{
@@ -127,3 +126,5 @@ export const Main = () => {
     </Tab.Navigator>
   );
 };
+
+export * from './interfaces';

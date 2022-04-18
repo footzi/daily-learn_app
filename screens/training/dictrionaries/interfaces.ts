@@ -1,15 +1,10 @@
-import { Word, Words } from '@interfaces';
-import { DictionaryTrainingScreenRouteProp, DictionaryTrainingScreenNavigationProp } from '@navigation/interfaces';
+import { Word } from '@interfaces';
+import { DictionaryTrainingScreenNavigationProp, DictionaryTrainingScreenRouteProp } from '@navigation';
 
 export interface DictionaryTrainingScreenProps {
   route: DictionaryTrainingScreenRouteProp;
   navigation: DictionaryTrainingScreenNavigationProp;
 }
-
-// export interface saveCountWordEffectProps {
-//   id: number;
-//   type: string;
-// }
 
 export interface CreatedForTrainingWord extends Word {
   uid: number;

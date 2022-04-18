@@ -1,6 +1,7 @@
-import { ACTION, ACTIONS, SetNotificationPayload } from './interfaces';
 import { NOTIFICATION_TYPES } from '@constants';
-import { Maybe, User } from '@interfaces';
+import { Dictionaries, Maybe, User } from '@interfaces';
+
+import { ACTION, ACTIONS, SetNotificationPayload } from './interfaces';
 
 export const setErrorNotification = (text: string): ACTION<SetNotificationPayload> => ({
   type: ACTIONS.SET_NOTIFICATION,
@@ -18,5 +19,15 @@ export const clearNotification = (): ACTION<SetNotificationPayload> => ({
   },
 });
 
-// todo приверсти к одному интерфейсу
+export const setUser = (user: User): ACTION<User> => ({ type: ACTIONS.SET_USER, payload: user });
 export const removeUser = (): ACTION<Maybe<User>> => ({ type: ACTIONS.SET_USER, payload: null });
+
+export const setDictionaries = (dictionaries: Dictionaries): ACTION<Dictionaries> => ({
+  type: ACTIONS.SET_DICTIONARIES,
+  payload: dictionaries,
+});
+
+export const setRefetchMainData = (refetch: () => void): ACTION<() => void> => ({
+  type: ACTIONS.SET_REFETCH_MAIN_DATA,
+  payload: refetch,
+});

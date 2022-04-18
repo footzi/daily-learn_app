@@ -1,11 +1,10 @@
 import React from 'react';
-import styled, { ThemeProvider } from 'styled-components/native';
 import { TouchableNativeFeedback } from 'react-native';
-import { themes } from './themes';
+import styled, { ThemeProvider } from 'styled-components/native';
+
 import { Spinner } from '../Spinner';
 import { ButtonsProps, ContainerProps } from './interfaces';
-
-import { Button as NButton } from 'native-base';
+import { themes } from './themes';
 
 export const Button: React.FC<ButtonsProps> = ({
   theme = 'primary',
@@ -17,7 +16,6 @@ export const Button: React.FC<ButtonsProps> = ({
 }) => {
   const currentTheme = themes[theme];
 
-  return <NButton onPress={onPress}>{text}</NButton>;
   return (
     <ThemeProvider theme={currentTheme}>
       <Container disabled={disabled} {...restProps}>

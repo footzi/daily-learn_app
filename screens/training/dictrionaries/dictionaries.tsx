@@ -1,17 +1,18 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import styled from 'styled-components/native';
-import { useFocusEffect } from '@react-navigation/native';
-import { SETTINGS } from '@constants';
 import { Loader } from '@components';
-import { Statistics, CartWord, Congratulation, NotWords } from './organism';
-import { createWords, getStartIndex } from './utils';
-import { DictionaryTrainingScreenProps, CreatedForTrainingWord, CreatedForTrainingWords } from './interfaces';
-import { AppContext } from '../../../store/new-store';
+import { SETTINGS } from '@constants';
+import { useFocusEffect } from '@react-navigation/native';
+import { useAppContext } from '@store';
+import React, { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components/native';
+
 import { useSaveCountPaws } from './hooks/useSaveCountPaws';
 import { useSaveCountWord } from './hooks/useSaveCountWord';
+import { CreatedForTrainingWord, CreatedForTrainingWords, DictionaryTrainingScreenProps } from './interfaces';
+import { CartWord, Congratulation, NotWords, Statistics } from './organism';
+import { createWords, getStartIndex } from './utils';
 
 export const DictionaryTrainingScreen: React.FC<DictionaryTrainingScreenProps> = ({ route, navigation }) => {
-  const { state } = useContext(AppContext);
+  const { state } = useAppContext();
   const { dictionaries: allDictionaries = [], user } = state;
   // @ts-ignore
   const { selectedDictionaries } = route.params || [];

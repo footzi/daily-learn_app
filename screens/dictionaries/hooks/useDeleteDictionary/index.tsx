@@ -1,12 +1,14 @@
-import { useRequest, getRequestConfig, API_LIST } from '@api';
-import { useCallback, useContext } from 'react';
-import { AppContext } from '../../../../store/new-store';
+import { API_LIST, getRequestConfig } from '@api';
+import { useAppContext } from '@store';
+import { useCallback } from 'react';
+
+import { useRequest } from '../../../../hooks';
 
 export const useDeleteDictionary = () => {
   const { url, method } = getRequestConfig(API_LIST.DELETE_DICTIONARY);
-  const [{ data, loading, error }, execute] = useRequest({ url, method }, { manual: true });
+  const [{ loading, error }, execute] = useRequest({ url, method }, { manual: true });
 
-  const { state } = useContext(AppContext);
+  const { state } = useAppContext();
 
   const deleteDictionary = useCallback((id, onSuccess) => {
     execute(

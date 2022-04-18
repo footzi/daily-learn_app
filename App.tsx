@@ -1,9 +1,10 @@
-import React, { useCallback, useReducer, useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import { AppContext, initialState, reducer } from '@store';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useCallback, useReducer, useState } from 'react';
+
 import { Root } from './screens';
-import { AppContext, initialState, reducer } from './store/new-store';
 
 const App: React.FC = () => {
   const [isReady, setReady] = useState<boolean>(false);
@@ -11,7 +12,7 @@ const App: React.FC = () => {
 
   const setInitialData = useCallback(async () => {
     await Font.loadAsync({
-      Museo: require('./assets/fonts/MuseoSansCyrl-500.ttf'),
+      Museo: require('./assets/fonts/MuseoSansCyrl-300.ttf'),
       Museo300Italic: require('./assets/fonts/MuseoSansCyrl-300Italic.ttf'),
       ...Ionicons.font,
     });
@@ -30,9 +31,7 @@ const App: React.FC = () => {
     );
   }
 
-  if (!isReady) {
-    return <AppLoading startAsync={setInitialData} onFinish={onFinish} onError={onError} />;
-  }
+  return <AppLoading startAsync={setInitialData} onFinish={onFinish} onError={onError} />;
 };
 
 export default App;

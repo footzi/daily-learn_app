@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components/native';
-import { ImageBackground } from 'react-native';
-import { LOADING_ITEMS, SCREENS } from '@constants';
 import { Button, Input, Title } from '@components';
-import { InitStateInterface } from '@store';
-import { toSignUp } from './effects';
-import { SignUpScreenProps, Fields } from './interfaces';
+import { SCREENS } from '@constants';
+import React, { useEffect, useState } from 'react';
+import { ImageBackground } from 'react-native';
+import styled from 'styled-components/native';
+
+import { useSignUp } from '../../hooks';
+import { Fields, SignUpScreenProps } from './interfaces';
 
 export const SignUpScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
-  const { loading } = useSelector((state: InitStateInterface) => state);
-  const isLoading = loading[LOADING_ITEMS.INNER];
   const [fields, setFields] = useState<Fields>({
     login: '',
     email: '',
@@ -18,7 +15,8 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
     password2: '',
   });
   const [isValid, setIsValid] = useState<boolean>(false);
-  const dispatch = useDispatch();
+
+  const { signUp, isLoading } = useSignUp();
 
   const onChange = (text: string, name: string) => {
     setFields({
@@ -34,9 +32,10 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
       password: fields.password,
     };
 
-    dispatch(toSignUp(body));
+    signUp(body);
   };
 
+  // @ts-ignore
   const onSignIn = () => navigation.navigate(SCREENS.SIGN_IN);
 
   useEffect(() => {

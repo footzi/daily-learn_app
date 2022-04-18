@@ -1,5 +1,6 @@
-import { Dictionaries, Maybe, Notification, User } from '@interfaces';
 import { NOTIFICATION_TYPES } from '@constants';
+import { Dictionaries, Maybe, Notification, User } from '@interfaces';
+import React from 'react';
 
 export interface State {
   user: Maybe<User>;

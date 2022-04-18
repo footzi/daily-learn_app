@@ -1,5 +1,6 @@
 import { Words } from '@interfaces';
-import { PreviewTranslateWord, NormalizedPreviewWord } from './interfaces';
+
+import { NormalizedPreviewWord, PreviewTranslateWord } from './interfaces';
 
 export const normalizePreviewWords = (words: Words): NormalizedPreviewWord[] => {
   return words.reduce((acc, current) => {

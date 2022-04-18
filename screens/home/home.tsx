@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { TouchableWithoutFeedback, ScrollView } from 'react-native';
-import styled from 'styled-components/native';
-import { AntDesign } from '@expo/vector-icons';
 import { Button } from '@components';
-import { SCREENS, Colors } from '@constants';
-import { HomeScreenProps, DictionaryItemProps } from './interfaces';
-import { normalizePreviewDictionaries } from './utils';
+import { Colors, SCREENS } from '@constants';
+import { AntDesign } from '@expo/vector-icons';
 import { useAppContext } from '@store';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, TouchableWithoutFeedback } from 'react-native';
+import styled from 'styled-components/native';
+
+import { DictionaryItemProps, HomeScreenProps } from './interfaces';
+import { normalizePreviewDictionaries } from './utils';
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const { state } = useAppContext();

@@ -1,6 +1,7 @@
+import { Button, CenterModal, Input } from '@components';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import { CenterModal, Button, Input } from '@components';
+
 import { CreateDictModalProps } from '../interfaces';
 
 export const CreateDictModal: React.FC<CreateDictModalProps> = ({ isOpenModal, isLoading, closeModal, onCreate }) => {

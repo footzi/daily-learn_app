@@ -1,12 +1,14 @@
-import React from 'react';
-import styled, { css } from 'styled-components/native';
-import { ImageBackground } from 'react-native';
 import { Colors, DICTIONARIES_EMPTY_MODE } from '@constants';
-import { EmptyProps, ArrowProps } from './interfaces';
+import React from 'react';
+import { ImageBackground } from 'react-native';
+import styled, { css } from 'styled-components/native';
 
-// todo не работаю алиасы assets
-import AddWordBackground from '../../../assets/images/add-word-background.png';
+// @ts-ignore
 import AddDictBackground from '../../../assets/images/add-dict-background.png';
+// todo не работаю алиасы assets
+// @ts-ignore
+import AddWordBackground from '../../../assets/images/add-word-background.png';
+import { ArrowProps, EmptyProps } from './interfaces';
 
 export const Empty: React.FC<EmptyProps> = ({ mode }) => {
   const isPreviewMode = mode === DICTIONARIES_EMPTY_MODE.PREVIEW;

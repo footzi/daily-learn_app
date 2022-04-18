@@ -1,4 +1,5 @@
 import { UseRequestResult } from '@api';
+
 import { SaveFieldsWord } from '../../interfaces';
 
 export interface UseCreateWordResult extends UseRequestResult {

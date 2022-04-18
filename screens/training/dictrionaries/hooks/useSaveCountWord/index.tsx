@@ -1,13 +1,12 @@
-import { useRequest, getRequestConfig, API_LIST } from '@api';
-import { useCallback, useContext } from 'react';
+import { API_LIST, getRequestConfig } from '@api';
+import { useCallback } from 'react';
+
+import { useRequest } from '../../../../../hooks';
 import { UseSaveCountWordResult } from './interfaces';
-import { AppContext } from '../../../../../store/new-store';
 
 export const useSaveCountWord = (): UseSaveCountWordResult => {
   const { url, method } = getRequestConfig(API_LIST.CHANGE_COUNT_WORD);
-  const [{ loading }, execute] = useRequest({ url, method }, { manual: true });
-
-  const { state } = useContext(AppContext);
+  const [_, execute] = useRequest({ url, method }, { manual: true });
 
   const saveCountWord = useCallback((id, type) => {
     execute({

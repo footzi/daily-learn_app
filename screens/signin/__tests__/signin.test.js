@@ -1,14 +1,15 @@
-import React from 'react';
-import axios from 'axios';
-import { fireEvent, wait } from '@testing-library/react-native';
+import { ERROR, SETTINGS, SET_IS_AUTH, SET_NOTIFICATION, SET_PROCESSING, SET_USER } from '@constants';
+import { mockFormData, renderWithRedux } from '@mocks';
 import { toBeDisabled, toHaveProp } from '@testing-library/jest-native';
+import { fireEvent, wait } from '@testing-library/react-native';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import MockAdapter from 'axios-mock-adapter';
-import { mockFormData, renderWithRedux } from '@mocks';
-import { SET_PROCESSING, SET_USER, SET_IS_AUTH, SET_NOTIFICATION, SETTINGS, ERROR } from '@constants';
-import { SignInScreen } from '../signin';
+
 import { toSignIn } from '../effects';
+import { SignInScreen } from '../signin';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

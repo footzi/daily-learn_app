@@ -1,14 +1,15 @@
-import React, { useEffect, useContext } from 'react';
-import styled from 'styled-components/native';
+import { Colors, NOTIFICATION_AUTO_CLOSE_TIMEOUT } from '@constants';
+import { clearNotification, useAppContext } from '@store';
+import React, { useEffect } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
-import { Colors, NOTIFICATION_AUTO_CLOSE_TIMEOUT, NOTIFICATION_TYPES } from '@constants';
+import styled from 'styled-components/native';
+
 import { AnimationUnMountable } from '../Animation-UnMountable';
-import { AppContext, clearNotification } from '../../store/new-store';
 
 let timeout = null;
 
 export const Notification: React.FC = () => {
-  const { state, dispatch } = useContext(AppContext);
+  const { state, dispatch } = useAppContext();
   const { notification } = state;
 
   const onPress = () => {

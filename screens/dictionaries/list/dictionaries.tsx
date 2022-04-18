@@ -1,19 +1,20 @@
-import React, { useContext, useState } from 'react';
-import styled from 'styled-components/native';
-import { ScrollView, TouchableWithoutFeedback } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
-import { SCREENS, Colors, DICTIONARIES_EMPTY_MODE } from '@constants';
 import { useModal } from '@components';
+import { Colors, DICTIONARIES_EMPTY_MODE, SCREENS } from '@constants';
+import { FontAwesome } from '@expo/vector-icons';
 import { Dictionary } from '@interfaces';
-import { DictionariesListScreenProps } from './interfaces';
-import { CreateDictModal, DeleteDictModal } from './modals';
+import { useAppContext } from '@store';
+import React, { useState } from 'react';
+import { ScrollView, TouchableWithoutFeedback } from 'react-native';
+import styled from 'styled-components/native';
+
 import { Empty } from '../Empty';
-import { AppContext } from '../../../store/new-store';
 import { useCreateDictionary } from '../hooks/useCreateDictionary';
 import { useDeleteDictionary } from '../hooks/useDeleteDictionary';
+import { DictionariesListScreenProps } from './interfaces';
+import { CreateDictModal, DeleteDictModal } from './modals';
 
 export const DictionariesListScreen: React.FC<DictionariesListScreenProps> = ({ navigation }) => {
-  const { state } = useContext(AppContext);
+  const { state } = useAppContext();
   const { dictionaries = [] } = state;
 
   const { createDictionary, isLoading: isLoadingCreateDictionary } = useCreateDictionary();

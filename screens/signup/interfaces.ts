@@ -1,5 +1,5 @@
-import { SignUpScreenNavigationProp } from '@navigation/interfaces';
 import { SignUpRequestBody } from '@interfaces';
+import { SignUpScreenNavigationProp } from '@navigation';
 
 export interface SignUpScreenProps {
   navigation: SignUpScreenNavigationProp;
