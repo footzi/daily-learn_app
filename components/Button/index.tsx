@@ -1,4 +1,5 @@
 import React from 'react';
+// import { Button as ButtonA, TouchableNativeFeedback } from 'react-native';
 import { TouchableNativeFeedback } from 'react-native';
 import styled, { ThemeProvider } from 'styled-components/native';
 
@@ -15,6 +16,12 @@ export const Button: React.FC<ButtonsProps> = ({
   ...restProps
 }) => {
   const currentTheme = themes[theme];
+
+  // return (
+  //   <ButtonA onPress={onPress} text={text}>
+  //     {text}
+  //   </ButtonA>
+  // );
 
   return (
     <ThemeProvider theme={currentTheme}>
