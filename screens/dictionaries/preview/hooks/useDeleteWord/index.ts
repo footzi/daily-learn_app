@@ -1,8 +1,7 @@
-import { API_LIST, getRequestConfig } from '@api';
+import { API_LIST, getRequestConfig, useRequest } from '@api';
 import { useAppContext } from '@store';
 import { useCallback } from 'react';
 
-import { useRequest } from '../../../../../hooks';
 import { UseDeleteWordResult } from './interfaces';
 
 export const useDeleteWord = (): UseDeleteWordResult => {

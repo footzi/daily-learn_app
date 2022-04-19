@@ -1,7 +1,6 @@
-import { API_LIST, getRequestConfig } from '@api';
+import { API_LIST, getRequestConfig, useRequest } from '@api';
 import { useCallback } from 'react';
 
-import { useRequest } from '../../../../../hooks';
 import { UseSaveCountPawsResult } from './interfaces';
 
 export const useSaveCountPaws = (): UseSaveCountPawsResult => {

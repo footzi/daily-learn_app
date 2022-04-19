@@ -1,8 +1,6 @@
-import { API_LIST, getRequestConfig } from '@api';
+import { API_LIST, getRequestConfig, useRequest } from '@api';
 import { useAppContext } from '@store';
 import { useCallback } from 'react';
-
-import { useRequest } from '../../../../hooks';
 
 export const useDeleteDictionary = () => {
   const { url, method } = getRequestConfig(API_LIST.DELETE_DICTIONARY);

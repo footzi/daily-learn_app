@@ -102,24 +102,20 @@ const setBarOptions = ({ route }) => ({
 
     return <BarIcon focused={focused} name={iconName} />;
   },
+  tabBarShowLabel: false,
+  tabBarHideOnKeyboard: false,
+  tabBarStyle: {
+    borderTopWidth: 0,
+    height: 50,
+    backgroundColor: Colors.secondary,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+  },
 });
 
 export const Main = () => {
   return (
-    <Tab.Navigator
-      screenOptions={setBarOptions}
-      tabBarOptions={{
-        showLabel: false,
-        keyboardHidesTabBar: false,
-        style: {
-          borderTopWidth: 0,
-          height: 50,
-          position: 'absolute',
-          backgroundColor: Colors.secondary,
-          borderTopLeftRadius: 25,
-          borderTopRightRadius: 25,
-        },
-      }}>
+    <Tab.Navigator screenOptions={setBarOptions}>
       <Tab.Screen name={SCREENS.HOME} component={HomeStackScreen} />
       <Tab.Screen name={SCREENS.DICTIONARIES} component={DictionaryStackScreen} />
       <Tab.Screen name={SCREENS.PROFILE} component={ProfileStackScreen} />

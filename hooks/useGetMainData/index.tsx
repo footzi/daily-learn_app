@@ -1,8 +1,7 @@
-import { API_LIST, getRequestConfig } from '@api';
+import { API_LIST, getRequestConfig, useRequest } from '@api';
 import { setDictionaries, setRefetchMainData, setUser, useAppContext } from '@store';
 import { useEffect } from 'react';
 
-import { useRequest } from '../useRequest';
 import { UseGetMainDataResult } from './interfaces';
 
 /**

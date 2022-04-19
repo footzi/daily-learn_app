@@ -1,8 +1,7 @@
-import { API_LIST, getRequestConfig } from '@api';
+import { API_LIST, getRequestConfig, useRequest } from '@api';
 import { removeUser, useAppContext } from '@store';
 import { useCallback } from 'react';
 
-import { useRequest } from '../useRequest';
 import { UseLogoutResult } from './interfaces';
 
 export const useLogout = (): UseLogoutResult => {
