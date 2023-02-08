@@ -8,7 +8,7 @@ import { SignUpBody, UseSignUpResult } from './interfaces';
  * Хук регистрации пользователя
  */
 export const useSignUp = (): UseSignUpResult => {
-  const { url, method } = getRequestConfig(API_LIST.LOGIN);
+  const { url, method } = getRequestConfig(API_LIST.SIGN_UP);
   const { dispatch, state } = useAppContext();
 
   const [{ data, loading }, execute] = useRequest(

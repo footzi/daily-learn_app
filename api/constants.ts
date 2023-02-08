@@ -3,6 +3,7 @@ import { REQUEST_PARAM } from './interfaces';
 export enum API_LIST {
   REFRESH_TOKEN = 'REFRESH_TOKEN',
   LOGIN = 'LOGIN',
+  SIGN_UP = 'SIGN_UP',
   LOGOUT = 'LOGOUT',
   MAIN_DATA = 'MAIN_DATA',
   CREATE_DICTIONARY = 'CREATE_DICTIONARY',
@@ -22,6 +23,10 @@ export const REQUEST_PARAMS: {
   },
   [API_LIST.LOGIN]: {
     url: '/api/signin',
+    method: 'POST',
+  },
+  [API_LIST.SIGN_UP]: {
+    url: '/api/signup',
     method: 'POST',
   },
   [API_LIST.LOGOUT]: {

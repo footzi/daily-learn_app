@@ -31,7 +31,18 @@
     "description": "",
     "packagerOpts": {
       "config": "metro.config.js",
-      "sourceExts": ["js", "jsx", "svg", "ts", "tsx"]
+      "sourceExts": [
+        "js",
+        "jsx",
+        "svg",
+        "ts",
+        "tsx"
+      ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "09bf8f00-dd4d-11e9-af45-89c72fd9c25d"
+      }
     }
   }
 }
