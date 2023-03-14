@@ -1,6 +1,5 @@
-export { ButtonLoader } from './Button-Loader';
 export { ProgressBar } from './progress-bar';
-export { BottomModal, HeaderModal, useModal } from './modal';
+export { BottomModal, HeaderModal, useModal, CenterModal } from './Modal';
 export { Loader } from './loader';
 export { Checkbox } from './checkbox';
 export { Title } from './Title';

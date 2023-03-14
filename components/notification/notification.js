@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { Toast, View } from 'native-base';
+import Toast from 'react-native-toast-message';
 import { useDispatch, useSelector } from 'react-redux';
 import { ERROR, SUCCESS } from '@constants';
 import * as effects from './effects';
+import { View } from 'react-native';
 
 const types = {
   [ERROR]: 'danger',
@@ -22,9 +23,7 @@ export const Notification = () => {
       Toast.show({
         text,
         type: types[type],
-        buttonText: 'Okay',
         position: 'top',
-        duration: 10000,
         onClose,
       });
     }

@@ -12,7 +12,7 @@ export const Link = ({ theme = 'primary', text = '', onPress = () => {} }) => (
 );
 
 export const Text = styled.Text`
-  font-family: Museo;
+  font-family: RobotoRegular;
   font-size: 16px;
   font-weight: normal;
   color: ${({ theme }) => theme.color};

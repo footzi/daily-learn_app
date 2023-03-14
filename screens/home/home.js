@@ -76,7 +76,7 @@ export const HomeScreen = ({ navigation = {} }) => {
       </ScrollView>
 
       <Start>
-        <Button theme="green" text="Начать тренировку" width={190} disabled={!haveSelected} onPress={onStart} />
+        <Button theme="primary" text="Начать тренировку" disabled={!haveSelected} onPress={onStart} />
       </Start>
     </>
   );
@@ -104,7 +104,7 @@ const Item = styled.View`
 `;
 
 const Name = styled.Text`
-  font-family: Museo;
+  font-family: RobotoRegular;
   font-size: 20px;
   color: ${({ isChecked }) => (isChecked ? Colors.secondary : Colors.primary)};
 `;
@@ -112,6 +112,6 @@ const Name = styled.Text`
 const Start = styled.View`
   width: 100%;
   position: absolute;
-  bottom: 10px;
+  bottom: 32px;
   align-items: center;
 `;

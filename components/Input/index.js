@@ -11,16 +11,12 @@ export const Input = ({ theme = 'primary', value = '', ...restProps }) => {
 
   return (
     <TextInput
-      placeholderTextColor={currentTheme.placeholderColor}
       style={{
-        borderBottomWidth: 1,
-        borderBottomColor: borderColor,
-        fontFamily: 'Museo',
-        fontSize: 16,
-        paddingLeft: 10,
-        paddingBottom: 5,
-        color: currentTheme.color,
+        ...currentTheme,
+        borderColor,
       }}
+      placeholderTextColor={currentTheme.placeholderTextColor}
+      selectionColor={currentTheme.selectionColor}
       value={value}
       {...restProps}
       onBlur={onBlur}

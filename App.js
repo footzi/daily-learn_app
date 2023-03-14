@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { AppLoading } from 'expo';
+import AppLoading from 'expo-app-loading'
 import * as Font from 'expo-font';
-import { Root } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
 import { USER_LS, TOKENS_LS } from './constants';
@@ -18,11 +17,9 @@ const App = () => {
 
   const setInitialData = async () => {
     await Font.loadAsync({
-      Museo: require('./assets/fonts/MuseoSansCyrl-500.ttf'),
-      Museo300Italic: require('./assets/fonts/MuseoSansCyrl-300Italic.ttf'),
-      Roboto: require('native-base/Fonts/Roboto.ttf'),
-      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-      ...Ionicons.font,
+      RobotoRegular: require('./assets/fonts/Roboto-Regular.ttf'),
+      RobotoBold: require('./assets/fonts/Roboto-Bold.ttf'),
+      ...Ionicons.font
     });
 
     const isStorageAuth = await LocalStorage.has(TOKENS_LS);
@@ -32,23 +29,19 @@ const App = () => {
     setIsUser(storageUser);
   };
 
-  if (isReady) {
-    const store = createAppStore({ isAuth, user });
-    request.connectStore(store);
-
-    return (
-      <Provider store={store}>
-        <Root>
-          <Notification />
-          <Navigation />
-        </Root>
-      </Provider>
-    );
-  }
-
   if (!isReady) {
     return <AppLoading startAsync={setInitialData} onFinish={() => setReady(true)} onError={(e) => console.error(e)} />;
   }
+
+  const store = createAppStore({ isAuth, user });
+  request.connectStore(store);
+
+  return (
+    <Provider store={store}>
+        <Notification />
+        <Navigation />
+    </Provider>
+  );
 };
 
 export default App;

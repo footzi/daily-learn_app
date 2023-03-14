@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { ImageBackground } from 'react-native';
 import { LOADING_ITEMS } from '@constants';
 import { Button, Input, Title } from '@components';
 import { toSignIn } from './effects';
+import BackgroundImage from '@/assets/images/entry-background.svg';
 
 export const SignInScreen = ({ navigation = {} }) => {
   const { loading } = useSelector((state) => state);
@@ -46,24 +46,16 @@ export const SignInScreen = ({ navigation = {} }) => {
   }, [fields]);
 
   return (
-    <ImageBackground
-      resizeMode="cover"
-      source={require('../../assets/images/entry-figure.png')}
-      style={{ width: '100%', height: '100%' }}>
+    <>
+      <Background />
       <Container>
         <Title>Вход</Title>
         <Form>
           <Field>
-            <Input
-              theme="secondary"
-              placeholder="Логин"
-              value={fields.login}
-              onChangeText={(text) => onChange(text, 'login')}
-            />
+            <Input placeholder="E-mail" value={fields.login} onChangeText={(text) => onChange(text, 'login')} />
           </Field>
           <Field>
             <Input
-              theme="secondary"
               placeholder="Пароль"
               secureTextEntry
               value={fields.password}
@@ -72,30 +64,34 @@ export const SignInScreen = ({ navigation = {} }) => {
           </Field>
         </Form>
         <Buttons>
-          <Button
-            theme="secondary"
-            onPress={onSubmit}
-            text="Войти"
-            width={110}
-            disabled={!isValid}
-            useLoader={isLoading}
-          />
-          <Button theme="secondary" onPress={onSignUp} text="Создать аккаунт" testID="submit" width={170} />
+          <Button theme="primary" onPress={onSubmit} text="Войти" isDisabled={!isValid} isLoading={isLoading} />
+          <LastButton>
+            <Button theme="secondary" onPress={onSignUp} text="Создать аккаунт" testID="submit" />
+          </LastButton>
         </Buttons>
       </Container>
-    </ImageBackground>
+    </>
   );
 };
+
+const Background = styled(BackgroundImage)`
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+`;
 
 const Container = styled.View`
   flex: 1;
   justify-content: center;
-  padding-left: 35px;
-  padding-right: 35px;
+  padding-left: 50px;
+  padding-right: 50px;
 `;
 
 const Form = styled.View`
-  margin-top: 56px;
+  margin-top: 32px;
 `;
 
 const Field = styled.View`
@@ -103,8 +99,9 @@ const Field = styled.View`
 `;
 
 const Buttons = styled.View`
-  margin-top: 40px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  margin-top: 26px;
+`;
+
+const LastButton = styled.View`
+  margin-top: 12px;
 `;

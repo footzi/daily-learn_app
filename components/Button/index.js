@@ -7,19 +7,21 @@ import { Spinner } from '../Spinner';
 export const Button = ({
   theme = 'primary',
   text = '',
-  disabled = false,
-  useLoader = false,
+  isDisabled = false,
+  isLoading = false,
   onPress = () => {},
   ...restProps
 }) => {
+  const currentTheme = themes[theme];
+
   return (
-    <ThemeProvider theme={themes[theme]}>
-      <Container disabled={disabled} {...restProps}>
+    <ThemeProvider theme={currentTheme}>
+      <Container disabled={isDisabled} {...restProps}>
         <TouchableNativeFeedback
           onPress={onPress}
-          disabled={disabled}
-          background={TouchableNativeFeedback.Ripple(themes[theme].feedback)}>
-          <Inner>{useLoader ? <Spinner color={themes[theme].loaderColor} size={30} /> : <Text>{text}</Text>}</Inner>
+          disabled={isDisabled}
+          background={TouchableNativeFeedback.Ripple(currentTheme.feedback)}>
+          <Inner>{isLoading ? <Spinner color={currentTheme.loaderColor} size={30} /> : <Text>{text}</Text>}</Inner>
         </TouchableNativeFeedback>
       </Container>
     </ThemeProvider>
@@ -28,11 +30,14 @@ export const Button = ({
 
 const Container = styled.View`
   justify-content: center;
+  align-items: center;
   background-color: ${({ theme }) => theme.backgroundColor};
   elevation: ${({ theme }) => theme.elevation};
   opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
-  height: 37px;
-  border-radius: 12px;
+  height: 36px;
+  border-width: 1px;
+  border-color: ${({ theme }) => theme.borderColor};
+  border-radius: 24px;
   overflow: hidden;
 `;
 
@@ -44,8 +49,8 @@ const Inner = styled.View`
 
 const Text = styled.Text`
   color: ${({ theme }) => theme.color};
-  font-size: 16px;
-  font-family: Museo;
+  font-size: 14px;
+  font-family: RobotoRegular;
   padding-left: 20px;
   padding-right: 20px;
 `;

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Platform } from 'react-native';
+import { Platform, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -17,6 +17,7 @@ import {
 import { SCREENS, LOADING_ITEMS, NewColors as Colors } from '@constants';
 import { BarIcon, Loader } from '@components';
 import { loadingData } from '@store/common-effects';
+import { SCREENS_TITLE } from '../constants';
 
 const Tab = createBottomTabNavigator();
 const AppStack = createStackNavigator();
@@ -26,35 +27,45 @@ const DictionaryStack = createStackNavigator();
 // options={{ headerShown: false }}
 
 const headerOptionsMain = {
-  headerStyle: { backgroundColor: Colors.secondary, borderBottomRightRadius: 25, borderBottomLeftRadius: 25 },
-  headerTintColor: Colors.primary,
-  headerTitleStyle: { fontFamily: 'Museo', fontSize: 20, textAlign: 'center' },
+  headerStyle: { height: 90, elevation: 3, shadowColor: '#000', shadowOpacity: 0.1 },
+  headerTitleStyle: {
+    fontFamily: 'RobotoBold',
+    fontSize: 20,
+    textAlign: 'center',
+    paddingLeft: 32,
+    color: Colors.grey,
+  },
 };
 
 const headerOptionsInner = {
   ...headerOptionsMain,
-  headerTitleStyle: { ...headerOptionsMain.headerTitleStyle, textAlign: 'left' },
-  headerPressColorAndroid: Colors.primary,
+  headerTitleStyle: { ...headerOptionsMain.headerTitleStyle, paddingLeft: 0 },
+  // headerPressColorAndroid: Colors.primary,
 };
-
+//
 const cardStyle = { backgroundColor: Colors.white };
+
+// export const getHeaderTitle = (route) => {
+//   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Feed';
+//
+//   console.log(routeName);
+//
+//   return 'hello';
+// };
 
 // Главная с тренировками
 const HomeStackScreen = () => {
   return (
     <HomeStack.Navigator screenOptions={{ cardStyle }}>
       <HomeStack.Screen
-        name={SCREENS.HOME}
+        name={SCREENS.HOME_MAIN}
         component={HomeScreen}
-        options={{ ...headerOptionsMain, headerTitle: 'Выберите словарь:' }}
+        options={{ ...headerOptionsMain, title: SCREENS_TITLE[SCREENS.HOME] }}
       />
       <HomeStack.Screen
-        name={SCREENS.DICTIONARY_TRAINING}
+        name={SCREENS.HOME_TRAINING}
         component={DictionaryTrainingScreen}
-        options={{
-          ...headerOptionsInner,
-          headerTitle: 'Тренировка',
-        }}
+        options={{ ...headerOptionsMain, title: SCREENS_TITLE[SCREENS.HOME] }}
       />
     </HomeStack.Navigator>
   );
@@ -67,14 +78,13 @@ const DictionaryStackScreen = () => {
       <DictionaryStack.Screen
         name={SCREENS.DICTIONARIES_LIST}
         component={DictionariesScreen}
-        options={{ ...headerOptionsMain, headerTitle: 'Словари:' }}
+        options={{ ...headerOptionsMain, title: SCREENS_TITLE[SCREENS.DICTIONARIES] }}
       />
       <DictionaryStack.Screen
         name={SCREENS.PREVIEW_DICTIONARY}
         component={PreviewDictionaryScreen}
-        options={{ ...headerOptionsInner }}
+        options={{ ...headerOptionsInner, title: SCREENS_TITLE[SCREENS.DICTIONARIES] }}
       />
-      <DictionaryStack.Screen name={SCREENS.SETTINGS_DICTIONARY} component={SettingsDictionaryScreen} />
     </DictionaryStack.Navigator>
   );
 };
@@ -86,13 +96,14 @@ const ProfileStackScreen = () => {
       <DictionaryStack.Screen
         name={SCREENS.PROFILE}
         component={ProfileScreen}
-        options={{ ...headerOptionsMain, headerTitle: 'Профиль:' }}
+        options={{ ...headerOptionsMain, title: SCREENS_TITLE[SCREENS.PROFILE] }}
       />
     </DictionaryStack.Navigator>
   );
 };
 
-const setBarOptions = ({ route }) => ({
+const setBarOptions = ({ route, color, size }) => ({
+  tabBarShowLabel: false,
   tabBarIcon: ({ focused }) => {
     let iconName;
 
@@ -104,35 +115,32 @@ const setBarOptions = ({ route }) => ({
       iconName = Platform.OS === 'ios' ? 'ios-person' : 'md-person';
     }
 
-    return <BarIcon focused={focused} name={iconName} />;
+    return <BarIcon focused={focused} name={iconName} color={color} size={size} />;
   },
-  // style: {
-  //   backgroundColor: Colors.secondary,
-  // }
 });
 
 const Main = () => {
   return (
-    <Tab.Navigator
-      screenOptions={setBarOptions}
-      tabBarOptions={{
-        showLabel: false,
-        keyboardHidesTabBar: false,
-        style: {
-          // backgroundColor: 'transparent',
-          // position: 'absolute',
-          left: 0,
-          bottom: 0,
-          right: 0,
-          backgroundColor: Colors.secondary,
-          borderTopLeftRadius: 25,
-          borderTopRightRadius: 25,
-          // overflow: 'hidden',
-        },
-      }}>
-      <Tab.Screen name={SCREENS.HOME} component={HomeStackScreen} />
-      <Tab.Screen name={SCREENS.DICTIONARIES} component={DictionaryStackScreen} />
-      <Tab.Screen name={SCREENS.PROFILE} component={ProfileStackScreen} />
+    <Tab.Navigator screenOptions={setBarOptions}>
+      <Tab.Screen
+        name={SCREENS.HOME}
+        options={{ headerShown: false }}
+        // options={{ ...headerOptionsMain, title: SCREENS_TITLE[SCREENS.HOME] }}
+        component={HomeStackScreen}
+      />
+      {/*<Tab.Screen name={SCREENS.DICTIONARIES} component={DictionaryStackScreen} />*/}
+      <Tab.Screen
+        name={SCREENS.DICTIONARIES}
+        component={DictionaryStackScreen}
+        options={{ headerShown: false }}
+        // options={{ ...headerOptionsMain, title: SCREENS_TITLE[SCREENS.DICTIONARIES] }}
+      />
+      <Tab.Screen
+        name={SCREENS.PROFILE}
+        options={{ headerShown: false }}
+        // options={{ ...headerOptionsMain, title: SCREENS_TITLE[SCREENS.PROFILE] }}
+        component={ProfileStackScreen}
+      />
     </Tab.Navigator>
   );
 };
@@ -157,7 +165,6 @@ export const Navigation = () => {
     <NavigationContainer>
       <AppStack.Navigator>
         {isAuth && <AppStack.Screen name="Main" component={Main} options={{ headerShown: false }} />}
-
         {!isAuth && (
           <>
             <AppStack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />

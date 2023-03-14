@@ -5,6 +5,8 @@ export { NewColors } from './Colors';
 // Screens
 export const SCREENS = {
   HOME: 'Home',
+  HOME_MAIN: "HomeMain",
+  HOME_TRAINING: "HomeTraining",
   DICTIONARIES: 'Dictionaries',
   PROFILE: 'Profile',
   DICTIONARY_TRAINING: 'DictionaryTraining',
@@ -13,6 +15,12 @@ export const SCREENS = {
   PREVIEW_DICTIONARY: 'PreviewDictionary',
   SETTINGS_DICTIONARY: 'SettingsDictionary',
 };
+
+export const SCREENS_TITLE = {
+  [SCREENS.HOME]: "Тренировка",
+  [SCREENS.DICTIONARIES]: "Словари",
+  [SCREENS.PROFILE]: "Профиль",
+}
 
 // Loading Items
 export const LOADING_ITEMS = {

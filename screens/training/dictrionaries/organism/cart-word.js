@@ -167,7 +167,7 @@ const Wrapper = styled.View`
 `;
 
 const Question = styled.Text`
-  font-family: Museo;
+  font-family: RobotoRegular;
   font-size: 24px;
   color: ${Colors.primary};
   text-align: center;
@@ -202,7 +202,7 @@ const RightAnswer = styled.View`
 `;
 
 const ItemAnswer = styled.Text`
-  font-family: Museo;
+  font-family: RobotoRegular;
   font-size: 26px;
   font-weight: 500;
   text-align: center;
@@ -237,7 +237,7 @@ const PawAnimate = styled.View`
 `;
 
 const Count = styled.Text`
-  font-family: Museo;
+  font-family: RobotoRegular;
   font-size: 12px;
   z-index: 2;
   position: absolute;

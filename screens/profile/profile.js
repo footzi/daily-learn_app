@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { Content } from 'native-base';
+import { Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { ButtonLoader, Title } from '@components';
 import * as effects from './effects';
 
 export const ProfileScreen = () => {
@@ -13,19 +12,20 @@ export const ProfileScreen = () => {
   const onSignOut = () => dispatch(effects.toSignOut());
 
   return (
-    <Content>
-      <Container>
-        <Title>Профиль</Title>
-
-        <List>
-          <Item>Логин - {login}</Item>
-          <Item>Электронная почта - {email}</Item>
-          <Item>Лапки - {paws}</Item>
-        </List>
-
-        <ButtonLoader warning onPress={onSignOut} name="Выйти" width={100} />
-      </Container>
-    </Content>
+    <Text>Профиль</Text>
+    // <Content>
+    //   <Container>
+    //     <Title>Профиль</Title>
+    //
+    //     <List>
+    //       <Item>Логин - {login}</Item>
+    //       <Item>Электронная почта - {email}</Item>
+    //       <Item>Лапки - {paws}</Item>
+    //     </List>
+    //
+    //     {/*<ButtonLoader warning onPress={onSignOut} name="Выйти" width={100} />*/}
+    //   </Container>
+    // </Content>
   );
 };
 

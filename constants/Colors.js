@@ -38,11 +38,16 @@ export const Colors = {
 };
 
 export const NewColors = {
-  primary: '#ff6c00',
-  secondary: '#ffffff', //#fffceb',
+  primary: '#B75CEF', // purple
+  secondary: '#8B5CEF', // ultram',
+  indigo: '#5C85EF',
+  blue: '#5CBAEF',
+  grey: '#515151',
+  dust: '#717171',
+  greyLight: '#D0D0D0',
   green: '#b9df4d',
   danger: '#d9534f',
   white: '#ffffff',
   black: '#000000',
-  grey: '#cccccc',
+  light: '#F6F6F6',
 };

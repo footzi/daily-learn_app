@@ -4,11 +4,9 @@ import { NewColors as Colors } from '@constants';
 
 export const Title = ({ children, ...restProps }) => <View {...restProps}>{children}</View>;
 
-// margin-top: 30px;
-// margin-bottom: 10px;
 const View = styled.Text`
-  font-size: 30px;
-  font-family: Museo;
+  font-size: 20px;
+  font-family: 'RobotoBold';
   text-align: center;
-  color: ${Colors.white};
+  color: ${Colors.grey};
 `;
